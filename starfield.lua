@@ -26,7 +26,6 @@ starfield.offset = 512 -- populate starfield above/below this amount
 starfield.w = love.graphics.getWidth()
 starfield.h = love.graphics.getHeight()+starfield.offset
 starfield.limit = 300
-starfield.total = 0
 starfield.speed = 1.5
 
 
@@ -129,7 +128,7 @@ function starfield:update(dt)
 	if paused then return end
 
 	--populate starfield
-	if self.total < self.limit then
+	if #self.objects < self.limit then
 		self:addobject(
 			starfield.w,
 			math.random(starfield.h)
@@ -138,12 +137,10 @@ function starfield:update(dt)
 	self.offset = ship.y+ship.gfx:getHeight()/2 
 	
 	--process object movement
-	local n = 0
 	
 	for i=#self.objects,1,-1 do
 		local o = self.objects[i]
 		
-		n = n +1 
 		o.x = o.x - (o.velocity *dt)
 		
 		if  o.type == 1 then
@@ -160,7 +157,6 @@ function starfield:update(dt)
 		
 	end
 
-	self.total = n 
 	
 
 end
@@ -234,6 +230,8 @@ function starfield:draw(x,y)
 		end
 
 	end
+
+	pickups:draw()
 
 	enemies:draw()
 

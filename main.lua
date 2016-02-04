@@ -16,6 +16,7 @@
 
 require("title")
 require("misc")
+require("pickups")
 require("binds")
 require("ship")
 require("starfield")
@@ -105,7 +106,7 @@ function love.update(dt)
 		starfield:update(dt)
 		enemies:update(dt)
 		ship:update(dt)
-	
+		pickups:update(dt)
 		hud:update(dt)
 	end
 	

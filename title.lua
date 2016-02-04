@@ -43,6 +43,8 @@ function title:init()
 	starfield.objects = {}
 	enemies.wave = {}
 	ship.projectiles = {}
+	pickups.items = {}
+	
 	love.graphics.setBackgroundColor(0,0,0,255)
 	
 	music:play(1)
@@ -97,7 +99,7 @@ function title:draw()
 			self:itemselected(1)
 			love.graphics.printf("Sound", 300,140,wrap,"left",0,1,1)
 			self:itemselected(2)
-			love.graphics.printf("About", 300,180,wrap,"left",0,1,1)
+			love.graphics.printf("Controls", 300,180,wrap,"left",0,1,1)
 			self:itemselected(3)
 			love.graphics.printf("Back", 300,220,wrap,"left",0,1,1)
 		elseif title.active == "video" then
@@ -106,7 +108,7 @@ function title:draw()
 		elseif title.active == "sound" then
 			self:itemselected(0)
 			love.graphics.printf("Back", 300,100,wrap,"left",0,1,1)
-		elseif title.active == "about" then
+		elseif title.active == "controls" then
 			self:itemselected(0)
 			love.graphics.printf("Back", 300,100,wrap,"left",0,1,1)
 		end
@@ -161,13 +163,13 @@ function title:keypressed(key)
 				elseif title.active == "settings" then
 					if title.menu.selected == 0 then title.active = "video" title.maxoptions = 0 end
 					if title.menu.selected == 1 then title.active = "sound" title.maxoptions = 0 end
-					if title.menu.selected == 2 then title.active = "about" title.maxoptions = 0 end
+					if title.menu.selected == 2 then title.active = "controls" title.maxoptions = 0 end
 					if title.menu.selected == 3 then title.active = "main" title.maxoptions = 3 end
 				elseif title.active == "video" then
 					if title.menu.selected == 0 then title.active = "settings" title.maxoptions = 3  end
 				elseif title.active == "sound" then
 					if title.menu.selected == 0 then title.active = "settings" title.maxoptions = 3 end
-				elseif title.active == "about" then
+				elseif title.active == "controls" then
 					if title.menu.selected == 0 then title.active = "settings" title.maxoptions = 3 end
 				end
 

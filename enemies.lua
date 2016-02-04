@@ -18,7 +18,6 @@ enemies = {}
 enemies.wave = {}
 enemies.waveCycle = 0 -- delay until first wave start
 enemies.waveDelay = 3
-enemies.waveTotal = 0
 
 enemies.sound = {}
 enemies.sound.hit = love.audio.newSource("sfx/projectiles/hit.wav", "static")
@@ -173,12 +172,10 @@ function enemies:update(dt)
 	
 	
 
-	local n = 0
+
 	
 	for i=#self.wave,1,-1 do
 		local e = self.wave[i]
-		
-		n = n + 1
 		
 
 		
@@ -217,6 +214,10 @@ function enemies:update(dt)
 		
 		if e.shield <= 0 then
 			table.remove(self.wave, i)
+			local rand = math.random(0,10)
+			if rand > 8 then
+				pickups:add(e.x+e.w/2,e.y+e.h/2)
+			end
 			
 			if enemies.sound.explode:isPlaying() then
 					enemies.sound.explode:stop()
@@ -226,8 +227,7 @@ function enemies:update(dt)
 			hud.score = hud.score + e.score
 		end
 	end
-		
-	enemies.waveTotal = n
+
 	
 
 

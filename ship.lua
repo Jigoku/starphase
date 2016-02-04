@@ -47,7 +47,7 @@ function ship:init()
 	ship.energymax = 100
 
 	ship.projectileCycle = 0
-	ship.projectileDelay = 0.2
+	ship.projectileDelay = 0.3
 
 	ship.speed = 600
 	ship.float = 3
@@ -184,12 +184,11 @@ function ship:update(dt)
 	
 	
 	--process projectiles movement
-	local n = 0
 	
 	for i=#self.projectiles,1,-1 do
 		local p = self.projectiles[i]
 		
-		n = n +1 
+
 		p.x = p.x + math.floor(p.xvel *dt)
 		
 		if p.x + p.w > love.graphics.getWidth() + 256 then
@@ -197,7 +196,6 @@ function ship:update(dt)
 		end
 	end
 
-	self.projectileTotal = n 
 	
 	if ship.shield <= 0 then
 		title:init()

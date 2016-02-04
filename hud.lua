@@ -300,9 +300,10 @@ function hud:drawconsole()
 		
 		--arena info
 		love.graphics.setColor(100,190,200,255)
-		love.graphics.print("starfield objects: " .. starfield.total,hud.console.x+215,hud.console.y+70)
-		love.graphics.print("projectiles: " .. ship.projectileTotal,hud.console.x+215,hud.console.y+90)
-		love.graphics.print("enemies    : " .. enemies.waveTotal,hud.console.x+215,hud.console.y+110)
+		love.graphics.print("starfield objects: " .. #starfield.objects,hud.console.x+215,hud.console.y+70)
+		love.graphics.print("projectiles: " .. #ship.projectiles,hud.console.x+215,hud.console.y+90)
+		love.graphics.print("enemies    : " .. #enemies.wave,hud.console.x+215,hud.console.y+110)
+		love.graphics.print("pickups    : " .. #pickups.items,hud.console.x+215,hud.console.y+130)
 		end
 	love.graphics.setCanvas()
 
