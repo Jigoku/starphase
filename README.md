@@ -1,6 +1,9 @@
 # Star Phase
 A side-scrolling space shooter 
 
+See `binds.lua` for game controls
+
+
 # License
 GNU GPLv3 / CC-BY-SA
 

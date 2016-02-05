@@ -24,7 +24,7 @@ enemies.sound.hit = love.audio.newSource("sfx/projectiles/hit.wav", "static")
 enemies.sound.hit:setVolume(1)
 enemies.sound.explode = love.audio.newSource("sfx/projectiles/explode.wav", "static")
 enemies.sound.explode:setVolume(0.7)
-
+enemies.shield = love.graphics.newImage("gfx/shield.png")
 
 function enemies:add_delta()
 
@@ -47,6 +47,7 @@ function enemies:add_delta()
 				gfx = gfx or nil,
 				score = 120,
 				shield = 100,
+				shieldopacity = 0,
 			})
 		ny = ny + gfx:getHeight()
 		nx = nx + gfx:getWidth()
@@ -69,6 +70,7 @@ function enemies:add_dart()
 				gfx = gfx or nil,
 				score = 120,
 				shield = 100,
+				shieldopacity = 0,
 	})
 
 
@@ -92,6 +94,7 @@ function enemies:add_tri()
 				score = 120,
 				shield = 100,
 				angle = 0,
+				shieldopacity = 0,
 	})
 
 	table.insert(self.wave, {
@@ -106,6 +109,7 @@ function enemies:add_tri()
 				score = 120,
 				shield = 100,
 				angle = 0,
+				shieldopacity = 0,
 	})
 	table.insert(self.wave, {
 	type = "tri",
@@ -119,6 +123,7 @@ function enemies:add_tri()
 				score = 120,
 				shield = 100,
 				angle = 0,
+				shieldopacity = 0,
 	})
 end
 
@@ -139,6 +144,7 @@ function enemies:add_large()
 				gfx = gfx or nil,
 				score = 630,
 				shield = 500,
+				shieldopacity = 0,
 	})
 
 
@@ -178,7 +184,11 @@ function enemies:update(dt)
 		local e = self.wave[i]
 		
 
-		
+		if e.shieldopacity > 0 then
+			e.shieldopacity = e.shieldopacity - 200 *dt
+		else
+			e.shieldopacity = 0
+		end
 		
 		e.x = (e.x - e.xvel *dt)
 		e.y= (e.y - e.yvel *dt)
@@ -203,6 +213,7 @@ function enemies:update(dt)
 		for z,p in pairs (ship.projectiles) do
 			if collision:check(p.x,p.y,p.w,p.h, e.x,e.y,e.w,e.h) then
 				e.shield = e.shield - p.damage
+				e.shieldopacity = 100
 				table.remove(ship.projectiles, z)
 				
 				if enemies.sound.hit:isPlaying() then
@@ -227,12 +238,6 @@ function enemies:update(dt)
 			hud.score = hud.score + e.score
 		end
 	end
-
-	
-
-
-	
-	
 	
 end
 
@@ -265,6 +270,16 @@ function enemies:draw()
 			love.graphics.draw(
 				e.gfx,  x+e.w, 
 				y, 0, -1, 1
+				
+			)
+		end
+		
+		
+		if e.shieldopacity > 0 then
+			love.graphics.setColor(100,200,255,e.shieldopacity)
+			love.graphics.draw(
+				enemies.shield,  e.x+e.w/2-enemies.shield:getWidth()/2, 
+				e.y+e.h/2-enemies.shield:getHeight()/2, 0, 1, 1
 				
 			)
 		end
