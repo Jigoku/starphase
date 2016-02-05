@@ -241,6 +241,15 @@ function enemies:update(dt)
 	
 end
 
+function enemies:drawshield(e)
+	if e.shieldopacity > 0 then
+		love.graphics.setColor(100,200,255,e.shieldopacity)
+		love.graphics.draw(
+			enemies.shield,  math.floor(e.x)+e.w/2-enemies.shield:getWidth()/2, 
+			math.floor(e.y)+e.h/2-enemies.shield:getHeight()/2, 0, 1, 1		
+		)
+	end
+end
 
 function enemies:draw()
 	
@@ -263,26 +272,20 @@ function enemies:draw()
 				y, 0, 1, 1,e.w
 				
 			)
-			
+			enemies:drawshield(e)
 			love.graphics.pop()
 		else
-		love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(255,255,255,255)
 			love.graphics.draw(
 				e.gfx,  x+e.w, 
 				y, 0, -1, 1
 				
 			)
+			enemies:drawshield(e)
 		end
 		
 		
-		if e.shieldopacity > 0 then
-			love.graphics.setColor(100,200,255,e.shieldopacity)
-			love.graphics.draw(
-				enemies.shield,  e.x+e.w/2-enemies.shield:getWidth()/2, 
-				e.y+e.h/2-enemies.shield:getHeight()/2, 0, 1, 1
-				
-			)
-		end
+
 		
 		if debug then
 			love.graphics.setColor(255,255,255,255)
