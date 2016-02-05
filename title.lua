@@ -66,7 +66,7 @@ function title:update(dt)
 end
 
 function title:draw()
-
+	starfield:draw(0,0)
 		
 		love.graphics.setCanvas(title.menu.canvas)
 		title.menu.canvas:clear()

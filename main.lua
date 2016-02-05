@@ -138,7 +138,6 @@ function love.draw()
 	
 	--draw title screen
 	if mode == "title" then
-	starfield:draw(0,0)
 		title:draw()
 	end
 	
