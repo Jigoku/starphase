@@ -26,7 +26,7 @@ ship.gfx = love.graphics.newImage("gfx/starship/"..ship.type.."_small.png") -- d
 ship.cannon = {}
 ship.cannon.texture = love.graphics.newImage("gfx/projectiles/cannon.png")
 ship.cannon.switch = false -- alternating sides
-
+ship.cannon.damage = 20
 ship.cannon.sound = {}
 ship.cannon.sound.shoot = love.audio.newSource("sfx/projectiles/shoot.wav", "static")
 ship.cannon.sound.shoot:setVolume(0.3)
@@ -167,7 +167,7 @@ function ship:update(dt)
 				y = yswitch,
 				xvel = 1000,
 				yvel = 0,
-				damage = 40,
+				damage = ship.cannon.damage,
 				r = math.random(150,255),
 				g = math.random(150,255),
 				b = math.random(150,255),

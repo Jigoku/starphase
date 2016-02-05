@@ -36,22 +36,23 @@ title.sounds.select = love.audio.newSource("sfx/menu/select.wav",static)
 	
 	
 function title:init()
+	paused = false
 	mode = "title"
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
 
-	starfield.objects = {}
-	enemies.wave = {}
-	ship.projectiles = {}
-	pickups.items = {}
-	
+	nebulae.r = 0
+	nebulae.g = 255
+	nebulae.b = 255
+	starfield.speed = 0.75
+	starfield:populate()
 	love.graphics.setBackgroundColor(0,0,0,255)
 	
 	music:play(1)
 end
 
 function title:update(dt)
-
+		starfield:update(dt)
 		title.opacity = (title.opacity - title.opacitystep*dt)
 		if title.opacity < title.opacitymin  then
 		title.opacity = title.opacitymin
@@ -66,10 +67,11 @@ end
 
 function title:draw()
 
-
+		
 		love.graphics.setCanvas(title.menu.canvas)
 		title.menu.canvas:clear()
 		love.graphics.setColor(255,255,255,255)
+
 	
 		love.graphics.setFont(fonts.title_large)
 		

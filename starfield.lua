@@ -45,6 +45,9 @@ starfield.gfx_glow = love.graphics.newImage("gfx/glow.png") -- 100
 	nebulae.size = 512
 	nebulae.quads = { }
 	nebulae.quads['nebula'] = { }
+	nebulae.r = 255
+	nebulae.g = 255
+	nebulae.b = 255
 	local jy = 0
 	local jx = 0
 	for n=1,nebulae.max do		
@@ -60,7 +63,11 @@ starfield.gfx_glow = love.graphics.newImage("gfx/glow.png") -- 100
 
 
 function starfield:populate()
-
+	--reset
+	starfield.objects = {}
+	enemies.wave = {}
+	ship.projectiles = {}
+	pickups.items = {}
 	
 	--populate initial starfield
 	for i=0,self.limit do
@@ -96,9 +103,9 @@ function starfield:addobject(x,y)
 	if type == 1 then
 		velocity = 40
 		gfx = nebulae.quads['nebula'][math.random(nebulae.min,nebulae.max)]
-		r = math.random (100,255)
-		g = math.random (100,255)
-		b = math.random (100,255)
+		r = nebulae.r
+		g = nebulae.g
+		b = nebulae.b
 		o = math.random(40,100)
 	end
 	
@@ -134,7 +141,10 @@ function starfield:update(dt)
 			math.random(starfield.h)
 		)
 	end
-	self.offset = ship.y+ship.gfx:getHeight()/2 
+	
+	if mode == "arcade" then
+		self.offset = ship.y+ship.gfx:getHeight()/2 
+	end
 	
 	--process object movement
 	
@@ -201,7 +211,7 @@ function starfield:draw(x,y)
 
 		--nebulae
 		if o.type == 1 then
-			love.graphics.setColor(0,255,255,o.o)
+			love.graphics.setColor(o.r,o.g,o.b,o.o)
 			if o.gfx then
 
 			love.graphics.draw(

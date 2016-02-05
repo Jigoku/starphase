@@ -86,7 +86,11 @@ function initarcade()
 	
 	mode = "arcade"
 	love.graphics.setBackgroundColor(0,255,0,255)
+	nebulae.r = 0
+	nebulae.g = 255
+	nebulae.b = 255
 	ship:init()
+	starfield.speed = 1.5
 	starfield:populate()
 	hud:init()
 	
@@ -134,6 +138,7 @@ function love.draw()
 	
 	--draw title screen
 	if mode == "title" then
+	starfield:draw(0,0)
 		title:draw()
 	end
 	
@@ -166,7 +171,7 @@ function love.keypressed(key)
 		end
 	
 		if paused then
-			if key == binds.pausequit then mode = "title" title:init() end
+			if key == binds.pausequit then  title:init() end
 		end
 	end
 	
