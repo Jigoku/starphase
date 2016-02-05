@@ -24,7 +24,7 @@ enemies.sound.hit = love.audio.newSource("sfx/projectiles/hit.wav", "static")
 enemies.sound.hit:setVolume(1)
 enemies.sound.explode = love.audio.newSource("sfx/projectiles/explode.wav", "static")
 enemies.sound.explode:setVolume(0.7)
-enemies.shield = love.graphics.newImage("gfx/shield.png")
+enemies.shield = love.graphics.newImage("gfx/shield_large.png")
 
 function enemies:add_delta()
 
@@ -48,6 +48,7 @@ function enemies:add_delta()
 				score = 120,
 				shield = 100,
 				shieldopacity = 0,
+				shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.8
 			})
 		ny = ny + gfx:getHeight()
 		nx = nx + gfx:getWidth()
@@ -71,6 +72,7 @@ function enemies:add_dart()
 				score = 120,
 				shield = 100,
 				shieldopacity = 0,
+				shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
 	})
 
 
@@ -95,6 +97,7 @@ function enemies:add_tri()
 				shield = 100,
 				angle = 0,
 				shieldopacity = 0,
+				shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
 	})
 
 	table.insert(self.wave, {
@@ -110,6 +113,7 @@ function enemies:add_tri()
 				shield = 100,
 				angle = 0,
 				shieldopacity = 0,
+				shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
 	})
 	table.insert(self.wave, {
 	type = "tri",
@@ -124,6 +128,7 @@ function enemies:add_tri()
 				shield = 100,
 				angle = 0,
 				shieldopacity = 0,
+				shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
 	})
 end
 
@@ -145,6 +150,7 @@ function enemies:add_large()
 				score = 630,
 				shield = 500,
 				shieldopacity = 0,
+				shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.2
 	})
 
 
@@ -245,8 +251,8 @@ function enemies:drawshield(e)
 	if e.shieldopacity > 0 then
 		love.graphics.setColor(100,200,255,e.shieldopacity)
 		love.graphics.draw(
-			enemies.shield,  math.floor(e.x)+e.w/2-enemies.shield:getWidth()/2, 
-			math.floor(e.y)+e.h/2-enemies.shield:getHeight()/2, 0, 1, 1		
+			enemies.shield,  math.floor(e.x)+e.w/2-(enemies.shield:getWidth()/2/e.shieldscale), 
+			math.floor(e.y)+e.h/2-(enemies.shield:getHeight()/2/e.shieldscale), 0, 1/e.shieldscale, 1/e.shieldscale
 		)
 	end
 end

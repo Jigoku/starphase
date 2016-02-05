@@ -47,7 +47,7 @@ function ship:init()
 	ship.energymax = 100
 
 	ship.projectileCycle = 0
-	ship.projectileDelay = 0.3
+	ship.projectileDelay = 0.2
 
 	ship.speed = 600
 	ship.float = 3

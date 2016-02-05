@@ -1,3 +1,3 @@
 #!/bin/sh
 _OUT=dist/starphase.love
-zip -9 -q -r ${_OUT} . && echo "created ${_OUT}"
+rm ${_OUT}; zip -9 -r --exclude=*.git* ${_OUT} . && echo "created ${_OUT}"
