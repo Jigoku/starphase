@@ -204,35 +204,34 @@ function hud:draw()
 	
 	
 	
-		love.graphics.setFont(fonts.hud)
+	love.graphics.setFont(fonts.hud)
 		
-		--progress
-		love.graphics.setColor(255,255,255,155)
-		love.graphics.print("progress : " .. math.floor(hud.display.progress/hud.display.w*100).."%", 10,hud.display.h-10)	
-		--score
-		love.graphics.setColor(255,255,255,155)
-		love.graphics.print("score: " .. hud.score, 10+hud.display.w/4,hud.display.h-10)
+	--progress
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.print("progress : " .. math.floor(hud.display.progress/hud.display.w*100).."%", 10,hud.display.h-10)	
+	--score
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.print("score: " .. hud.score, 10+hud.display.w/4,hud.display.h-10)
 		
 
-		--shield bar
-		love.graphics.setColor(255,255,255,155)
-		love.graphics.print("shield", 10+hud.display.w/4*2,hud.display.h-10)
-		love.graphics.setColor(100,200,100,100)
-		love.graphics.rectangle("fill", 65+hud.display.w/4*2,hud.display.h-5,hud.display.w/8, hud.display.h/3)
-		love.graphics.setColor(100,200,100,155)
-		love.graphics.rectangle("fill", 65+hud.display.w/4*2,hud.display.h-5,ship.shield/ship.shieldmax*(hud.display.w/8), hud.display.h/3)
+	--shield bar
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.print("shield", 10+hud.display.w/4*2,hud.display.h-10)
+	love.graphics.setColor(100,200,100,100)
+	love.graphics.rectangle("fill", 65+hud.display.w/4*2,hud.display.h-5,hud.display.w/8, hud.display.h/3)
+	love.graphics.setColor(100,200,100,155)
+	love.graphics.rectangle("fill", 65+hud.display.w/4*2,hud.display.h-5,ship.shield/ship.shieldmax*(hud.display.w/8), hud.display.h/3)
 		
-		--energy bar
-		love.graphics.setColor(255,255,255,155)
-		love.graphics.print("energy", 10+hud.display.w/4*3,hud.display.h-10)
-		love.graphics.setColor(100,190,200,100)
-		love.graphics.rectangle("fill", 65+hud.display.w/4*3,hud.display.h-5,hud.display.w/8, hud.display.h/3)
-		love.graphics.setColor(100,190,200,155)
-		love.graphics.rectangle("fill", 65+hud.display.w/4*3,hud.display.h-5,ship.energy/ship.energymax*(hud.display.w/8), hud.display.h/3)
+	--energy bar
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.print("energy", 10+hud.display.w/4*3,hud.display.h-10)
+	love.graphics.setColor(100,190,200,100)
+	love.graphics.rectangle("fill", 65+hud.display.w/4*3,hud.display.h-5,hud.display.w/8, hud.display.h/3)
+	love.graphics.setColor(100,190,200,155)
+	love.graphics.rectangle("fill", 65+hud.display.w/4*3,hud.display.h-5,ship.energy/ship.energymax*(hud.display.w/8), hud.display.h/3)
 		
-		love.graphics.setFont(fonts.default)
+	love.graphics.setFont(fonts.default)
 
-	
 	
 	love.graphics.setCanvas()
 

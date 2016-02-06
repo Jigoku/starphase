@@ -33,23 +33,23 @@ function enemies:add_delta()
 	local ny = math.random(0, starfield.h - gfx:getHeight()*4)
 	local nx = starfield.w
 	
-	local xvel = 250
+	local xvel = 300
 	for i=1, starfield.h, starfield.h/4 do
-	xvel = xvel -10
+		xvel = xvel -10
 
-			table.insert(self.wave, {
-				w = gfx:getWidth(),
-				h = gfx:getHeight(),
-				x = nx,
-				y = ny,
-				yvel = 30,
-				xvel = xvel,
-				gfx = gfx or nil,
-				score = 120,
-				shield = 100,
-				shieldopacity = 0,
-				shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.8
-			})
+		table.insert(self.wave, {
+			w = gfx:getWidth(),
+			h = gfx:getHeight(),
+			x = nx,
+			y = ny,
+			yvel = 30,
+			xvel = xvel,
+			gfx = gfx or nil,
+			score = 120,
+			shield = 100,
+			shieldopacity = 0,
+			shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.8
+		})
 		ny = ny + gfx:getHeight()
 		nx = nx + gfx:getWidth()
 	end
@@ -61,18 +61,18 @@ function enemies:add_dart()
 	
 	
 	table.insert(self.wave, {
-				type = "dart",
-				w = gfx:getWidth(),
-				h = gfx:getHeight(),
-				x = starfield.w,
-				y = ship.y+starfield.offset/2+math.random(-200,200),
-				yvel = 0,
-				xvel = math.random(400,500),
-				gfx = gfx or nil,
-				score = 120,
-				shield = 100,
-				shieldopacity = 0,
-				shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
+		type = "dart",
+		w = gfx:getWidth(),
+		h = gfx:getHeight(),
+		x = starfield.w,
+		y = ship.y+starfield.offset/2+math.random(-200,200),
+		yvel = 0,
+		xvel = math.random(400,500),
+		gfx = gfx or nil,
+		score = 120,
+		shield = 100,
+		shieldopacity = 0,
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
 	})
 
 
@@ -82,53 +82,52 @@ end
 function enemies:add_tri()
 
 	local gfx = love.graphics.newImage("gfx/starship/7_small.png")
-	
 	local rand = math.random(-200,200)
 	table.insert(self.wave, {
-			type = "tri",
-				w = gfx:getWidth(),
-				h = gfx:getHeight(),
-				x = starfield.w,
-				y = ship.y+starfield.offset/2+rand,
-				yvel = math.random(-50,50),
-				xvel = 170,
-				gfx = gfx or nil,
-				score = 120,
-				shield = 100,
-				angle = 0,
-				shieldopacity = 0,
-				shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
+		type = "tri",
+		w = gfx:getWidth(),
+		h = gfx:getHeight(),
+		x = starfield.w,
+		y = ship.y+starfield.offset/2+rand,
+		yvel = math.random(-50,50),
+		xvel = 200,
+		gfx = gfx or nil,
+		score = 120,
+		shield = 100,
+		angle = 0,
+		shieldopacity = 0,
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
 	})
 
 	table.insert(self.wave, {
-	type = "tri",
-				w = gfx:getWidth(),
-				h = gfx:getHeight(),
-				x = starfield.w+gfx:getWidth(),
-				y = ship.y+starfield.offset/2-gfx:getHeight()/2+rand,
-				yvel = math.random(0,50),
-				xvel = 150,
-				gfx = gfx or nil,
-				score = 120,
-				shield = 100,
-				angle = 0,
-				shieldopacity = 0,
-				shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
+		type = "tri",
+		w = gfx:getWidth(),
+		h = gfx:getHeight(),
+		x = starfield.w+gfx:getWidth(),
+		y = ship.y+starfield.offset/2-gfx:getHeight()/2+rand,
+		yvel = math.random(0,50),
+		xvel = 190,
+		gfx = gfx or nil,
+		score = 120,
+		shield = 100,
+		angle = 0,
+		shieldopacity = 0,
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
 	})
 	table.insert(self.wave, {
-	type = "tri",
-				w = gfx:getWidth(),
-				h = gfx:getHeight(),
-				x = starfield.w+gfx:getWidth(),
-				y = ship.y+starfield.offset/2+gfx:getHeight()/2+rand,
-				yvel = math.random(-50,0),
-				xvel = 150,
-				gfx = gfx or nil,
-				score = 120,
-				shield = 100,
-				angle = 0,
-				shieldopacity = 0,
-				shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
+		type = "tri",
+		w = gfx:getWidth(),
+		h = gfx:getHeight(),
+		x = starfield.w+gfx:getWidth(),
+		y = ship.y+starfield.offset/2+gfx:getHeight()/2+rand,
+		yvel = math.random(-50,0),
+		xvel = 190,
+		gfx = gfx or nil,
+		score = 120,
+		shield = 100,
+		angle = 0,
+		shieldopacity = 0,
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
 	})
 end
 
@@ -139,18 +138,18 @@ function enemies:add_large()
 	
 	
 	table.insert(self.wave, {
-	type = "large",
-				w = gfx:getWidth(),
-				h = gfx:getHeight(),
-				x = starfield.w,
-				y = ship.y+starfield.offset/2+math.random(-200,200),
-				yvel = 0,
-				xvel = 50,
-				gfx = gfx or nil,
-				score = 630,
-				shield = 500,
-				shieldopacity = 0,
-				shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.2
+		type = "large",
+		w = gfx:getWidth(),
+		h = gfx:getHeight(),
+		x = starfield.w,
+		y = ship.y+starfield.offset/2+math.random(-200,200),
+		yvel = 0,
+		xvel = 50,
+		gfx = gfx or nil,
+		score = 630,
+		shield = 500,
+		shieldopacity = 0,
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.2
 	})
 
 
@@ -164,7 +163,6 @@ function enemies:update(dt)
 	enemies.waveCycle = math.max(0, enemies.waveCycle - dt)
 		
 	if enemies.waveCycle <= 0 then
-
 	
 		local rand = math.random(0,3)
 		if rand == 0 then
@@ -290,8 +288,7 @@ function enemies:draw()
 			enemies:drawshield(e)
 		end
 		
-		
-
+	
 		
 		if debug then
 			love.graphics.setColor(255,255,255,255)

@@ -25,7 +25,7 @@ function pickups:draw()
 	
 		love.graphics.setColor(p.r,p.g,p.b)
 		love.graphics.draw(pickups.texture, p.x,p.y)
-				if debug then
+		if debug then
 			love.graphics.rectangle("line", p.x,p.y,p.w,p.h)
 		end
 		

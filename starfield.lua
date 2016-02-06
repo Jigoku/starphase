@@ -15,7 +15,7 @@
  
  -- how to use
 --  run starfield:populate() once to initialize the canvas 
---	add starfield:update() to love.update()
+--	add starfield:update(dt) to love.update()
 --  add starfield:draw(x,y) to love.draw(), x/y are position of the canvas
 
 starfield = {}
@@ -93,7 +93,7 @@ function starfield:addobject(x,y)
 	
 	--dense star
 	if type == 0 then
-		velocity = math.random(40,90) 
+		velocity = math.random(40,70) 
 		r = math.random (100,255)
 		g = math.random (100,255)
 		b = math.random (100,255)
@@ -167,8 +167,6 @@ function starfield:update(dt)
 		
 	end
 
-	
-
 end
 
 
@@ -181,7 +179,6 @@ function starfield:draw(x,y)
 	love.graphics.rectangle("fill", 0,0,self.w,self.h )
 	
 
-	
 	love.graphics.setColor(255,255,255,255)
 
 	for _, o in ipairs(self.objects) do

@@ -30,12 +30,20 @@ title.opacitystep = 200
 title.opacitymin = 100
 title.opacitymax = 255
 
+title.overlay = {}
+title.overlay.opacity = 255
+title.overlay.fadeout = false
+title.overlay.fadein = false
+title.overlay.fadespeed = 200
+
 title.sounds = {}
 title.sounds.option = love.audio.newSource("sfx/menu/option.wav",static)
 title.sounds.select = love.audio.newSource("sfx/menu/select.wav",static)
 	
 	
 function title:init()
+	title.overlay.fadein = true
+	title.overlay.opacity = 255
 	paused = false
 	mode = "title"
 	love.mouse.setVisible(false)
@@ -52,78 +60,97 @@ function title:init()
 end
 
 function title:update(dt)
-		starfield:update(dt)
-		title.opacity = (title.opacity - title.opacitystep*dt)
-		if title.opacity < title.opacitymin  then
-		title.opacity = title.opacitymin
-			title.opacitystep = -title.opacitystep
-		end
-		if title.opacity > title.opacitymax  then
-			title.opacity = title.opacitymax
-			title.opacitystep = -title.opacitystep
-		end
+	starfield:update(dt)
+	title.opacity = (title.opacity - title.opacitystep*dt)
+	if title.opacity < title.opacitymin  then
+	title.opacity = title.opacitymin
+		title.opacitystep = -title.opacitystep
+	end
+	if title.opacity > title.opacitymax  then
+		title.opacity = title.opacitymax
+		title.opacitystep = -title.opacitystep
+	end		
+	
+	if title.overlay.fadeout then
+		title.overlay.opacity = title.overlay.opacity +title.overlay.fadespeed *dt
 		
+		if title.overlay.opacity > 255 then
+			title.overlay.opacity = 0
+			title.overlay.fadeout = false
+		end
+	end
+	
+	if title.overlay.fadein then
+		title.overlay.opacity = title.overlay.opacity -title.overlay.fadespeed *dt
+		
+		if title.overlay.opacity < 0 then
+			title.overlay.opacity = 0
+			title.overlay.fadein = false
+		end
+	end
+
 end
 
 function title:draw()
 	starfield:draw(0,0)
 		
-		love.graphics.setCanvas(title.menu.canvas)
-		title.menu.canvas:clear()
-		love.graphics.setColor(255,255,255,255)
-
+	love.graphics.setCanvas(title.menu.canvas)
+	title.menu.canvas:clear()
+	love.graphics.setColor(255,255,255,255)
 	
-		love.graphics.setFont(fonts.title_large)
-		
-		local wrap = 500
+	love.graphics.setFont(fonts.title_large)		
+	local wrap = 500
 			
-		--title
-		love.graphics.setColor(200,200,200,155)
-		love.graphics.printf("Star Phase", 0,0,wrap,"center",0,1,1)
-		love.graphics.setColor(200,200,200,105)
-		love.graphics.printf("Star Phase", 5,0,wrap,"center",0,1,1)
+	--title
+	love.graphics.setColor(200,200,200,155)
+	love.graphics.printf("Star Phase", 0,0,wrap,"center",0,1,1)
+	love.graphics.setColor(200,200,200,105)
+	love.graphics.printf("Star Phase", 5,0,wrap,"center",0,1,1)
 
-		--menu
-		love.graphics.setFont(fonts.title_select)
+	--menu
+	love.graphics.setFont(fonts.title_select)
 		
-		if title.active == "main" then
-			self:itemselected(0)
-			love.graphics.printf("Arcade mode", 300,100,wrap,"left",0,1,1)
-			self:itemselected(1)
-			love.graphics.printf("Infinite mode", 300,140,wrap,"left",0,1,1)
-			self:itemselected(2)
-			love.graphics.printf("Settings", 300,180,wrap,"left",0,1,1)
-			self:itemselected(3)
-			love.graphics.printf("Exit to desktop", 300,220,wrap,"left",0,1,1)
-		elseif title.active == "settings" then
-			self:itemselected(0)
-			love.graphics.printf("Video", 300,100,wrap,"left",0,1,1)
-			self:itemselected(1)
-			love.graphics.printf("Sound", 300,140,wrap,"left",0,1,1)
-			self:itemselected(2)
-			love.graphics.printf("Controls", 300,180,wrap,"left",0,1,1)
-			self:itemselected(3)
-			love.graphics.printf("Back", 300,220,wrap,"left",0,1,1)
-		elseif title.active == "video" then
-			self:itemselected(0)
-			love.graphics.printf("Back", 300,100,wrap,"left",0,1,1)
-		elseif title.active == "sound" then
-			self:itemselected(0)
-			love.graphics.printf("Back", 300,100,wrap,"left",0,1,1)
-		elseif title.active == "controls" then
-			self:itemselected(0)
-			love.graphics.printf("Back", 300,100,wrap,"left",0,1,1)
-		end
-		love.graphics.setFont(fonts.default)
-		love.graphics.setCanvas()
+	if title.active == "main" then
+		self:itemselected(0)
+		love.graphics.printf("Arcade mode", 300,100,wrap,"left",0,1,1)
+		self:itemselected(1)
+		love.graphics.printf("Infinite mode", 300,140,wrap,"left",0,1,1)
+		self:itemselected(2)
+		love.graphics.printf("Settings", 300,180,wrap,"left",0,1,1)
+		self:itemselected(3)
+		love.graphics.printf("Exit to desktop", 300,220,wrap,"left",0,1,1)
+	elseif title.active == "settings" then
+		self:itemselected(0)
+		love.graphics.printf("Video", 300,100,wrap,"left",0,1,1)
+		self:itemselected(1)
+		love.graphics.printf("Sound", 300,140,wrap,"left",0,1,1)
+		self:itemselected(2)
+		love.graphics.printf("Controls", 300,180,wrap,"left",0,1,1)
+		self:itemselected(3)
+		love.graphics.printf("Back", 300,220,wrap,"left",0,1,1)
+	elseif title.active == "video" then
+		self:itemselected(0)
+		love.graphics.printf("Back", 300,100,wrap,"left",0,1,1)
+	elseif title.active == "sound" then
+		self:itemselected(0)
+		love.graphics.printf("Back", 300,100,wrap,"left",0,1,1)
+	elseif title.active == "controls" then
+		self:itemselected(0)
+		love.graphics.printf("Back", 300,100,wrap,"left",0,1,1)
+	end
+	love.graphics.setFont(fonts.default)
+	love.graphics.setCanvas()
 
-		love.graphics.setColor(255,255,255,255)
-		love.graphics.draw(title.menu.canvas,title.menu.x,title.menu.y)
-
-		love.graphics.printf("v0.01-dev (by ricky thomson)",50,love.graphics.getHeight()-50,300,"left",0,1,1)		--version
-		if debug then
-			love.graphics.rectangle("line", title.menu.x,title.menu.y,title.menu.w,title.menu.h)
-		end
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.draw(title.menu.canvas,title.menu.x,title.menu.y)
+	love.graphics.printf("v"..version..build.." (by "..author..")",50,love.graphics.getHeight()-50,300,"left",0,1,1)		--version
+	
+	love.graphics.setColor(0,0,0,title.overlay.opacity)
+	love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
+	
+	if debug then
+		love.graphics.rectangle("line", title.menu.x,title.menu.y,title.menu.w,title.menu.h)
+	end
 end
 
 
@@ -137,47 +164,44 @@ function title:itemselected(selected)
 end
 
 function title:keypressed(key)
-		if key == "escape" then love.event.quit() end
-		
-
-			if key == "up" then 
-				title.sounds.option:play() 
-				title.menu.selected = title.menu.selected -1 
-				title.opacity = 255 
-			end
-			if key == "down" then 
-				title.sounds.option:play() 
-				title.menu.selected = title.menu.selected +1 
-				title.opacity = 255 
-			end
+	if key == "escape" then love.event.quit() end
+	
+	if key == "up" then 
+		title.sounds.option:play() 
+		title.menu.selected = title.menu.selected -1 
+		title.opacity = 255 
+	end
+	if key == "down" then 
+		title.sounds.option:play() 
+		title.menu.selected = title.menu.selected +1 
+		title.opacity = 255 
+	end
 			
+	if key == "return" then
 
-			
-			if key == "return" then
-
-			
-				title.sounds.select:play()
+		title.sounds.select:play()
 				
-				if title.active == "main" then
-					if title.menu.selected == 1 then initarcade() end
-					if title.menu.selected == 2 then title.active = "settings" title.maxoptions = 3 end
-					if title.menu.selected == 3 then love.event.quit() end
-				elseif title.active == "settings" then
-					if title.menu.selected == 0 then title.active = "video" title.maxoptions = 0 end
-					if title.menu.selected == 1 then title.active = "sound" title.maxoptions = 0 end
-					if title.menu.selected == 2 then title.active = "controls" title.maxoptions = 0 end
-					if title.menu.selected == 3 then title.active = "main" title.maxoptions = 3 end
-				elseif title.active == "video" then
-					if title.menu.selected == 0 then title.active = "settings" title.maxoptions = 3  end
-				elseif title.active == "sound" then
-					if title.menu.selected == 0 then title.active = "settings" title.maxoptions = 3 end
-				elseif title.active == "controls" then
-					if title.menu.selected == 0 then title.active = "settings" title.maxoptions = 3 end
-				end
-
-			end
+		if title.active == "main" then
+			if title.menu.selected == 1 then initarcade() end
+			if title.menu.selected == 2 then title.active = "settings" title.maxoptions = 3 end
+			if title.menu.selected == 3 then love.event.quit() end
+		elseif title.active == "settings" then
+			if title.menu.selected == 0 then title.active = "video" title.maxoptions = 0 end
+			if title.menu.selected == 1 then title.active = "sound" title.maxoptions = 0 end
+			if title.menu.selected == 2 then title.active = "controls" title.maxoptions = 0 end
+			if title.menu.selected == 3 then title.active = "main" title.maxoptions = 3 end
+		elseif title.active == "video" then
+			if title.menu.selected == 0 then title.active = "settings" title.maxoptions = 3  end
+		elseif title.active == "sound" then
+			if title.menu.selected == 0 then title.active = "settings" title.maxoptions = 3 end
+		elseif title.active == "controls" then
+			if title.menu.selected == 0 then title.active = "settings" title.maxoptions = 3 end
+		end
+				
+		title.menu.selected = 0
+	end
 			
-			if title.menu.selected < 0 then title.menu.selected = 0 end
-			if title.menu.selected > title.maxoptions then title.menu.selected = title.maxoptions end
+	if title.menu.selected < 0 then title.menu.selected = 0 end
+	if title.menu.selected > title.maxoptions then title.menu.selected = title.maxoptions end
 		
 end

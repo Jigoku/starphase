@@ -43,9 +43,9 @@ function love.load(args)
 	
 	--display configuration
 	if not game.flags.vsync then
-		max_fps = 200
-		min_dt = 1/max_fps
-		next_time = love.timer.getTime()
+		game.max_fps = 200
+		game.min_dt = 1/game.max_fps
+		game.next_time = love.timer.getTime()
 	end
 
 
@@ -101,7 +101,7 @@ end
 function love.update(dt)
 	--cap fps
 	if not game.flags.vsync then
-		next_time = next_time + min_dt
+		game.next_time = game.next_time + game.min_dt
     end
 	
 
@@ -147,11 +147,11 @@ function love.draw()
 	-- caps fps
 	if not game.flags.vsync then
 		local cur_time = love.timer.getTime()
-		if next_time <= cur_time then
-			next_time = cur_time
+		if game.next_time <= cur_time then
+			game.next_time = cur_time
 			return
 		end
-		love.timer.sleep(next_time - cur_time)
+		love.timer.sleep(game.next_time - cur_time)
 	end
 end
 
