@@ -19,14 +19,11 @@ ship.sounds = {}
 
 
 
-ship.type = 3
-ship.gfx = love.graphics.newImage("gfx/starship/"..ship.type.."_small.png") -- default
-
 
 ship.cannon = {}
 ship.cannon.texture = love.graphics.newImage("gfx/projectiles/cannon.png")
 ship.cannon.switch = false -- alternating sides
-ship.cannon.damage = 20
+ship.cannon.damage = 30
 ship.cannon.sound = {}
 ship.cannon.sound.shoot = love.audio.newSource("sfx/projectiles/shoot.wav", "static")
 ship.cannon.sound.shoot:setVolume(0.3)
@@ -36,7 +33,10 @@ ship.cannon.sound.shoot:setVolume(0.3)
 
 
 
-function ship:init()
+function ship:init(shipsel)
+	ship.type = shipsel
+	ship.gfx = love.graphics.newImage("gfx/starship/"..ship.type.."_small.png") -- default
+
 	ship.x = love.graphics.getWidth()/3
 	ship.y = love.graphics.getHeight()/2-ship.gfx:getHeight()/2
 	ship.w = ship.gfx:getWidth()
@@ -49,8 +49,8 @@ function ship:init()
 	ship.projectileCycle = 0
 	ship.projectileDelay = 0.2
 
-	ship.speed = 600
-	ship.float = 3
+	ship.speed = 700
+	ship.float = 2
 	ship.maxvel = 250
 	ship.xvel = 0
 	ship.yvel = 0

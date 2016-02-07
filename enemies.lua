@@ -33,7 +33,7 @@ function enemies:add_delta()
 	local ny = math.random(0, starfield.h - gfx:getHeight()*4)
 	local nx = starfield.w
 	
-	local xvel = 300
+	local xvel = 400
 	for i=1, starfield.h, starfield.h/4 do
 		xvel = xvel -10
 
@@ -46,7 +46,7 @@ function enemies:add_delta()
 			xvel = xvel,
 			gfx = gfx or nil,
 			score = 120,
-			shield = 100,
+			shield = 80,
 			shieldopacity = 0,
 			shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.8
 		})
@@ -67,10 +67,10 @@ function enemies:add_dart()
 		x = starfield.w,
 		y = ship.y+starfield.offset/2+math.random(-200,200),
 		yvel = 0,
-		xvel = math.random(400,500),
+		xvel = math.random(500,600),
 		gfx = gfx or nil,
 		score = 120,
-		shield = 100,
+		shield = 40,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
 	})
@@ -90,10 +90,10 @@ function enemies:add_tri()
 		x = starfield.w,
 		y = ship.y+starfield.offset/2+rand,
 		yvel = math.random(-50,50),
-		xvel = 200,
+		xvel = 340,
 		gfx = gfx or nil,
-		score = 120,
-		shield = 100,
+		score = 150,
+		shield = 80,
 		angle = 0,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
@@ -106,10 +106,10 @@ function enemies:add_tri()
 		x = starfield.w+gfx:getWidth(),
 		y = ship.y+starfield.offset/2-gfx:getHeight()/2+rand,
 		yvel = math.random(0,50),
-		xvel = 190,
+		xvel = 330,
 		gfx = gfx or nil,
-		score = 120,
-		shield = 100,
+		score = 150,
+		shield = 80,
 		angle = 0,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
@@ -121,10 +121,10 @@ function enemies:add_tri()
 		x = starfield.w+gfx:getWidth(),
 		y = ship.y+starfield.offset/2+gfx:getHeight()/2+rand,
 		yvel = math.random(-50,0),
-		xvel = 190,
+		xvel = 330,
 		gfx = gfx or nil,
-		score = 120,
-		shield = 100,
+		score = 150,
+		shield = 80,
 		angle = 0,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
@@ -144,7 +144,7 @@ function enemies:add_large()
 		x = starfield.w,
 		y = ship.y+starfield.offset/2+math.random(-200,200),
 		yvel = 0,
-		xvel = 50,
+		xvel = 150,
 		gfx = gfx or nil,
 		score = 630,
 		shield = 500,

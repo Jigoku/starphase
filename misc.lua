@@ -15,7 +15,12 @@
  
 misc = {}
 
-
+local _newImage = love.graphics.newImage
+function love.graphics.newImage(...)
+	local img = _newImage(...)
+	img:setFilter('nearest', 'nearest')
+	return img
+end
 
 function math.round(num, idp)
 	-- round integer to decimal places

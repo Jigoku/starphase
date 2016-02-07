@@ -40,12 +40,17 @@ title.sounds = {}
 title.sounds.option = love.audio.newSource("sfx/menu/option.wav",static)
 title.sounds.select = love.audio.newSource("sfx/menu/select.wav",static)
 	
-	
+title.ship1 = love.graphics.newImage("gfx/starship/1_large.png")
+title.ship2 = love.graphics.newImage("gfx/starship/2_large.png")
+title.ship3 = love.graphics.newImage("gfx/starship/3_large.png")
+
+
 function title:init()
 	title.overlay.fadein = true
 	title.overlay.opacity = 255
 	paused = false
 	mode = "title"
+	title.active = "main"
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
 
@@ -88,6 +93,7 @@ function title:update(dt)
 			title.overlay.fadein = false
 		end
 	end
+	
 
 end
 
@@ -112,7 +118,7 @@ function title:draw()
 		
 	if title.active == "main" then
 		self:itemselected(0)
-		love.graphics.printf("Arcade mode", 300,100,wrap,"left",0,1,1)
+		love.graphics.printf("Arcade mode (test)", 300,100,wrap,"left",0,1,1)
 		self:itemselected(1)
 		love.graphics.printf("Infinite mode", 300,140,wrap,"left",0,1,1)
 		self:itemselected(2)
@@ -137,7 +143,29 @@ function title:draw()
 	elseif title.active == "controls" then
 		self:itemselected(0)
 		love.graphics.printf("Back", 300,100,wrap,"left",0,1,1)
+	elseif title.active == "ship_selection" then
+		self:itemselected(0)
+		love.graphics.printf("Ship 1", 300,100,wrap,"left",0,1,1)
+		self:itemselected(1)
+		love.graphics.printf("Ship 2", 300,140,wrap,"left",0,1,1)
+		self:itemselected(2)
+		love.graphics.printf("Ship 3", 300,180,wrap,"left",0,1,1)
+		self:itemselected(3)
+		love.graphics.printf("Back", 300,220,wrap,"left",0,1,1)
 	end
+	
+			
+	love.graphics.setColor(255,255,255,255)
+	if title.active == "ship_selection" then
+		if title.menu.selected == 0 then
+			love.graphics.draw(title.ship3, 50,100, 0,0.5)
+		elseif title.menu.selected == 1 then
+			love.graphics.draw(title.ship1, 50,100, 0,0.5)
+		elseif title.menu.selected == 2 then
+			love.graphics.draw(title.ship2, 50,100, 0,0.5)
+		end
+	end
+	
 	love.graphics.setFont(fonts.default)
 	love.graphics.setCanvas()
 
@@ -176,13 +204,18 @@ function title:keypressed(key)
 		title.menu.selected = title.menu.selected +1 
 		title.opacity = 255 
 	end
-			
+		
+		
+
+	
+	
 	if key == "return" then
 
 		title.sounds.select:play()
 				
 		if title.active == "main" then
-			if title.menu.selected == 1 then initarcade() end
+			if title.menu.selected == 0 then title.active = "ship_selection" title.maxoptions = 3 end
+			if title.menu.selected == 1 then initarcade(3) end
 			if title.menu.selected == 2 then title.active = "settings" title.maxoptions = 3 end
 			if title.menu.selected == 3 then love.event.quit() end
 		elseif title.active == "settings" then
@@ -196,6 +229,11 @@ function title:keypressed(key)
 			if title.menu.selected == 0 then title.active = "settings" title.maxoptions = 3 end
 		elseif title.active == "controls" then
 			if title.menu.selected == 0 then title.active = "settings" title.maxoptions = 3 end
+		elseif title.active == "ship_selection" then
+			if title.menu.selected == 0 then initarcade(3) end
+			if title.menu.selected == 1 then initarcade(1) end
+			if title.menu.selected == 2 then initarcade(2) end
+			if title.menu.selected == 3 then title.active = "main" title.maxoptions = 3 end
 		end
 				
 		title.menu.selected = 0

@@ -79,7 +79,7 @@ end
 
 
 --test function
-function initarcade()
+function initarcade(shipsel)
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
 	paused = false
@@ -89,7 +89,7 @@ function initarcade()
 	nebulae.r = 0
 	nebulae.g = 255
 	nebulae.b = 255
-	ship:init()
+	ship:init(shipsel)
 	starfield.speed = 1.5
 	starfield:populate()
 	hud:init()
