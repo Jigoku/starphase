@@ -14,16 +14,18 @@
  --]]
 
 
-require("title")
+
+require("screen/title")
+require("screen/hud")
+require("entities/pickups")
+require("entities/enemies")
+require("entities/ship")
 require("misc")
-require("pickups")
 require("binds")
-require("ship")
 require("starfield")
-require("enemies")
 require("collision")
-require("hud")
 require("music")
+
 
 debug = false
 

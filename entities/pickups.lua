@@ -21,12 +21,13 @@ pickups.items = {}
 function pickups:draw()
 	
 	for _, p in ipairs(pickups.items) do
-
+		local x = math.floor(p.x)
+		local y = math.floor(p.y)
 	
 		love.graphics.setColor(p.r,p.g,p.b)
-		love.graphics.draw(pickups.texture, p.x,p.y)
+		love.graphics.draw(pickups.texture, x,y)
 		if debug then
-			love.graphics.rectangle("line", p.x,p.y,p.w,p.h)
+			love.graphics.rectangle("line", x,y,p.w,p.h)
 		end
 		
 	end
