@@ -13,10 +13,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
 
-
-
 require("screen/title")
 require("screen/hud")
+require("screen/fonts")
 require("entities/pickups")
 require("entities/enemies")
 require("entities/ship")
@@ -57,17 +56,6 @@ function love.load(args)
 	
 	cursor = love.mouse.newCursor( "gfx/cursor.png", 0, 0 )
 	love.mouse.setCursor(cursor)	
-
-	--fonts
-	fonts = {
-		default = love.graphics.newFont("fonts/0xa000/0xA000-Squareish-Mono.ttf",12),
-		timer = love.graphics.newFont("fonts/0xa000/0xA000-Squareish-Mono-Bold.ttf",20),
-		hud = love.graphics.newFont("fonts/0xa000/0xA000-Squareish-Mono-Bold.ttf",12),
-		paused_large = love.graphics.newFont("fonts/0xa000/0xA000-Squareish-Mono-Bold.ttf",40),
-		paused_small = love.graphics.newFont("fonts/0xa000/0xA000-Squareish-Mono-Bold.ttf",14),
-		title_large = love.graphics.newFont("fonts/0xa000/0xA000-Squareish-Mono-Bold.ttf",70),
-		title_select = love.graphics.newFont("fonts/0xa000/0xA000-Squareish-Mono-Bold.ttf",20)
-	}
 	
 
 	--game init
@@ -186,6 +174,7 @@ function love.mousepressed(x,y,button)
 
 end
 
+
 function love.focus(f)
 	if f then
 		print("Window focused.")
@@ -196,4 +185,3 @@ function love.focus(f)
 		end
 	end
 end
-
