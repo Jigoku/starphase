@@ -114,7 +114,6 @@ function starfield:addobject(x,y)
 		velocity = 1500
 	end
 	
-
 		
 	table.insert(self.objects, {
 		x = x,
@@ -158,7 +157,6 @@ function starfield:update(dt)
 				table.remove(self.objects, i)
 			end
 					
-			
 		else
 			if o.x < 0 then
 				table.remove(self.objects, i)
@@ -188,7 +186,7 @@ function starfield:draw(x,y)
 		love.graphics.line(o.x,o.y, o.x,o.y+1)
 
 		--dense star
-		if o.type == 100 then
+		if o.type == 0 then
 			love.graphics.setColor(o.r,o.g,o.b,o.o)
 			love.graphics.draw(
 				starfield.gfx_glow, o.x-self.gfx_glow:getWidth()/2, 
@@ -236,7 +234,10 @@ function starfield:draw(x,y)
 			love.graphics.line(o.x,o.y, o.x+150,o.y)
 		end
 
+
+
 	end
+	
 
 	pickups:draw()
 

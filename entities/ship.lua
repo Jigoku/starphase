@@ -50,7 +50,7 @@ function ship:init(shipsel)
 	ship.projectileDelay = 0.2
 
 	ship.speed = 700
-	ship.float = 2
+	ship.float = 3
 	ship.maxvel = 250
 	ship.xvel = 0
 	ship.yvel = 0

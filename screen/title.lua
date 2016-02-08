@@ -43,7 +43,7 @@ title.sounds.select = love.audio.newSource("sfx/menu/select.wav",static)
 title.ship1 = love.graphics.newImage("gfx/starship/1_large.png")
 title.ship2 = love.graphics.newImage("gfx/starship/2_large.png")
 title.ship3 = love.graphics.newImage("gfx/starship/3_large.png")
-
+title.planet = love.graphics.newImage("gfx/planets/planet_19.png")
 
 function title:init()
 	title.overlay.fadein = true
@@ -57,7 +57,7 @@ function title:init()
 	nebulae.r = 0
 	nebulae.g = 255
 	nebulae.b = 255
-	starfield.speed = 0.75
+	starfield.speed = 0.2
 	starfield:populate()
 	love.graphics.setBackgroundColor(0,0,0,255)
 	
@@ -99,10 +99,12 @@ end
 
 function title:draw()
 	starfield:draw(0,0)
-		
+	love.graphics.draw(title.planet,0-title.planet:getWidth()/2, love.graphics.getHeight()/2-title.planet:getHeight()/2 )	
 	love.graphics.setCanvas(title.menu.canvas)
 	title.menu.canvas:clear()
 	love.graphics.setColor(255,255,255,255)
+	
+	
 	
 	love.graphics.setFont(fonts.title_large)		
 	local wrap = 500
