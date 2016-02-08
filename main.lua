@@ -90,7 +90,7 @@ function initarcade(shipsel)
 	nebulae.g = 255
 	nebulae.b = 255
 	ship:init(shipsel)
-	starfield.speed = 1.5
+	starfield.speed = 0.5
 	starfield:populate()
 	hud:init()
 	

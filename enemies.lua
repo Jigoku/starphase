@@ -79,6 +79,32 @@ function enemies:add_dart()
 end
 
 
+function enemies:add_train()
+
+	local gfx = love.graphics.newImage("gfx/starship/7_small.png")
+	
+	local x = starfield.w
+	local y = math.random(0,starfield.h)
+	for i=1, 10 do
+	table.insert(self.wave, {
+		type = "dart",
+		w = gfx:getWidth(),
+		h = gfx:getHeight(),
+		x = x,
+		y = y,
+		yvel = math.random(-20,20),
+		xvel = 600,
+		gfx = gfx or nil,
+		score = 120,
+		shield = 40,
+		shieldopacity = 0,
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
+	})
+	x=x+gfx:getWidth()+30
+	end
+
+end
+
 function enemies:add_tri()
 
 	local gfx = love.graphics.newImage("gfx/starship/7_small.png")
@@ -164,7 +190,7 @@ function enemies:update(dt)
 		
 	if enemies.waveCycle <= 0 then
 	
-		local rand = math.random(0,3)
+		local rand = math.random(0,4)
 		if rand == 0 then
 			self:add_dart()
 		end
@@ -177,7 +203,10 @@ function enemies:update(dt)
 		if rand == 3 then
 			self:add_large()
 		end
-		enemies.waveCycle = math.random(2,4)
+		if rand == 4 then
+			self:add_train()
+		end
+		enemies.waveCycle = math.random(1,4)
 	end
 	
 	

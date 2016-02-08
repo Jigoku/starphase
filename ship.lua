@@ -155,9 +155,9 @@ function ship:update(dt)
 		
 			local yswitch
 			if ship.cannon.switch then
-				yswitch = self.y + starfield.offset/2+self.gfx:getHeight()/2-ship.cannon.texture:getHeight()/2 -36
+				yswitch = self.y + starfield.offset/2+self.gfx:getHeight()/2-ship.cannon.texture:getHeight()/2 -28
 			else
-				yswitch = self.y + starfield.offset/2+self.gfx:getHeight()/2-ship.cannon.texture:getHeight()/2 +36
+				yswitch = self.y + starfield.offset/2+self.gfx:getHeight()/2-ship.cannon.texture:getHeight()/2 +28
 			end
 			
 			table.insert(self.projectiles, {
