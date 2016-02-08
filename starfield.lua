@@ -142,7 +142,7 @@ function starfield:update(dt)
 	end
 	
 	if mode == "arcade" then
-		self.offset = ship.y+ship.gfx:getHeight()/2 
+		self.offset = ship.y
 	end
 	
 	--process object movement

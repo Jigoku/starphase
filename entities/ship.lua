@@ -49,9 +49,9 @@ function ship:init(shipsel)
 	ship.projectileCycle = 0
 	ship.projectileDelay = 0.2
 
-	ship.speed = 700
+	ship.speed = 1000
 	ship.float = 3
-	ship.maxvel = 250
+	ship.maxvel = 300
 	ship.xvel = 0
 	ship.yvel = 0
 	ship.idle = true
@@ -120,17 +120,17 @@ function ship:update(dt)
 		self.x = 0 - self.gfx:getWidth()/2	
 		self.xvel = 0
 	end
-	if self.x > love.graphics.getWidth()-self.gfx:getWidth()/2  then 
-		self.x = love.graphics.getWidth()-self.gfx:getWidth()/2	
+	if self.x+self.w > love.graphics.getWidth()  then 
+		self.x = love.graphics.getWidth()-self.gfx:getWidth()
 		self.xvel = 0
 	end
 	
-	if self.y < 0 - self.gfx:getHeight()/2  then 
-		self.y = 0 - self.gfx:getHeight()/2	
+	if self.y < 0  then 
+		self.y = 0
 		self.yvel = 0
 	end
-	if self.y > love.graphics.getHeight()-self.gfx:getWidth()/2  then 
-		self.y = love.graphics.getHeight()-self.gfx:getWidth()/2	
+	if self.y+self.h > love.graphics.getHeight()  then 
+		self.y = love.graphics.getHeight()-self.gfx:getHeight()	
 		self.yvel = 0
 	end
 	

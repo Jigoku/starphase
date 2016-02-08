@@ -22,8 +22,8 @@ print (name .. " " .. version .. build .. " by " .. author)
 function love.conf(t)
 	t.version = "0.9.2"
 	t.window.title = name .. " " .. version
-	t.window.width = 1440
-	t.window.height = 900
+	t.window.width = 1920
+	t.window.height = 1080
 	t.window.minwidth = 1440
 	t.window.minheight = 900
 	t.modules.joystick = false
