@@ -21,8 +21,10 @@
 starfield = {}
 starfield.objects = {}
 
---sane defaults
-starfield.offset = 512 -- populate starfield above/below this amount
+	--sane defaults
+starfield.offset = 0 -- populate starfield above/below this amount
+--^^^ disabled due to scaling issue (needs fixing)
+
 starfield.w = love.graphics.getWidth()
 starfield.h = love.graphics.getHeight()+starfield.offset
 starfield.limit = 300
@@ -69,6 +71,9 @@ function starfield:populate()
 	ship.projectiles = {}
 	pickups.items = {}
 	
+
+
+
 	--populate initial starfield
 	for i=0,self.limit do
 		self:addobject(
@@ -238,10 +243,11 @@ function starfield:draw(x,y)
 
 	end
 	
-
+if mode == "arcade" then
 	pickups:draw()
-
+	ship:draw()
 	enemies:draw()
+end
 
 	--ship projectiles (player)
 	for _, p in ipairs (ship.projectiles) do
@@ -268,7 +274,7 @@ function starfield:draw(x,y)
 	love.graphics.setCanvas()
 
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.draw(self.canvas, 0,-self.offset/2)
+	love.graphics.draw(self.canvas, 0,0,0,love.graphics.getWidth()/starfield.w,love.graphics.getWidth()/starfield.w)
 	
 	
 

@@ -228,7 +228,7 @@ function enemies:update(dt)
 	
 		
 		
-		if not invincible and collision:check(e.x,e.y,e.w,e.h, ship.x,ship.y+starfield.offset/2,ship.w,ship.h) then
+		if not invincible and collision:check(e.x,e.y,e.w,e.h, ship.x,ship.y,ship.w,ship.h) then
 
 			ship.shield = ship.shield - 20
 			table.remove(enemies.wave, i)
@@ -296,7 +296,7 @@ function enemies:draw()
 			love.graphics.push()
 
 			love.graphics.translate(e.x+e.w/2,e.y+e.h/2)
-			love.graphics.rotate(math.atan2(starfield.offset/2+ship.y+ship.h/2-e.h/2 - e.y, ship.x+ship.w/2-e.w/2 - e.x))
+			love.graphics.rotate(math.atan2(ship.y+ship.h/2-e.h/2 - e.y, ship.x+ship.w/2-e.w/2 - e.x))
 			love.graphics.translate(-e.x-e.w/2,-e.y-e.h/2)
 			
 			love.graphics.setColor(255,255,255,255)

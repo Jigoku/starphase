@@ -263,9 +263,17 @@ function hud:drawconsole()
 		
 		--sysinfo
 		love.graphics.setColor(200,100,200,255)
-		love.graphics.print("fps: " .. love.timer.getFPS() .. " | vsync: " ..tostring(game.flags.vsync).. " | Garbage (kB): " ..  gcinfo(),hud.console.x+10,hud.console.y+10)
+		love.graphics.print(
+			"fps: " .. love.timer.getFPS() .. 
+			" | vsync: " ..tostring(game.flags.vsync)..
+			" | res: ".. love.graphics.getWidth().."x"..love.graphics.getHeight() .. 
+			" | garbage (kB): " ..  gcinfo(),hud.console.x+10,hud.console.y+10
+		)
+
+		
 		love.graphics.setColor(200,100,100,255)
 		love.graphics.print("music track: " .. tostring(music.track) .." ("..tostring(music[music.track])..")",hud.console.x+10,hud.console.y+30)
+		
 	
 		if mode == "arcade" then
 		--divider

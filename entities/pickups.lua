@@ -70,7 +70,7 @@ function pickups:update(dt)
 			p.yvel = -p.yvel
 		end
 		
-		if collision:check(p.x,p.y,p.w,p.h,ship.x,ship.y+starfield.offset/2,ship.w,ship.h) then
+		if collision:check(p.x,p.y,p.w,p.h,ship.x,ship.y,ship.w,ship.h) then
 			table.remove(pickups.items, i)
 		end
 	end

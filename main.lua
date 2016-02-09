@@ -28,6 +28,9 @@ require("music")
 
 debug = false
 
+--used to scale things (reccomended display resolution)
+WIDTH=1920
+HEIGHT=1080
 
 function love.load(args)
 	--parse command line arguments to the game
@@ -41,6 +44,8 @@ function love.load(args)
 
 	game = {}
 	game.width, game.height, game.flags = love.window.getMode( )
+
+
 	
 	--display configuration
 	if not game.flags.vsync then
@@ -50,8 +55,7 @@ function love.load(args)
 	end
 
 
-	icon = love.image.newImageData( "gfx/icon.png")
-	love.window.setIcon( icon )
+
 
 	
 	cursor = love.mouse.newCursor( "gfx/cursor.png", 0, 0 )
@@ -118,10 +122,12 @@ end
 
 
 function love.draw()
+
+	
 	--draw arcade game
 	if mode == "arcade" then
 		starfield:draw(0,0)
-		ship:draw()
+
 		hud:draw()
 	end
 	
@@ -134,6 +140,7 @@ function love.draw()
 	--draw the debug console
 	hud:drawconsole()
 	
+
 	-- caps fps
 	if not game.flags.vsync then
 		local cur_time = love.timer.getTime()
@@ -168,6 +175,18 @@ function love.keypressed(key)
 	if mode == "title" then
 		title:keypressed(key)
 	end
+	
+	if key == "0" then
+		love.window.setMode(1024,(HEIGHT/WIDTH)*1024 )
+	end
+	
+	if key == "9" then
+		love.window.setMode(800,(HEIGHT/WIDTH)*800 )
+	end
+	
+	if key == "8" then
+		love.window.setMode(1200,(HEIGHT/WIDTH)*1200 )
+	end
 end
 
 function love.mousepressed(x,y,button) 
@@ -185,3 +204,13 @@ function love.focus(f)
 		end
 	end
 end
+
+
+function love.resize(w,h)
+	--calculate new aspect ratio (force 16:9 always)
+	game.width = w
+	game.height = math.floor((HEIGHT/WIDTH)*w)
+	love.window.setMode(game.width,game.height)
+
+end
+

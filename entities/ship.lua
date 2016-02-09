@@ -116,12 +116,12 @@ function ship:update(dt)
 	self.y = self.y + self.yvel * dt
 	self.x = self.x + self.xvel * dt
 
-	if self.x < 0 - self.gfx:getWidth()/2  then 
-		self.x = 0 - self.gfx:getWidth()/2	
+	if self.x < 0   then 
+		self.x = 0
 		self.xvel = 0
 	end
-	if self.x+self.w > love.graphics.getWidth()  then 
-		self.x = love.graphics.getWidth()-self.gfx:getWidth()
+	if self.x > starfield.w-self.w  then 
+		self.x = starfield.w-self.w
 		self.xvel = 0
 	end
 	
@@ -129,8 +129,8 @@ function ship:update(dt)
 		self.y = 0
 		self.yvel = 0
 	end
-	if self.y+self.h > love.graphics.getHeight()  then 
-		self.y = love.graphics.getHeight()-self.gfx:getHeight()	
+	if self.y > starfield.h-self.h  then 
+		self.y = starfield.h-self.h
 		self.yvel = 0
 	end
 	
@@ -155,9 +155,9 @@ function ship:update(dt)
 		
 			local yswitch
 			if ship.cannon.switch then
-				yswitch = self.y + starfield.offset/2+self.gfx:getHeight()/2-ship.cannon.texture:getHeight()/2 -28
+				yswitch = self.y + self.gfx:getHeight()/2-ship.cannon.texture:getHeight()/2 -28
 			else
-				yswitch = self.y + starfield.offset/2+self.gfx:getHeight()/2-ship.cannon.texture:getHeight()/2 +28
+				yswitch = self.y + self.gfx:getHeight()/2-ship.cannon.texture:getHeight()/2 +28
 			end
 			
 			table.insert(self.projectiles, {
@@ -191,7 +191,7 @@ function ship:update(dt)
 
 		p.x = p.x + math.floor(p.xvel *dt)
 		
-		if p.x + p.w > love.graphics.getWidth() + 256 then
+		if p.x + p.w > starfield.w + p.w then
 				table.remove(self.projectiles, i)
 		end
 	end
