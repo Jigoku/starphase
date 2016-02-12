@@ -14,7 +14,6 @@
  --]]
  
 ship = {}
-ship.projectiles = {}
 ship.sounds = {}
 
 
@@ -160,7 +159,9 @@ function ship:update(dt)
 				yswitch = self.y + self.gfx:getHeight()/2-ship.cannon.texture:getHeight()/2 +28
 			end
 			
-			table.insert(self.projectiles, {
+			table.insert(projectiles, {
+				player = true,
+				type = "cannon",
 				w = ship.cannon.texture:getWidth(),
 				h = ship.cannon.texture:getHeight(),
 				x = self.x + self.gfx:getWidth()/2,
@@ -183,18 +184,7 @@ function ship:update(dt)
 	end
 	
 	
-	--process projectiles movement
-	
-	for i=#self.projectiles,1,-1 do
-		local p = self.projectiles[i]
-		
 
-		p.x = p.x + math.floor(p.xvel *dt)
-		
-		if p.x + p.w > starfield.w + p.w then
-				table.remove(self.projectiles, i)
-		end
-	end
 
 	
 	if ship.shield <= 0 then

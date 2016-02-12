@@ -243,16 +243,18 @@ function enemies:update(dt)
 				table.remove(self.wave, i)
 		end
 		
-		for z,p in pairs (ship.projectiles) do
-			if collision:check(p.x,p.y,p.w,p.h, e.x,e.y,e.w,e.h) then
-				e.shield = e.shield - p.damage
-				e.shieldopacity = 100
-				table.remove(ship.projectiles, z)
+		for z,p in ipairs (projectiles) do
+			if p.player then
+				if collision:check(p.x,p.y,p.w,p.h, e.x,e.y,e.w,e.h) then
+					e.shield = e.shield - p.damage
+					e.shieldopacity = 100
+					table.remove(projectiles, z)
 				
-				if enemies.sound.hit:isPlaying() then
-					enemies.sound.hit:stop()
+					if enemies.sound.hit:isPlaying() then
+						enemies.sound.hit:stop()
+					end
+					enemies.sound.hit:play()
 				end
-				enemies.sound.hit:play()
 			end
 		end
 		

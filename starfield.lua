@@ -247,29 +247,10 @@ if mode == "arcade" then
 	pickups:draw()
 	ship:draw()
 	enemies:draw()
+	projectiles:draw()
 end
 
-	--ship projectiles (player)
-	for _, p in ipairs (ship.projectiles) do
-		love.graphics.setColor(p.r,p.g,p.b,255)
 
-		love.graphics.draw(
-				ship.cannon.texture,  p.x, 
-				p.y, 0, 1, 1
-				
-			)
-		if debug then
-			love.graphics.setColor(p.r,p.g,p.b,140)			
-				love.graphics.rectangle(
-					"line",
-					p.x,
-					p.y,
-					p.w,
-					p.h
-				)
-		end
-		
-	end
 	
 	love.graphics.setCanvas()
 
