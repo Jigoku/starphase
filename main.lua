@@ -87,9 +87,9 @@ function initarcade(shipsel)
 	
 	mode = "arcade"
 	love.graphics.setBackgroundColor(0,255,0,255)
-	nebulae.r = 0
-	nebulae.g = 255
-	nebulae.b = 255
+	starfield.nebulae.r = 0
+	starfield.nebulae.g = 255
+	starfield.nebulae.b = 255
 	ship:init(shipsel)
 	starfield.speed = 1.3
 	starfield:populate()

@@ -54,9 +54,9 @@ function title:init()
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
 
-	nebulae.r = 0
-	nebulae.g = 255
-	nebulae.b = 255
+	starfield.nebulae.r = 0
+	starfield.nebulae.g = 255
+	starfield.nebulae.b = 255
 	starfield.speed = 0.2
 	starfield:populate()
 	love.graphics.setBackgroundColor(0,0,0,255)

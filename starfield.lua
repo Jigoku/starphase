@@ -21,7 +21,6 @@
 starfield = {}
 starfield.objects = {}
 
-	--sane defaults
 starfield.offset = 0 -- populate starfield above/below this amount
 --^^^ disabled due to scaling issue (needs fixing)
 
@@ -29,37 +28,40 @@ starfield.w = love.graphics.getWidth()
 starfield.h = love.graphics.getHeight()+starfield.offset
 starfield.limit = 300
 starfield.speed = 1.5
-
-
 starfield.canvas = love.graphics.newCanvas(starfield.w, starfield.h)
+starfield.dense_star = love.graphics.newImage("gfx/glow.png")
 
+starfield.nebulae = { }
+starfield.nebulae.quad = love.graphics.newQuad
+starfield.nebulae.sprite = love.graphics.newImage("gfx/nebulae/proc_sheet_nebula.png")
+starfield.nebulae.min = 1
+starfield.nebulae.max = 16
+starfield.nebulae.size = 512
+starfield.nebulae.quads = { }
+starfield.nebulae.quads['nebula'] = { }
+starfield.nebulae.r = 255
+starfield.nebulae.g = 255
+starfield.nebulae.b = 255
 
-starfield.gfx_glow = love.graphics.newImage("gfx/glow.png") -- 100
-
-
-
---fix these table names
-	nebulae = { }
-	nebulae.quad = love.graphics.newQuad
-	nebulae.sprite = love.graphics.newImage("gfx/nebulae/proc_sheet_nebula.png")
-	nebulae.min = 1
-	nebulae.max = 16
-	nebulae.size = 512
-	nebulae.quads = { }
-	nebulae.quads['nebula'] = { }
-	nebulae.r = 255
-	nebulae.g = 255
-	nebulae.b = 255
-	local jy = 0
-	local jx = 0
-	for n=1,nebulae.max do		
-		nebulae.quads['nebula'][n] = nebulae.quad(jx, jy, nebulae.size, nebulae.size,  nebulae.sprite:getWidth(), nebulae.sprite:getHeight())
-		jx = jx + nebulae.size
-		if jx >= nebulae.sprite:getWidth() then 
+local jy = 0
+local jx = 0
+for n=1,starfield.nebulae.max do		
+	starfield.nebulae.quads['nebula'][n] = starfield.nebulae.quad(
+		jx, 
+		jy, 
+		starfield.nebulae.size, 
+		starfield.nebulae.size,  
+		starfield.nebulae.sprite:getWidth(), 
+		starfield.nebulae.sprite:getHeight()
+	)
+	
+	jx = jx + starfield.nebulae.size
+	
+	if jx >= starfield.nebulae.sprite:getWidth() then 
 		jx = 0
-		jy = jy + nebulae.size
-		end
+		jy = jy + starfield.nebulae.size
 	end
+end
 
 
 
@@ -71,10 +73,7 @@ function starfield:populate()
 	ship.projectiles = {}
 	pickups.items = {}
 	
-
-
-
-	--populate initial starfield
+	--populate starfield
 	for i=0,self.limit do
 		self:addobject(
 			math.random(0, starfield.w),
@@ -99,6 +98,7 @@ function starfield:addobject(x,y)
 	--dense star
 	if type == 0 then
 		velocity = math.random(40,70) 
+		gfx = starfield.dense_star
 		r = math.random (100,255)
 		g = math.random (100,255)
 		b = math.random (100,255)
@@ -107,10 +107,10 @@ function starfield:addobject(x,y)
 	--nebula
 	if type == 1 then
 		velocity = 40
-		gfx = nebulae.quads['nebula'][math.random(nebulae.min,nebulae.max)]
-		r = nebulae.r
-		g = nebulae.g
-		b = nebulae.b
+		gfx = starfield.nebulae.quads['nebula'][math.random(starfield.nebulae.min,starfield.nebulae.max)]
+		r = starfield.nebulae.r
+		g = starfield.nebulae.g
+		b = starfield.nebulae.b
 		o = math.random(40,100)
 	end
 	
@@ -158,7 +158,7 @@ function starfield:update(dt)
 		o.x = o.x - (o.velocity *dt)
 		
 		if  o.type == 1 then
-			if o.x < -nebulae.size then
+			if o.x < -starfield.nebulae.size then
 				table.remove(self.objects, i)
 			end
 					
@@ -194,16 +194,16 @@ function starfield:draw(x,y)
 		if o.type == 0 then
 			love.graphics.setColor(o.r,o.g,o.b,o.o)
 			love.graphics.draw(
-				starfield.gfx_glow, o.x-self.gfx_glow:getWidth()/2, 
-				o.y-self.gfx_glow:getHeight()/2, 0, 1, 1
+				o.gfx, o.x-o.gfx:getWidth()/2, 
+				o.y-o.gfx:getHeight()/2, 0, 1, 1
 			)
 			if debug then
 				love.graphics.rectangle(
 					"line",
-					o.x-self.gfx_glow:getWidth()/2, 
-					o.y-self.gfx_glow:getHeight()/2,
-					self.gfx_glow:getWidth(),
-					self.gfx_glow:getHeight()
+					o.x-o.gfx:getWidth()/2, 
+					o.y-o.gfx:getHeight()/2,
+					o.gfx:getWidth(),
+					o.gfx:getHeight()
 				)
 			end
 
@@ -215,8 +215,8 @@ function starfield:draw(x,y)
 			if o.gfx then
 
 			love.graphics.draw(
-				nebulae.sprite, o.gfx,  o.x, 
-				o.y-nebulae.size/2, 0, 1, 1
+				starfield.nebulae.sprite, o.gfx,  o.x, 
+				o.y-starfield.nebulae.size/2, 0, 1, 1
 				
 			)
 			if debug then
@@ -224,9 +224,9 @@ function starfield:draw(x,y)
 				love.graphics.rectangle(
 					"line",
 					o.x,
-					o.y-nebulae.size/2,
-					nebulae.size,
-					nebulae.size
+					o.y-starfield.nebulae.size/2,
+					starfield.nebulae.size,
+					starfield.nebulae.size
 				)
 			end
 			
@@ -276,7 +276,5 @@ end
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.draw(self.canvas, 0,0,0,love.graphics.getWidth()/starfield.w,love.graphics.getWidth()/starfield.w)
 	
-	
 
-	
 end
