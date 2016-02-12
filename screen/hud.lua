@@ -26,7 +26,7 @@ hud.console = {
 
 function hud:init()
 	hud.display = {
-		w = 600,
+		w = 700,
 		h = 30,
 		offset = 30,
 		canvas = love.graphics.newCanvas(w, h),

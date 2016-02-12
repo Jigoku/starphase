@@ -99,10 +99,12 @@ end
 
 function title:draw()
 	starfield:draw(0,0)
+	
+	love.graphics.setColor(255,255,255,255)
 	love.graphics.draw(title.planet,0-title.planet:getWidth()/2, starfield.h/2-title.planet:getHeight()/2 )	
 	love.graphics.setCanvas(title.menu.canvas)
 	title.menu.canvas:clear()
-	love.graphics.setColor(255,255,255,255)
+
 	
 	
 	

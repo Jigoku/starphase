@@ -206,7 +206,7 @@ function enemies:update(dt)
 		if rand == 4 then
 			self:add_train()
 		end
-		enemies.waveCycle = math.random(1,4)
+		enemies.waveCycle = math.random(0.5,2)
 	end
 	
 	

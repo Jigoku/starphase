@@ -28,9 +28,9 @@ function love.conf(t)
 	t.modules.joystick = false
 	t.modules.physics = false
 	t.window.fsaa = 0
-	t.window.resizable = true
+	t.window.resizable = false
 	t.window.vsync = false
 	t.window.fullscreen = false
-	t.window.fullscreentype = "desktop"
+	t.window.fullscreentype = "normal"
 	t.window.icon = "gfx/icon.png"
 end

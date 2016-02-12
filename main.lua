@@ -26,18 +26,25 @@ require("collision")
 require("music")
 
 
-debug = false
 
---used to scale things (reccomended display resolution)
-WIDTH=1920
-HEIGHT=1080
+
+
 
 function love.load(args)
+
+	--used to scale things (reccomended display resolution)
+	WIDTH=1920
+	HEIGHT=1080
+
+	debug = false
+
 	--parse command line arguments to the game
 	for _,arg in pairs(args) do
 		if arg == "-debug" or arg == "-d" then debug = true end
 		if arg == "-fullscreen" or arg == "-f" then love.window.setFullscreen(1) end
 	end
+	
+	
 	
 	--initialize seed
 	math.randomseed(os.time())
@@ -84,7 +91,7 @@ function initarcade(shipsel)
 	nebulae.g = 255
 	nebulae.b = 255
 	ship:init(shipsel)
-	starfield.speed = 1
+	starfield.speed = 1.3
 	starfield:populate()
 	hud:init()
 	
@@ -207,10 +214,6 @@ end
 
 
 function love.resize(w,h)
-	--calculate new aspect ratio (force 16:9 always)
-	game.width = w
-	game.height = math.floor((HEIGHT/WIDTH)*w)
-	love.window.setMode(game.width,game.height)
-
+	
 end
 
