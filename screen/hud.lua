@@ -174,6 +174,13 @@ function hud:draw()
 	love.graphics.printf(misc:formatTime(hud.time), love.graphics.getWidth()/2,20,0,"center",0,1,1)
 	love.graphics.setFont(fonts.default)
 	
+	--lives (temporary)
+	love.graphics.setColor(100,190,200,100)
+	love.graphics.printf("lives: ", love.graphics.getWidth()/2,60,0,"center",0,1,1)
+	for i=1,ship.lives do
+		love.graphics.rectangle("fill", 25*i+love.graphics.getWidth()/2,50, 20,20)
+	end
+	
 	--display 
 	love.graphics.setCanvas(hud.display.canvas)
 	hud.display.canvas:clear()
@@ -230,6 +237,8 @@ function hud:draw()
 	love.graphics.setColor(100,190,200,155)
 	love.graphics.rectangle("fill", 65+hud.display.w/4*3,hud.display.h-5,ship.energy/ship.energymax*(hud.display.w/8), hud.display.h/3)
 		
+
+	
 	love.graphics.setFont(fonts.default)
 
 	
@@ -289,6 +298,7 @@ function hud:drawconsole()
 		love.graphics.print("ship posy: " .. math.round(ship.y,4),hud.console.x+10,hud.console.y+130)
 		love.graphics.print("ship idle: " .. tostring(ship.idle),hud.console.x+10,hud.console.y+150)
 		
+		
 		--divider
 		love.graphics.setColor(155,255,255,100)
 		love.graphics.line(hud.console.x+10,hud.console.y+180, hud.console.x+200,hud.console.y+180)
@@ -307,7 +317,7 @@ function hud:drawconsole()
 		
 		--arena info
 		love.graphics.setColor(100,190,200,255)
-		love.graphics.print("starfield objects: " .. #starfield.objects,hud.console.x+215,hud.console.y+70)
+		love.graphics.print("starfield  : " .. #starfield.objects,hud.console.x+215,hud.console.y+70)
 		love.graphics.print("projectiles: " .. #projectiles,hud.console.x+215,hud.console.y+90)
 		love.graphics.print("enemies    : " .. #enemies.wave,hud.console.x+215,hud.console.y+110)
 		love.graphics.print("pickups    : " .. #pickups.items,hud.console.x+215,hud.console.y+130)

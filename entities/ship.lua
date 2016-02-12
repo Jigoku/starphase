@@ -44,7 +44,7 @@ function ship:init(shipsel)
 	ship.shieldmax = 100
 	ship.energy = 60
 	ship.energymax = 100
-
+	ship.lives = 3
 	ship.projectileCycle = 0
 	ship.projectileDelay = 0.14
 
@@ -188,8 +188,12 @@ function ship:update(dt)
 
 	
 	if ship.shield <= 0 then
-		title:init()
+		ship.lives = ship.lives -1
+		ship.shield = ship.shieldmax
 		
+		if ship.lives < 0 then
+			title:init()
+		end
 	end
 	
 
