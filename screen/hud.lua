@@ -175,10 +175,13 @@ function hud:draw()
 	love.graphics.setFont(fonts.default)
 	
 	--lives (temporary)
-	love.graphics.setColor(100,190,200,100)
+
 	love.graphics.printf("lives: ", love.graphics.getWidth()/2,60,0,"center",0,1,1)
 	for i=1,ship.lives do
+		love.graphics.setColor(100,190,200,100)
 		love.graphics.rectangle("fill", 25*i+love.graphics.getWidth()/2,50, 20,20)
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.draw(ship.gfx,25*i+love.graphics.getWidth()/2,50,0,0.2,0.2)
 	end
 	
 	--display 

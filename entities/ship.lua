@@ -20,12 +20,8 @@ ship.sounds = {}
 
 
 ship.cannon = {}
-ship.cannon.texture = love.graphics.newImage("gfx/projectiles/cannon.png")
 ship.cannon.switch = false -- alternating sides
-ship.cannon.damage = 30
-ship.cannon.sound = {}
-ship.cannon.sound.shoot = love.audio.newSource("sfx/projectiles/shoot.wav", "static")
-ship.cannon.sound.shoot:setVolume(0.3)
+
 
 
 
@@ -145,30 +141,30 @@ function ship:update(dt)
 		self.projectileCycle = math.max(0, self.projectileCycle - dt)
 		
 		if self.projectileCycle <= 0 then
-			if self.cannon.sound.shoot:isPlaying() then
-				self.cannon.sound.shoot:stop()
+			if projectiles.cannon.sound.shoot:isPlaying() then
+				projectiles.cannon.sound.shoot:stop()
 			end
-			self.cannon.sound.shoot:play()
+			projectiles.cannon.sound.shoot:play()
 		
 			ship.cannon.switch = not ship.cannon.switch
 		
 			local yswitch
 			if ship.cannon.switch then
-				yswitch = self.y + self.gfx:getHeight()/2-ship.cannon.texture:getHeight()/2 -28
+				yswitch = self.y + self.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2 -28
 			else
-				yswitch = self.y + self.gfx:getHeight()/2-ship.cannon.texture:getHeight()/2 +28
+				yswitch = self.y + self.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2 +28
 			end
 			
 			table.insert(projectiles, {
 				player = true,
 				type = "cannon",
-				w = ship.cannon.texture:getWidth(),
-				h = ship.cannon.texture:getHeight(),
+				w = projectiles.cannon.gfx:getWidth(),
+				h = projectiles.cannon.gfx:getHeight(),
 				x = self.x + self.gfx:getWidth()/2,
 				y = yswitch,
 				xvel = 1000,
 				yvel = 0,
-				damage = ship.cannon.damage,
+				damage = projectiles.cannon.damage,
 				r = math.random(150,255),
 				g = math.random(150,255),
 				b = math.random(150,255),

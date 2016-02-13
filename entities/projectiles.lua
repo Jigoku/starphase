@@ -15,6 +15,13 @@
  
 projectiles = {}
 
+projectiles.cannon = {}
+projectiles.cannon.gfx = love.graphics.newImage("gfx/projectiles/cannon.png")
+projectiles.cannon.damage = 30
+projectiles.cannon.sound = {}
+projectiles.cannon.sound.shoot = love.audio.newSource("sfx/projectiles/shoot.wav", "static")
+projectiles.cannon.sound.shoot:setVolume(0.3)
+
 function projectiles:update(dt)
 	if paused then return end
 	--process projectiles movement
@@ -22,6 +29,7 @@ function projectiles:update(dt)
 	for i=#self,1,-1 do
 		local p = self[i]
 		
+		--player projectiles
 		if p.player then
 			if p.type == "cannon" then
 				p.x = p.x + math.floor(p.xvel *dt)
@@ -30,24 +38,45 @@ function projectiles:update(dt)
 			if p.x + p.w > starfield.w + p.w then
 				table.remove(self, i)
 			end
+		--enemy projectiles
+		elseif not p.player then
+			p.x = p.x - math.floor(p.xvel *dt)
+			if p.x - p.w < 0 then
+				table.remove(self, i)
+			end
 			
+			if collision:check(p.x,p.y,p.w,p.h, ship.x,ship.y,ship.w,ship.h) then
+				table.remove(self, i)
+				ship.shield = ship.shield - projectiles.cannon.damage
+				if enemies.sound.explode:isPlaying() then
+					enemies.sound.explode:stop()
+				end
+				enemies.sound.explode:play()
+			end
 		end
+		
 	end
 end
 
 
 function projectiles:draw()
 	for _, p in ipairs (projectiles) do
-		love.graphics.setColor(p.r,p.g,p.b,255)
 
 
 		if p.player then
+			love.graphics.setColor(p.r,p.g,p.b,255)
 			if p.type == "cannon" then
 				love.graphics.draw(
-					ship.cannon.texture,  p.x, 
+					projectiles.cannon.gfx,  p.x, 
 					p.y, 0, 1, 1				
 				)
 			end
+		elseif not p.player then
+			love.graphics.setColor(p.r,p.g,p.b,255)
+			love.graphics.draw(
+				projectiles.cannon.gfx,  p.x, 
+				p.y, 0, -1, 1,p.w				
+			)
 		end
 		
 		if debug then

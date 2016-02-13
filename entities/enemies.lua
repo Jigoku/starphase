@@ -48,7 +48,9 @@ function enemies:add_delta()
 			score = 120,
 			shield = 80,
 			shieldopacity = 0,
-			shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.8
+			shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.8,
+			projectileCycle = 0,
+			projectileDelay = 2,
 		})
 		ny = ny + gfx:getHeight()
 		nx = nx + gfx:getWidth()
@@ -210,11 +212,36 @@ function enemies:update(dt)
 	end
 	
 	
-
+	
 
 	
 	for i=#self.wave,1,-1 do
 		local e = self.wave[i]
+	
+		if e.projectileCycle then
+			e.projectileCycle = math.max(0, e.projectileCycle - dt)
+			
+			if e.projectileCycle <= 0 then
+				table.insert(projectiles, {
+					player = false,
+					type = "cannon",
+					w = projectiles.cannon.gfx:getWidth(),
+					h = projectiles.cannon.gfx:getHeight(),
+					x = e.x + e.gfx:getWidth()/2,
+					y = e.y + e.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2,
+					xvel = 800,
+					yvel = 0,
+					damage = projectiles.cannon.damage,
+					r = 150,
+					g = 180,
+					b = 255,
+				})
+			
+				e.projectileCycle = e.projectileDelay
+			end
+		end
+		
+		
 		
 
 		if e.shieldopacity > 0 then
@@ -224,7 +251,7 @@ function enemies:update(dt)
 		end
 		
 		e.x = (e.x - e.xvel *dt)
-		e.y= (e.y - e.yvel *dt)
+		e.y = (e.y - e.yvel *dt)
 	
 		
 		
