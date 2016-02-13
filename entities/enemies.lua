@@ -222,7 +222,7 @@ function enemies:update(dt)
 			e.projectileCycle = math.max(0, e.projectileCycle - dt)
 			
 			if e.projectileCycle <= 0 then
-				table.insert(projectiles, {
+				table.insert(projectiles.missiles, {
 					player = false,
 					type = "cannon",
 					w = projectiles.cannon.gfx:getWidth(),
@@ -270,12 +270,12 @@ function enemies:update(dt)
 				table.remove(self.wave, i)
 		end
 		
-		for z,p in ipairs (projectiles) do
+		for z,p in ipairs (projectiles.missiles) do
 			if p.player then
 				if collision:check(p.x,p.y,p.w,p.h, e.x,e.y,e.w,e.h) then
 					e.shield = e.shield - p.damage
 					e.shieldopacity = 100
-					table.remove(projectiles, z)
+					table.remove(projectiles.missiles, z)
 				
 					if enemies.sound.hit:isPlaying() then
 						enemies.sound.hit:stop()

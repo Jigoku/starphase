@@ -15,6 +15,8 @@
  
 projectiles = {}
 
+projectiles.missiles = {}
+
 projectiles.cannon = {}
 projectiles.cannon.gfx = love.graphics.newImage("gfx/projectiles/cannon.png")
 projectiles.cannon.damage = 30
@@ -26,8 +28,8 @@ function projectiles:update(dt)
 	if paused then return end
 	--process projectiles movement
 	
-	for i=#self,1,-1 do
-		local p = self[i]
+	for i=#self.missiles,1,-1 do
+		local p = self.missiles[i]
 		
 		--player projectiles
 		if p.player then
@@ -36,17 +38,17 @@ function projectiles:update(dt)
 			end
 			
 			if p.x + p.w > starfield.w + p.w then
-				table.remove(self, i)
+				table.remove(self.missiles, i)
 			end
 		--enemy projectiles
 		elseif not p.player then
 			p.x = p.x - math.floor(p.xvel *dt)
 			if p.x - p.w < 0 then
-				table.remove(self, i)
+				table.remove(self.missiles, i)
 			end
 			
 			if collision:check(p.x,p.y,p.w,p.h, ship.x,ship.y,ship.w,ship.h) then
-				table.remove(self, i)
+				table.remove(self.missiles, i)
 				ship.shield = ship.shield - projectiles.cannon.damage
 				if enemies.sound.explode:isPlaying() then
 					enemies.sound.explode:stop()
@@ -60,7 +62,7 @@ end
 
 
 function projectiles:draw()
-	for _, p in ipairs (projectiles) do
+	for _, p in ipairs (projectiles.missiles) do
 
 
 		if p.player then

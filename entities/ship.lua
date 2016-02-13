@@ -44,8 +44,8 @@ function ship:init(shipsel)
 	ship.projectileCycle = 0
 	ship.projectileDelay = 0.14
 
-	ship.speed = 1000
-	ship.float = 3
+	ship.speed = 1500
+	ship.float = 2
 	ship.maxvel = 400
 	ship.xvel = 0
 	ship.yvel = 0
@@ -105,7 +105,7 @@ function ship:update(dt)
 	if self.yvel > self.maxvel then self.yvel = self.maxvel	end
 	if self.xvel > self.maxvel then self.xvel = self.maxvel end
 	if self.yvel < -self.maxvel then self.yvel = -self.maxvel end
-	if self.xvel < -self.maxvel+(self.maxvel/6) then self.xvel = -self.maxvel+(self.maxvel/6) end
+	if self.xvel < -self.maxvel then self.xvel = -self.maxvel end
 
 
 	self.y = self.y + self.yvel * dt
@@ -155,7 +155,7 @@ function ship:update(dt)
 				yswitch = self.y + self.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2 +28
 			end
 			
-			table.insert(projectiles, {
+			table.insert(projectiles.missiles, {
 				player = true,
 				type = "cannon",
 				w = projectiles.cannon.gfx:getWidth(),

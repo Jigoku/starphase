@@ -70,7 +70,7 @@ function starfield:populate()
 	--reset
 	starfield.objects = {}
 	enemies.wave = {}
-	ship.projectiles = {}
+	projectiles.missiles = {}
 	pickups.items = {}
 	
 	--populate starfield
