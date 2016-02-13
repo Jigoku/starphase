@@ -17,13 +17,12 @@ music = {}
 music.volume = 80  -- 0>100
 	
 music[1] = "sfx/music/zhelanov/space.ogg" -- title music
-music[2] = "sfx/music/zhelanov/forgotten-place.ogg"
-music[3] = "sfx/music/maxstack/nebula.ogg"
-music[4] = "sfx/music/maxstack/through-space.ogg"
-music[5] = "sfx/music/maxstack/crystal-space.ogg"
-music[6] = "sfx/music/maxstack/bazaarnet.ogg"
-music[7] = "sfx/music/maxstack/the-client.ogg"
-music[8] = "sfx/music/maxstack/deprecation.ogg"
+music[2] = "sfx/music/maxstack/nebula.ogg"
+music[3] = "sfx/music/maxstack/through-space.ogg"
+music[4] = "sfx/music/maxstack/crystal-space.ogg"
+music[5] = "sfx/music/maxstack/bazaarnet.ogg"
+music[6] = "sfx/music/maxstack/the-client.ogg"
+music[7] = "sfx/music/maxstack/deprecation.ogg"
 	
 music.bgm = nil
 music.track = nil
