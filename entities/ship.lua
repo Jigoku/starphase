@@ -43,7 +43,9 @@ function ship:init(shipsel)
 	ship.lives = 3
 	ship.projectileCycle = 0
 	ship.projectileDelay = 0.14
-
+	ship.respawnCycle = 3
+	ship.respawnDelay = 3
+	ship.alive = true
 	ship.speed = 1500
 	ship.float = 2
 	ship.maxvel = 400
@@ -52,10 +54,28 @@ function ship:init(shipsel)
 	ship.idle = true
 end
 
+
+
 function ship:update(dt)
 	if paused then return end
 	self.idle = true
-
+	
+	
+	if not ship.alive then 
+			self.respawnCycle = math.max(0, self.respawnCycle - dt)
+			if self.respawnCycle <= 0 then
+				self.respawnCycle = self.respawnDelay
+				
+				if ship.lives < 0 then
+					title:init()
+				else
+					self.alive = true
+					ship.shield = ship.shieldmax
+				end
+			end
+		return
+	end
+	
 	if love.keyboard.isDown(binds.up, binds.altup) then 
 		self.yvel = self.yvel - self.speed * dt
 		self.idle = false
@@ -184,12 +204,9 @@ function ship:update(dt)
 
 	
 	if ship.shield <= 0 then
+		self.alive = false
 		ship.lives = ship.lives -1
-		ship.shield = ship.shieldmax
-		
-		if ship.lives < 0 then
-			title:init()
-		end
+
 	end
 	
 
@@ -198,7 +215,7 @@ end
 
 function ship:draw()
 	
-
+	if not ship.alive then return end
 	love.graphics.push()
 	love.graphics.setColor(255,255,255,255)
 	

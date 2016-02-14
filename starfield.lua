@@ -26,7 +26,7 @@ starfield.offset = 0 -- populate starfield above/below this amount
 
 starfield.w = love.graphics.getWidth()
 starfield.h = love.graphics.getHeight()+starfield.offset
-starfield.limit = 300
+starfield.limit = 400
 starfield.speed = 1.5
 starfield.canvas = love.graphics.newCanvas(starfield.w, starfield.h)
 starfield.dense_star = love.graphics.newImage("gfx/glow.png")

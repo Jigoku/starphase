@@ -87,9 +87,9 @@ function enemies:add_train()
 	
 	local x = starfield.w
 	local y = math.random(0,starfield.h)
-	for i=1, 10 do
+	for i=1, 5 do
 	table.insert(self.wave, {
-		type = "dart",
+		type = "train",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		x = x,
@@ -255,7 +255,7 @@ function enemies:update(dt)
 	
 		
 		
-		if not invincible and collision:check(e.x,e.y,e.w,e.h, ship.x,ship.y,ship.w,ship.h) then
+		if not invincible and ship.alive and collision:check(e.x,e.y,e.w,e.h, ship.x,ship.y,ship.w,ship.h) then
 
 			ship.shield = ship.shield - 20
 			table.remove(enemies.wave, i)
