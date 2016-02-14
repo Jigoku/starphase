@@ -33,6 +33,13 @@ function pickups:draw()
 	end
 end
 
+function pickups:setvelocity()
+    local rand = math.random(-70,70)
+    if rand > -20 and rand < 20 then
+        self:setvelocity()
+    end
+    return rand
+end
 
 function pickups:add(x,y)
 	local gfx = pickups.texture
@@ -42,8 +49,8 @@ function pickups:add(x,y)
 		y = y,
 		w = pickups.texture:getWidth(),
 		h = pickups.texture:getHeight(),
-		xvel = math.random(-70,70),
-		yvel = math.random(-70,70),
+		xvel = pickups:setvelocity(),
+		yvel = pickups:setvelocity(),
 		r = math.random(100,255),
 		g = math.random(100,255),
 		b = math.random(100,255),
