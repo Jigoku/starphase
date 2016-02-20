@@ -14,7 +14,10 @@
 --]]
  
 music = {}
-music.volume = 80  -- 0>100
+
+love.audio.setVolume( 1 )--master volume
+
+music.volume = 80  -- 0>100 (used when a track is played)
 	
 music[1] = "sfx/music/zhelanov/space.ogg" -- title music
 music[2] = "sfx/music/maxstack/nebula.ogg"

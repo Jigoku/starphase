@@ -28,17 +28,10 @@ function pickups:draw()
 		love.graphics.draw(pickups.texture, x,y)
 		if debug then
 			love.graphics.rectangle("line", x,y,p.w,p.h)
+			love.graphics.print(p.xvel .. " " ..p.yvel,x-20,y-20)
 		end
 		
 	end
-end
-
-function pickups:setvelocity()
-    local rand = math.random(-70,70)
-    if rand > -20 and rand < 20 then
-        self:setvelocity()
-    end
-    return rand
 end
 
 function pickups:add(x,y)
@@ -49,8 +42,8 @@ function pickups:add(x,y)
 		y = y,
 		w = pickups.texture:getWidth(),
 		h = pickups.texture:getHeight(),
-		xvel = pickups:setvelocity(),
-		yvel = pickups:setvelocity(),
+		xvel =  math.random(-70,70),
+		yvel =  math.random(-70,70),
 		r = math.random(100,255),
 		g = math.random(100,255),
 		b = math.random(100,255),

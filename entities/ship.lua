@@ -204,9 +204,9 @@ function ship:update(dt)
 
 	
 	if ship.shield <= 0 then
+		ship.shield = 0
 		self.alive = false
 		ship.lives = ship.lives -1
-
 	end
 	
 
@@ -214,9 +214,11 @@ function ship:update(dt)
 end
 
 function ship:draw()
-	
+
+
 	if not ship.alive then return end
 	love.graphics.push()
+
 	love.graphics.setColor(255,255,255,255)
 	
 	love.graphics.draw(
@@ -231,4 +233,5 @@ function ship:draw()
 	end
 	
 	love.graphics.pop()
+
 end

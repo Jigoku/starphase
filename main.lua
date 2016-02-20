@@ -33,6 +33,7 @@ require("music")
 
 function love.load(args)
 
+  
 	--used to scale things (reccomended display resolution)
 	WIDTH=1920
 	HEIGHT=1080

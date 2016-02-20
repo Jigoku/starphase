@@ -255,15 +255,17 @@ function enemies:update(dt)
 	
 		
 		
-		if not invincible and ship.alive and collision:check(e.x,e.y,e.w,e.h, ship.x,ship.y,ship.w,ship.h) then
-
-			ship.shield = ship.shield - 20
-			table.remove(enemies.wave, i)
+		if not invincible  and collision:check(e.x,e.y,e.w,e.h, ship.x,ship.y,ship.w,ship.h) then
+			if ship.alive then
+				table.remove(enemies.wave, i)
+				ship.shield = ship.shield - 20
 				
-			if enemies.sound.explode:isPlaying() then
-				enemies.sound.explode:stop()
+				
+				if enemies.sound.explode:isPlaying() then
+					enemies.sound.explode:stop()
+				end
+				enemies.sound.explode:play()
 			end
-			enemies.sound.explode:play()
 		end
 		
 		if e.x < 0  - e.w then

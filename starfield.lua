@@ -187,7 +187,7 @@ function starfield:draw(x,y)
 	for _, o in ipairs(self.objects) do
 	
 		--star
-		love.graphics.setColor(o.r,o.g,o.b,o.o*1.5)
+		love.graphics.setColor(o.r,o.g,o.b,o.o*1.25)
 		love.graphics.line(o.x,o.y, o.x,o.y+1)
 
 		--dense star
@@ -256,6 +256,5 @@ end
 
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.draw(self.canvas, 0,0,0,love.graphics.getWidth()/starfield.w,love.graphics.getWidth()/starfield.w)
-	
 
 end

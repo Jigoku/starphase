@@ -274,12 +274,15 @@ function hud:drawconsole()
 		love.graphics.line(hud.console.x,hud.console.y+hud.console.h, hud.console.x+hud.console.w,hud.console.y+hud.console.h)
 		
 		--sysinfo
+		
 		love.graphics.setColor(200,100,200,255)
 		love.graphics.print(
 			"fps: " .. love.timer.getFPS() .. 
 			" | vsync: " ..tostring(game.flags.vsync)..
 			" | res: ".. love.graphics.getWidth().."x"..love.graphics.getHeight() .. 
-			" | garbage (kB): " ..  gcinfo(),hud.console.x+10,hud.console.y+10
+			" | garbage: " ..  gcinfo() .. "kB" ..
+			string.format(" | vram: %.2fMB", love.graphics.getStats().texturememory / 1024 / 1024),
+			hud.console.x+10,hud.console.y+10
 		)
 
 		
