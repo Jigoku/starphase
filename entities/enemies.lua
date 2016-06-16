@@ -218,6 +218,11 @@ function enemies:update(dt)
 	for i=#self.wave,1,-1 do
 		local e = self.wave[i]
 	
+	
+		if e.angle then
+			e.angle = math.atan2(ship.y+ship.h/2-e.h/2 - e.y, ship.x+ship.w/2-e.w/2 - e.x)
+		end
+				
 		if e.projectileCycle then
 			e.projectileCycle = math.max(0, e.projectileCycle - dt)
 			
@@ -225,6 +230,7 @@ function enemies:update(dt)
 				table.insert(projectiles.missiles, {
 					player = false,
 					type = "cannon",
+					gfx = projectiles.cannon.gfx,
 					w = projectiles.cannon.gfx:getWidth(),
 					h = projectiles.cannon.gfx:getHeight(),
 					x = e.x + e.gfx:getWidth()/2,
@@ -232,9 +238,9 @@ function enemies:update(dt)
 					xvel = 800,
 					yvel = 0,
 					damage = projectiles.cannon.damage,
-					r = 150,
-					g = 180,
-					b = 255,
+					r = 255,
+					g = 220,
+					b = 150,
 				})
 			
 				e.projectileCycle = e.projectileDelay
@@ -255,11 +261,13 @@ function enemies:update(dt)
 	
 		
 		
-		if not invincible  and collision:check(e.x,e.y,e.w,e.h, ship.x,ship.y,ship.w,ship.h) then
+		if collision:check(e.x,e.y,e.w,e.h, ship.x,ship.y,ship.w,ship.h) then
 			if ship.alive then
 				table.remove(enemies.wave, i)
-				ship.shield = ship.shield - 20
 				
+				if not cheats.invincible then
+					ship.shield = ship.shield - 20
+				end
 				
 				if enemies.sound.explode:isPlaying() then
 					enemies.sound.explode:stop()
@@ -275,14 +283,17 @@ function enemies:update(dt)
 		for z,p in ipairs (projectiles.missiles) do
 			if p.player then
 				if collision:check(p.x,p.y,p.w,p.h, e.x,e.y,e.w,e.h) then
-					e.shield = e.shield - p.damage
-					e.shieldopacity = 100
-					table.remove(projectiles.missiles, z)
+
+						e.shield = e.shield - p.damage
+						e.shieldopacity = 100
+						
+						table.remove(projectiles.missiles, z)
 				
-					if enemies.sound.hit:isPlaying() then
-						enemies.sound.hit:stop()
-					end
-					enemies.sound.hit:play()
+						if enemies.sound.hit:isPlaying() then
+							enemies.sound.hit:stop()
+						end
+						enemies.sound.hit:play()
+				
 				end
 			end
 		end
@@ -323,11 +334,10 @@ function enemies:draw()
 	
 		if e.angle then
 			--rotating face to ship
-			e.angle = 0
 			love.graphics.push()
 
 			love.graphics.translate(e.x+e.w/2,e.y+e.h/2)
-			love.graphics.rotate(math.atan2(ship.y+ship.h/2-e.h/2 - e.y, ship.x+ship.w/2-e.w/2 - e.x))
+			love.graphics.rotate(e.angle)
 			love.graphics.translate(-e.x-e.w/2,-e.y-e.h/2)
 			
 			love.graphics.setColor(255,255,255,255)

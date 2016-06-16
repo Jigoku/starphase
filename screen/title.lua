@@ -14,6 +14,11 @@
  --]]
 
 title = {}
+title.splash = true
+title.splash_logo = love.graphics.newImage("gfx/artsoftware.png")
+title.splashDelay = 1
+title.splashCycle = 1
+title.splashOpacity = 255
 
 title.active = "main"
 title.maxoptions = 3
@@ -31,7 +36,7 @@ title.opacitymin = 100
 title.opacitymax = 255
 
 title.overlay = {}
-title.overlay.opacity = 255
+title.overlay.opacity = 0
 title.overlay.fadeout = false
 title.overlay.fadein = false
 title.overlay.fadespeed = 200
@@ -65,7 +70,27 @@ function title:init()
 end
 
 function title:update(dt)
-	starfield:update(dt)
+
+	if title.splash then
+		title.splashCycle = math.max(0, title.splashCycle - dt)
+		
+		if title.splashCycle <= 0 then
+			if title.splashOpacity > 0 then
+				title.splashOpacity = title.splashOpacity - 100 *dt
+			else
+				title.overlay.fadein = true
+				title.splashCycle = title.splashDelay
+				title.splash = false
+			end
+		end
+	
+		return
+	
+	end
+
+	--main title sequence
+	
+
 	title.opacity = (title.opacity - title.opacitystep*dt)
 	if title.opacity < title.opacitymin  then
 	title.opacity = title.opacitymin
@@ -94,10 +119,17 @@ function title:update(dt)
 		end
 	end
 	
+	starfield:update(dt)
 
 end
 
 function title:draw()
+	if title.splash then
+		love.graphics.setColor(255,255,255,title.splashOpacity)
+		love.graphics.draw(title.splash_logo,love.graphics.getWidth()/2-title.splash_logo:getWidth()/2, love.graphics.getHeight()/2-title.splash_logo:getHeight()/2)
+		return
+	end
+	
 	starfield:draw(0,0)
 	
 	love.graphics.setColor(255,255,255,255)
@@ -180,6 +212,9 @@ function title:draw()
 	love.graphics.setColor(0,0,0,title.overlay.opacity)
 	love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
 	
+	
+
+	
 	if debug then
 		love.graphics.rectangle("line", title.menu.x,title.menu.y,title.menu.w,title.menu.h)
 	end
@@ -197,6 +232,8 @@ end
 
 function title:keypressed(key)
 	if key == "escape" then love.event.quit() end
+	
+	if title.splash then return end
 	
 	if key == "up" then 
 		title.sounds.option:play() 

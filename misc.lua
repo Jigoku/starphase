@@ -23,6 +23,13 @@ function math.round(num, idp)
 	return math.floor(num * mult + 0.5) / mult
 end
 
+function misc:count(t)
+	local c = 0
+	for _ in pairs(t) do c = c + 1 end
+	return c
+end
+ 
+
 function misc:togglefullscreen()
 	local fs, fstype = love.window.getFullscreen()
 

@@ -15,7 +15,7 @@
 
 name = "Star Phase"
 author = "ricky thomson"
-version = 0.01
+version = 0.02
 build = "-dev"
 print (name .. " " .. version .. build .. " by " .. author)
 
@@ -23,14 +23,16 @@ function love.conf(t)
 	t.version = "0.9.2"
 	t.identity = "starphase"
 	t.window.title = name .. " " .. version
+--	t.window.width = 1440
+--	t.window.height = 900
 	t.window.width = 1920
 	t.window.height = 1080
 	t.modules.joystick = false
 	t.modules.physics = false
-	t.window.fsaa = 0
+	t.window.fsaa = 8
 	t.window.resizable = false
 	t.window.vsync = false
-	t.window.fullscreen = false
+	t.window.fullscreen = true
 	t.window.fullscreentype = "normal"
 	t.window.icon = "gfx/icon.png"
 end

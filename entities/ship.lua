@@ -52,6 +52,9 @@ function ship:init(shipsel)
 	ship.xvel = 0
 	ship.yvel = 0
 	ship.idle = true
+	ship.invincible = false
+	
+	if cheats.invincible then ship.invincible = true end
 end
 
 
@@ -178,6 +181,7 @@ function ship:update(dt)
 			table.insert(projectiles.missiles, {
 				player = true,
 				type = "cannon",
+				gfx = projectiles.cannon.gfx,
 				w = projectiles.cannon.gfx:getWidth(),
 				h = projectiles.cannon.gfx:getHeight(),
 				x = self.x + self.gfx:getWidth()/2,
@@ -225,7 +229,7 @@ function ship:draw()
 		self.gfx, self.x, 
 		self.y, 0, 1, 1
 	)
-
+	
 
 	if debug then
 		love.graphics.setColor(255,255,0,100)

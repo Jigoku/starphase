@@ -39,7 +39,11 @@ function love.load(args)
 	HEIGHT=1080
 
 	debug = false
-
+	
+	cheats = {
+		invincible = false,
+	}
+	
 	--parse command line arguments to the game
 	for _,arg in pairs(args) do
 		if arg == "-debug" or arg == "-d" then debug = true end
@@ -69,14 +73,8 @@ function love.load(args)
 	
 	cursor = love.mouse.newCursor( "gfx/cursor.png", 0, 0 )
 	love.mouse.setCursor(cursor)	
-	
-
-	--game init
-	paused = false
-	invincible = false
 
 	title:init()
-	--initarcade()
 	
 end
 
@@ -136,7 +134,7 @@ function love.draw()
 	
 	--draw arcade game
 	if mode == "arcade" then
-		starfield:draw(0,0)
+		starfield:draw(0,-ship.y/4)
 
 		hud:draw()
 	end
@@ -197,6 +195,10 @@ function love.keypressed(key)
 	if key == "8" then
 		love.window.setMode(1200,(HEIGHT/WIDTH)*1200 )
 	end
+	
+	
+	
+
 end
 
 function love.mousepressed(x,y,button) 

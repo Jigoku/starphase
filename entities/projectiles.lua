@@ -47,13 +47,18 @@ function projectiles:update(dt)
 				table.remove(self.missiles, i)
 			end
 			
+			if not cheats.invincible then
 			if ship.alive and collision:check(p.x,p.y,p.w,p.h, ship.x,ship.y,ship.w,ship.h) then
+					 
 				table.remove(self.missiles, i)
 				ship.shield = ship.shield - projectiles.cannon.damage
 				if enemies.sound.explode:isPlaying() then
 					enemies.sound.explode:stop()
 				end
 				enemies.sound.explode:play()
+					
+		
+			end
 			end
 		end
 		
@@ -69,14 +74,14 @@ function projectiles:draw()
 			love.graphics.setColor(p.r,p.g,p.b,255)
 			if p.type == "cannon" then
 				love.graphics.draw(
-					projectiles.cannon.gfx,  p.x, 
+					p.gfx,  p.x, 
 					p.y, 0, 1, 1				
 				)
 			end
 		elseif not p.player then
 			love.graphics.setColor(p.r,p.g,p.b,255)
 			love.graphics.draw(
-				projectiles.cannon.gfx,  p.x, 
+				p.gfx,  p.x, 
 				p.y, 0, -1, 1,p.w				
 			)
 		end

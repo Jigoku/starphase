@@ -21,7 +21,7 @@
 starfield = {}
 starfield.objects = {}
 
-starfield.offset = 0 -- populate starfield above/below this amount
+starfield.offset = 334 -- populate starfield this amount higher than screen height
 --^^^ disabled due to scaling issue (needs fixing)
 
 starfield.w = love.graphics.getWidth()
@@ -255,6 +255,6 @@ end
 	love.graphics.setCanvas()
 
 	love.graphics.setColor(255,255,255,255)
-	love.graphics.draw(self.canvas, 0,0,0,love.graphics.getWidth()/starfield.w,love.graphics.getWidth()/starfield.w)
+	love.graphics.draw(self.canvas, x,y,0,love.graphics.getWidth()/starfield.w,love.graphics.getWidth()/starfield.w)
 
 end

@@ -21,3 +21,10 @@ function collision:check(x1,y1,w1,h1, x2,y2,w2,h2)
 		 y1 < y2+h2 and
 		 y2 < y1+h1
 end
+
+
+function collision:pixel(a, b)
+
+end
+   
+

@@ -259,6 +259,8 @@ end
 
 
 function hud:drawconsole()
+	love.graphics.setFont(fonts.default)
+	
 	if hud.console.y  > -hud.console.h then
 	love.graphics.setCanvas(hud.console.canvas)
 	hud.console.canvas:clear()

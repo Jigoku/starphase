@@ -16,7 +16,16 @@
 pickups = {}
 pickups.texture = love.graphics.newImage("gfx/pickups/template_small.png")
 
-pickups.items = {}
+
+pickups.type = {
+	shield = love.graphics.newImage("gfx/pickups/shield.png"),
+	energy = love.graphics.newImage("gfx/pickups/energy.png"),
+	speed = love.graphics.newImage("gfx/pickups/speed.png"),
+	mystery = love.graphics.newImage("gfx/pickups/mystery.png"),
+}
+
+pickups.items = {} --active pickups on the starfield
+
 
 function pickups:draw()
 	
@@ -24,8 +33,15 @@ function pickups:draw()
 		local x = math.floor(p.x)
 		local y = math.floor(p.y)
 	
-		love.graphics.setColor(p.r,p.g,p.b)
-		love.graphics.draw(pickups.texture, x,y)
+		--love.graphics.setColor(p.r,p.g,p.b)
+		love.graphics.setColor(255,255,255,255)
+		
+		if 		   p.type == 1 then love.graphics.draw(pickups.type.shield, x,y)
+			elseif p.type == 2 then love.graphics.draw(pickups.type.energy, x,y)
+			elseif p.type == 3 then love.graphics.draw(pickups.type.speed, x,y)
+			elseif p.type == 4 then love.graphics.draw(pickups.type.mystery, x,y)
+		end
+		
 		if debug then
 			love.graphics.rectangle("line", x,y,p.w,p.h)
 			love.graphics.print(p.xvel .. " " ..p.yvel,x-20,y-20)
@@ -35,9 +51,9 @@ function pickups:draw()
 end
 
 function pickups:add(x,y)
-	local gfx = pickups.texture
+
 	table.insert(pickups.items, {
-		gfx = gfx,
+		type = math.random(1,misc:count(pickups.type)),
 		x = x,
 		y = y,
 		w = pickups.texture:getWidth(),
