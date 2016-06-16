@@ -40,13 +40,15 @@ function ship:init(shipsel)
 	ship.shieldmax = 100
 	ship.energy = 60
 	ship.energymax = 100
+	ship.speed = 1500
+	ship.speedmax = 3000
+	
 	ship.lives = 3
 	ship.projectileCycle = 0
 	ship.projectileDelay = 0.14
 	ship.respawnCycle = 3
 	ship.respawnDelay = 3
 	ship.alive = true
-	ship.speed = 1500
 	ship.float = 2
 	ship.maxvel = 400
 	ship.xvel = 0
@@ -213,7 +215,6 @@ function ship:update(dt)
 		ship.lives = ship.lives -1
 	end
 	
-
 
 end
 

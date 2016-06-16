@@ -92,6 +92,18 @@ function pickups:update(dt)
 				pickups.sound:stop()
 			end
 			pickups.sound:play()
+			
+			if 		   p.type == 1 then ship.shield = ship.shield + 20
+				elseif p.type == 2 then ship.energy = ship.energy + 20
+				elseif p.type == 3 then ship.speed = ship.speed + 200
+				elseif p.type == 4 then --
+			end
+			
+			if ship.shield > ship.shieldmax then ship.shield = ship.shieldmax	end
+			if ship.energy > ship.energymax then ship.energy = ship.energymax	end
+			if ship.speed > ship.speedmax then ship.speed = ship.speedmax	end
+
+			
 			table.remove(pickups.items, i)
 		end
 	end
