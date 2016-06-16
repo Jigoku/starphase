@@ -15,6 +15,7 @@
  
 pickups = {}
 pickups.texture = love.graphics.newImage("gfx/pickups/template_small.png")
+pickups.sound = love.audio.newSource("sfx/pickups/collect.wav", "static")
 
 
 pickups.type = {
@@ -87,6 +88,10 @@ function pickups:update(dt)
 		end
 		
 		if ship.alive and collision:check(p.x,p.y,p.w,p.h,ship.x,ship.y,ship.w,ship.h) then
+			if pickups.sound:isPlaying() then
+				pickups.sound:stop()
+			end
+			pickups.sound:play()
 			table.remove(pickups.items, i)
 		end
 	end
