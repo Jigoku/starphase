@@ -86,28 +86,7 @@ function pickups:update(dt)
 		if p.y < 0 then
 			p.yvel = -p.yvel
 		end
-		
-		if ship.alive and collision:check(p.x,p.y,p.w,p.h,ship.x,ship.y,ship.w,ship.h) then
-			if pickups.sound:isPlaying() then
-				pickups.sound:stop()
-			end
-			pickups.sound:play()
-			
-			if 		   p.type == 1 then ship.shield = ship.shield + 20
-				elseif p.type == 2 then ship.energy = ship.energy + 20
-				elseif p.type == 3 then ship.speed = ship.speed + 200
-				elseif p.type == 4 then --
-			end
-			
-			if ship.shield > ship.shieldmax then ship.shield = ship.shieldmax	end
-			if ship.energy > ship.energymax then ship.energy = ship.energymax	end
-			if ship.speed > ship.speedmax then ship.speed = ship.speedmax	end
 
-			
-			table.remove(pickups.items, i)
-		end
 	end
-
-		
 end
 

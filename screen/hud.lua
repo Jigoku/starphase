@@ -335,4 +335,6 @@ function hud:drawconsole()
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.draw(hud.console.canvas,hud.console.x,hud.console.y)
 	end
+	
+	love.graphics.setFont(fonts.default)
 end

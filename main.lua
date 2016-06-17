@@ -95,7 +95,8 @@ function initarcade(shipsel)
 	starfield:populate()
 	hud:init()
 	
-	music:play(math.random(2,#music))
+	music:play(math.random(3,#music))
+
 
 end
 

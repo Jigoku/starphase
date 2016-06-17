@@ -24,6 +24,8 @@ enemies.sound.hit = love.audio.newSource("sfx/projectiles/hit.wav", "static")
 enemies.sound.hit:setVolume(1)
 enemies.sound.explode = love.audio.newSource("sfx/projectiles/explode.wav", "static")
 enemies.sound.explode:setVolume(0.7)
+
+
 enemies.shield = love.graphics.newImage("gfx/shield_large.png")
 
 function enemies:add_delta()
@@ -34,6 +36,7 @@ function enemies:add_delta()
 	local nx = starfield.w
 	
 	local xvel = 400
+	local projectileOffset = 0.25
 	for i=1, starfield.h, starfield.h/4 do
 		xvel = xvel -10
 
@@ -47,13 +50,15 @@ function enemies:add_delta()
 			gfx = gfx or nil,
 			score = 120,
 			shield = 80,
+			shieldmax = 80,
 			shieldopacity = 0,
 			shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.8,
-			projectileCycle = 0,
+			projectileCycle = projectileOffset,
 			projectileDelay = 2,
 		})
 		ny = ny + gfx:getHeight()
 		nx = nx + gfx:getWidth()
+		projectileOffset = projectileOffset + 0.25
 	end
 end
 
@@ -73,6 +78,7 @@ function enemies:add_dart()
 		gfx = gfx or nil,
 		score = 120,
 		shield = 40,
+		shieldmax = 40,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
 	})
@@ -99,6 +105,7 @@ function enemies:add_train()
 		gfx = gfx or nil,
 		score = 120,
 		shield = 40,
+		shieldmax = 40,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
 	})
@@ -122,6 +129,7 @@ function enemies:add_tri()
 		gfx = gfx or nil,
 		score = 150,
 		shield = 80,
+		shieldmax = 80,
 		angle = 0,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
@@ -138,6 +146,7 @@ function enemies:add_tri()
 		gfx = gfx or nil,
 		score = 150,
 		shield = 80,
+		shieldmax = 80,
 		angle = 0,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
@@ -153,6 +162,7 @@ function enemies:add_tri()
 		gfx = gfx or nil,
 		score = 150,
 		shield = 80,
+		shieldmax = 80,
 		angle = 0,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
@@ -176,6 +186,7 @@ function enemies:add_large()
 		gfx = gfx or nil,
 		score = 630,
 		shield = 500,
+		shieldmax = 500,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.2
 	})
@@ -242,7 +253,7 @@ function enemies:update(dt)
 					g = 220,
 					b = 150,
 				})
-			
+				
 				e.projectileCycle = e.projectileDelay
 			end
 		end
@@ -357,8 +368,24 @@ function enemies:draw()
 			)
 			enemies:drawshield(e)
 		end
-		
+	end
 	
+	--draw this on top everything else
+	for _, e in pairs (self.wave) do
+		local x = math.floor(e.x)
+		local y = math.floor(e.y)
+		
+		--health bar
+		local barheight = 6
+		love.graphics.setColor(40,40,40,50)
+		love.graphics.rectangle("fill", x+e.w/1.5/4,y-20,e.w/1.5,barheight)
+		
+		
+		love.graphics.setColor(55,155,155,50)
+		love.graphics.rectangle("fill", x+e.w/1.5/4,y-20,(e.shield/e.shieldmax)*(e.w/1.5),barheight)
+		
+		love.graphics.setColor(155,255,255,50)
+		love.graphics.rectangle("line", x+e.w/1.5/4,y-20,e.w/1.5,barheight)
 		
 		if debug then
 			love.graphics.setColor(255,255,255,255)

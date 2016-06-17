@@ -29,7 +29,7 @@ function love.conf(t)
 	t.window.height = 1080
 	t.modules.joystick = false
 	t.modules.physics = false
-	t.window.fsaa = 8
+	t.window.fsaa = 0
 	t.window.resizable = false
 	t.window.vsync = false
 	t.window.fullscreen = true
