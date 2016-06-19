@@ -98,8 +98,16 @@ function hud:draw()
 	
   --hud
 	--decor / lines
-	love.graphics.setColor(155,255,255,50)
+	--love.graphics.setColor(155,255,255,50)
 	
+	--dynamic decor/lines
+	love.graphics.setColor(
+		starfield.nebulae.red,
+		starfield.nebulae.green,
+		starfield.nebulae.blue,
+		50
+	)
+
 	--left side
 	love.graphics.line(
 		60,love.graphics.getHeight()-20,
@@ -224,22 +232,29 @@ function hud:draw()
 	love.graphics.print("score: " .. hud.score, 10+hud.display.w/4,hud.display.h-10)
 		
 
+
+		
 	--shield bar
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.print("shield", 10+hud.display.w/4*2,hud.display.h-10)
-	love.graphics.setColor(100,200,100,100)
+		love.graphics.setColor(100,200,100,100)
 	love.graphics.rectangle("fill", 65+hud.display.w/4*2,hud.display.h-5,hud.display.w/8, hud.display.h/3)
 	love.graphics.setColor(100,200,100,155)
 	love.graphics.rectangle("fill", 65+hud.display.w/4*2,hud.display.h-5,ship.shield/ship.shieldmax*(hud.display.w/8), hud.display.h/3)
+	
+			love.graphics.setColor(155,255,255,50)
+		love.graphics.rectangle("line", 65+hud.display.w/4*2,hud.display.h-5,hud.display.w/8, hud.display.h/3)
 		
 	--energy bar
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.print("energy", 10+hud.display.w/4*3,hud.display.h-10)
-	love.graphics.setColor(100,190,200,100)
+		love.graphics.setColor(100,200,100,100)
 	love.graphics.rectangle("fill", 65+hud.display.w/4*3,hud.display.h-5,hud.display.w/8, hud.display.h/3)
 	love.graphics.setColor(100,190,200,155)
 	love.graphics.rectangle("fill", 65+hud.display.w/4*3,hud.display.h-5,ship.energy/ship.energymax*(hud.display.w/8), hud.display.h/3)
 		
+			love.graphics.setColor(155,255,255,50)
+		love.graphics.rectangle("line", 65+hud.display.w/4*3,hud.display.h-5,hud.display.w/8, hud.display.h/3)
 
 	
 	love.graphics.setFont(fonts.default)
@@ -248,6 +263,7 @@ function hud:draw()
 	love.graphics.setCanvas()
 
 	love.graphics.setColor(255,255,255,255)
+	
 	love.graphics.draw(hud.display.canvas, 
 		love.graphics.getWidth()/2-hud.display.w/2,
 		love.graphics.getHeight()-hud.display.h-hud.display.offset

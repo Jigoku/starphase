@@ -39,9 +39,9 @@ starfield.nebulae.max = 16
 starfield.nebulae.size = 512
 starfield.nebulae.quads = { }
 starfield.nebulae.quads['nebula'] = { }
-starfield.nebulae.r = 255
-starfield.nebulae.g = 255
-starfield.nebulae.b = 255
+starfield.nebulae.red = 0
+starfield.nebulae.green = 255
+starfield.nebulae.blue = 255
 
 local jy = 0
 local jx = 0
@@ -98,7 +98,7 @@ function starfield:addobject(x,y)
 	--dense star
 	if type == 0 then
 		velocity = math.random(40,70) 
-		gfx = starfield.dense_star
+		gfx = self.dense_star
 		r = math.random (100,255)
 		g = math.random (100,255)
 		b = math.random (100,255)
@@ -106,11 +106,11 @@ function starfield:addobject(x,y)
 	end
 	--nebula
 	if type == 1 then
-		velocity = 40
-		gfx = starfield.nebulae.quads['nebula'][math.random(starfield.nebulae.min,starfield.nebulae.max)]
-		r = starfield.nebulae.r
-		g = starfield.nebulae.g
-		b = starfield.nebulae.b
+		velocity = 20
+		gfx = self.nebulae.quads['nebula'][math.random(self.nebulae.min,self.nebulae.max)]
+		r = self.nebulae.red
+		g = self.nebulae.green
+		b = self.nebulae.blue
 		o = math.random(40,100)
 	end
 	
@@ -141,8 +141,8 @@ function starfield:update(dt)
 	--populate starfield
 	if #self.objects < self.limit then
 		self:addobject(
-			starfield.w,
-			math.random(starfield.h)
+			self.w,
+			math.random(self.h)
 		)
 	end
 	
@@ -158,7 +158,7 @@ function starfield:update(dt)
 		o.x = o.x - (o.velocity *dt)
 		
 		if  o.type == 1 then
-			if o.x < -starfield.nebulae.size then
+			if o.x < -self.nebulae.size then
 				table.remove(self.objects, i)
 			end
 					
