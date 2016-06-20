@@ -103,9 +103,8 @@ end
 function love.update(dt)
 	--cap fps
 
-		game.next_time = game.next_time + game.min_dt
+	game.next_time = game.next_time + game.min_dt
  
-	
 
 	--process arcade game mode
 	if mode == "arcade" then

@@ -24,6 +24,13 @@ projectiles.cannon.sound = {}
 projectiles.cannon.sound.shoot = love.audio.newSource("sfx/projectiles/shoot.wav", "static")
 projectiles.cannon.sound.shoot:setVolume(0.3)
 
+projectiles.beam = {}
+projectiles.beam.gfx = love.graphics.newImage("gfx/projectiles/beam.png")
+projectiles.beam.damage = 5
+projectiles.beam.sound = {}
+projectiles.beam.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.wav", "static")
+projectiles.beam.sound.shoot:setVolume(0.2)
+
 function projectiles:update(dt)
 	if paused then return end
 	--process projectiles movement
@@ -34,6 +41,10 @@ function projectiles:update(dt)
 		--player projectiles
 		if p.player then
 			if p.type == "cannon" then
+				p.x = p.x + math.floor(p.xvel *dt)
+			end
+			
+			if p.type == "beam" then
 				p.x = p.x + math.floor(p.xvel *dt)
 			end
 			
@@ -71,8 +82,17 @@ function projectiles:draw()
 
 
 		if p.player then
-			love.graphics.setColor(p.r,p.g,p.b,255)
+
 			if p.type == "cannon" then
+				love.graphics.setColor(p.r,p.g,p.b,255)
+				love.graphics.draw(
+					p.gfx,  p.x, 
+					p.y, 0, 1, 1				
+				)
+			end
+			
+			if p.type == "beam" then
+				love.graphics.setColor(p.r,p.g,p.b,55)
 				love.graphics.draw(
 					p.gfx,  p.x, 
 					p.y, 0, 1, 1				
@@ -85,7 +105,7 @@ function projectiles:draw()
 				p.y, 0, -1, 1,p.w				
 			)
 		end
-		
+		--[[
 		if debug then
 			love.graphics.setColor(p.r,p.g,p.b,140)			
 			love.graphics.rectangle(
@@ -96,6 +116,6 @@ function projectiles:draw()
 				p.h
 			)
 		end
-		
+		--]]
 	end
 end

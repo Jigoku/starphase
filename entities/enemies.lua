@@ -312,6 +312,7 @@ function enemies:update(dt)
 		if e.shield <= 0 then
 			table.remove(self.wave, i)
 			local rand = math.random(0,10)
+			--local rand = 9
 			if rand > 8 then
 				pickups:add(e.x+e.w/2,e.y+e.h/2)
 			end

@@ -43,9 +43,18 @@ starfield.nebulae.red = 0
 starfield.nebulae.green = 255
 starfield.nebulae.blue = 255
 
+-- colour themes
+--
+-- orange 		255,155,55
+-- green/blue 	0,255,255
+-- red 			255,55,55
+-- pink 		255,100,255
+-- blue/orange 	100,100,255
+
 local jy = 0
 local jx = 0
-for n=1,starfield.nebulae.max do		
+for n=1,starfield.nebulae.max do
+	--load the sprites from a spritesheet 
 	starfield.nebulae.quads['nebula'][n] = starfield.nebulae.quad(
 		jx, 
 		jy, 
@@ -104,6 +113,7 @@ function starfield:addobject(x,y)
 		b = math.random (100,255)
 		o = velocity
 	end
+	
 	--nebula
 	if type == 1 then
 		velocity = 20
@@ -119,7 +129,6 @@ function starfield:addobject(x,y)
 		velocity = 1500
 	end
 	
-		
 	table.insert(self.objects, {
 		x = x,
 		y = y,
@@ -243,12 +252,12 @@ function starfield:draw(x,y)
 
 	end
 	
-if mode == "arcade" then
-	pickups:draw()
-	ship:draw()
-	enemies:draw()
-	projectiles:draw()
-end
+	if mode == "arcade" then
+		pickups:draw()
+		ship:draw()
+		enemies:draw()
+		projectiles:draw()
+	end
 
 
 	

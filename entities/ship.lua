@@ -38,7 +38,7 @@ function ship:init(shipsel)
 	ship.h = ship.gfx:getHeight()
 	ship.shield = 100
 	ship.shieldmax = 100
-	ship.energy = 60
+	ship.energy = 100
 	ship.energymax = 100
 	ship.speed = 1500
 	ship.speedmax = 3000
@@ -46,6 +46,9 @@ function ship:init(shipsel)
 	ship.lives = 3
 	ship.projectileCycle = 0
 	ship.projectileDelay = 0.14
+	ship.secondaryCycle = 0
+	ship.secondaryDelay = 0.05
+	
 	ship.respawnCycle = 3
 	ship.respawnDelay = 3
 	ship.alive = true
@@ -177,7 +180,37 @@ function ship:update(dt)
 		end
 	end
 
-	
+	if love.keyboard.isDown(binds.special) and self.energy > 0 then
+		self.secondaryCycle = math.max(0, self.secondaryCycle - dt)
+		
+		if self.secondaryCycle <= 0 then
+			if projectiles.beam.sound.shoot:isPlaying() then
+				projectiles.beam.sound.shoot:stop()
+			end
+			projectiles.beam.sound.shoot:play()
+		
+		
+			self.energy = self.energy -200*dt
+			
+			table.insert(projectiles.missiles, {
+				player = true,
+				type = "beam",
+				gfx = projectiles.beam.gfx,
+				w = projectiles.beam.gfx:getWidth(),
+				h = projectiles.beam.gfx:getHeight(),
+				x = self.x + self.gfx:getWidth(),
+				y = self.y + self.gfx:getHeight()/2-(projectiles.beam.gfx:getHeight()/2),
+				xvel = 900,
+				yvel = 0,
+				damage = projectiles.beam.damage,
+				r = 255,
+				g = 100,
+				b = 255,
+			})
+			self.secondaryCycle = self.secondaryDelay
+		end
+			
+	end
 	
 	if love.keyboard.isDown(binds.shoot) or love.mouse.isDown("l") then
 
@@ -214,6 +247,8 @@ function ship:update(dt)
 				g = math.random(150,255),
 				b = math.random(150,255),
 			})
+			
+
 		
 			self.projectileCycle = self.projectileDelay
 		end
@@ -234,7 +269,7 @@ function ship:update(dt)
 		ship.lives = ship.lives -1
 		if ship.lives < 0 then music:play(2) end
 	end
-	
+	if self.energy < 0 then self.energy = 0 end
 
 end
 
