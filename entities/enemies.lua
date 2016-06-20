@@ -48,7 +48,7 @@ function enemies:add_delta()
 			yvel = 30,
 			xvel = xvel,
 			gfx = gfx or nil,
-			score = 120,
+			score = 80,
 			shield = 80,
 			shieldmax = 80,
 			shieldopacity = 0,
@@ -60,6 +60,29 @@ function enemies:add_delta()
 		nx = nx + gfx:getWidth()
 		projectileOffset = projectileOffset + 0.25
 	end
+end
+
+function enemies:add_abomination()
+
+	local gfx = love.graphics.newImage("gfx/starship/8_large.png")
+	
+	table.insert(self.wave, {
+		type = "abomination",
+		w = gfx:getWidth(),
+		h = gfx:getHeight(),
+		x = starfield.w,
+		y = player.y+starfield.offset/2+math.random(-200,200),
+		yvel = 0,
+		xvel = 50,
+		gfx = gfx or nil,
+		score = 2600,
+		shield = 2600,
+		shieldmax = 2600,
+		shieldopacity = 0,
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
+	})
+
+
 end
 
 function enemies:add_dart()
@@ -76,7 +99,7 @@ function enemies:add_dart()
 		yvel = 0,
 		xvel = math.random(500,600),
 		gfx = gfx or nil,
-		score = 120,
+		score = 40,
 		shield = 40,
 		shieldmax = 40,
 		shieldopacity = 0,
@@ -103,7 +126,7 @@ function enemies:add_train()
 		yvel = math.random(-20,20),
 		xvel = 600,
 		gfx = gfx or nil,
-		score = 120,
+		score = 40,
 		shield = 40,
 		shieldmax = 40,
 		shieldopacity = 0,
@@ -127,7 +150,7 @@ function enemies:add_tri()
 		yvel = math.random(-50,50),
 		xvel = 340,
 		gfx = gfx or nil,
-		score = 150,
+		score = 80,
 		shield = 80,
 		shieldmax = 80,
 		angle = 0,
@@ -144,7 +167,7 @@ function enemies:add_tri()
 		yvel = math.random(0,50),
 		xvel = 330,
 		gfx = gfx or nil,
-		score = 150,
+		score = 80,
 		shield = 80,
 		shieldmax = 80,
 		angle = 0,
@@ -160,7 +183,7 @@ function enemies:add_tri()
 		yvel = math.random(-50,0),
 		xvel = 330,
 		gfx = gfx or nil,
-		score = 150,
+		score = 80,
 		shield = 80,
 		shieldmax = 80,
 		angle = 0,
@@ -184,7 +207,7 @@ function enemies:add_large()
 		yvel = 0,
 		xvel = 150,
 		gfx = gfx or nil,
-		score = 630,
+		score = 500,
 		shield = 500,
 		shieldmax = 500,
 		shieldopacity = 0,
@@ -203,7 +226,7 @@ function enemies:update(dt)
 		
 	if enemies.waveCycle <= 0 then
 	
-		local rand = math.random(0,4)
+		local rand = math.random(0,5)
 		if rand == 0 then
 			self:add_dart()
 		end
@@ -218,6 +241,9 @@ function enemies:update(dt)
 		end
 		if rand == 4 then
 			self:add_train()
+		end
+		if rand == 5 then
+			self:add_abomination()
 		end
 		enemies.waveCycle = math.random(0.5,2)
 	end
