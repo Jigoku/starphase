@@ -89,10 +89,16 @@ function projectiles:draw()
 			end
 			
 			if p.type == "beam" then
-				love.graphics.setColor(p.r,p.g,p.b,55)
+				love.graphics.setColor(p.r,p.g,p.b,100)
 				love.graphics.draw(
 					p.gfx,  p.x, 
 					p.y, 0, 1, 1				
+				)
+				love.graphics.setColor(p.r,p.g,p.b,55)
+
+				love.graphics.draw(
+					p.gfx,  p.x-p.w, 
+					p.y, 0, 1, 1
 				)
 			end
 		elseif not p.player then

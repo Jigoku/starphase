@@ -19,7 +19,6 @@ player.sounds = {}
 player.cannon = {}
 player.cannon.switch = false -- alternating sides
 
-
 function player:init(playersel)
 	player.type = playersel
 	player.gfx = love.graphics.newImage("gfx/starship/"..player.type.."_small.png") -- default
@@ -152,10 +151,7 @@ function player:update(dt)
 
 	for i,p in ipairs(pickups.items) do
 		if player.alive and collision:check(p.x,p.y,p.w,p.h,player.x,player.y,player.w,player.h) then
-			if pickups.sound:isPlaying() then
-				pickups.sound:stop()
-			end
-			pickups.sound:play()
+			sound:play(pickups.sound)
 			
 			if 		   p.type == 1 then player.shield = player.shield + 20
 				elseif p.type == 2 then player.energy = player.energy + 20
@@ -277,7 +273,7 @@ function player:shootSecondary(dt)
 				damage = projectiles.beam.damage,
 				r = 255,
 				g = 100,
-				b = 255,
+				b = 155,
 			})
 			self.secondaryCycle = self.secondaryDelay
 		end
