@@ -72,7 +72,7 @@ function enemies:add_dart()
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		x = starfield.w,
-		y = ship.y+starfield.offset/2+math.random(-200,200),
+		y = player.y+starfield.offset/2+math.random(-200,200),
 		yvel = 0,
 		xvel = math.random(500,600),
 		gfx = gfx or nil,
@@ -123,7 +123,7 @@ function enemies:add_tri()
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		x = starfield.w,
-		y = ship.y+starfield.offset/2+rand,
+		y = player.y+starfield.offset/2+rand,
 		yvel = math.random(-50,50),
 		xvel = 340,
 		gfx = gfx or nil,
@@ -140,7 +140,7 @@ function enemies:add_tri()
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		x = starfield.w+gfx:getWidth(),
-		y = ship.y+starfield.offset/2-gfx:getHeight()/2+rand,
+		y = player.y+starfield.offset/2-gfx:getHeight()/2+rand,
 		yvel = math.random(0,50),
 		xvel = 330,
 		gfx = gfx or nil,
@@ -156,7 +156,7 @@ function enemies:add_tri()
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		x = starfield.w+gfx:getWidth(),
-		y = ship.y+starfield.offset/2+gfx:getHeight()/2+rand,
+		y = player.y+starfield.offset/2+gfx:getHeight()/2+rand,
 		yvel = math.random(-50,0),
 		xvel = 330,
 		gfx = gfx or nil,
@@ -180,7 +180,7 @@ function enemies:add_large()
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		x = starfield.w,
-		y = ship.y+starfield.offset/2+math.random(-200,200),
+		y = player.y+starfield.offset/2+math.random(-200,200),
 		yvel = 0,
 		xvel = 150,
 		gfx = gfx or nil,
@@ -231,7 +231,7 @@ function enemies:update(dt)
 	
 	
 		if e.angle then
-			e.angle = math.atan2(ship.y+ship.h/2-e.h/2 - e.y, ship.x+ship.w/2-e.w/2 - e.x)
+			e.angle = math.atan2(player.y+player.h/2-e.h/2 - e.y, player.x+player.w/2-e.w/2 - e.x)
 		end
 				
 		if e.projectileCycle then
@@ -272,12 +272,12 @@ function enemies:update(dt)
 	
 		
 		
-		if collision:check(e.x,e.y,e.w,e.h, ship.x,ship.y,ship.w,ship.h) then
-			if ship.alive then
+		if collision:check(e.x,e.y,e.w,e.h, player.x,player.y,player.w,player.h) then
+			if player.alive then
 				table.remove(enemies.wave, i)
 				
 				if not cheats.invincible then
-					ship.shield = ship.shield - 20
+					player.shield = player.shield - 20
 				end
 				
 				sound:play(enemies.sound.explode)
@@ -337,7 +337,7 @@ function enemies:draw()
 		local y = math.floor(e.y)
 	
 		if e.angle then
-			--rotating face to ship
+			--rotating face to player
 			love.graphics.push()
 
 			love.graphics.translate(e.x+e.w/2,e.y+e.h/2)

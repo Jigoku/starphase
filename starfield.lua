@@ -156,7 +156,7 @@ function starfield:update(dt)
 	end
 	
 	if mode == "arcade" then
-		self.offset = ship.y
+		self.offset = player.y
 	end
 	
 	--process object movement
@@ -254,7 +254,7 @@ function starfield:draw(x,y)
 	
 	if mode == "arcade" then
 		pickups:draw()
-		ship:draw()
+		player:draw()
 		enemies:draw()
 		projectiles:draw()
 	end

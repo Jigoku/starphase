@@ -13,64 +13,64 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
-ship = {}
-ship.sounds = {}
+player = {}
+player.sounds = {}
 
-ship.cannon = {}
-ship.cannon.switch = false -- alternating sides
+player.cannon = {}
+player.cannon.switch = false -- alternating sides
 
 
-function ship:init(shipsel)
-	ship.type = shipsel
-	ship.gfx = love.graphics.newImage("gfx/starship/"..ship.type.."_small.png") -- default
+function player:init(playersel)
+	player.type = playersel
+	player.gfx = love.graphics.newImage("gfx/starship/"..player.type.."_small.png") -- default
 
-	ship.x = love.graphics.getWidth()/3
-	ship.y = love.graphics.getHeight()/2-ship.gfx:getHeight()/2
-	ship.w = ship.gfx:getWidth()
-	ship.h = ship.gfx:getHeight()
-	ship.shield = 100
-	ship.shieldmax = 100
-	ship.energy = 100
-	ship.energymax = 100
-	ship.speed = 1500
-	ship.speedmax = 3000
+	player.x = love.graphics.getWidth()/3
+	player.y = love.graphics.getHeight()/2-player.gfx:getHeight()/2
+	player.w = player.gfx:getWidth()
+	player.h = player.gfx:getHeight()
+	player.shield = 100
+	player.shieldmax = 100
+	player.energy = 100
+	player.energymax = 100
+	player.speed = 1500
+	player.speedmax = 3000
 	
-	ship.lives = 3
-	ship.projectileCycle = 0
-	ship.projectileDelay = 0.14
-	ship.secondaryCycle = 0
-	ship.secondaryDelay = 0.05
+	player.lives = 3
+	player.projectileCycle = 0
+	player.projectileDelay = 0.14
+	player.secondaryCycle = 0
+	player.secondaryDelay = 0.05
 	
-	ship.respawnCycle = 3
-	ship.respawnDelay = 3
-	ship.alive = true
-	ship.float = 2
-	ship.maxvel = 400
-	ship.xvel = 0
-	ship.yvel = 0
-	ship.idle = true
-	ship.invincible = false
+	player.respawnCycle = 3
+	player.respawnDelay = 3
+	player.alive = true
+	player.float = 2
+	player.maxvel = 400
+	player.xvel = 0
+	player.yvel = 0
+	player.idle = true
+	player.invincible = false
 	
-	if cheats.invincible then ship.invincible = true end
+	if cheats.invincible then player.invincible = true end
 end
 
 
 
-function ship:update(dt)
+function player:update(dt)
 	if paused then return end
 	self.idle = true
 	
 	
-	if not ship.alive then 
+	if not player.alive then 
 			self.respawnCycle = math.max(0, self.respawnCycle - dt)
 			if self.respawnCycle <= 0 then
 				self.respawnCycle = self.respawnDelay
 				
-				if ship.lives < 0 then
+				if player.lives < 0 then
 					title:init()
 				else
 					self.alive = true
-					ship.shield = ship.shieldmax
+					player.shield = player.shieldmax
 				end
 			end
 		return
@@ -102,7 +102,7 @@ function ship:update(dt)
 				self.yvel = self.yvel - (self.speed/self.float) *dt
 				if self.yvel < 0 then self.yvel = 0 end
 				
-			elseif ship.yvel < 0 then
+			elseif player.yvel < 0 then
 				self.yvel = self.yvel + (self.speed/self.float) *dt
 				if self.yvel > 0 then self.yvel = 0 end
 			end
@@ -151,21 +151,21 @@ function ship:update(dt)
 	
 
 	for i,p in ipairs(pickups.items) do
-		if ship.alive and collision:check(p.x,p.y,p.w,p.h,ship.x,ship.y,ship.w,ship.h) then
+		if player.alive and collision:check(p.x,p.y,p.w,p.h,player.x,player.y,player.w,player.h) then
 			if pickups.sound:isPlaying() then
 				pickups.sound:stop()
 			end
 			pickups.sound:play()
 			
-			if 		   p.type == 1 then ship.shield = ship.shield + 20
-				elseif p.type == 2 then ship.energy = ship.energy + 20
-				elseif p.type == 3 then ship.speed = ship.speed + 200
+			if 		   p.type == 1 then player.shield = player.shield + 20
+				elseif p.type == 2 then player.energy = player.energy + 20
+				elseif p.type == 3 then player.speed = player.speed + 200
 				elseif p.type == 4 then --
 			end
 			
-			if ship.shield > ship.shieldmax then ship.shield = ship.shieldmax	end
-			if ship.energy > ship.energymax then ship.energy = ship.energymax	end
-			if ship.speed > ship.speedmax then ship.speed = ship.speedmax	end
+			if player.shield > player.shieldmax then player.shield = player.shieldmax	end
+			if player.energy > player.energymax then player.energy = player.energymax	end
+			if player.speed > player.speedmax then player.speed = player.speedmax	end
 
 			
 			table.remove(pickups.items, i)
@@ -184,20 +184,20 @@ function ship:update(dt)
 	end	
 	
 	
-	if ship.shield <= 0 then
-		ship.shield = 0
+	if player.shield <= 0 then
+		player.shield = 0
 		self.alive = false
-		ship.lives = ship.lives -1
-		if ship.lives < 0 then sound:playbgm(2) end
+		player.lives = player.lives -1
+		if player.lives < 0 then sound:playbgm(2) end
 	end
 	if self.energy < 0 then self.energy = 0 end
 
 end
 
-function ship:draw()
+function player:draw()
 
 
-	if not ship.alive then return end
+	if not player.alive then return end
 	love.graphics.push()
 
 	love.graphics.setColor(255,255,255,255)
@@ -219,16 +219,16 @@ end
 
 
 
-function ship:shootPrimary(dt)
+function player:shootPrimary(dt)
 	self.projectileCycle = math.max(0, self.projectileCycle - dt)
 		
 	if self.projectileCycle <= 0 then
 		sound:play(projectiles.cannon.sound.shoot)
 		
-		ship.cannon.switch = not ship.cannon.switch
+		player.cannon.switch = not player.cannon.switch
 		
 		local yswitch
-		if ship.cannon.switch then
+		if player.cannon.switch then
 			yswitch = self.y + self.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2 -28
 		else
 			yswitch = self.y + self.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2 +28
@@ -255,7 +255,7 @@ function ship:shootPrimary(dt)
 end
 
 
-function ship:shootSecondary(dt)
+function player:shootSecondary(dt)
 	if self.energy > 0 then 
 		self.secondaryCycle = math.max(0, self.secondaryCycle - dt)
 		

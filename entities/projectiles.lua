@@ -59,10 +59,10 @@ function projectiles:update(dt)
 			end
 			
 			if not cheats.invincible then
-			if ship.alive and collision:check(p.x,p.y,p.w,p.h, ship.x,ship.y,ship.w,ship.h) then
+			if player.alive and collision:check(p.x,p.y,p.w,p.h, player.x,player.y,player.w,player.h) then
 					 
 				table.remove(self.missiles, i)
-				ship.shield = ship.shield - projectiles.cannon.damage
+				player.shield = player.shield - projectiles.cannon.damage
 				sound:play(enemies.sound.explode)
 					
 		

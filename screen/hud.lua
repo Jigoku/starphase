@@ -185,11 +185,11 @@ function hud:draw()
 	--lives (temporary)
 
 	love.graphics.printf("lives: ", love.graphics.getWidth()/2,60,0,"center",0,1,1)
-	for i=1,ship.lives do
+	for i=1,player.lives do
 		love.graphics.setColor(100,190,200,100)
 		love.graphics.rectangle("fill", 25*i+love.graphics.getWidth()/2,50, 20,20)
 		love.graphics.setColor(255,255,255,255)
-		love.graphics.draw(ship.gfx,25*i+love.graphics.getWidth()/2,50,0,0.2,0.2)
+		love.graphics.draw(player.gfx,25*i+love.graphics.getWidth()/2,50,0,0.2,0.2)
 	end
 	
 	--display 
@@ -240,7 +240,7 @@ function hud:draw()
 		love.graphics.setColor(100,200,100,100)
 	love.graphics.rectangle("fill", 65+hud.display.w/4*2,hud.display.h-5,hud.display.w/8, hud.display.h/3)
 	love.graphics.setColor(100,200,100,155)
-	love.graphics.rectangle("fill", 65+hud.display.w/4*2,hud.display.h-5,ship.shield/ship.shieldmax*(hud.display.w/8), hud.display.h/3)
+	love.graphics.rectangle("fill", 65+hud.display.w/4*2,hud.display.h-5,player.shield/player.shieldmax*(hud.display.w/8), hud.display.h/3)
 	
 			love.graphics.setColor(155,255,255,50)
 		love.graphics.rectangle("line", 65+hud.display.w/4*2,hud.display.h-5,hud.display.w/8, hud.display.h/3)
@@ -251,7 +251,7 @@ function hud:draw()
 		love.graphics.setColor(100,200,100,100)
 	love.graphics.rectangle("fill", 65+hud.display.w/4*3,hud.display.h-5,hud.display.w/8, hud.display.h/3)
 	love.graphics.setColor(100,190,200,155)
-	love.graphics.rectangle("fill", 65+hud.display.w/4*3,hud.display.h-5,ship.energy/ship.energymax*(hud.display.w/8), hud.display.h/3)
+	love.graphics.rectangle("fill", 65+hud.display.w/4*3,hud.display.h-5,player.energy/player.energymax*(hud.display.w/8), hud.display.h/3)
 		
 			love.graphics.setColor(155,255,255,50)
 		love.graphics.rectangle("line", 65+hud.display.w/4*3,hud.display.h-5,hud.display.w/8, hud.display.h/3)
@@ -314,13 +314,13 @@ function hud:drawconsole()
 		love.graphics.line(hud.console.x+10,hud.console.y+60, hud.console.x+500,hud.console.y+60)
 
 
-		--ship info
+		--player info
 		love.graphics.setColor(100,190,200,255)
-		love.graphics.print("ship yvel: " .. math.round(ship.yvel,4),hud.console.x+10,hud.console.y+70)
-		love.graphics.print("ship xvel: " .. math.round(ship.xvel,4),hud.console.x+10,hud.console.y+90)
-		love.graphics.print("ship posx: " .. math.round(ship.x,4),hud.console.x+10,hud.console.y+110)
-		love.graphics.print("ship posy: " .. math.round(ship.y,4),hud.console.x+10,hud.console.y+130)
-		love.graphics.print("ship idle: " .. tostring(ship.idle),hud.console.x+10,hud.console.y+150)
+		love.graphics.print("player yvel: " .. math.round(player.yvel,4),hud.console.x+10,hud.console.y+70)
+		love.graphics.print("player xvel: " .. math.round(player.xvel,4),hud.console.x+10,hud.console.y+90)
+		love.graphics.print("player posx: " .. math.round(player.x,4),hud.console.x+10,hud.console.y+110)
+		love.graphics.print("player posy: " .. math.round(player.y,4),hud.console.x+10,hud.console.y+130)
+		love.graphics.print("player idle: " .. tostring(player.idle),hud.console.x+10,hud.console.y+150)
 		
 		
 		--divider

@@ -18,7 +18,7 @@ require("screen/hud")
 require("screen/fonts")
 require("entities/pickups")
 require("entities/enemies")
-require("entities/ship")
+require("entities/player")
 require("entities/projectiles")
 require("misc")
 require("binds")
@@ -80,7 +80,7 @@ end
 
 
 --test function
-function initarcade(shipsel)
+function initarcade(playersel)
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
 	paused = false
@@ -90,7 +90,7 @@ function initarcade(shipsel)
 	starfield.nebulae.r = 0
 	starfield.nebulae.g = 255
 	starfield.nebulae.b = 255
-	ship:init(shipsel)
+	player:init(playersel)
 	starfield.speed = 1.3
 	starfield:populate()
 	hud:init()
@@ -111,7 +111,7 @@ function love.update(dt)
 		starfield:update(dt)
 		projectiles:update(dt)
 		enemies:update(dt)
-		ship:update(dt)
+		player:update(dt)
 		pickups:update(dt)
 		hud:update(dt)
 	end
@@ -134,7 +134,7 @@ function love.draw()
 	
 	--draw arcade game
 	if mode == "arcade" then
-		starfield:draw(0,-ship.y/4)
+		starfield:draw(0,-player.y/4)
 
 		hud:draw()
 	end
