@@ -305,7 +305,7 @@ function hud:drawconsole()
 
 		
 		love.graphics.setColor(200,100,100,255)
-		love.graphics.print("music track: " .. tostring(music.track) .." ("..tostring(music[music.track])..")",hud.console.x+10,hud.console.y+30)
+		love.graphics.print("bgm: #" .. tostring(sound.bgmtrack) .." ("..tostring(sound.music[sound.bgmtrack])..")",hud.console.x+10,hud.console.y+30)
 		
 	
 		if mode == "arcade" then

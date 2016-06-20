@@ -280,10 +280,7 @@ function enemies:update(dt)
 					ship.shield = ship.shield - 20
 				end
 				
-				if enemies.sound.explode:isPlaying() then
-					enemies.sound.explode:stop()
-				end
-				enemies.sound.explode:play()
+				sound:play(enemies.sound.explode)
 			end
 		end
 		
@@ -300,10 +297,7 @@ function enemies:update(dt)
 						
 						table.remove(projectiles.missiles, z)
 				
-						if enemies.sound.hit:isPlaying() then
-							enemies.sound.hit:stop()
-						end
-						enemies.sound.hit:play()
+						sound:play(enemies.sound.hit)
 				
 				end
 			end
@@ -317,10 +311,8 @@ function enemies:update(dt)
 				pickups:add(e.x+e.w/2,e.y+e.h/2)
 			end
 			
-			if enemies.sound.explode:isPlaying() then
-					enemies.sound.explode:stop()
-			end
-			enemies.sound.explode:play()
+			sound:play(enemies.sound.explode)
+
 			
 			hud.score = hud.score + e.score
 		end

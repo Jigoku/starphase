@@ -24,7 +24,7 @@ require("misc")
 require("binds")
 require("starfield")
 require("collision")
-require("music")
+require("sound")
 
 
 
@@ -95,7 +95,7 @@ function initarcade(shipsel)
 	starfield:populate()
 	hud:init()
 	
-	music:play(math.random(3,#music))
+	sound:playbgm(math.random(3,#sound.music))
 
 
 end

@@ -66,7 +66,7 @@ function title:init()
 	starfield:populate()
 	love.graphics.setBackgroundColor(0,0,0,255)
 	
-	music:play(1)
+	sound:playbgm(1)
 end
 
 function title:update(dt)

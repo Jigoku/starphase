@@ -63,10 +63,7 @@ function projectiles:update(dt)
 					 
 				table.remove(self.missiles, i)
 				ship.shield = ship.shield - projectiles.cannon.damage
-				if enemies.sound.explode:isPlaying() then
-					enemies.sound.explode:stop()
-				end
-				enemies.sound.explode:play()
+				sound:play(enemies.sound.explode)
 					
 		
 			end

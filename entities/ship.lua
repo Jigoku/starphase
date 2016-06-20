@@ -188,7 +188,7 @@ function ship:update(dt)
 		ship.shield = 0
 		self.alive = false
 		ship.lives = ship.lives -1
-		if ship.lives < 0 then music:play(2) end
+		if ship.lives < 0 then sound:playbgm(2) end
 	end
 	if self.energy < 0 then self.energy = 0 end
 
@@ -223,10 +223,7 @@ function ship:shootPrimary(dt)
 	self.projectileCycle = math.max(0, self.projectileCycle - dt)
 		
 	if self.projectileCycle <= 0 then
-		if projectiles.cannon.sound.shoot:isPlaying() then
-			projectiles.cannon.sound.shoot:stop()
-		end
-		projectiles.cannon.sound.shoot:play()
+		sound:play(projectiles.cannon.sound.shoot)
 		
 		ship.cannon.switch = not ship.cannon.switch
 		
@@ -263,10 +260,7 @@ function ship:shootSecondary(dt)
 		self.secondaryCycle = math.max(0, self.secondaryCycle - dt)
 		
 		if self.secondaryCycle <= 0 then
-			if projectiles.beam.sound.shoot:isPlaying() then
-				projectiles.beam.sound.shoot:stop()
-			end
-			projectiles.beam.sound.shoot:play()
+			sound:play(projectiles.beam.sound.shoot)
 		
 			self.energy = self.energy -200*dt
 			
