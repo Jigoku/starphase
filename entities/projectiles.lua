@@ -26,7 +26,7 @@ projectiles.cannon.sound.shoot:setVolume(0.3)
 
 projectiles.beam = {}
 projectiles.beam.gfx = love.graphics.newImage("gfx/projectiles/beam.png")
-projectiles.beam.damage = 5
+projectiles.beam.damage = 7
 projectiles.beam.sound = {}
 projectiles.beam.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.wav", "static")
 projectiles.beam.sound.shoot:setVolume(0.2)

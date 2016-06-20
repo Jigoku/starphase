@@ -16,16 +16,8 @@
 ship = {}
 ship.sounds = {}
 
-
-
-
 ship.cannon = {}
 ship.cannon.switch = false -- alternating sides
-
-
-
-
-
 
 
 function ship:init(shipsel)
@@ -180,88 +172,17 @@ function ship:update(dt)
 		end
 	end
 
-	if love.keyboard.isDown(binds.special) and self.energy > 0 then
-		self.secondaryCycle = math.max(0, self.secondaryCycle - dt)
-		
-		if self.secondaryCycle <= 0 then
-			if projectiles.beam.sound.shoot:isPlaying() then
-				projectiles.beam.sound.shoot:stop()
-			end
-			projectiles.beam.sound.shoot:play()
-		
-		
-			self.energy = self.energy -200*dt
-			
-			table.insert(projectiles.missiles, {
-				player = true,
-				type = "beam",
-				gfx = projectiles.beam.gfx,
-				w = projectiles.beam.gfx:getWidth(),
-				h = projectiles.beam.gfx:getHeight(),
-				x = self.x + self.gfx:getWidth(),
-				y = self.y + self.gfx:getHeight()/2-(projectiles.beam.gfx:getHeight()/2),
-				xvel = 900,
-				yvel = 0,
-				damage = projectiles.beam.damage,
-				r = 255,
-				g = 100,
-				b = 255,
-			})
-			self.secondaryCycle = self.secondaryDelay
-		end
-			
+
+	if love.keyboard.isDown(binds.shoot) 
+	or love.mouse.isDown("l") then
+		self:shootPrimary(dt)
 	end
-	
-	if love.keyboard.isDown(binds.shoot) or love.mouse.isDown("l") then
 
-		
-		self.projectileCycle = math.max(0, self.projectileCycle - dt)
-		
-		if self.projectileCycle <= 0 then
-			if projectiles.cannon.sound.shoot:isPlaying() then
-				projectiles.cannon.sound.shoot:stop()
-			end
-			projectiles.cannon.sound.shoot:play()
-		
-			ship.cannon.switch = not ship.cannon.switch
-		
-			local yswitch
-			if ship.cannon.switch then
-				yswitch = self.y + self.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2 -28
-			else
-				yswitch = self.y + self.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2 +28
-			end
-			
-			table.insert(projectiles.missiles, {
-				player = true,
-				type = "cannon",
-				gfx = projectiles.cannon.gfx,
-				w = projectiles.cannon.gfx:getWidth(),
-				h = projectiles.cannon.gfx:getHeight(),
-				x = self.x + self.gfx:getWidth()/2,
-				y = yswitch,
-				xvel = 1000,
-				yvel = 0,
-				damage = projectiles.cannon.damage,
-				r = math.random(150,255),
-				g = math.random(150,255),
-				b = math.random(150,255),
-			})
-			
-
-		
-			self.projectileCycle = self.projectileDelay
-		end
-	end
+	if love.keyboard.isDown(binds.special) 
+	or love.mouse.isDown("r") then
+		self:shootSecondary(dt)
+	end	
 	
-	
-	if love.keyboard.isDown(binds.special) then
-
-	end
-	
-	
-
-
 	
 	if ship.shield <= 0 then
 		ship.shield = 0
@@ -294,4 +215,77 @@ function ship:draw()
 	
 	love.graphics.pop()
 
+end
+
+
+
+function ship:shootPrimary(dt)
+	self.projectileCycle = math.max(0, self.projectileCycle - dt)
+		
+	if self.projectileCycle <= 0 then
+		if projectiles.cannon.sound.shoot:isPlaying() then
+			projectiles.cannon.sound.shoot:stop()
+		end
+		projectiles.cannon.sound.shoot:play()
+		
+		ship.cannon.switch = not ship.cannon.switch
+		
+		local yswitch
+		if ship.cannon.switch then
+			yswitch = self.y + self.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2 -28
+		else
+			yswitch = self.y + self.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2 +28
+		end
+			
+		table.insert(projectiles.missiles, {
+			player = true,
+			type = "cannon",
+			gfx = projectiles.cannon.gfx,
+			w = projectiles.cannon.gfx:getWidth(),
+			h = projectiles.cannon.gfx:getHeight(),
+			x = self.x + self.gfx:getWidth()/2,
+			y = yswitch,
+			xvel = 1000,
+			yvel = 0,
+			damage = projectiles.cannon.damage,
+			r = math.random(150,255),
+			g = math.random(150,255),
+			b = math.random(150,255),
+		})
+		
+		self.projectileCycle = self.projectileDelay
+	end
+end
+
+
+function ship:shootSecondary(dt)
+	if self.energy > 0 then 
+		self.secondaryCycle = math.max(0, self.secondaryCycle - dt)
+		
+		if self.secondaryCycle <= 0 then
+			if projectiles.beam.sound.shoot:isPlaying() then
+				projectiles.beam.sound.shoot:stop()
+			end
+			projectiles.beam.sound.shoot:play()
+		
+			self.energy = self.energy -200*dt
+			
+			table.insert(projectiles.missiles, {
+				player = true,
+				type = "beam",
+				gfx = projectiles.beam.gfx,
+				w = projectiles.beam.gfx:getWidth(),
+				h = projectiles.beam.gfx:getHeight(),
+				x = self.x + self.gfx:getWidth(),
+				y = self.y + self.gfx:getHeight()/2-(projectiles.beam.gfx:getHeight()/2),
+				xvel = 900,
+				yvel = 0,
+				damage = projectiles.beam.damage,
+				r = 255,
+				g = 100,
+				b = 255,
+			})
+			self.secondaryCycle = self.secondaryDelay
+		end
+	end		
 end
