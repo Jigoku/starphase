@@ -58,11 +58,7 @@ function love.load(args)
 	game = {}
 	game.width, game.height, game.flags = love.window.getMode( )
 
-	
-	if game.flags.vsync then
-		game.max_fps = game.flags.refreshrate		
-	end
-	
+	game.max_fps = game.flags.refreshrate		
 	game.min_dt = 1/game.max_fps
 	game.next_time = love.timer.getTime()
 	
@@ -98,11 +94,10 @@ end
 
 function love.update(dt)
 	--cap fps
-	if game.flags.vsync then
+
 		dt = math.min(dt, game.min_dt)
 		game.next_time = game.next_time + game.min_dt
-	end
-
+	
 	--process arcade game mode
 	if mode == "arcade" then
 		starfield:update(dt)
@@ -147,14 +142,14 @@ function love.draw()
 	
 
 	-- caps fps
-	if game.flags.vsync then
+
 		local cur_time = love.timer.getTime()
 		if game.next_time <= cur_time then
 			game.next_time = cur_time
 			return
 		end
 		love.timer.sleep(game.next_time - cur_time)
-	end
+
 end
 
 

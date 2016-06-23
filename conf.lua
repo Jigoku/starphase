@@ -31,7 +31,7 @@ function love.conf(t)
 	t.modules.physics = false
 	t.window.fsaa = 0
 	t.window.resizable = false
-	t.window.vsync = false
+	t.window.vsync = true
 	t.window.fullscreen = true
 	t.window.fullscreentype = "normal"
 	t.window.icon = "gfx/icon.png"
