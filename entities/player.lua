@@ -232,7 +232,7 @@ function player:shootPrimary(dt)
 			
 		table.insert(projectiles.missiles, {
 			player = true,
-			type = "cannon",
+			type = "cannon3",
 			gfx = projectiles.cannon.gfx,
 			w = projectiles.cannon.gfx:getWidth(),
 			h = projectiles.cannon.gfx:getHeight(),

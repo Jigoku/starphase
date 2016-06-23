@@ -18,7 +18,7 @@ projectiles = {}
 projectiles.missiles = {}
 
 projectiles.cannon = {}
-projectiles.cannon.gfx = love.graphics.newImage("gfx/projectiles/cannon.png")
+projectiles.cannon.gfx = love.graphics.newImage("gfx/projectiles/cannon3.png")
 projectiles.cannon.damage = 30
 projectiles.cannon.sound = {}
 projectiles.cannon.sound.shoot = love.audio.newSource("sfx/projectiles/shoot.wav", "static")
@@ -40,13 +40,31 @@ function projectiles:update(dt)
 		
 		--player projectiles
 		if p.player then
+
+			
 			if p.type == "cannon" then
-				p.x = p.x + math.floor(p.xvel *dt)
+				--[[
+				
+				--]]
+			end
+			
+			if p.type == "cannon2" then
+				--[[
+				
+				--]]
+			end
+			
+			if p.type == "cannon3" then
+				self:rotate(p, math.random(4,10), dt)
 			end
 			
 			if p.type == "beam" then
-				p.x = p.x + math.floor(p.xvel *dt)
+				--[[
+				
+				--]]
 			end
+			
+			p.x = p.x + math.floor(p.xvel *dt)
 			
 			if p.x + p.w > starfield.w + p.w then
 				table.remove(self.missiles, i)
@@ -54,7 +72,7 @@ function projectiles:update(dt)
 		--enemy projectiles
 		elseif not p.player then
 			p.x = p.x - math.floor(p.xvel *dt)
-			if p.x - p.w < 0 then
+			if p.x + p.w < 0 then
 				table.remove(self.missiles, i)
 			end
 			
@@ -70,6 +88,9 @@ function projectiles:update(dt)
 			end
 		end
 		
+		
+
+		
 	end
 end
 
@@ -78,6 +99,8 @@ function projectiles:draw()
 	for _, p in ipairs (projectiles.missiles) do
 
 
+		love.graphics.push()
+
 		if p.player then
 
 			if p.type == "cannon" then
@@ -85,6 +108,18 @@ function projectiles:draw()
 				love.graphics.draw(
 					p.gfx,  math.floor(p.x), 
 					math.floor(p.y), 0, 1, 1				
+				)
+			end
+			
+			if p.type == "cannon3" then
+				love.graphics.setColor(p.r,p.g,p.b,255)
+				
+				love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
+				love.graphics.rotate(p.rotation or 0)
+				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
+				love.graphics.draw(
+					p.gfx,  math.floor(p.x), 
+					math.floor(p.y),  0, 1, 1
 				)
 			end
 			
@@ -117,5 +152,13 @@ function projectiles:draw()
 			)
 		end
 		
+		love.graphics.pop()
 	end
+end
+
+
+function projectiles:rotate(projectile, amount, dt)
+		if not projectile.rotation then projectile.rotation = 0 end
+		projectile.rotation = projectile.rotation + dt * amount
+		projectile.rotation = projectile.rotation % (2*math.pi)
 end
