@@ -83,27 +83,29 @@ function projectiles:draw()
 			if p.type == "cannon" then
 				love.graphics.setColor(p.r,p.g,p.b,255)
 				love.graphics.draw(
-					p.gfx,  p.x, 
-					p.y, 0, 1, 1				
+					p.gfx,  math.floor(p.x), 
+					math.floor(p.y), 0, 1, 1				
 				)
 			end
 			
 			if p.type == "beam" then
 				love.graphics.setColor(p.r,p.g,p.b,150)
 				love.graphics.draw(
-					p.gfx,  p.x, 
-					p.y, 0, 1, 1				
+					p.gfx,  math.floor(p.x), 
+					math.floor(p.y), 0, 1, 1				
 				)
 
 			end
 		elseif not p.player then
-			love.graphics.setColor(p.r,p.g,p.b,255)
-			love.graphics.draw(
-				p.gfx,  p.x, 
-				p.y, 0, -1, 1,p.w				
-			)
+			if p.type == "cannon" then
+				love.graphics.setColor(p.r,p.g,p.b,255)
+				love.graphics.draw(
+					p.gfx,  math.floor(p.x), 
+					math.floor(p.y), 0, -1, 1,p.w
+				)
+			end
 		end
-		--[[
+		
 		if debug then
 			love.graphics.setColor(p.r,p.g,p.b,140)			
 			love.graphics.rectangle(
@@ -114,6 +116,6 @@ function projectiles:draw()
 				p.h
 			)
 		end
-		--]]
+		
 	end
 end

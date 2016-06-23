@@ -83,7 +83,7 @@ function initarcade(playersel)
 	starfield.nebulae.g = 255
 	starfield.nebulae.b = 255
 	player:init(playersel)
-	starfield.speed = 1.3
+	starfield.speed = 1.5
 	starfield:populate()
 	hud:init()
 	

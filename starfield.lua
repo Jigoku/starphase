@@ -125,7 +125,7 @@ function starfield:addobject(x,y)
 	end
 	
 	--debris
-	if type > 1 and type < 6 then
+	if type > 1 and type < 8 then
 		velocity = 1500
 	end
 	
@@ -243,7 +243,7 @@ function starfield:draw(x,y)
 		end
 			
 		--debris
-		if o.type > 1 and o.type < 6 then
+		if o.type > 1 and o.type < 8 then
 			love.graphics.setColor(255,255,255,20)
 			love.graphics.line(o.x,o.y, o.x+150,o.y)
 		end

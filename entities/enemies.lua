@@ -270,8 +270,8 @@ function enemies:update(dt)
 					gfx = projectiles.cannon.gfx,
 					w = projectiles.cannon.gfx:getWidth(),
 					h = projectiles.cannon.gfx:getHeight(),
-					x = e.x + e.gfx:getWidth()/2,
-					y = e.y + e.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2,
+					x = e.x + e.gfx:getWidth()/2 - projectiles.cannon.gfx:getWidth(),
+					y = e.y + e.gfx:getHeight()/2 - projectiles.cannon.gfx:getHeight()/2,
 					xvel = 800,
 					yvel = 0,
 					damage = projectiles.cannon.damage,
@@ -411,8 +411,8 @@ function enemies:draw()
 			love.graphics.print("x:"..x, x-10,y-10)
 			love.graphics.print("y:".. y, x-10,y)
 			
-			love.graphics.print("score : "..e.score, x-10,y+10)
-			love.graphics.print("shield: "..e.shield, x-10,y+20)
+			love.graphics.print("shield: "..e.shield .. "/" ..e.shieldmax, x-10,y+10)
+			
 			love.graphics.setColor(255,155,255,155)
 			love.graphics.rectangle("line", x,y, e.w, e.h)
 		end
