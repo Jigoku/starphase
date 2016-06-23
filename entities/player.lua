@@ -18,6 +18,8 @@ player.sounds = {}
 
 player.cannon = {}
 player.cannon.switch = false -- alternating sides
+player.plasma = {}
+player.plasma.switch = false
 
 function player:init(playersel)
 	player.type = playersel
@@ -35,10 +37,15 @@ function player:init(playersel)
 	player.speedmax = 3000
 	
 	player.lives = 3
-	player.projectileCycle = 0
-	player.projectileDelay = 0.14
-	player.secondaryCycle = 0
-	player.secondaryDelay = 0.05
+	
+	player.cannonCycle = 0
+	player.cannonDelay = 0.14
+	player.blasterCycle = 0
+	player.blasterDelay = 0.25
+	player.plasmaCycle = 0
+	player.plasmaDelay = 0.5
+	player.beamCycle = 0
+	player.beamDelay = 0.05
 	
 	player.respawnCycle = 3
 	player.respawnDelay = 3
@@ -171,12 +178,15 @@ function player:update(dt)
 
 	if love.keyboard.isDown(binds.shoot) 
 	or love.mouse.isDown("l") then
-		self:shootPrimary(dt)
+		self:fireCannon(dt)
+		self:firePlasma(dt)
+		self:fireBlaster(dt)
+		-- remove these once done testing (obtained by pickups)
 	end
 
 	if love.keyboard.isDown(binds.special) 
 	or love.mouse.isDown("r") then
-		self:shootSecondary(dt)
+			self:fireBeam(dt)
 	end	
 	
 	
@@ -213,69 +223,114 @@ function player:draw()
 
 end
 
-
-
-function player:shootPrimary(dt)
-	self.projectileCycle = math.max(0, self.projectileCycle - dt)
+function player:fireCannon(dt)
+	self.cannonCycle = math.max(0, self.cannonCycle - dt)
 		
-	if self.projectileCycle <= 0 then
+	if self.cannonCycle <= 0 then
 		sound:play(projectiles.cannon.sound.shoot)
 		
 		player.cannon.switch = not player.cannon.switch
-		
-		local yswitch
-		if player.cannon.switch then
-			yswitch = self.y + self.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2 -28
-		else
-			yswitch = self.y + self.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2 +28
-		end
 			
 		table.insert(projectiles.missiles, {
 			player = true,
-			type = "cannon3",
+			type = "cannon",
 			gfx = projectiles.cannon.gfx,
 			w = projectiles.cannon.gfx:getWidth(),
 			h = projectiles.cannon.gfx:getHeight(),
 			x = self.x + self.gfx:getWidth()/2,
-			y = yswitch,
-			xvel = 1000,
+			y = self.y + self.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2 +(player.cannon.switch and -28 or 28),
+			xvel = 900,
 			yvel = 0,
 			damage = projectiles.cannon.damage,
 			r = math.random(150,255),
 			g = math.random(150,255),
 			b = math.random(150,255),
 		})
-		
-		self.projectileCycle = self.projectileDelay
+		self.cannonCycle = self.cannonDelay
 	end
 end
 
 
-function player:shootSecondary(dt)
-	
-		self.secondaryCycle = math.max(0, self.secondaryCycle - dt)
+function player:fireBlaster(dt)
+	self.blasterCycle = math.max(0, self.blasterCycle - dt)
 		
-		if self.secondaryCycle <= 0 and self.energy > 0 then
-			sound:play(projectiles.beam.sound.shoot)
-		
-			self.energy = self.energy - 3
+	if self.blasterCycle <= 0 then
+		sound:play(projectiles.blaster.sound.shoot)
 			
-			table.insert(projectiles.missiles, {
-				player = true,
-				type = "beam",
-				gfx = projectiles.beam.gfx,
-				w = projectiles.beam.gfx:getWidth(),
-				h = projectiles.beam.gfx:getHeight(),
-				x = self.x + self.gfx:getWidth(),
-				y = self.y + self.gfx:getHeight()/2-(projectiles.beam.gfx:getHeight()/2),
-				xvel = 900,
-				yvel = 0,
-				damage = projectiles.beam.damage,
-				r = 0,
-				g = 155,
-				b = 255,
-			})
-			self.secondaryCycle = self.secondaryDelay
+		table.insert(projectiles.missiles, {
+			player = true,
+			type = "blaster",
+			gfx = projectiles.blaster.gfx,
+			w = projectiles.blaster.gfx:getWidth(),
+			h = projectiles.blaster.gfx:getHeight(),
+			x = self.x + self.gfx:getWidth()/2,
+			y = self.y + self.gfx:getHeight()/2-(projectiles.blaster.gfx:getHeight()/2),
+			xvel = 1000,
+			yvel = 0,
+			damage = projectiles.blaster.damage,
+			r = 0,
+			g = 255,
+			b = 140,
+		})
+		self.blasterCycle = self.blasterDelay
+	end
+end
+
+function player:firePlasma(dt)
+
+	self.plasmaCycle = math.max(0, self.plasmaCycle - dt)
 		
+	if self.plasmaCycle <= 0 then
+		sound:play(projectiles.plasma.sound.shoot)
+		
+		player.plasma.switch = not player.plasma.switch
+		
+		table.insert(projectiles.missiles, {
+			player = true,
+			type = "plasma",
+			gfx = projectiles.plasma.gfx,
+			w = projectiles.plasma.gfx:getWidth(),
+			h = projectiles.plasma.gfx:getHeight(),
+			x = self.x + self.gfx:getWidth()/2,
+			y = self.y + self.gfx:getHeight()/2-projectiles.plasma.gfx:getHeight()/2 +(player.plasma.switch and -28 or 28),
+			xvel = 750,
+			yvel = 0,
+			damage = projectiles.plasma.damage,
+			r = 100,
+			g = 230,
+			b = 250,
+		})
+		
+		self.plasmaCycle = self.plasmaDelay
+	end
+
+end
+
+
+function player:fireBeam(dt)
+	
+	self.beamCycle = math.max(0, self.beamCycle - dt)
+		
+	if self.beamCycle <= 0 and self.energy > 0 then
+		sound:play(projectiles.beam.sound.shoot)
+		
+		self.energy = self.energy - 3
+			
+		table.insert(projectiles.missiles, {
+			player = true,
+			type = "beam",
+			gfx = projectiles.beam.gfx,
+			w = projectiles.beam.gfx:getWidth(),
+			h = projectiles.beam.gfx:getHeight(),
+			x = self.x + self.gfx:getWidth(),
+			y = self.y + self.gfx:getHeight()/2-(projectiles.beam.gfx:getHeight()/2),
+			xvel = 900,
+			yvel = 0,
+			damage = projectiles.beam.damage,
+			r = 0,
+			g = 155,
+			b = 255,
+		})
+		self.beamCycle = self.beamDelay
 	end		
 end

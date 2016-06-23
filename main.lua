@@ -41,7 +41,7 @@ function love.load(args)
 	debug = false
 	
 	cheats = {
-		invincible = true,
+		invincible = false,
 	}
 	
 	--parse command line arguments to the game

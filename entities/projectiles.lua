@@ -18,14 +18,28 @@ projectiles = {}
 projectiles.missiles = {}
 
 projectiles.cannon = {}
-projectiles.cannon.gfx = love.graphics.newImage("gfx/projectiles/cannon3.png")
-projectiles.cannon.damage = 30
+projectiles.cannon.gfx = love.graphics.newImage("gfx/projectiles/cannon.png")
+projectiles.cannon.damage = 20
 projectiles.cannon.sound = {}
 projectiles.cannon.sound.shoot = love.audio.newSource("sfx/projectiles/shoot.wav", "static")
 projectiles.cannon.sound.shoot:setVolume(0.3)
 
+projectiles.blaster = {}
+projectiles.blaster.gfx = love.graphics.newImage("gfx/projectiles/blaster.png")
+projectiles.blaster.damage = 20
+projectiles.blaster.sound = {}
+projectiles.blaster.sound.shoot = love.audio.newSource("sfx/projectiles/shoot.wav", "static")
+projectiles.blaster.sound.shoot:setVolume(0.3)
+
+projectiles.plasma = {}
+projectiles.plasma.gfx = love.graphics.newImage("gfx/projectiles/plasma.png")
+projectiles.plasma.damage = 35
+projectiles.plasma.sound = {}
+projectiles.plasma.sound.shoot = love.audio.newSource("sfx/projectiles/shoot.wav", "static")
+projectiles.plasma.sound.shoot:setVolume(0.3)
+
 projectiles.beam = {}
-projectiles.beam.gfx = love.graphics.newImage("gfx/projectiles/beam2.png")
+projectiles.beam.gfx = love.graphics.newImage("gfx/projectiles/beam.png")
 projectiles.beam.damage = 7
 projectiles.beam.sound = {}
 projectiles.beam.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.wav", "static")
@@ -43,28 +57,23 @@ function projectiles:update(dt)
 
 			
 			if p.type == "cannon" then
-				--[[
-				
-				--]]
+				p.x = p.x + math.floor(p.xvel *dt)
 			end
 			
-			if p.type == "cannon2" then
-				--[[
-				
-				--]]
+			if p.type == "blaster" then
+				p.x = p.x + math.floor(p.xvel *dt)
 			end
 			
-			if p.type == "cannon3" then
-				self:rotate(p, math.random(4,10), dt)
+			if p.type == "plasma" then
+				self:rotate(p, 15, dt)
+				p.x = p.x + math.floor(p.xvel *dt)
 			end
 			
 			if p.type == "beam" then
-				--[[
-				
-				--]]
+				p.x = p.x + math.floor(p.xvel *dt)
 			end
+		
 			
-			p.x = p.x + math.floor(p.xvel *dt)
 			
 			if p.x + p.w > starfield.w + p.w then
 				table.remove(self.missiles, i)
@@ -80,7 +89,7 @@ function projectiles:update(dt)
 			if player.alive and collision:check(p.x,p.y,p.w,p.h, player.x,player.y,player.w,player.h) then
 					 
 				table.remove(self.missiles, i)
-				player.shield = player.shield - projectiles.cannon.damage
+				player.shield = player.shield - p.damage
 				sound:play(enemies.sound.explode)
 					
 		
@@ -99,7 +108,7 @@ function projectiles:draw()
 	for _, p in ipairs (projectiles.missiles) do
 
 
-		love.graphics.push()
+
 
 		if p.player then
 
@@ -111,9 +120,17 @@ function projectiles:draw()
 				)
 			end
 			
-			if p.type == "cannon3" then
+			if p.type == "blaster" then
 				love.graphics.setColor(p.r,p.g,p.b,255)
-				
+				love.graphics.draw(
+					p.gfx,  math.floor(p.x), 
+					math.floor(p.y), 0, 1, 1				
+				)
+			end
+			
+			if p.type == "plasma" then
+				love.graphics.push()
+				love.graphics.setColor(p.r,p.g,p.b,255)
 				love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
 				love.graphics.rotate(p.rotation or 0)
 				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
@@ -121,6 +138,7 @@ function projectiles:draw()
 					p.gfx,  math.floor(p.x), 
 					math.floor(p.y),  0, 1, 1
 				)
+				love.graphics.pop()
 			end
 			
 			if p.type == "beam" then
@@ -152,7 +170,6 @@ function projectiles:draw()
 			)
 		end
 		
-		love.graphics.pop()
 	end
 end
 
@@ -162,3 +179,4 @@ function projectiles:rotate(projectile, amount, dt)
 		projectile.rotation = projectile.rotation + dt * amount
 		projectile.rotation = projectile.rotation % (2*math.pi)
 end
+
