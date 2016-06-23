@@ -41,7 +41,7 @@ function love.load(args)
 	debug = false
 	
 	cheats = {
-		invincible = false,
+		invincible = true,
 	}
 	
 	--parse command line arguments to the game
@@ -58,18 +58,14 @@ function love.load(args)
 	game = {}
 	game.width, game.height, game.flags = love.window.getMode( )
 
-
 	
-	--display configuration
-
-		game.max_fps = 200
-		game.min_dt = 1/game.max_fps
-		game.next_time = love.timer.getTime()
-
-
-
-
-
+	if game.flags.vsync then
+		game.max_fps = game.flags.refreshrate		
+	end
+	
+	game.min_dt = 1/game.max_fps
+	game.next_time = love.timer.getTime()
+	
 	
 	cursor = love.mouse.newCursor( "gfx/cursor.png", 0, 0 )
 	love.mouse.setCursor(cursor)	
@@ -102,9 +98,10 @@ end
 
 function love.update(dt)
 	--cap fps
-
-	game.next_time = game.next_time + game.min_dt
- 
+	if game.flags.vsync then
+		dt = math.min(dt, game.min_dt)
+		game.next_time = game.next_time + game.min_dt
+	end
 
 	--process arcade game mode
 	if mode == "arcade" then
@@ -150,14 +147,14 @@ function love.draw()
 	
 
 	-- caps fps
-
+	if game.flags.vsync then
 		local cur_time = love.timer.getTime()
 		if game.next_time <= cur_time then
 			game.next_time = cur_time
 			return
 		end
 		love.timer.sleep(game.next_time - cur_time)
-
+	end
 end
 
 

@@ -252,13 +252,13 @@ end
 
 
 function player:shootSecondary(dt)
-	if self.energy > 0 then 
+	
 		self.secondaryCycle = math.max(0, self.secondaryCycle - dt)
 		
-		if self.secondaryCycle <= 0 then
+		if self.secondaryCycle <= 0 and self.energy > 0 then
 			sound:play(projectiles.beam.sound.shoot)
 		
-			self.energy = self.energy -200*dt
+			self.energy = self.energy - 3
 			
 			table.insert(projectiles.missiles, {
 				player = true,
@@ -276,6 +276,6 @@ function player:shootSecondary(dt)
 				b = 155,
 			})
 			self.secondaryCycle = self.secondaryDelay
-		end
+		
 	end		
 end
