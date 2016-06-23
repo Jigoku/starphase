@@ -271,9 +271,9 @@ function player:shootSecondary(dt)
 				xvel = 900,
 				yvel = 0,
 				damage = projectiles.beam.damage,
-				r = 255,
-				g = 100,
-				b = 155,
+				r = 0,
+				g = 155,
+				b = 255,
 			})
 			self.secondaryCycle = self.secondaryDelay
 		
