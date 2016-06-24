@@ -39,7 +39,7 @@ function love.load(args)
 	HEIGHT=1080
 
 	debug = false
-	
+	debugarcade = false
 	cheats = {
 		invincible = false,
 	}
@@ -76,7 +76,7 @@ function initarcade(playersel)
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
 	paused = false
-	
+	debugarcade = false
 	mode = "arcade"
 	love.graphics.setBackgroundColor(0,255,0,255)
 	starfield.nebulae.r = 0
@@ -88,9 +88,13 @@ function initarcade(playersel)
 	hud:init()
 	
 	sound:playbgm(math.random(3,#sound.music))
-
-
 end
+
+function initdebugarcade(playersel)
+	initarcade(playersel)
+	debugarcade = true
+end
+
 
 function love.update(dt)
 	--cap fps

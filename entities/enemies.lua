@@ -219,7 +219,8 @@ end
 
 
 function enemies:update(dt)
-	if paused then return end
+	
+	if paused or debugarcade then return end
 
 
 	enemies.waveCycle = math.max(0, enemies.waveCycle - dt)
@@ -321,7 +322,9 @@ function enemies:update(dt)
 						e.shield = e.shield - p.damage
 						e.shieldopacity = 100
 						
-						table.remove(projectiles.missiles, z)
+						if not p.collide then
+							table.remove(projectiles.missiles, z)
+						end
 				
 						sound:play(enemies.sound.hit)
 				
@@ -331,9 +334,9 @@ function enemies:update(dt)
 		
 		if e.shield <= 0 then
 			table.remove(self.wave, i)
-			local rand = math.random(0,10)
+			local rand = math.random(0,13)
 			--local rand = 9
-			if rand > 8 then
+			if rand > 12 then
 				pickups:add(e.x+e.w/2,e.y+e.h/2)
 			end
 			

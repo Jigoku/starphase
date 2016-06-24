@@ -45,7 +45,7 @@ function player:init(playersel)
 	player.plasmaCycle = 0
 	player.plasmaDelay = 0.5
 	player.beamCycle = 0
-	player.beamDelay = 0.05
+	player.beamDelay = 0.01
 	
 	player.respawnCycle = 3
 	player.respawnDelay = 3
@@ -239,7 +239,7 @@ function player:fireCannon(dt)
 			h = projectiles.cannon.gfx:getHeight(),
 			x = self.x + self.gfx:getWidth()/2,
 			y = self.y + self.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2 +(player.cannon.switch and -28 or 28),
-			xvel = 900,
+			xvel = 2000,
 			yvel = 0,
 			damage = projectiles.cannon.damage,
 			r = math.random(150,255),
@@ -265,7 +265,7 @@ function player:fireBlaster(dt)
 			h = projectiles.blaster.gfx:getHeight(),
 			x = self.x + self.gfx:getWidth()/2,
 			y = self.y + self.gfx:getHeight()/2-(projectiles.blaster.gfx:getHeight()/2),
-			xvel = 1000,
+			xvel = 1250,
 			yvel = 0,
 			damage = projectiles.blaster.damage,
 			r = 0,
@@ -314,17 +314,18 @@ function player:fireBeam(dt)
 	if self.beamCycle <= 0 and self.energy > 0 then
 		sound:play(projectiles.beam.sound.shoot)
 		
-		self.energy = self.energy - 3
+		--self.energy = self.energy - 3
 			
 		table.insert(projectiles.missiles, {
 			player = true,
+			collide = true, -- whether particle dissapears on collision
 			type = "beam",
 			gfx = projectiles.beam.gfx,
 			w = projectiles.beam.gfx:getWidth(),
 			h = projectiles.beam.gfx:getHeight(),
 			x = self.x + self.gfx:getWidth(),
 			y = self.y + self.gfx:getHeight()/2-(projectiles.beam.gfx:getHeight()/2),
-			xvel = 900,
+			xvel = 700,
 			yvel = 0,
 			damage = projectiles.beam.damage,
 			r = 0,

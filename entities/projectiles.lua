@@ -19,28 +19,28 @@ projectiles.missiles = {}
 
 projectiles.cannon = {}
 projectiles.cannon.gfx = love.graphics.newImage("gfx/projectiles/cannon.png")
-projectiles.cannon.damage = 20
+projectiles.cannon.damage = 10
 projectiles.cannon.sound = {}
 projectiles.cannon.sound.shoot = love.audio.newSource("sfx/projectiles/shoot.wav", "static")
 projectiles.cannon.sound.shoot:setVolume(0.3)
 
 projectiles.blaster = {}
 projectiles.blaster.gfx = love.graphics.newImage("gfx/projectiles/blaster.png")
-projectiles.blaster.damage = 20
+projectiles.blaster.damage = 15
 projectiles.blaster.sound = {}
-projectiles.blaster.sound.shoot = love.audio.newSource("sfx/projectiles/shoot.wav", "static")
+projectiles.blaster.sound.shoot = love.audio.newSource("sfx/projectiles/shoot3.wav", "static")
 projectiles.blaster.sound.shoot:setVolume(0.3)
 
 projectiles.plasma = {}
 projectiles.plasma.gfx = love.graphics.newImage("gfx/projectiles/plasma.png")
-projectiles.plasma.damage = 35
+projectiles.plasma.damage = 20
 projectiles.plasma.sound = {}
-projectiles.plasma.sound.shoot = love.audio.newSource("sfx/projectiles/shoot.wav", "static")
+projectiles.plasma.sound.shoot = love.audio.newSource("sfx/projectiles/shoot4.wav", "static")
 projectiles.plasma.sound.shoot:setVolume(0.3)
 
 projectiles.beam = {}
 projectiles.beam.gfx = love.graphics.newImage("gfx/projectiles/beam.png")
-projectiles.beam.damage = 7
+projectiles.beam.damage = 0.1
 projectiles.beam.sound = {}
 projectiles.beam.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.wav", "static")
 projectiles.beam.sound.shoot:setVolume(0.2)
@@ -142,10 +142,16 @@ function projectiles:draw()
 			end
 			
 			if p.type == "beam" then
-				love.graphics.setColor(p.r,p.g,p.b,150)
+				love.graphics.setColor(p.r,p.g,p.b,120)
 				love.graphics.draw(
 					p.gfx,  math.floor(p.x), 
 					math.floor(p.y), 0, 1, 1				
+				)
+	
+				love.graphics.setColor(p.r,p.g,p.b,80)
+				love.graphics.draw(
+					p.gfx,  math.floor(p.x)-p.w/2, 
+					math.floor(p.y), 0, -1, 1				
 				)
 
 			end

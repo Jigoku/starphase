@@ -154,9 +154,9 @@ function title:draw()
 		
 	if title.active == "main" then
 		self:itemselected(0)
-		love.graphics.printf("Arcade mode (test)", 300,100,wrap,"left",0,1,1)
+		love.graphics.printf("Arcade mode", 300,100,wrap,"left",0,1,1)
 		self:itemselected(1)
-		love.graphics.printf("Infinite mode", 300,140,wrap,"left",0,1,1)
+		love.graphics.printf("Debug mode", 300,140,wrap,"left",0,1,1)
 		self:itemselected(2)
 		love.graphics.printf("Settings", 300,180,wrap,"left",0,1,1)
 		self:itemselected(3)
@@ -256,7 +256,7 @@ function title:keypressed(key)
 				
 		if title.active == "main" then
 			if title.menu.selected == 0 then title.active = "ship_selection" title.maxoptions = 3 end
-			if title.menu.selected == 1 then initarcade(3) end
+			if title.menu.selected == 1 then initdebugarcade(3) end
 			if title.menu.selected == 2 then title.active = "settings" title.maxoptions = 3 end
 			if title.menu.selected == 3 then love.event.quit() end
 		elseif title.active == "settings" then
