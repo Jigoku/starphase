@@ -72,7 +72,12 @@ function projectiles:update(dt)
 			if p.type == "beam" then
 				p.x = p.x + math.floor(p.xvel *dt)
 			end
-		
+			
+			if p.type == "radial" then
+				self:rotate(p, 15, dt)
+				p.x = p.x + math.floor(p.xvel *dt)
+				p.y = p.y + math.floor(p.yvel *dt)
+			end
 			
 			
 			if p.x + p.w > starfield.w + p.w then
@@ -128,7 +133,7 @@ function projectiles:draw()
 				)
 			end
 			
-			if p.type == "plasma" then
+			if p.type == "plasma" or p.type == "radial" then
 				love.graphics.push()
 				love.graphics.setColor(p.r,p.g,p.b,255)
 				love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
