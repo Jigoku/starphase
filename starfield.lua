@@ -254,9 +254,10 @@ function starfield:draw(x,y)
 	
 	if mode == "arcade" then
 		pickups:draw()
-		player:draw()
+		
 		enemies:draw()
 		projectiles:draw()
+		player:draw()
 	end
 
 

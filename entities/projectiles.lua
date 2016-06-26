@@ -45,6 +45,13 @@ projectiles.beam.sound = {}
 projectiles.beam.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.wav", "static")
 projectiles.beam.sound.shoot:setVolume(0.2)
 
+projectiles.radial = {}
+projectiles.radial.gfx = love.graphics.newImage("gfx/projectiles/plasma.png")
+projectiles.radial.damage = 55
+projectiles.radial.sound = {}
+projectiles.radial.sound.shoot = love.audio.newSource("sfx/projectiles/shoot5.wav", "static")
+projectiles.radial.sound.shoot:setVolume(1)
+
 function projectiles:update(dt)
 	if paused then return end
 	--process projectiles movement

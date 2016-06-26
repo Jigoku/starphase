@@ -47,7 +47,7 @@ function player:init(playersel)
 	player.beamCycle = 0
 	player.beamDelay = 0.01
 	player.radialCycle = 0
-	player.radialDelay = 0.5
+	player.radialDelay = 1.75
 
 	
 	player.respawnCycle = 3
@@ -59,6 +59,12 @@ function player:init(playersel)
 	player.yvel = 0
 	player.idle = true
 	player.invincible = false
+	
+	--weapon powerups
+		player.hascannon = true
+		player.hasplasma = true
+		player.hasradial = true
+		player.hasblaster = true
 	
 	if cheats.invincible then player.invincible = true end
 end
@@ -181,11 +187,11 @@ function player:update(dt)
 
 	if love.keyboard.isDown(binds.shoot) 
 	or love.mouse.isDown("l") then
-		self:fireCannon(dt)
-		self:firePlasma(dt)
-		self:fireRadial(dt)
-		self:fireBlaster(dt)
-		-- remove these once done testing (obtained by pickups)
+		if player.hascannon then self:fireCannon(dt) end
+		if player.hasplasma then self:firePlasma(dt) end
+		if player.hasradial then self:fireRadial(dt) end
+		if player.hasblaster then self:fireBlaster(dt) end
+		
 	end
 
 	if love.keyboard.isDown(binds.special) 
@@ -284,7 +290,7 @@ function player:fireRadial(dt)
 	self.radialCycle = math.max(0, self.radialCycle - dt)
 		
 	if self.radialCycle <= 0 then
-		sound:play(projectiles.plasma.sound.shoot)
+		sound:play(projectiles.radial.sound.shoot)
 		
 		local r, g, b
 		r = 255
@@ -295,14 +301,14 @@ function player:fireRadial(dt)
 		table.insert(projectiles.missiles, {
 			player = true,
 			type = "radial",
-			gfx = projectiles.plasma.gfx,
-			w = projectiles.plasma.gfx:getWidth(),
-			h = projectiles.plasma.gfx:getHeight(),
-			x = self.x + self.gfx:getWidth()/2-(projectiles.plasma.gfx:getWidth()/2),
-			y = self.y + self.gfx:getHeight()/2-(projectiles.plasma.gfx:getHeight()/2),
+			gfx = projectiles.radial.gfx,
+			w = projectiles.radial.gfx:getWidth(),
+			h = projectiles.radial.gfx:getHeight(),
+			x = self.x + self.gfx:getWidth()/2-(projectiles.radial.gfx:getWidth()/2),
+			y = self.y + self.gfx:getHeight()/2-(projectiles.radial.gfx:getHeight()/2),
 			xvel = 550,
 			yvel = 0,
-			damage = projectiles.plasma.damage,
+			damage = projectiles.radial.damage,
 			r = r,
 			g = g,
 			b = b,
@@ -312,14 +318,14 @@ function player:fireRadial(dt)
 		table.insert(projectiles.missiles, {
 			player = true,
 			type = "radial",
-			gfx = projectiles.plasma.gfx,
-			w = projectiles.plasma.gfx:getWidth(),
-			h = projectiles.plasma.gfx:getHeight(),
-			x = self.x + self.gfx:getWidth()/2-(projectiles.plasma.gfx:getWidth()/2),
-			y = self.y + self.gfx:getHeight()/2-(projectiles.plasma.gfx:getHeight()/2),
+			gfx = projectiles.radial.gfx,
+			w = projectiles.radial.gfx:getWidth(),
+			h = projectiles.radial.gfx:getHeight(),
+			x = self.x + self.gfx:getWidth()/2-(projectiles.radial.gfx:getWidth()/2),
+			y = self.y + self.gfx:getHeight()/2-(projectiles.radial.gfx:getHeight()/2),
 			xvel = -550,
 			yvel = 0,
-			damage = projectiles.plasma.damage,
+			damage = projectiles.radial.damage,
 			r = r,
 			g = g,
 			b = b,
@@ -329,14 +335,14 @@ function player:fireRadial(dt)
 		table.insert(projectiles.missiles, {
 			player = true,
 			type = "radial",
-			gfx = projectiles.plasma.gfx,
-			w = projectiles.plasma.gfx:getWidth(),
-			h = projectiles.plasma.gfx:getHeight(),
-			x = self.x + self.gfx:getWidth()/2-(projectiles.plasma.gfx:getWidth()/2),
-			y = self.y + self.gfx:getHeight()/2-(projectiles.plasma.gfx:getHeight()/2),
+			gfx = projectiles.radial.gfx,
+			w = projectiles.radial.gfx:getWidth(),
+			h = projectiles.radial.gfx:getHeight(),
+			x = self.x + self.gfx:getWidth()/2-(projectiles.radial.gfx:getWidth()/2),
+			y = self.y + self.gfx:getHeight()/2-(projectiles.radial.gfx:getHeight()/2),
 			xvel = 0,
 			yvel = 550,
-			damage = projectiles.plasma.damage,
+			damage = projectiles.radial.damage,
 			r = r,
 			g = g,
 			b = b,
@@ -346,14 +352,14 @@ function player:fireRadial(dt)
 		table.insert(projectiles.missiles, {
 			player = true,
 			type = "radial",
-			gfx = projectiles.plasma.gfx,
-			w = projectiles.plasma.gfx:getWidth(),
-			h = projectiles.plasma.gfx:getHeight(),
-			x = self.x + self.gfx:getWidth()/2-(projectiles.plasma.gfx:getWidth()/2),
-			y = self.y + self.gfx:getHeight()/2-(projectiles.plasma.gfx:getHeight()/2),
+			gfx = projectiles.radial.gfx,
+			w = projectiles.radial.gfx:getWidth(),
+			h = projectiles.radial.gfx:getHeight(),
+			x = self.x + self.gfx:getWidth()/2-(projectiles.radial.gfx:getWidth()/2),
+			y = self.y + self.gfx:getHeight()/2-(projectiles.radial.gfx:getHeight()/2),
 			xvel = 0,
 			yvel = -550,
-			damage = projectiles.plasma.damage,
+			damage = projectiles.radial.damage,
 			r = r,
 			g = g,
 			b = b,
@@ -363,14 +369,14 @@ function player:fireRadial(dt)
 		table.insert(projectiles.missiles, {
 			player = true,
 			type = "radial",
-			gfx = projectiles.plasma.gfx,
-			w = projectiles.plasma.gfx:getWidth(),
-			h = projectiles.plasma.gfx:getHeight(),
-			x = self.x + self.gfx:getWidth()/2-(projectiles.plasma.gfx:getWidth()/2),
-			y = self.y + self.gfx:getHeight()/2-(projectiles.plasma.gfx:getHeight()/2),
+			gfx = projectiles.radial.gfx,
+			w = projectiles.radial.gfx:getWidth(),
+			h = projectiles.radial.gfx:getHeight(),
+			x = self.x + self.gfx:getWidth()/2-(projectiles.radial.gfx:getWidth()/2),
+			y = self.y + self.gfx:getHeight()/2-(projectiles.radial.gfx:getHeight()/2),
 			xvel = 450,
 			yvel = -450,
-			damage = projectiles.plasma.damage,
+			damage = projectiles.radial.damage,
 			r = r,
 			g = g,
 			b = b,
@@ -380,14 +386,14 @@ function player:fireRadial(dt)
 		table.insert(projectiles.missiles, {
 			player = true,
 			type = "radial",
-			gfx = projectiles.plasma.gfx,
-			w = projectiles.plasma.gfx:getWidth(),
-			h = projectiles.plasma.gfx:getHeight(),
-			x = self.x + self.gfx:getWidth()/2-(projectiles.plasma.gfx:getWidth()/2),
-			y = self.y + self.gfx:getHeight()/2-(projectiles.plasma.gfx:getHeight()/2),
+			gfx = projectiles.radial.gfx,
+			w = projectiles.radial.gfx:getWidth(),
+			h = projectiles.radial.gfx:getHeight(),
+			x = self.x + self.gfx:getWidth()/2-(projectiles.radial.gfx:getWidth()/2),
+			y = self.y + self.gfx:getHeight()/2-(projectiles.radial.gfx:getHeight()/2),
 			xvel = 450,
 			yvel = 450,
-			damage = projectiles.plasma.damage,
+			damage = projectiles.radial.damage,
 			r = r,
 			g = g,
 			b = b,
@@ -397,14 +403,14 @@ function player:fireRadial(dt)
 		table.insert(projectiles.missiles, {
 			player = true,
 			type = "radial",
-			gfx = projectiles.plasma.gfx,
-			w = projectiles.plasma.gfx:getWidth(),
-			h = projectiles.plasma.gfx:getHeight(),
-			x = self.x + self.gfx:getWidth()/2-(projectiles.plasma.gfx:getWidth()/2),
-			y = self.y + self.gfx:getHeight()/2-(projectiles.plasma.gfx:getHeight()/2),
+			gfx = projectiles.radial.gfx,
+			w = projectiles.radial.gfx:getWidth(),
+			h = projectiles.radial.gfx:getHeight(),
+			x = self.x + self.gfx:getWidth()/2-(projectiles.radial.gfx:getWidth()/2),
+			y = self.y + self.gfx:getHeight()/2-(projectiles.radial.gfx:getHeight()/2),
 			xvel = -450,
 			yvel = 450,
-			damage = projectiles.plasma.damage,
+			damage = projectiles.radial.damage,
 			r = r,
 			g = g,
 			b = b,
@@ -414,14 +420,14 @@ function player:fireRadial(dt)
 		table.insert(projectiles.missiles, {
 			player = true,
 			type = "radial",
-			gfx = projectiles.plasma.gfx,
-			w = projectiles.plasma.gfx:getWidth(),
-			h = projectiles.plasma.gfx:getHeight(),
-			x = self.x + self.gfx:getWidth()/2-(projectiles.plasma.gfx:getWidth()/2),
-			y = self.y + self.gfx:getHeight()/2-(projectiles.plasma.gfx:getHeight()/2),
+			gfx = projectiles.radial.gfx,
+			w = projectiles.radial.gfx:getWidth(),
+			h = projectiles.radial.gfx:getHeight(),
+			x = self.x + self.gfx:getWidth()/2-(projectiles.radial.gfx:getWidth()/2),
+			y = self.y + self.gfx:getHeight()/2-(projectiles.radial.gfx:getHeight()/2),
 			xvel = -450,
 			yvel = -450,
-			damage = projectiles.plasma.damage,
+			damage = projectiles.radial.damage,
 			r = r,
 			g = g,
 			b = b,
