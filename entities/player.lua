@@ -65,6 +65,9 @@ function player:init(playersel)
 		player.hasplasma = true
 		player.hasradial = true
 		player.hasblaster = true
+		
+
+		
 	
 	if cheats.invincible then player.invincible = true end
 end
@@ -75,6 +78,27 @@ function player:update(dt)
 	if paused then return end
 	self.idle = true
 	
+	
+	if debug then 
+		if love.keyboard.isDown("1") then 
+			self:fireCannon(dt)
+		end
+		if love.keyboard.isDown("2") then 
+			self:fireBlaster(dt)
+		end
+		if love.keyboard.isDown("3") then 
+			self:firePlasma(dt)
+		end
+		if love.keyboard.isDown("4") then 
+			self:fireBeam(dt)
+		end
+		if love.keyboard.isDown("5") then 
+			self:fireRadial(dt)
+		end
+		if love.keyboard.isDown("6") then 
+			self:addBarrier(dt)
+		end
+	end
 	
 	if not player.alive then 
 			self.respawnCycle = math.max(0, self.respawnCycle - dt)
@@ -172,7 +196,7 @@ function player:update(dt)
 			if 		   p.type == 1 then player.shield = player.shield + 20
 				elseif p.type == 2 then player.energy = player.energy + 20
 				elseif p.type == 3 then player.speed = player.speed + 200
-				elseif p.type == 4 then --
+				elseif p.type == 4 then player:addBarrier(dt)
 			end
 			
 			if player.shield > player.shieldmax then player.shield = player.shieldmax	end
@@ -470,6 +494,7 @@ function player:firePlasma(dt)
 end
 
 
+
 function player:fireBeam(dt)
 	
 	self.beamCycle = math.max(0, self.beamCycle - dt)
@@ -497,4 +522,26 @@ function player:fireBeam(dt)
 		})
 		self.beamCycle = self.beamDelay
 	end		
+end
+
+
+
+function player:addBarrier(dt)
+
+	table.insert(projectiles.missiles, {
+		player = true,
+		type = "barrier",
+		gfx = projectiles.barrier.gfx,
+		w = projectiles.barrier.gfx:getWidth(),
+		h = projectiles.barrier.gfx:getHeight(),
+		x = self.x + self.gfx:getWidth()/2,
+		y = self.y + self.gfx:getHeight()/2-projectiles.barrier.gfx:getHeight()/2,
+		xvel = 750,
+		yvel = 0,
+		damage = projectiles.barrier.damage,
+		r = 255,
+		g = 50,
+		b = 100,
+	})
+
 end

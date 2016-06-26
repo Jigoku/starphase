@@ -52,6 +52,11 @@ projectiles.radial.sound = {}
 projectiles.radial.sound.shoot = love.audio.newSource("sfx/projectiles/shoot5.wav", "static")
 projectiles.radial.sound.shoot:setVolume(1)
 
+projectiles.barrier = {}
+projectiles.barrier.gfx = love.graphics.newImage("gfx/projectiles/barrier.png")
+projectiles.barrier.damage = 120
+
+
 function projectiles:update(dt)
 	if paused then return end
 	--process projectiles movement
@@ -86,7 +91,11 @@ function projectiles:update(dt)
 				p.y = p.y + math.floor(p.yvel *dt)
 			end
 			
-			
+			if p.type == "barrier" then
+				self:rotate(p, 10, dt)
+				p.x = 80 * math.cos(p.rotation) + player.x+player.w/2 -p.w/2
+				p.y = 80 * math.sin(p.rotation) + player.y+player.h/2 -p.h/2
+			end
 
 		--enemy projectiles
 		elseif not p.player then
@@ -145,6 +154,19 @@ function projectiles:draw()
 			if p.type == "plasma" or p.type == "radial" then
 				love.graphics.push()
 				love.graphics.setColor(p.r,p.g,p.b,255)
+				love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
+				love.graphics.rotate(p.rotation or 0)
+				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
+				love.graphics.draw(
+					p.gfx,  math.floor(p.x), 
+					math.floor(p.y),  0, 1, 1
+				)
+				love.graphics.pop()
+			end
+			
+			if p.type == "barrier" then
+				love.graphics.push()
+				love.graphics.setColor(p.r,p.g,p.b,140)
 				love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
 				love.graphics.rotate(p.rotation or 0)
 				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
