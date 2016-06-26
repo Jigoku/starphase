@@ -87,15 +87,10 @@ function projectiles:update(dt)
 			end
 			
 			
-			if p.x + p.w > starfield.w + p.w then
-				table.remove(self.missiles, i)
-			end
+
 		--enemy projectiles
 		elseif not p.player then
 			p.x = p.x - math.floor(p.xvel *dt)
-			if p.x + p.w < 0 then
-				table.remove(self.missiles, i)
-			end
 			
 			if not cheats.invincible then
 			if player.alive and collision:check(p.x,p.y,p.w,p.h, player.x,player.y,player.w,player.h) then
@@ -110,7 +105,14 @@ function projectiles:update(dt)
 		end
 		
 		
-
+		if p.x > starfield.w  or
+			p.x + p.w < 0 or
+			p.y + p.h < 0 or
+			p.y > starfield.h 
+		then
+			table.remove(self.missiles, i)
+		
+		end
 		
 	end
 end
