@@ -7,6 +7,8 @@ See `binds.lua` for game controls
 # License
 GNU GPLv3 / CC-BY-SA
 
-# Preview
-![43442](https://cloud.githubusercontent.com/assets/1535179/12787277/a74c4aba-ca8c-11e5-8793-6a788d136e01.jpg)
+# Previews
+![screen13](https://cloud.githubusercontent.com/assets/1535179/16364013/b1c2a9a8-3bd4-11e6-87f6-4dc135a9ab9a.png)
+
+![screen14](https://cloud.githubusercontent.com/assets/1535179/16364012/b19ba15a-3bd4-11e6-992d-d7c99dd5d99c.png)
 
