@@ -294,10 +294,42 @@ function enemies:update(dt)
 			e.shieldopacity = 0
 		end
 		
-		e.x = (e.x - e.xvel *dt)
-		e.y = (e.y - e.yvel *dt)
+
 	
 		
+		-- test basic enemy movements
+		if e.type == "abomination" then
+			if e.x < 1450 and e.xvel >= 0 then
+				e.xvel = e.xvel - 10 *dt
+			
+				
+				if e.xvel <= 0 then 
+					e.xvel = 0 
+				
+					if not e.projectileCycle then
+						e.projectileCycle = 0
+						e.projectileDelay = 1
+					end
+				
+					if player.y + player.h/2 < e.y + e.h/2 then
+						e.yvel = e.yvel + 100 *dt
+					elseif player.y + player.h/2 > e.y + e.h/2 then
+						e.yvel = e.yvel - 100 *dt
+					end
+					
+					if e.yvel > 100 then e.yvel = 100 end
+					if e.yvel < -100 then e.yvel = -100 end
+				end
+				
+				
+				
+				
+			end
+		end
+		
+		
+		e.x = (e.x - e.xvel *dt)
+		e.y = (e.y - e.yvel *dt)
 		
 		if collision:check(e.x,e.y,e.w,e.h, player.x,player.y,player.w,player.h) then
 			if player.alive then

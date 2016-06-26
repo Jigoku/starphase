@@ -107,7 +107,10 @@ function hud:draw()
 		starfield.nebulae.blue,
 		50
 	)
-
+	
+	love.graphics.setLineWidth(2)
+	love.graphics.setLineStyle("smooth")
+	
 	--left side
 	love.graphics.line(
 		60,love.graphics.getHeight()-20,
@@ -176,6 +179,7 @@ function hud:draw()
 		love.graphics.getWidth()-love.graphics.getWidth()/4,20
 	)
 	
+	
 	--time
 	love.graphics.setColor(255,255,255,100)
 	love.graphics.setFont(fonts.timer)
@@ -205,6 +209,7 @@ function hud:draw()
 	end
 	
 	--progress marker
+	love.graphics.setLineWidth(1)
   	for i=0,hud.display.w, hud.display.w/100 do
 		if i < hud.display.progress then 
 			love.graphics.setColor(0,255,150,255)
@@ -217,6 +222,7 @@ function hud:draw()
 	
 	--progress marker arrow
   	love.graphics.setColor(0,255,150,255)
+  	love.graphics.setLineWidth(2)
 	love.graphics.line(hud.display.progress,hud.display.h/3, hud.display.progress-3,6)
 	love.graphics.line(hud.display.progress,hud.display.h/3, hud.display.progress+3,6)
 	
@@ -237,12 +243,12 @@ function hud:draw()
 	--shield bar
 	love.graphics.setColor(255,255,255,155)
 	love.graphics.print("shield", 10+hud.display.w/4*2,hud.display.h-10)
-		love.graphics.setColor(100,200,100,100)
+	love.graphics.setColor(100,200,100,100)
 	love.graphics.rectangle("fill", 65+hud.display.w/4*2,hud.display.h-5,hud.display.w/8, hud.display.h/3)
 	love.graphics.setColor(100,200,100,155)
 	love.graphics.rectangle("fill", 65+hud.display.w/4*2,hud.display.h-5,player.shield/player.shieldmax*(hud.display.w/8), hud.display.h/3)
 	
-			love.graphics.setColor(155,255,255,50)
+		love.graphics.setColor(155,255,255,50)
 		love.graphics.rectangle("line", 65+hud.display.w/4*2,hud.display.h-5,hud.display.w/8, hud.display.h/3)
 		
 	--energy bar
@@ -253,7 +259,7 @@ function hud:draw()
 	love.graphics.setColor(100,190,200,155)
 	love.graphics.rectangle("fill", 65+hud.display.w/4*3,hud.display.h-5,player.energy/player.energymax*(hud.display.w/8), hud.display.h/3)
 		
-			love.graphics.setColor(155,255,255,50)
+		love.graphics.setColor(155,255,255,50)
 		love.graphics.rectangle("line", 65+hud.display.w/4*3,hud.display.h-5,hud.display.w/8, hud.display.h/3)
 
 	
@@ -269,7 +275,7 @@ function hud:draw()
 		love.graphics.getHeight()-hud.display.h-hud.display.offset
 	)
   
-  
+    love.graphics.setLineWidth(1)
 end
 
 
