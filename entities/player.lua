@@ -20,6 +20,9 @@ player.cannon = {}
 player.cannon.switch = false -- alternating sides
 player.plasma = {}
 player.plasma.switch = false
+player.rocket = {}
+player.rocket.switch = false
+
 
 function player:init(playersel)
 	player.type = playersel
@@ -48,7 +51,8 @@ function player:init(playersel)
 	player.beamDelay = 0.01
 	player.radialCycle = 0
 	player.radialDelay = 1.75
-
+	player.rocketCycle = 0
+	player.rocketDelay = 0.8
 	
 	player.respawnCycle = 3
 	player.respawnDelay = 3
@@ -221,6 +225,7 @@ function player:update(dt)
 	if love.keyboard.isDown(binds.special) 
 	or love.mouse.isDown("r") then
 			self:fireBeam(dt)
+			self:fireRocket(dt)
 	end	
 	
 	
@@ -448,7 +453,7 @@ function player:fireRadial(dt)
 			w = projectiles.radial.gfx:getWidth(),
 			h = projectiles.radial.gfx:getHeight(),
 			x = self.x + self.gfx:getWidth()/2-(projectiles.radial.gfx:getWidth()/2),
-			y = self.y + self.gfx:getHeight()/2-(projectiles.radial.gfx:getHeight()/2),
+			y = self.y + self.gfx:getHeight()/2-(projectiles.radial.gfx:getHeight()/2) ,
 			xvel = -450,
 			yvel = -450,
 			damage = projectiles.radial.damage,
@@ -493,6 +498,39 @@ function player:firePlasma(dt)
 
 end
 
+
+function player:fireRocket(dt)
+
+	self.rocketCycle = math.max(0, self.rocketCycle - dt)
+		
+	if self.rocketCycle <= 0 then
+		sound:play(projectiles.rocket.sound.shoot)
+		
+		player.rocket.switch = not player.rocket.switch
+		
+		table.insert(projectiles.missiles, {
+			player = true,
+			type = "rocket",
+			gfx = projectiles.rocket.gfx,
+			w = projectiles.rocket.gfx:getWidth(),
+			h = projectiles.rocket.gfx:getHeight(),
+			x = self.x + self.gfx:getWidth()/2-(projectiles.rocket.gfx:getWidth()/2),
+			y = self.y + (player.rocket.switch and self.gfx:getHeight()/2-(projectiles.rocket.gfx:getHeight()/2) or self.gfx:getHeight()/2+(projectiles.rocket.gfx:getHeight()/2)),
+			switch = player.rocket.switch,
+			trigger = 150,
+			launched = false,
+			xvel = 950,
+			yvel = (player.rocket.switch and -400 or 400),
+			damage = projectiles.rocket.damage,
+			r = 155,
+			g = 155,
+			b = 155,
+		})
+		
+		self.rocketCycle = self.rocketDelay
+	end
+
+end
 
 
 function player:fireBeam(dt)

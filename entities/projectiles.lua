@@ -52,6 +52,15 @@ projectiles.radial.sound = {}
 projectiles.radial.sound.shoot = love.audio.newSource("sfx/projectiles/shoot5.wav", "static")
 projectiles.radial.sound.shoot:setVolume(1)
 
+projectiles.rocket = {}
+projectiles.rocket.gfx = love.graphics.newImage("gfx/projectiles/rocket.png")
+projectiles.rocket.damage = 80
+projectiles.rocket.sound = {}
+projectiles.rocket.sound.shoot = love.audio.newSource("sfx/projectiles/shoot7.wav", "static")
+projectiles.rocket.sound.shoot:setVolume(0.6)
+projectiles.rocket.sound.launch = love.audio.newSource("sfx/projectiles/shoot6.wav", "static")
+projectiles.rocket.sound.launch:setVolume(0.6)
+
 projectiles.barrier = {}
 projectiles.barrier.gfx = love.graphics.newImage("gfx/projectiles/barrier.png")
 projectiles.barrier.damage = 120
@@ -89,6 +98,25 @@ function projectiles:update(dt)
 				self:rotate(p, 15, dt)
 				p.x = p.x + math.floor(p.xvel *dt)
 				p.y = p.y + math.floor(p.yvel *dt)
+			end
+			
+			if p.type == "rocket" then
+				if (p.yvel >= -p.trigger and p.switch) or (p.yvel <= p.trigger and not p.switch) then
+					p.yvel = 0
+					p.x = p.x + math.floor(p.xvel *dt)
+					if not p.launched then
+						sound:play(projectiles.rocket.sound.launch)
+						p.launched = true
+					end
+
+				else
+					if p.switch then
+						p.yvel = p.yvel + 10
+					else
+						p.yvel = p.yvel - 10
+					end
+					p.y = p.y + math.floor(p.yvel *dt)
+				end
 			end
 			
 			if p.type == "barrier" then
@@ -162,6 +190,15 @@ function projectiles:draw()
 					math.floor(p.y),  0, 1, 1
 				)
 				love.graphics.pop()
+			end
+			
+			if p.type == "rocket" then
+				love.graphics.setColor(p.r,p.g,p.b,255)
+				love.graphics.draw(
+					p.gfx,  math.floor(p.x), 
+					math.floor(p.y), 0, 1, 1				
+				)
+				
 			end
 			
 			if p.type == "barrier" then
