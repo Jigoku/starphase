@@ -40,26 +40,26 @@ projectiles.plasma.sound.shoot:setVolume(0.3)
 
 projectiles.beam = {}
 projectiles.beam.gfx = love.graphics.newImage("gfx/projectiles/beam.png")
-projectiles.beam.damage = 0.1
+projectiles.beam.damage = 0.2
 projectiles.beam.sound = {}
 projectiles.beam.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.wav", "static")
-projectiles.beam.sound.shoot:setVolume(0.2)
+projectiles.beam.sound.shoot:setVolume(0.1)
 
 projectiles.radial = {}
 projectiles.radial.gfx = love.graphics.newImage("gfx/projectiles/plasma.png")
 projectiles.radial.damage = 55
 projectiles.radial.sound = {}
 projectiles.radial.sound.shoot = love.audio.newSource("sfx/projectiles/shoot5.wav", "static")
-projectiles.radial.sound.shoot:setVolume(1)
+projectiles.radial.sound.shoot:setVolume(0.5)
 
 projectiles.rocket = {}
 projectiles.rocket.gfx = love.graphics.newImage("gfx/projectiles/rocket.png")
 projectiles.rocket.damage = 80
 projectiles.rocket.sound = {}
 projectiles.rocket.sound.shoot = love.audio.newSource("sfx/projectiles/shoot7.wav", "static")
-projectiles.rocket.sound.shoot:setVolume(0.6)
+projectiles.rocket.sound.shoot:setVolume(0.3)
 projectiles.rocket.sound.launch = love.audio.newSource("sfx/projectiles/shoot6.wav", "static")
-projectiles.rocket.sound.launch:setVolume(0.6)
+projectiles.rocket.sound.launch:setVolume(0.3)
 
 projectiles.barrier = {}
 projectiles.barrier.gfx = love.graphics.newImage("gfx/projectiles/barrier.png")

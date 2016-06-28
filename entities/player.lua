@@ -48,7 +48,7 @@ function player:init(playersel)
 	player.plasmaCycle = 0
 	player.plasmaDelay = 0.5
 	player.beamCycle = 0
-	player.beamDelay = 0.01
+	player.beamDelay = 0.02
 	player.radialCycle = 0
 	player.radialDelay = 1.75
 	player.rocketCycle = 0
