@@ -58,7 +58,7 @@ projectiles.wave.sound.shoot:setVolume(0.1)
 projectiles.wave.description = "Proton beam"
 
 projectiles.radial = {}
-projectiles.radial.gfx = love.graphics.newImage("gfx/projectiles/plasma.png")
+projectiles.radial.gfx = love.graphics.newImage("gfx/projectiles/radial.png")
 projectiles.radial.damage = 55
 projectiles.radial.sound = {}
 projectiles.radial.sound.shoot = love.audio.newSource("sfx/projectiles/shoot5.wav", "static")
@@ -110,9 +110,15 @@ function projectiles:update(dt)
 			end
 			
 			if p.type == "radial" then
-				self:rotate(p, 15, dt)
+				self:rotate(p, 5, dt)
 				p.x = p.x + p.xvel *dt
 				p.y = p.y + p.yvel *dt
+				
+				p.timer = math.max(0, p.timer - dt)
+				if p.timer <= 0 then
+					sound:play(projectiles.rocket.sound.launch)
+					table.remove(self.missiles, i)
+				end
 			end
 			
 			if p.type == "wave" then
@@ -246,17 +252,13 @@ function projectiles:draw()
 			end
 			
 			if p.type == "beam" then
-				love.graphics.setColor(p.r,p.g,p.b,120)
+				love.graphics.setColor(p.r,p.g,p.b,125)
 				love.graphics.draw(
 					p.gfx, p.x, 
 					p.y, 0, 1, 1				
 				)
 	
-				love.graphics.setColor(p.r,p.g,p.b,80)
-				love.graphics.draw(
-					p.gfx,  p.x-p.w/2, 
-					p.y, 0, -1, 1				
-				)
+
 
 			end
 		elseif not p.player then
