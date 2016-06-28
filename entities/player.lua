@@ -16,12 +16,7 @@
 player = {}
 player.sounds = {}
 
-player.cannon = {}
-player.cannon.switch = false -- alternating sides
-player.plasma = {}
-player.plasma.switch = false
-player.rocket = {}
-player.rocket.switch = false
+
 
 
 function player:init(playersel)
@@ -53,6 +48,13 @@ function player:init(playersel)
 	player.radialDelay = 1.75
 	player.rocketCycle = 0
 	player.rocketDelay = 0.8
+	
+	player.cannon = {}
+	player.cannon.switch = false 
+	player.plasma = {}
+	player.plasma.switch = false
+	player.rocket = {}
+	player.rocket.switch = false
 	
 	player.respawnCycle = 3
 	player.respawnDelay = 3
