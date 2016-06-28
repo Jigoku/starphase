@@ -218,6 +218,31 @@ function enemies:add_large()
 end
 
 
+function enemies:add_crescent()
+
+	local gfx = love.graphics.newImage("gfx/starship/9_large.png")
+	
+	
+	table.insert(self.wave, {
+		type = "crescent",
+		w = gfx:getWidth(),
+		h = gfx:getHeight(),
+		x = starfield.w,
+		y = math.random(gfx:getHeight(),starfield.h-gfx:getHeight()),
+		yvel = 0,
+		xvel = 250,
+		gfx = gfx or nil,
+		score = 500,
+		shield = 500,
+		shieldmax = 500,
+		shieldopacity = 0,
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.2
+	})
+
+
+end
+
+
 function enemies:update(dt)
 	
 	if paused or debugarcade then return end
@@ -227,7 +252,7 @@ function enemies:update(dt)
 		
 	if enemies.waveCycle <= 0 then
 	
-		local rand = math.random(0,5)
+		local rand = math.random(0,6)
 		if rand == 0 then
 			self:add_dart()
 		end
@@ -245,6 +270,9 @@ function enemies:update(dt)
 		end
 		if rand == 5 then
 			self:add_abomination()
+		end
+		if rand == 6 then
+			self:add_crescent()
 		end
 		enemies.waveCycle = math.random(0.5,2)
 	end
