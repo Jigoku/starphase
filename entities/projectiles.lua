@@ -49,6 +49,14 @@ projectiles.beam.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.wav"
 projectiles.beam.sound.shoot:setVolume(0.1)
 projectiles.beam.description = "A frequency disruptor, has a more damaging effect on larger targets"
 
+projectiles.wave = {}
+projectiles.wave.gfx = love.graphics.newImage("gfx/projectiles/wave.png")
+projectiles.wave.damage = 2
+projectiles.wave.sound = {}
+projectiles.wave.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.wav", "static")
+projectiles.wave.sound.shoot:setVolume(0.1)
+projectiles.wave.description = "Proton beam"
+
 projectiles.radial = {}
 projectiles.radial.gfx = love.graphics.newImage("gfx/projectiles/plasma.png")
 projectiles.radial.damage = 55
@@ -85,44 +93,51 @@ function projectiles:update(dt)
 
 			
 			if p.type == "cannon" then
-				p.x = p.x + math.floor(p.xvel *dt)
+				p.x = p.x + p.xvel *dt
 			end
 			
 			if p.type == "blaster" then
-				p.x = p.x + math.floor(p.xvel *dt)
+				p.x = p.x + p.xvel *dt
 			end
 			
 			if p.type == "plasma" then
 				self:rotate(p, 15, dt)
-				p.x = p.x + math.floor(p.xvel *dt)
+				p.x = p.x + p.xvel *dt
 			end
 			
 			if p.type == "beam" then
-				p.x = p.x + math.floor(p.xvel *dt)
+				p.x = p.x + p.xvel *dt
 			end
 			
 			if p.type == "radial" then
 				self:rotate(p, 15, dt)
-				p.x = p.x + math.floor(p.xvel *dt)
-				p.y = p.y + math.floor(p.yvel *dt)
+				p.x = p.x + p.xvel *dt
+				p.y = p.y + p.yvel *dt
+			end
+			
+			if p.type == "wave" then
+				if p.yvel > 300 then p.switch = false end
+				if p.yvel < -300 then p.switch = true end
+			
+				p.yvel = p.yvel + (p.switch and 50 or -50)
+				
+				p.x = p.x + p.xvel *dt
+				p.y = p.y + p.yvel *dt
+				
 			end
 			
 			if p.type == "rocket" then
 				if (p.yvel >= -p.trigger and p.switch) or (p.yvel <= p.trigger and not p.switch) then
 					p.yvel = 0
-					p.x = p.x + math.floor(p.xvel *dt)
+					p.x = p.x + p.xvel *dt
 					if not p.launched then
 						sound:play(projectiles.rocket.sound.launch)
 						p.launched = true
 					end
-
 				else
-					if p.switch then
-						p.yvel = p.yvel + 10
-					else
-						p.yvel = p.yvel - 10
-					end
-					p.y = p.y + math.floor(p.yvel *dt)
+					p.yvel = p.yvel + (p.switch and 10 or -10)
+					
+					p.y = p.y + p.yvel *dt
 					p.x = p.x + 80 *dt
 				end
 			end
@@ -174,17 +189,25 @@ function projectiles:draw()
 			if p.type == "cannon" then
 				love.graphics.setColor(p.r,p.g,p.b,255)
 				love.graphics.draw(
-					p.gfx,  math.floor(p.x), 
-					math.floor(p.y), 0, 1, 1				
+					p.gfx,  p.x, 
+					p.y, 0, 1, 1				
 				)
 			end
 			
 			if p.type == "blaster" then
 				love.graphics.setColor(p.r,p.g,p.b,255)
 				love.graphics.draw(
-					p.gfx,  math.floor(p.x), 
-					math.floor(p.y), 0, 1, 1				
+					p.gfx,  p.x, 
+					p.y, 0, 1, 1				
 				)
+			end
+			
+			if p.type == "wave" then
+				love.graphics.setColor(p.r,p.g,p.b,150)
+				love.graphics.draw(
+					p.gfx,  p.x, 
+					p.y, 0, 1, 1				
+				)				
 			end
 			
 			if p.type == "plasma" or p.type == "radial" then
@@ -194,8 +217,8 @@ function projectiles:draw()
 				love.graphics.rotate(p.rotation or 0)
 				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
 				love.graphics.draw(
-					p.gfx,  math.floor(p.x), 
-					math.floor(p.y),  0, 1, 1
+					p.gfx, p.x, 
+					p.y,  0, 1, 1
 				)
 				love.graphics.pop()
 			end
@@ -203,8 +226,8 @@ function projectiles:draw()
 			if p.type == "rocket" then
 				love.graphics.setColor(p.r,p.g,p.b,255)
 				love.graphics.draw(
-					p.gfx,  math.floor(p.x), 
-					math.floor(p.y), 0, 1, 1				
+					p.gfx,  p.x, 
+					p.y, 0, 1, 1				
 				)
 				
 			end
@@ -216,8 +239,8 @@ function projectiles:draw()
 				love.graphics.rotate(p.rotation or 0)
 				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
 				love.graphics.draw(
-					p.gfx,  math.floor(p.x), 
-					math.floor(p.y),  0, 1, 1
+					p.gfx,  p.x, 
+					p.y,  0, 1, 1
 				)
 				love.graphics.pop()
 			end
@@ -225,14 +248,14 @@ function projectiles:draw()
 			if p.type == "beam" then
 				love.graphics.setColor(p.r,p.g,p.b,120)
 				love.graphics.draw(
-					p.gfx,  math.floor(p.x), 
-					math.floor(p.y), 0, 1, 1				
+					p.gfx, p.x, 
+					p.y, 0, 1, 1				
 				)
 	
 				love.graphics.setColor(p.r,p.g,p.b,80)
 				love.graphics.draw(
-					p.gfx,  math.floor(p.x)-p.w/2, 
-					math.floor(p.y), 0, -1, 1				
+					p.gfx,  p.x-p.w/2, 
+					p.y, 0, -1, 1				
 				)
 
 			end
@@ -240,21 +263,21 @@ function projectiles:draw()
 			if p.type == "cannon" then
 				love.graphics.setColor(p.r,p.g,p.b,255)
 				love.graphics.draw(
-					p.gfx,  math.floor(p.x), 
-					math.floor(p.y), 0, -1, 1,p.w
+					p.gfx,  p.x, 
+					p.y, 0, -1, 1,p.w
 				)
 			end
 		end
 		
 		if debug then
-			love.graphics.setColor(p.r,p.g,p.b,140)			
+		--[[	love.graphics.setColor(p.r,p.g,p.b,140)			
 			love.graphics.rectangle(
 				"line",
 				p.x,
 				p.y,
 				p.w,
 				p.h
-			)
+			)--]]
 		end
 		
 	end

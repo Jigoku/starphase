@@ -48,6 +48,9 @@ function player:init(playersel)
 	player.radialDelay = 1.75
 	player.rocketCycle = 0
 	player.rocketDelay = 0.8
+	player.waveCycle = 0
+	player.waveDelay = 0.05
+
 	
 	player.cannon = {}
 	player.cannon.switch = false 
@@ -55,6 +58,9 @@ function player:init(playersel)
 	player.plasma.switch = false
 	player.rocket = {}
 	player.rocket.switch = false
+	player.wave = {}
+	player.wave.switch = false
+	player.wave.delay = 1
 	
 	player.respawnCycle = 3
 	player.respawnDelay = 3
@@ -104,6 +110,10 @@ function player:update(dt)
 		if love.keyboard.isDown("6") then 
 			self:addBarrier(dt)
 		end
+		if love.keyboard.isDown("7") then 
+			self:fireRocket(dt)
+		end
+		
 	end
 	
 	if not player.alive then 
@@ -228,6 +238,8 @@ function player:update(dt)
 	or love.mouse.isDown("r") then
 			self:fireBeam(dt)
 			self:fireRocket(dt)
+			self:fireWave(dt)
+
 	end	
 	
 	
@@ -314,6 +326,52 @@ function player:fireBlaster(dt)
 			b = 140,
 		})
 		self.blasterCycle = self.blasterDelay
+	end
+end
+
+function player:fireWave(dt)
+	self.waveCycle = math.max(0, self.waveCycle - dt)
+		
+	if self.waveCycle <= 0 then
+		sound:play(projectiles.wave.sound.shoot)
+			
+		
+		table.insert(projectiles.missiles, {
+			player = true,
+			type = "wave",
+			gfx = projectiles.wave.gfx,
+			w = projectiles.wave.gfx:getWidth(),
+			h = projectiles.wave.gfx:getHeight(),
+			x = self.x + self.gfx:getWidth()/2,
+			y = self.y + self.gfx:getHeight()/2-(projectiles.wave.gfx:getHeight()/2),
+			switch = true,
+			xvel = 570,
+			yvel = 0,
+			damage = projectiles.wave.damage,
+			r = 100,
+			g = 100,
+			b = 255,
+		})
+		
+		
+		table.insert(projectiles.missiles, {
+			player = true,
+			type = "wave",
+			gfx = projectiles.wave.gfx,
+			w = projectiles.wave.gfx:getWidth(),
+			h = projectiles.wave.gfx:getHeight(),
+			x = self.x + self.gfx:getWidth()/2,
+			y = self.y + self.gfx:getHeight()/2-(projectiles.wave.gfx:getHeight()/2),
+			switch = false,
+			xvel = 570,
+			yvel = 0,
+			damage = projectiles.wave.damage,
+			r = 100,
+			g = 100,
+			b = 255,
+		})
+		
+		self.waveCycle = self.waveDelay
 	end
 end
 
@@ -556,9 +614,9 @@ function player:fireBeam(dt)
 			xvel = 700,
 			yvel = 0,
 			damage = projectiles.beam.damage,
-			r = 0,
-			g = 155,
-			b = 255,
+			r = 255,
+			g = 50,
+			b = 220,
 		})
 		self.beamCycle = self.beamDelay
 	end		
