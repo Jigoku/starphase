@@ -238,9 +238,12 @@ function player:update(dt)
 		)
 		
 		player.shield = 0
-		self.alive = false
+		player.xvel = 0
+		player.yvel = 0
 		player.lives = player.lives -1
+		self.alive = false
 		if player.lives < 0 then sound:playbgm(2) end
+		
 	end
 	if self.energy < 0 then self.energy = 0 end
 
