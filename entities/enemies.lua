@@ -29,9 +29,21 @@ enemies.sound.explode:setVolume(0.7)
 enemies.shield = love.graphics.newImage("gfx/shield_large.png")
 
 
+enemies.type = {
+	delta = love.graphics.newImage("gfx/starship/6_small.png"),
+	abomination = love.graphics.newImage("gfx/starship/8_large.png"),
+	dart = love.graphics.newImage("gfx/starship/7_small.png"),
+	train = love.graphics.newImage("gfx/starship/7_small.png"),
+	tri = love.graphics.newImage("gfx/starship/7_small.png"),
+	large  = love.graphics.newImage("gfx/starship/6_large.png"),
+	crescent = love.graphics.newImage("gfx/starship/9_large.png"),
+}
+
+
+
 function enemies:add_delta()
 
-	local gfx = love.graphics.newImage("gfx/starship/6_small.png")
+	local gfx = self.type.delta
 	
 	local ny = math.random(0, starfield.h - gfx:getHeight()*4)
 	local nx = starfield.w
@@ -67,7 +79,7 @@ end
 
 function enemies:add_abomination()
 
-	local gfx = love.graphics.newImage("gfx/starship/8_large.png")
+	local gfx = self.type.abomination
 	
 	table.insert(self.wave, {
 		type = "abomination",
@@ -92,7 +104,7 @@ end
 
 function enemies:add_dart()
 
-	local gfx = love.graphics.newImage("gfx/starship/7_small.png")
+	local gfx = self.type.dart
 	
 	
 	table.insert(self.wave, {
@@ -119,7 +131,7 @@ end
 
 function enemies:add_train()
 
-	local gfx = love.graphics.newImage("gfx/starship/7_small.png")
+	local gfx = self.type.train
 	
 	local x = starfield.w
 	local y = math.random(0,starfield.h)
@@ -148,7 +160,7 @@ end
 
 function enemies:add_tri()
 
-	local gfx = love.graphics.newImage("gfx/starship/7_small.png")
+	local gfx = self.type.tri
 	local rand = math.random(-200,200)
 	table.insert(self.wave, {
 		type = "tri",
@@ -210,7 +222,7 @@ end
 
 function enemies:add_large()
 
-	local gfx = love.graphics.newImage("gfx/starship/6_large.png")
+	local gfx = self.type.large
 	
 	
 	table.insert(self.wave, {
@@ -237,7 +249,7 @@ end
 
 function enemies:add_crescent()
 
-	local gfx = love.graphics.newImage("gfx/starship/9_large.png")
+	local gfx = self.type.crescent
 	
 	
 	table.insert(self.wave, {
@@ -388,9 +400,6 @@ function enemies:update(dt)
 			end
 		end
 		
-		if e.x < 0  - e.w then
-				table.remove(self.wave, i)
-		end
 		
 		if e.x > starfield.w  or
 			e.x + e.w < 0 or
@@ -426,12 +435,12 @@ function enemies:update(dt)
 		if e.shield <= 0 then
 			if e.alive then
 				e.alive = false
+				e.shield = 0
 				explosions:addobject(
 					e.x-explosions.size/2+e.w/2,e.y-explosions.size/2+e.h/2,e.xvel,e.yvel
 				)
 			end
 			
-			e.shield = 0
 			e.opacity = e.opacity - self.fadespeed *dt
 			
 			if e.opacity <= 0 then
