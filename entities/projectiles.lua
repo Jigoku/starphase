@@ -49,13 +49,13 @@ projectiles.beam.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.ogg"
 projectiles.beam.sound.shoot:setVolume(0.1)
 projectiles.beam.description = "A frequency disruptor, has a more damaging effect on larger targets"
 
-projectiles.ogge = {}
-projectiles.ogge.gfx = love.graphics.newImage("gfx/projectiles/wave.png")
-projectiles.ogge.damage = 2
-projectiles.ogge.sound = {}
-projectiles.ogge.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.ogg", "static")
-projectiles.ogge.sound.shoot:setVolume(0.1)
-projectiles.ogge.description = "Proton beam"
+projectiles.wave = {}
+projectiles.wave.gfx = love.graphics.newImage("gfx/projectiles/wave.png")
+projectiles.wave.damage = 2
+projectiles.wave.sound = {}
+projectiles.wave.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.ogg", "static")
+projectiles.wave.sound.shoot:setVolume(0.1)
+projectiles.wave.description = "Proton beam"
 
 projectiles.radial = {}
 projectiles.radial.gfx = love.graphics.newImage("gfx/projectiles/radial.png")
