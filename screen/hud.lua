@@ -98,15 +98,15 @@ function hud:draw()
 	
   --hud
 	--decor / lines
-	--love.graphics.setColor(155,255,255,50)
+	love.graphics.setColor(155,255,255,50)
 	
 	--dynamic decor/lines
-	love.graphics.setColor(
+	--[[love.graphics.setColor(
 		starfield.nebulae.red,
 		starfield.nebulae.green,
 		starfield.nebulae.blue,
 		50
-	)
+	)--]]
 	
 	love.graphics.setLineWidth(2)
 	love.graphics.setLineStyle("smooth")

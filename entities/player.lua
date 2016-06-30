@@ -27,14 +27,23 @@ function player:init(playersel)
 	player.y = love.graphics.getHeight()/2-player.gfx:getHeight()/2
 	player.w = player.gfx:getWidth()
 	player.h = player.gfx:getHeight()
+	player.lives = 3
 	player.shield = 100
 	player.shieldmax = 100
 	player.energy = 100
 	player.energymax = 100
-	player.speed = 1500
+	player.speed = 2000
 	player.speedmax = 3000
+	player.maxvel = 550
+	player.xvel = 0
+	player.yvel = 0
+	player.float = 1.5
+	player.respawnCycle = 3
+	player.respawnDelay = 3
+	player.alive = true
+	player.idle = true
+	player.invincible = false
 	
-	player.lives = 3
 	
 	player.cannonCycle = 0
 	player.cannonDelay = 0.14
@@ -62,15 +71,7 @@ function player:init(playersel)
 	player.wave.switch = false
 	player.wave.delay = 1
 	
-	player.respawnCycle = 3
-	player.respawnDelay = 3
-	player.alive = true
-	player.float = 2
-	player.maxvel = 400
-	player.xvel = 0
-	player.yvel = 0
-	player.idle = true
-	player.invincible = false
+
 	
 	--weapon powerups
 		player.hascannon = true
@@ -345,7 +346,7 @@ function player:fireWave(dt)
 			x = self.x + self.gfx:getWidth()/2,
 			y = self.y + self.gfx:getHeight()/2-(projectiles.wave.gfx:getHeight()/2),
 			switch = true,
-			xvel = 570,
+			xvel = 750,
 			yvel = 0,
 			damage = projectiles.wave.damage,
 			r = 100,
@@ -363,7 +364,7 @@ function player:fireWave(dt)
 			x = self.x + self.gfx:getWidth()/2,
 			y = self.y + self.gfx:getHeight()/2-(projectiles.wave.gfx:getHeight()/2),
 			switch = false,
-			xvel = 570,
+			xvel = 750,
 			yvel = 0,
 			damage = projectiles.wave.damage,
 			r = 100,
@@ -621,7 +622,7 @@ function player:fireBeam(dt)
 			h = projectiles.beam.gfx:getHeight(),
 			x = self.x + self.gfx:getWidth(),
 			y = self.y + self.gfx:getHeight()/2-(projectiles.beam.gfx:getHeight()/2),
-			xvel = 700,
+			xvel = 800,
 			yvel = 0,
 			damage = projectiles.beam.damage,
 			r = 255,

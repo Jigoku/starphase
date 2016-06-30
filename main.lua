@@ -78,7 +78,7 @@ function initarcade(playersel)
 	paused = false
 	debugarcade = false
 	mode = "arcade"
-	love.graphics.setBackgroundColor(0,255,0,255)
+	love.graphics.setBackgroundColor(0,0,0,255)
 	starfield.nebulae.r = 0
 	starfield.nebulae.g = 255
 	starfield.nebulae.b = 255
