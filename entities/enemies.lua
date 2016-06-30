@@ -401,8 +401,7 @@ function enemies:update(dt)
 		end
 		
 		
-		if e.x > starfield.w  or
-			e.x + e.w < 0 or
+		if e.x + e.w < 0 or
 			e.y + e.h < 0 or
 			e.y > starfield.h 
 		then
@@ -437,7 +436,7 @@ function enemies:update(dt)
 				e.alive = false
 				e.shield = 0
 				explosions:addobject(
-					e.x-explosions.size/2+e.w/2,e.y-explosions.size/2+e.h/2,e.xvel,e.yvel
+					e.x-explosions.size/2+e.w/2,e.y-explosions.size/2+e.h/2,e.xvel/2,e.yvel/2
 				)
 			end
 			

@@ -63,7 +63,7 @@ projectiles.radial.damage = 55
 projectiles.radial.sound = {}
 projectiles.radial.sound.shoot = love.audio.newSource("sfx/projectiles/shoot5.wav", "static")
 projectiles.radial.sound.shoot:setVolume(0.5)
-projectiles.radial.description = "A momentary plasam discharge, radiating out from all sides"
+projectiles.radial.description = "Deploys self destructing mines"
 
 projectiles.rocket = {}
 projectiles.rocket.gfx = love.graphics.newImage("gfx/projectiles/rocket.png")
@@ -73,7 +73,7 @@ projectiles.rocket.sound.shoot = love.audio.newSource("sfx/projectiles/shoot7.wa
 projectiles.rocket.sound.shoot:setVolume(0.3)
 projectiles.rocket.sound.launch = love.audio.newSource("sfx/projectiles/shoot6.wav", "static")
 projectiles.rocket.sound.launch:setVolume(0.3)
-projectiles.rocket.description = "Alternating torpedos which explode on contact"
+projectiles.rocket.description = "Alternating rockets which explode on contact"
 
 projectiles.barrier = {}
 projectiles.barrier.gfx = love.graphics.newImage("gfx/projectiles/barrier.png")
