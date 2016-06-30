@@ -409,7 +409,7 @@ function enemies:update(dt)
 						
 					if p.type == "rocket" then
 						explosions:addobject(
-							p.x-explosions.size/2+p.w/2,p.y-explosions.size/2+p.h/2,0,0
+							p.x-explosions.size/2+p.w/2,p.y-explosions.size/2+p.h/2,-p.xvel/8,-p.yvel/8
 						)
 					end
 						
