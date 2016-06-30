@@ -163,10 +163,6 @@ end
 
 function love.keypressed(key)
 
-	if key == "e" then
-		explosions:addobject(player.x,player.y)
-	end
-
 	--global controls
 	if key == binds.fullscreen then misc:togglefullscreen() end
 	if key == binds.console then debug = not debug end

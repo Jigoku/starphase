@@ -85,10 +85,10 @@ function player:init(playersel)
 	
 	--weapon powerups
 	player.hascannon = true --default
-	player.hasplasma = true -- enable all other for debug
-	player.hasradial = true
+	player.hasplasma = false 
+	player.hasradial = false
 	player.hasrocket = true
-	player.haswave = true
+	player.haswave = false
 	player.hasblaster = true
 	player.hasbeam = false
 
