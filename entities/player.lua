@@ -32,7 +32,7 @@ function player:init(playersel)
 	player.shieldmax = 100
 	player.energy = 100
 	player.energymax = 100
-	player.speed = 2000
+	player.speed = 1700
 	player.speedmax = 3000
 	player.maxvel = 550
 	player.xvel = 0
@@ -45,40 +45,52 @@ function player:init(playersel)
 	player.invincible = false
 	
 	
-	player.cannonCycle = 0
-	player.cannonDelay = 0.14
-	player.blasterCycle = 0
-	player.blasterDelay = 0.25
-	player.plasmaCycle = 0
-	player.plasmaDelay = 0.5
-	player.beamCycle = 0
-	player.beamDelay = 0.02
-	player.radialCycle = 0
-	player.radialDelay = 1.75
-	player.rocketCycle = 0
-	player.rocketDelay = 0.8
-	player.waveCycle = 0
-	player.waveDelay = 0.05
-
-	
 	player.cannon = {}
 	player.cannon.switch = false 
+	player.cannon.cycle = 0
+	player.cannon.delay = 0.14
+	
 	player.plasma = {}
 	player.plasma.switch = false
+	player.plasma.cycle = 0
+	player.plasma.delay = 0.5
+	
+	player.radial = {}
+	player.radial.switch = nil
+	player.radial.cycle = 0
+	player.radial.delay = 1.75
+
 	player.rocket = {}
 	player.rocket.switch = false
+	player.rocket.cycle = 0
+	player.rocket.delay = 0.8
+	
 	player.wave = {}
 	player.wave.switch = false
 	player.wave.delay = 1
+	player.wave.cycle = 0
+	player.wave.delay = 0.05
+
+	player.blaster = {}
+	player.blaster.switch = nil
+	player.blaster.cycle = 0
+	player.blaster.delay = 0.25
+
+	player.beam = {}
+	player.beam.switch = nil
+	player.beam.cycle = 0
+	player.beam.delay = 0.02
 	
 
 	
 	--weapon powerups
-		player.hascannon = true
-		player.hasplasma = true
-		player.hasradial = true
-		player.hasblaster = true
-		
+	player.hascannon = true --default
+	player.hasplasma = true -- enable all other for debug
+	player.hasradial = true
+	player.hasrocket = true
+	player.haswave = true
+	player.hasblaster = true
+	player.hasbeam = true
 
 		
 	
@@ -232,15 +244,16 @@ function player:update(dt)
 		if player.hasplasma then self:firePlasma(dt) end
 		if player.hasradial then self:fireRadial(dt) end
 		if player.hasblaster then self:fireBlaster(dt) end
+		if player.hasrocket then self:fireRocket(dt) end
+		if player.haswave then self:fireWave(dt) end
+		if player.hasbeam then self:fireBeam(dt) end
 		
 	end
 
 	if love.keyboard.isDown(binds.special) 
 	or love.mouse.isDown("r") then
-			self:fireBeam(dt)
-			self:fireRocket(dt)
-			self:fireWave(dt)
-
+			-- decide whether energy should be used for special attacks
+			-- possibly remove this and just have powerups added automatically
 	end	
 	
 	
@@ -278,9 +291,9 @@ function player:draw()
 end
 
 function player:fireCannon(dt)
-	self.cannonCycle = math.max(0, self.cannonCycle - dt)
+	self.cannon.cycle = math.max(0, self.cannon.cycle - dt)
 		
-	if self.cannonCycle <= 0 then
+	if self.cannon.cycle <= 0 then
 		sound:play(projectiles.cannon.sound.shoot)
 		
 		player.cannon.switch = not player.cannon.switch
@@ -300,15 +313,15 @@ function player:fireCannon(dt)
 			g = math.random(150,255),
 			b = math.random(150,255),
 		})
-		self.cannonCycle = self.cannonDelay
+		self.cannon.cycle = self.cannon.delay
 	end
 end
 
 
 function player:fireBlaster(dt)
-	self.blasterCycle = math.max(0, self.blasterCycle - dt)
+	self.blaster.cycle = math.max(0, self.blaster.cycle - dt)
 		
-	if self.blasterCycle <= 0 then
+	if self.blaster.cycle <= 0 then
 		sound:play(projectiles.blaster.sound.shoot)
 			
 		table.insert(projectiles.missiles, {
@@ -326,14 +339,14 @@ function player:fireBlaster(dt)
 			g = 255,
 			b = 140,
 		})
-		self.blasterCycle = self.blasterDelay
+		self.blaster.cycle = self.blaster.delay
 	end
 end
 
 function player:fireWave(dt)
-	self.waveCycle = math.max(0, self.waveCycle - dt)
+	self.wave.cycle = math.max(0, self.wave.cycle - dt)
 		
-	if self.waveCycle <= 0 then
+	if self.wave.cycle <= 0 then
 		sound:play(projectiles.wave.sound.shoot)
 			
 		
@@ -372,14 +385,14 @@ function player:fireWave(dt)
 			b = 255,
 		})
 		
-		self.waveCycle = self.waveDelay
+		self.wave.cycle = self.wave.delay
 	end
 end
 
 function player:fireRadial(dt)
-	self.radialCycle = math.max(0, self.radialCycle - dt)
+	self.radial.cycle = math.max(0, self.radial.cycle - dt)
 		
-	if self.radialCycle <= 0 then
+	if self.radial.cycle <= 0 then
 		sound:play(projectiles.radial.sound.shoot)
 		
 		local r, g, b
@@ -534,16 +547,16 @@ function player:fireRadial(dt)
 		})
 	
 	
-		self.radialCycle = self.radialDelay
+		self.radial.cycle = self.radial.delay
 	end
 end
 
 
 function player:firePlasma(dt)
 
-	self.plasmaCycle = math.max(0, self.plasmaCycle - dt)
+	self.plasma.cycle = math.max(0, self.plasma.cycle - dt)
 		
-	if self.plasmaCycle <= 0 then
+	if self.plasma.cycle <= 0 then
 		sound:play(projectiles.plasma.sound.shoot)
 		
 		player.plasma.switch = not player.plasma.switch
@@ -564,7 +577,7 @@ function player:firePlasma(dt)
 			b = 250,
 		})
 		
-		self.plasmaCycle = self.plasmaDelay
+		self.plasma.cycle = self.plasma.delay
 	end
 
 end
@@ -572,9 +585,9 @@ end
 
 function player:fireRocket(dt)
 
-	self.rocketCycle = math.max(0, self.rocketCycle - dt)
+	self.rocket.cycle = math.max(0, self.rocket.cycle - dt)
 		
-	if self.rocketCycle <= 0 then
+	if self.rocket.cycle <= 0 then
 		sound:play(projectiles.rocket.sound.shoot)
 		
 		player.rocket.switch = not player.rocket.switch
@@ -598,7 +611,7 @@ function player:fireRocket(dt)
 			b = 155,
 		})
 		
-		self.rocketCycle = self.rocketDelay
+		self.rocket.cycle = self.rocket.delay
 	end
 
 end
@@ -606,9 +619,9 @@ end
 
 function player:fireBeam(dt)
 	
-	self.beamCycle = math.max(0, self.beamCycle - dt)
+	self.beam.cycle = math.max(0, self.beam.cycle - dt)
 		
-	if self.beamCycle <= 0 and self.energy > 0 then
+	if self.beam.cycle <= 0 and self.energy > 0 then
 		sound:play(projectiles.beam.sound.shoot)
 		
 		--self.energy = self.energy - 3
@@ -629,7 +642,7 @@ function player:fireBeam(dt)
 			g = 50,
 			b = 220,
 		})
-		self.beamCycle = self.beamDelay
+		self.beam.cycle = self.beam.delay
 	end		
 end
 
