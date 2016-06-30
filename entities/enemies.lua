@@ -21,9 +21,9 @@ enemies.waveDelay = 3
 enemies.fadespeed = 1000 -- fade out on death
 
 enemies.sound = {}
-enemies.sound.hit = love.audio.newSource("sfx/projectiles/hit.wav", "static")
+enemies.sound.hit = love.audio.newSource("sfx/projectiles/hit.ogg", "static")
 enemies.sound.hit:setVolume(1)
-enemies.sound.explode = love.audio.newSource("sfx/projectiles/explode.wav", "static")
+enemies.sound.explode = love.audio.newSource("sfx/projectiles/explode.ogg", "static")
 enemies.sound.explode:setVolume(0.7)
 
 enemies.shield = love.graphics.newImage("gfx/shield_large.png")

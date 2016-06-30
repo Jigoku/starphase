@@ -15,7 +15,7 @@
  
 pickups = {}
 pickups.texture = love.graphics.newImage("gfx/pickups/template_small.png")
-pickups.sound = love.audio.newSource("sfx/pickups/collect.wav", "static")
+pickups.sound = love.audio.newSource("sfx/pickups/collect.ogg", "static")
 
 
 pickups.type = {

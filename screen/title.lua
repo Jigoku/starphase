@@ -42,8 +42,8 @@ title.overlay.fadein = false
 title.overlay.fadespeed = 200
 
 title.sounds = {}
-title.sounds.option = love.audio.newSource("sfx/menu/option.wav",static)
-title.sounds.select = love.audio.newSource("sfx/menu/select.wav",static)
+title.sounds.option = love.audio.newSource("sfx/menu/option.ogg",static)
+title.sounds.select = love.audio.newSource("sfx/menu/select.ogg",static)
 	
 title.ship1 = love.graphics.newImage("gfx/starship/1_large.png")
 title.ship2 = love.graphics.newImage("gfx/starship/2_large.png")

@@ -65,11 +65,11 @@ function player:init(playersel)
 	player.rocket.cycle = 0
 	player.rocket.delay = 0.8
 	
-	player.wave = {}
-	player.wave.switch = false
-	player.wave.delay = 1
-	player.wave.cycle = 0
-	player.wave.delay = 0.05
+	player.ogge = {}
+	player.ogge.switch = false
+	player.ogge.delay = 1
+	player.ogge.cycle = 0
+	player.ogge.delay = 0.05
 
 	player.blaster = {}
 	player.blaster.switch = nil
@@ -326,24 +326,24 @@ function player:fireBlaster(dt)
 end
 
 function player:fireWave(dt)
-	self.wave.cycle = math.max(0, self.wave.cycle - dt)
+	self.ogge.cycle = math.max(0, self.ogge.cycle - dt)
 		
-	if self.wave.cycle <= 0 then
-		sound:play(projectiles.wave.sound.shoot)
+	if self.ogge.cycle <= 0 then
+		sound:play(projectiles.ogge.sound.shoot)
 			
 		
 		table.insert(projectiles.missiles, {
 			player = true,
 			type = "wave",
-			gfx = projectiles.wave.gfx,
-			w = projectiles.wave.gfx:getWidth(),
-			h = projectiles.wave.gfx:getHeight(),
+			gfx = projectiles.ogge.gfx,
+			w = projectiles.ogge.gfx:getWidth(),
+			h = projectiles.ogge.gfx:getHeight(),
 			x = self.x + self.gfx:getWidth()/2,
-			y = self.y + self.gfx:getHeight()/2-(projectiles.wave.gfx:getHeight()/2),
+			y = self.y + self.gfx:getHeight()/2-(projectiles.ogge.gfx:getHeight()/2),
 			switch = true,
 			xvel = 750,
 			yvel = 0,
-			damage = projectiles.wave.damage,
+			damage = projectiles.ogge.damage,
 			r = 100,
 			g = 100,
 			b = 255,
@@ -353,21 +353,21 @@ function player:fireWave(dt)
 		table.insert(projectiles.missiles, {
 			player = true,
 			type = "wave",
-			gfx = projectiles.wave.gfx,
-			w = projectiles.wave.gfx:getWidth(),
-			h = projectiles.wave.gfx:getHeight(),
+			gfx = projectiles.ogge.gfx,
+			w = projectiles.ogge.gfx:getWidth(),
+			h = projectiles.ogge.gfx:getHeight(),
 			x = self.x + self.gfx:getWidth()/2,
-			y = self.y + self.gfx:getHeight()/2-(projectiles.wave.gfx:getHeight()/2),
+			y = self.y + self.gfx:getHeight()/2-(projectiles.ogge.gfx:getHeight()/2),
 			switch = false,
 			xvel = 750,
 			yvel = 0,
-			damage = projectiles.wave.damage,
+			damage = projectiles.ogge.damage,
 			r = 100,
 			g = 100,
 			b = 255,
 		})
 		
-		self.wave.cycle = self.wave.delay
+		self.ogge.cycle = self.ogge.delay
 	end
 end
 
