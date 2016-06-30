@@ -18,6 +18,7 @@ enemies = {}
 enemies.wave = {}
 enemies.waveCycle = 0 -- delay until first wave start
 enemies.waveDelay = 3
+enemies.fadespeed = 1000 -- fade out on death
 
 enemies.sound = {}
 enemies.sound.hit = love.audio.newSource("sfx/projectiles/hit.wav", "static")
@@ -55,6 +56,8 @@ function enemies:add_delta()
 			shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.8,
 			projectileCycle = projectileOffset,
 			projectileDelay = 2,
+			opacity = 255,
+			alive = true,
 		})
 		ny = ny + gfx:getHeight()
 		nx = nx + gfx:getWidth()
@@ -79,7 +82,9 @@ function enemies:add_abomination()
 		shield = 2600,
 		shieldmax = 2600,
 		shieldopacity = 0,
-		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
+		opacity = 255,
+		alive = true,
 	})
 
 
@@ -103,7 +108,9 @@ function enemies:add_dart()
 		shield = 40,
 		shieldmax = 40,
 		shieldopacity = 0,
-		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
+		opacity = 255,
+		alive = true,
 	})
 
 
@@ -130,7 +137,9 @@ function enemies:add_train()
 		shield = 40,
 		shieldmax = 40,
 		shieldopacity = 0,
-		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
+		opacity = 255,
+		alive = true,
 	})
 	x=x+gfx:getWidth()+30
 	end
@@ -155,7 +164,9 @@ function enemies:add_tri()
 		shieldmax = 80,
 		angle = 0,
 		shieldopacity = 0,
-		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
+		opacity = 255,
+		alive = true,
 	})
 
 	table.insert(self.wave, {
@@ -172,7 +183,9 @@ function enemies:add_tri()
 		shieldmax = 80,
 		angle = 0,
 		shieldopacity = 0,
-		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
+		opacity = 255,
+		alive = true,
 	})
 	table.insert(self.wave, {
 		type = "tri",
@@ -188,7 +201,9 @@ function enemies:add_tri()
 		shieldmax = 80,
 		angle = 0,
 		shieldopacity = 0,
-		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
+		opacity = 255,
+		alive = true,
 	})
 end
 
@@ -211,7 +226,9 @@ function enemies:add_large()
 		shield = 500,
 		shieldmax = 500,
 		shieldopacity = 0,
-		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.2
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.2,
+		opacity = 255,
+		alive = true,
 	})
 
 
@@ -236,7 +253,9 @@ function enemies:add_crescent()
 		shield = 500,
 		shieldmax = 500,
 		shieldopacity = 0,
-		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.2
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.2,
+		opacity = 255,
+		alive = true,
 	})
 
 
@@ -284,7 +303,6 @@ function enemies:update(dt)
 	for i=#self.wave,1,-1 do
 		local e = self.wave[i]
 	
-	
 		if e.angle then
 			e.angle = math.atan2(player.y+player.h/2-e.h/2 - e.y, player.x+player.w/2-e.w/2 - e.x)
 		end
@@ -313,16 +331,12 @@ function enemies:update(dt)
 			end
 		end
 		
-		
-		
 
 		if e.shieldopacity > 0 then
 			e.shieldopacity = e.shieldopacity - 200 *dt
 		else
 			e.shieldopacity = 0
 		end
-		
-
 	
 		
 		-- test basic enemy movements
@@ -359,8 +373,8 @@ function enemies:update(dt)
 		e.x = (e.x - e.xvel *dt)
 		e.y = (e.y - e.yvel *dt)
 		
-		if collision:check(e.x,e.y,e.w,e.h, player.x,player.y,player.w,player.h) then
-			if player.alive then
+		if player.alive and e.alive then
+			if collision:check(e.x,e.y,e.w,e.h, player.x,player.y,player.w,player.h) then
 				table.remove(enemies.wave, i)
 				
 				if not cheats.invincible then
@@ -393,24 +407,28 @@ function enemies:update(dt)
 		end
 		
 		if e.shield <= 0 then
-			table.remove(self.wave, i)
-			local rand = math.random(0,13)
-			--local rand = 9
-			if rand > 12 then
-				pickups:add(e.x+e.w/2,e.y+e.h/2)
+			e.alive = false
+			e.shield = 0
+			e.opacity = e.opacity - self.fadespeed *dt
+			if e.opacity <= 0 then
+				table.remove(self.wave, i)
+			
+				local rand = math.random(0,13)
+				--local rand = 9
+				if rand > 12 then
+					pickups:add(e.x+e.w/2,e.y+e.h/2)
+				end
+				hud.score = hud.score + e.score
+				sound:play(enemies.sound.explode)			
+			
 			end
-			
-			sound:play(enemies.sound.explode)
-
-			
-			hud.score = hud.score + e.score
 		end
 	end
 	
 end
 
 function enemies:drawshield(e)
-	if e.shieldopacity > 0 then
+	if e.shieldopacity > 0 and e.shield > 0 then
 		love.graphics.setColor(100,200,255,e.shieldopacity)
 		love.graphics.draw(
 			enemies.shield,  math.floor(e.x)+e.w/2-(enemies.shield:getWidth()/2/e.shieldscale), 
@@ -433,7 +451,7 @@ function enemies:draw()
 			love.graphics.rotate(e.angle)
 			love.graphics.translate(-e.x-e.w/2,-e.y-e.h/2)
 			
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(255,255,255,e.opacity)
 			love.graphics.draw(
 				e.gfx,  x+e.w, 
 				y, 0, 1, 1,e.w
@@ -442,7 +460,7 @@ function enemies:draw()
 			enemies:drawshield(e)
 			love.graphics.pop()
 		else
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(255,255,255,e.opacity)
 			love.graphics.draw(
 				e.gfx,  x+e.w, 
 				y, 0, -1, 1
@@ -456,18 +474,21 @@ function enemies:draw()
 	for _, e in pairs (self.wave) do
 		local x = math.floor(e.x)
 		local y = math.floor(e.y)
+			
+		if e.shield > 0 then
 		
-		--health bar
-		local barheight = 6
-		love.graphics.setColor(40,40,40,50)
-		love.graphics.rectangle("fill", x+e.w/1.5/4,y-20,e.w/1.5,barheight)
+			--health bar
+			local barheight = 6
+			love.graphics.setColor(40,40,40,50)
+			love.graphics.rectangle("fill", x+e.w/1.5/4,y-20,e.w/1.5,barheight)
 		
 		
-		love.graphics.setColor(55,155,155,50)
-		love.graphics.rectangle("fill", x+e.w/1.5/4,y-20,(e.shield/e.shieldmax)*(e.w/1.5),barheight)
+			love.graphics.setColor(55,155,155,50)
+			love.graphics.rectangle("fill", x+e.w/1.5/4,y-20,(e.shield/e.shieldmax)*(e.w/1.5),barheight)
 		
-		love.graphics.setColor(155,255,255,50)
-		love.graphics.rectangle("line", x+e.w/1.5/4,y-20,e.w/1.5,barheight)
+			love.graphics.setColor(155,255,255,50)
+			love.graphics.rectangle("line", x+e.w/1.5/4,y-20,e.w/1.5,barheight)
+		end
 		
 		if debug then
 			love.graphics.setColor(255,255,255,255)
