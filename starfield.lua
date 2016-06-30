@@ -78,7 +78,8 @@ end
 function starfield:populate()
 	--reset
 	starfield.objects = {}
-	enemies.ogge = {}
+	enemies.wave = {}
+	explosions.objects = {}
 	projectiles.missiles = {}
 	pickups.items = {}
 	
