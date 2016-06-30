@@ -26,8 +26,8 @@ enemies.sound.hit:setVolume(1)
 enemies.sound.explode = love.audio.newSource("sfx/projectiles/explode.wav", "static")
 enemies.sound.explode:setVolume(0.7)
 
-
 enemies.shield = love.graphics.newImage("gfx/shield_large.png")
+
 
 function enemies:add_delta()
 
@@ -428,7 +428,7 @@ function enemies:update(dt)
 end
 
 function enemies:drawshield(e)
-	if e.shieldopacity > 0 and e.shield > 0 then
+	if e.shieldopacity > 0 and e.alive then
 		love.graphics.setColor(100,200,255,e.shieldopacity)
 		love.graphics.draw(
 			enemies.shield,  math.floor(e.x)+e.w/2-(enemies.shield:getWidth()/2/e.shieldscale), 
