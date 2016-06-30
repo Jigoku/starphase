@@ -39,7 +39,7 @@ starfield.nebulae.max = 16
 starfield.nebulae.size = 512
 starfield.nebulae.quads = { }
 starfield.nebulae.quads['nebula'] = { }
-starfield.nebulae.red = 255
+starfield.nebulae.red = 0
 starfield.nebulae.green = 255
 starfield.nebulae.blue = 255
 
@@ -256,6 +256,7 @@ function starfield:draw(x,y)
 		pickups:draw()
 		
 		enemies:draw()
+		explosions:draw()
 		projectiles:draw()
 		player:draw()
 	end

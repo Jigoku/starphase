@@ -18,6 +18,7 @@ require("screen/hud")
 require("screen/fonts")
 require("entities/pickups")
 require("entities/enemies")
+require("entities/explosions")
 require("entities/player")
 require("entities/projectiles")
 require("misc")
@@ -107,6 +108,7 @@ function love.update(dt)
 		starfield:update(dt)
 		projectiles:update(dt)
 		enemies:update(dt)
+		explosions:update(dt)
 		player:update(dt)
 		pickups:update(dt)
 		hud:update(dt)
@@ -160,6 +162,11 @@ end
 
 
 function love.keypressed(key)
+
+	if key == "e" then
+		explosions:addobject(player.x,player.y)
+	end
+
 	--global controls
 	if key == binds.fullscreen then misc:togglefullscreen() end
 	if key == binds.console then debug = not debug end
@@ -193,7 +200,7 @@ function love.keypressed(key)
 	end
 	
 	
-	
+
 
 end
 

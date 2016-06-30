@@ -376,6 +376,9 @@ function enemies:update(dt)
 		if player.alive and e.alive then
 			if collision:check(e.x,e.y,e.w,e.h, player.x,player.y,player.w,player.h) then
 				table.remove(enemies.wave, i)
+				explosions:addobject(
+						e.x-explosions.size/2+e.w/2,e.y-explosions.size/2+e.h/2,e.xvel,e.yvel
+				)
 				
 				if not cheats.invincible then
 					player.shield = player.shield - 20
@@ -389,27 +392,48 @@ function enemies:update(dt)
 				table.remove(self.wave, i)
 		end
 		
+		if e.x > starfield.w  or
+			e.x + e.w < 0 or
+			e.y + e.h < 0 or
+			e.y > starfield.h 
+		then
+			table.remove(self.wave, i)
+		end
+		
 		for z,p in ipairs (projectiles.missiles) do
 			if p.player then
 				if collision:check(p.x,p.y,p.w,p.h, e.x,e.y,e.w,e.h) then
 
-						e.shield = e.shield - p.damage
-						e.shieldopacity = 100
+					e.shield = e.shield - p.damage
+					e.shieldopacity = 100
 						
-						if not p.collide then
-							table.remove(projectiles.missiles, z)
-						end
+					if p.type == "rocket" then
+						explosions:addobject(
+							p.x-explosions.size/2+p.w/2,p.y-explosions.size/2+p.h/2,0,0
+						)
+					end
+						
+					if not p.collide then
+						table.remove(projectiles.missiles, z)
+					end
 				
-						sound:play(enemies.sound.hit)
-				
+					sound:play(enemies.sound.hit)
+
 				end
 			end
 		end
 		
 		if e.shield <= 0 then
-			e.alive = false
+			if e.alive then
+				e.alive = false
+				explosions:addobject(
+					e.x-explosions.size/2+e.w/2,e.y-explosions.size/2+e.h/2,e.xvel,e.yvel
+				)
+			end
+			
 			e.shield = 0
 			e.opacity = e.opacity - self.fadespeed *dt
+			
 			if e.opacity <= 0 then
 				table.remove(self.wave, i)
 			

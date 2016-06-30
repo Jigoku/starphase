@@ -117,6 +117,11 @@ function projectiles:update(dt)
 				p.timer = math.max(0, p.timer - dt)
 				if p.timer <= 0 then
 					sound:play(projectiles.rocket.sound.launch)
+					--[[ FIX THIS!"
+					explosions:addobject(
+						p.x-explosions.size/2+p.w/2,p.y-explosions.size/2+p.h/2,0,0
+					)
+					--]]
 					table.remove(self.missiles, i)
 				end
 			end

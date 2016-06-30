@@ -90,7 +90,7 @@ function player:init(playersel)
 	player.hasrocket = true
 	player.haswave = true
 	player.hasblaster = true
-	player.hasbeam = true
+	player.hasbeam = false
 
 		
 	
@@ -103,31 +103,6 @@ function player:update(dt)
 	if paused then return end
 	self.idle = true
 	
-	
-	if debug then 
-		if love.keyboard.isDown("1") then 
-			self:fireCannon(dt)
-		end
-		if love.keyboard.isDown("2") then 
-			self:fireBlaster(dt)
-		end
-		if love.keyboard.isDown("3") then 
-			self:firePlasma(dt)
-		end
-		if love.keyboard.isDown("4") then 
-			self:fireBeam(dt)
-		end
-		if love.keyboard.isDown("5") then 
-			self:fireRadial(dt)
-		end
-		if love.keyboard.isDown("6") then 
-			self:addBarrier(dt)
-		end
-		if love.keyboard.isDown("7") then 
-			self:fireRocket(dt)
-		end
-		
-	end
 	
 	if not player.alive then 
 			self.respawnCycle = math.max(0, self.respawnCycle - dt)
@@ -257,7 +232,11 @@ function player:update(dt)
 	end	
 	
 	
-	if player.shield <= 0 then
+	if player.shield <= 0 and player.alive then
+		explosions:addobject(
+			player.x-explosions.size/2+player.w/2,player.y-explosions.size/2+player.h/2,0,0
+		)
+		
 		player.shield = 0
 		self.alive = false
 		player.lives = player.lives -1
