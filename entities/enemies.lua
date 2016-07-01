@@ -419,6 +419,7 @@ function enemies:update(dt)
 						explosions:addobject(
 							p.x-explosions.size/2+p.w/2,p.y-explosions.size/2+p.h/2,-p.xvel/8,-p.yvel/8
 						)
+						sound:play(projectiles.rocket.sound.explode)
 					end
 						
 					if not p.collide then

@@ -17,10 +17,10 @@ explosions = {}
 explosions.objects = {} --stores the active explosions
 
 explosions.quad = love.graphics.newQuad
-explosions.sprite = love.graphics.newImage("gfx/explosion/explosion.png")
+explosions.sprite = love.graphics.newImage("gfx/explosion/bleed/explosion.png")
 explosions.min = 1
 explosions.max = 13
-explosions.size = 195
+explosions.size = explosions.sprite:getHeight()
 explosions.quads = { }
 explosions.quads['explosion'] = { }
 explosions.red = 255
@@ -42,6 +42,7 @@ for n=1,explosions.max do
 	
 	jx = jx + explosions.size
 end
+
 
 function explosions:addobject(x,y,xvel,yvel)
 	table.insert(self.objects, {
@@ -95,15 +96,18 @@ function explosions:draw()
 	
 	for i=#self.objects,1,-1 do
 		local e = self.objects[i]
+		local x = math.floor(e.x)
+		local y = math.floor(e.y)
+		
 		love.graphics.draw(
 			self.sprite, self.quads['explosion'][e.frame],
-			e.x,
-			e.y,
+			x,
+			y,
 			0, 1, 1
 		)
 		
 		if debug then 
-			love.graphics.rectangle("line",e.x,e.y,e.w,e.h)
+			love.graphics.rectangle("line",x,y,e.w,e.h)
 		end
 	end
 	

@@ -65,6 +65,7 @@ function player:init(playersel)
 	player.rocket.cycle = 0
 	player.rocket.delay = 0.8
 	
+
 	player.wave = {}
 	player.wave.switch = false
 	player.wave.delay = 1
@@ -86,11 +87,11 @@ function player:init(playersel)
 	--weapon powerups
 	player.hascannon = true --default
 	player.hasplasma = true 
-	player.hasradial = true
+	player.hasradial = false
 	player.hasrocket = true
-	player.haswave = true
+	player.haswave = false
 	player.hasblaster = true
-	player.hasbeam = true
+	player.hasbeam = false
 
 		
 	
@@ -227,6 +228,7 @@ function player:update(dt)
 
 	if love.keyboard.isDown(binds.special) 
 	or love.mouse.isDown("r") then
+
 			-- decide whether energy should be used for special attacks
 			-- possibly remove this and just have powerups added automatically
 	end	
@@ -250,22 +252,24 @@ function player:update(dt)
 end
 
 function player:draw()
-
-
+	
 	if not player.alive then return end
+	
+	local x = math.floor(self.x)
+	local y = math.floor(self.y)
 	love.graphics.push()
 
 	love.graphics.setColor(255,255,255,255)
 	
 	love.graphics.draw(
-		self.gfx, self.x, 
-		self.y, 0, 1, 1
+		self.gfx, x, 
+		y, 0, 1, 1
 	)
 	
 
 	if debug then
 		love.graphics.setColor(255,255,0,100)
-		love.graphics.rectangle("line", self.x,self.y, self.gfx:getWidth(),self.gfx:getHeight())
+		love.graphics.rectangle("line", x,y, self.gfx:getWidth(),self.gfx:getHeight())
 	end
 	
 	love.graphics.pop()

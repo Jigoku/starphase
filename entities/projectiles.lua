@@ -66,13 +66,17 @@ projectiles.radial.sound.shoot:setVolume(0.5)
 projectiles.radial.description = "Deploys self destructing mines"
 
 projectiles.rocket = {}
-projectiles.rocket.gfx = love.graphics.newImage("gfx/projectiles/rocket.png")
+projectiles.rocket.gfx = love.graphics.newImage("gfx/projectiles/jswars/rocket.png")
 projectiles.rocket.damage = 80
 projectiles.rocket.sound = {}
 projectiles.rocket.sound.shoot = love.audio.newSource("sfx/projectiles/shoot7.ogg", "static")
 projectiles.rocket.sound.shoot:setVolume(0.3)
 projectiles.rocket.sound.launch = love.audio.newSource("sfx/projectiles/shoot6.ogg", "static")
 projectiles.rocket.sound.launch:setVolume(0.3)
+projectiles.rocket.sound.explode = love.audio.newSource("sfx/explosions/NenadSimic/muffled-distant.ogg", "static")
+projectiles.rocket.sound.explode:setVolume(1)
+
+
 projectiles.rocket.description = "Alternating rockets which explode on contact"
 
 projectiles.barrier = {}
@@ -192,7 +196,8 @@ end
 function projectiles:draw()
 	for _, p in ipairs (projectiles.missiles) do
 
-
+		local x = math.floor(p.x)
+		local y = math.floor(p.y)
 
 
 		if p.player then
@@ -200,24 +205,24 @@ function projectiles:draw()
 			if p.type == "cannon" then
 				love.graphics.setColor(p.r,p.g,p.b,255)
 				love.graphics.draw(
-					p.gfx,  p.x, 
-					p.y, 0, 1, 1				
+					p.gfx,  x, 
+					y, 0, 1, 1				
 				)
 			end
 			
 			if p.type == "blaster" then
 				love.graphics.setColor(p.r,p.g,p.b,255)
 				love.graphics.draw(
-					p.gfx,  p.x, 
-					p.y, 0, 1, 1				
+					p.gfx,  x, 
+					y, 0, 1, 1				
 				)
 			end
 			
 			if p.type == "wave" then
 				love.graphics.setColor(p.r,p.g,p.b,150)
 				love.graphics.draw(
-					p.gfx,  p.x, 
-					p.y, 0, 1, 1				
+					p.gfx,  x, 
+					y, 0, 1, 1				
 				)				
 			end
 			
@@ -228,8 +233,8 @@ function projectiles:draw()
 				love.graphics.rotate(p.rotation or 0)
 				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
 				love.graphics.draw(
-					p.gfx, p.x, 
-					p.y,  0, 1, 1
+					p.gfx, x, 
+					y,  0, 1, 1
 				)
 				love.graphics.pop()
 			end
@@ -237,10 +242,24 @@ function projectiles:draw()
 			if p.type == "rocket" then
 				love.graphics.setColor(p.r,p.g,p.b,255)
 				love.graphics.draw(
-					p.gfx,  p.x, 
-					p.y, 0, 1, 1				
+					p.gfx,  x, 
+					y, 0, 1, 1				
 				)
 				
+			end
+			
+			
+			if p.type == "homingrocket" then
+				love.graphics.push()
+				love.graphics.setColor(p.r,p.g,p.b,255)
+				love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
+				love.graphics.rotate(p.rotation or 0)
+				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
+				love.graphics.draw(
+					p.gfx, x, 
+					y,  0, 1, 1
+				)
+				love.graphics.pop()
 			end
 			
 			if p.type == "barrier" then
@@ -250,8 +269,8 @@ function projectiles:draw()
 				love.graphics.rotate(p.rotation or 0)
 				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
 				love.graphics.draw(
-					p.gfx,  p.x, 
-					p.y,  0, 1, 1
+					p.gfx,  x, 
+					y,  0, 1, 1
 				)
 				love.graphics.pop()
 			end
@@ -259,8 +278,8 @@ function projectiles:draw()
 			if p.type == "beam" then
 				love.graphics.setColor(p.r,p.g,p.b,125)
 				love.graphics.draw(
-					p.gfx, p.x, 
-					p.y, 0, 1, 1				
+					p.gfx, x, 
+					y, 0, 1, 1				
 				)
 	
 
@@ -270,8 +289,8 @@ function projectiles:draw()
 			if p.type == "cannon" then
 				love.graphics.setColor(p.r,p.g,p.b,255)
 				love.graphics.draw(
-					p.gfx,  p.x, 
-					p.y, 0, -1, 1,p.w
+					p.gfx,  x, 
+					y, 0, -1, 1,p.w
 				)
 			end
 		end
