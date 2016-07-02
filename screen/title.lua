@@ -62,6 +62,7 @@ function title:init()
 	starfield.nebulae.r = 0
 	starfield.nebulae.g = 255
 	starfield.nebulae.b = 255
+	starfield.offset = 0  
 	starfield.speed = 0.2
 	starfield:populate()
 	love.graphics.setBackgroundColor(0,0,0,255)

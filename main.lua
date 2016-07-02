@@ -80,13 +80,16 @@ function initarcade(playersel)
 	debugarcade = false
 	mode = "arcade"
 	love.graphics.setBackgroundColor(0,0,0,255)
+	
+	starfield.offset = love.graphics.getHeight()/2-100
 	starfield.nebulae.r = 0
 	starfield.nebulae.g = 255
 	starfield.nebulae.b = 255
 	player:init(playersel)
-	starfield.speed = 1.1
+	starfield.speed = 1.8
 	starfield:populate()
 	hud:init()
+
 	
 	sound:playbgm(math.random(3,#sound.music))
 end

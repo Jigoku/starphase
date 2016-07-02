@@ -21,7 +21,7 @@ projectiles.cannon = {}
 projectiles.cannon.gfx = love.graphics.newImage("gfx/projectiles/cannon.png")
 projectiles.cannon.damage = 10
 projectiles.cannon.sound = {}
-projectiles.cannon.sound.shoot = love.audio.newSource("sfx/projectiles/shoot.ogg", "static")
+projectiles.cannon.sound.shoot = love.audio.newSource("sfx/projectiles/cannon.ogg", "static")
 projectiles.cannon.sound.shoot:setVolume(0.3)
 projectiles.cannon.description = "Standard issue pulse cannons"
 
@@ -69,10 +69,10 @@ projectiles.rocket = {}
 projectiles.rocket.gfx = love.graphics.newImage("gfx/projectiles/jswars/rocket.png")
 projectiles.rocket.damage = 80
 projectiles.rocket.sound = {}
-projectiles.rocket.sound.shoot = love.audio.newSource("sfx/projectiles/shoot7.ogg", "static")
+projectiles.rocket.sound.shoot = love.audio.newSource("sfx/projectiles/rocket_shoot.ogg", "static")
 projectiles.rocket.sound.shoot:setVolume(0.3)
-projectiles.rocket.sound.launch = love.audio.newSource("sfx/projectiles/shoot6.ogg", "static")
-projectiles.rocket.sound.launch:setVolume(0.3)
+projectiles.rocket.sound.launch = love.audio.newSource("sfx/projectiles/rocket_launch.ogg", "static")
+projectiles.rocket.sound.launch:setVolume(0.2)
 projectiles.rocket.sound.explode = love.audio.newSource("sfx/explosions/NenadSimic/muffled-distant.ogg", "static")
 projectiles.rocket.sound.explode:setVolume(1)
 

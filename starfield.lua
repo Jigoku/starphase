@@ -21,15 +21,14 @@
 starfield = {}
 starfield.objects = {}
 
-starfield.offset = 334 -- populate starfield this amount higher than screen height
---^^^ disabled due to scaling issue (needs fixing)
+starfield.offset = 0  
 
-starfield.w = love.graphics.getWidth()
-starfield.h = love.graphics.getHeight()+starfield.offset
-starfield.limit = 400
+-- 326 -- populate starfield this amount higher than screen height
+--^^^ disabled due to scaling issue (needs fixing)
+starfield.limit = 500
 starfield.speed = 1.5
-starfield.canvas = love.graphics.newCanvas(starfield.w, starfield.h)
 starfield.dense_star = love.graphics.newImage("gfx/glow.png")
+
 
 starfield.nebulae = { }
 starfield.nebulae.quad = love.graphics.newQuad
@@ -83,6 +82,12 @@ function starfield:populate()
 	projectiles.missiles = {}
 	pickups.items = {}
 	
+	
+	starfield.w = love.graphics.getWidth()
+	starfield.h = love.graphics.getHeight()+starfield.offset
+	starfield.canvas = love.graphics.newCanvas(starfield.w, starfield.h)
+
+	
 	--populate starfield
 	for i=0,self.limit do
 		self:addobject(
@@ -96,7 +101,7 @@ end
 
 function starfield:addobject(x,y)
 	local type = math.random(0,100)
-	local velocity = math.random(40,100)
+	local velocity = math.random(10,100)
 	local gfx
 	
 	--normal star
@@ -123,6 +128,7 @@ function starfield:addobject(x,y)
 		g = self.nebulae.green
 		b = self.nebulae.blue
 		o = math.random(40,100)
+		scale = math.random(1,1.5)
 	end
 	
 	--debris
@@ -140,6 +146,7 @@ function starfield:addobject(x,y)
 		b = b or 255,
 		gfx = gfx or nil,
 		o = o or nil,
+		scale = scale or 1,
 	})
 end
 
@@ -168,7 +175,7 @@ function starfield:update(dt)
 		o.x = o.x - (o.velocity *dt)
 		
 		if  o.type == 1 then
-			if o.x < -self.nebulae.size then
+			if o.x < -self.nebulae.size*o.scale then
 				table.remove(self.objects, i)
 			end
 					
@@ -227,7 +234,7 @@ function starfield:draw(x,y)
 
 			love.graphics.draw(
 				starfield.nebulae.sprite, o.gfx,  o.x, 
-				o.y-starfield.nebulae.size/2, 0, 1, 1
+				o.y-starfield.nebulae.size/2, 0, o.scale, o.scale
 				
 			)
 			if debug then
@@ -236,8 +243,8 @@ function starfield:draw(x,y)
 					"line",
 					o.x,
 					o.y-starfield.nebulae.size/2,
-					starfield.nebulae.size,
-					starfield.nebulae.size
+					starfield.nebulae.size*o.scale,
+					starfield.nebulae.size*o.scale
 				)
 			end
 			
