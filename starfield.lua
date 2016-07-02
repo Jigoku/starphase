@@ -38,8 +38,8 @@ starfield.nebulae.max = 16
 starfield.nebulae.size = 512
 starfield.nebulae.quads = { }
 starfield.nebulae.quads['nebula'] = { }
-starfield.nebulae.red = 0
-starfield.nebulae.green = 255
+starfield.nebulae.red = 255
+starfield.nebulae.green = 0
 starfield.nebulae.blue = 255
 
 -- colour themes
@@ -101,13 +101,13 @@ end
 
 function starfield:addobject(x,y)
 	local type = math.random(0,100)
-	local velocity = math.random(10,100)
+	local velocity = math.random(10,150)
 	local gfx
 	
 	--normal star
-	local r = math.random(200,255)
-	local g = math.random(200,255)
-	local b = math.random(200,255)
+	local r = math.random(170,215)
+	local g = math.random(170,215)
+	local b = math.random(170,215)
 	local o = velocity
 	
 	--dense star

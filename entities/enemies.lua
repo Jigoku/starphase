@@ -473,8 +473,6 @@ end
 function enemies:draw()
 	
 	for _, e in pairs (self.wave) do
-		local x = math.floor(e.x)
-		local y = math.floor(e.y)
 	
 		if e.angle then
 			--rotating face to player
@@ -486,8 +484,8 @@ function enemies:draw()
 			
 			love.graphics.setColor(255,255,255,e.opacity)
 			love.graphics.draw(
-				e.gfx,  x+e.w, 
-				y, 0, 1, 1,e.w
+				e.gfx,  e.x+e.w, 
+				e.y, 0, 1, 1,e.w
 				
 			)
 			enemies:drawshield(e)
@@ -495,8 +493,8 @@ function enemies:draw()
 		else
 			love.graphics.setColor(255,255,255,e.opacity)
 			love.graphics.draw(
-				e.gfx,  x+e.w, 
-				y, 0, -1, 1
+				e.gfx,  e.x+e.w, 
+				e.y, 0, -1, 1
 				
 			)
 			enemies:drawshield(e)
