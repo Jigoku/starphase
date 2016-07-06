@@ -21,14 +21,15 @@
 starfield = {}
 starfield.objects = {}
 
-starfield.offset = 0  
+starfield.offset = 0
 
 -- 326 -- populate starfield this amount higher than screen height
 --^^^ disabled due to scaling issue (needs fixing)
-starfield.limit = 500
+starfield.limit = 1000
 starfield.speed = 1.5
-starfield.dense_star = love.graphics.newImage("gfx/glow.png")
 
+starfield.dense_star = love.graphics.newImage("gfx/glow.png")
+starfield.star = love.graphics.newImage("gfx/star.png")
 
 starfield.nebulae = { }
 starfield.nebulae.quad = love.graphics.newQuad
@@ -38,10 +39,16 @@ starfield.nebulae.max = 16
 starfield.nebulae.size = 512
 starfield.nebulae.quads = { }
 starfield.nebulae.quads['nebula'] = { }
-starfield.nebulae.red = 255
-starfield.nebulae.green = 0
-starfield.nebulae.blue = 255
+starfield.nebulae.red = 0
+starfield.nebulae.green = 205
+starfield.nebulae.blue = 205
 
+starfield.count = {
+	nebulae = 0,
+	star = 0,
+	dense = 0,
+	debris = 0,
+}
 -- colour themes
 --
 -- orange 		255,155,55
@@ -101,14 +108,14 @@ end
 
 function starfield:addobject(x,y)
 	local type = math.random(0,100)
-	local velocity = math.random(10,150)
+	local velocity = math.random(30,160)
 	local gfx
 	
 	--normal star
 	local r = math.random(170,215)
 	local g = math.random(170,215)
 	local b = math.random(170,215)
-	local o = velocity
+	local o = math.random(10,140)
 	
 	--dense star
 	if type == 0 then
@@ -122,19 +129,20 @@ function starfield:addobject(x,y)
 	
 	--nebula
 	if type == 1 then
-		velocity = 20
+		velocity = 30
 		gfx = self.nebulae.quads['nebula'][math.random(self.nebulae.min,self.nebulae.max)]
 		r = self.nebulae.red
 		g = self.nebulae.green
 		b = self.nebulae.blue
-		o = math.random(40,100)
-		scale = math.random(1,1.5)
+		o = math.random(40,90)
+		scale = math.random(10,15)/10
 	end
 	
 	--debris
 	if type > 1 and type < 8 then
 		velocity = 1500
 	end
+	
 	
 	table.insert(self.objects, {
 		x = x,
@@ -168,13 +176,14 @@ function starfield:update(dt)
 	end
 	
 	--process object movement
+	self.count = {}
 	
 	for i=#self.objects,1,-1 do
 		local o = self.objects[i]
 		
 		o.x = o.x - (o.velocity *dt)
 		
-		if  o.type == 1 then
+		if o.type == 1 then
 			if o.x < -self.nebulae.size*o.scale then
 				table.remove(self.objects, i)
 			end
@@ -205,8 +214,14 @@ function starfield:draw(x,y)
 	
 		
 		--star
-		love.graphics.setColor(o.r,o.g,o.b,o.o*1.4)
-		love.graphics.line(o.x,o.y, o.x,o.y+1)
+		--love.graphics.setColor(o.r,o.g,o.b,o.o*1.4)
+		--love.graphics.line(o.x,o.y, o.x,o.y+1)
+		
+		love.graphics.setColor(o.r,o.g,o.b,o.o)
+		love.graphics.draw(
+			self.star, o.x-self.star:getWidth()/2, 
+			o.y-self.star:getHeight()/2, 0, 1, 1
+		)
 
 		--dense star
 		if o.type == 0 then

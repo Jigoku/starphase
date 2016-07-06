@@ -37,7 +37,7 @@ function player:init(playersel)
 	player.maxvel = 550
 	player.xvel = 0
 	player.yvel = 0
-	player.float = 1.5
+	player.float = 1.3
 	player.respawnCycle = 3
 	player.respawnDelay = 3
 	player.alive = true
@@ -87,11 +87,11 @@ function player:init(playersel)
 	--weapon powerups
 	player.hascannon = true --default
 	player.hasplasma = true 
-	player.hasradial = true
+	player.hasradial = false
 	player.hasrocket = true
-	player.haswave = true
-	player.hasblaster = false
-	player.hasbeam = true
+	player.haswave = false
+	player.hasblaster = true
+	player.hasbeam = false
 
 		
 	
