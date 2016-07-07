@@ -21,7 +21,7 @@ player.sounds = {}
 
 function player:init(playersel)
 	player.type = playersel
-	player.gfx = love.graphics.newImage("gfx/starship/"..player.type.."_small.png") -- default
+	player.gfx = love.graphics.newImage("gfx/player/"..player.type.."_small.png") -- default
 
 	player.x = love.graphics.getWidth()/3
 	player.y = love.graphics.getHeight()/2-player.gfx:getHeight()/2
@@ -255,21 +255,19 @@ function player:draw()
 	
 	if not player.alive then return end
 	
-	local x = math.floor(self.x)
-	local y = math.floor(self.y)
 	love.graphics.push()
 
 	love.graphics.setColor(255,255,255,255)
 	
 	love.graphics.draw(
-		self.gfx, x, 
-		y, 0, 1, 1
+		self.gfx, self.x, 
+		self.y, 0, 1, 1
 	)
 	
 
 	if debug then
 		love.graphics.setColor(255,255,0,100)
-		love.graphics.rectangle("line", x,y, self.gfx:getWidth(),self.gfx:getHeight())
+		love.graphics.rectangle("line", self.x,self.y, self.gfx:getWidth(),self.gfx:getHeight())
 	end
 	
 	love.graphics.pop()
@@ -648,8 +646,8 @@ function player:addBarrier(dt)
 		yvel = 0,
 		damage = projectiles.barrier.damage,
 		r = 255,
-		g = 50,
-		b = 100,
+		g = 255,
+		b = 255,
 	})
 
 end

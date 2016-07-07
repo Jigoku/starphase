@@ -45,9 +45,9 @@ title.sounds = {}
 title.sounds.option = love.audio.newSource("sfx/menu/option.ogg",static)
 title.sounds.select = love.audio.newSource("sfx/menu/select.ogg",static)
 	
-title.ship1 = love.graphics.newImage("gfx/starship/1_large.png")
-title.ship2 = love.graphics.newImage("gfx/starship/2_large.png")
-title.ship3 = love.graphics.newImage("gfx/starship/3_large.png")
+title.ship1 = love.graphics.newImage("gfx/player/1_large.png")
+title.ship2 = love.graphics.newImage("gfx/player/2_large.png")
+title.ship3 = love.graphics.newImage("gfx/player/3_large.png")
 title.planet = love.graphics.newImage("gfx/planets/planet_19.png")
 
 function title:init()

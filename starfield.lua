@@ -176,19 +176,40 @@ function starfield:update(dt)
 	end
 	
 	--process object movement
-	self.count = {}
+	starfield.count = {
+		nebulae = 0,
+		star = 0,
+		dense = 0,
+		debris = 0,
+	}
 	
 	for i=#self.objects,1,-1 do
 		local o = self.objects[i]
 		
 		o.x = o.x - (o.velocity *dt)
 		
-		if o.type == 1 then
+		if o.type == 0 then
+			self.count.dense = self.count.dense +1
+			if o.x < 0 then
+				table.remove(self.objects, i)
+			end
+			
+
+		elseif o.type == 1 then
+			self.count.nebulae = self.count.nebulae +1
 			if o.x < -self.nebulae.size*o.scale then
 				table.remove(self.objects, i)
 			end
-					
+			
+			
+		elseif o.type > 1 and o.type < 8 then
+			self.count.debris = self.count.debris +1
+			if o.x < 0 then
+				table.remove(self.objects, i)
+			end
 		else
+			self.count.star = self.count.star +1
+			
 			if o.x < 0 then
 				table.remove(self.objects, i)
 			end

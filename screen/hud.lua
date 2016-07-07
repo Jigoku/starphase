@@ -16,12 +16,13 @@
 hud = {}
 
 hud.console = {
-	w = 700,
+	w = 720,
 	h = 250,
 	x = 10,
 	y = -250,
 	canvas = love.graphics.newCanvas(w, h),
 	speed = 400,
+	opacity = 220,
 }
 
 function hud:init()
@@ -98,6 +99,7 @@ function hud:draw()
 	
   --hud
 	--decor / lines
+	if not debug then
 	love.graphics.setColor(155,255,255,50)
 	
 	--dynamic decor/lines
@@ -178,6 +180,7 @@ function hud:draw()
 		love.graphics.getWidth()-61,20,
 		love.graphics.getWidth()-love.graphics.getWidth()/4,20
 	)
+	end
 	
 	
 	--time
@@ -317,7 +320,7 @@ function hud:drawconsole()
 		if mode == "arcade" then
 		--divider
 		love.graphics.setColor(155,255,255,100)
-		love.graphics.line(hud.console.x+10,hud.console.y+60, hud.console.x+500,hud.console.y+60)
+		love.graphics.line(hud.console.x+10,hud.console.y+60, hud.console.x+hud.console.w-10,hud.console.y+60)
 
 
 		--player info
@@ -348,15 +351,22 @@ function hud:drawconsole()
 		--arena info
 		love.graphics.setColor(100,190,200,255)
 
-		love.graphics.print("starfield  : " .. #starfield.objects,hud.console.x+215,hud.console.y+70)
+		love.graphics.print("starfield  : " .. string.format("%04d",#starfield.objects) .. 
+			" [star:" .. string.format("%03d",starfield.count.star) .. "]" .. 
+			"[dense:" .. string.format("%02d",starfield.count.dense) .. "]" .. 
+			"[nebulae:" .. string.format("%02d",starfield.count.nebulae) .. "]" .. 
+			"[debris:" .. string.format("%02d",starfield.count.debris) .. "]"
+			,hud.console.x+215,hud.console.y+70
+		)
 		love.graphics.print("projectiles: " .. #projectiles.missiles,hud.console.x+215,hud.console.y+90)
 		love.graphics.print("enemies    : " .. #enemies.wave,hud.console.x+215,hud.console.y+110)
 		love.graphics.print("pickups    : " .. #pickups.items,hud.console.x+215,hud.console.y+130)
 		love.graphics.print("explosions : " .. #explosions.objects,hud.console.x+215,hud.console.y+150)
+	
 		end
 	love.graphics.setCanvas()
 
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(255,255,255,hud.console.opacity)
 	love.graphics.draw(hud.console.canvas,hud.console.x,hud.console.y)
 	end
 	

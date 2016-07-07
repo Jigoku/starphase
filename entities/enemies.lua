@@ -30,13 +30,13 @@ enemies.shield = love.graphics.newImage("gfx/shield_large.png")
 
 
 enemies.type = {
-	delta = love.graphics.newImage("gfx/starship/6_small.png"),
-	abomination = love.graphics.newImage("gfx/starship/8_large.png"),
-	dart = love.graphics.newImage("gfx/starship/7_small.png"),
-	train = love.graphics.newImage("gfx/starship/7_small.png"),
-	tri = love.graphics.newImage("gfx/starship/7_small.png"),
-	large  = love.graphics.newImage("gfx/starship/6_large.png"),
-	crescent = love.graphics.newImage("gfx/starship/9_large.png"),
+	delta = love.graphics.newImage("gfx/enemy/6_small.png"),
+	abomination = love.graphics.newImage("gfx/enemy/8_large.png"),
+	dart = love.graphics.newImage("gfx/enemy/2_small.png"),
+	train = love.graphics.newImage("gfx/enemy/7_small.png"),
+	tri = love.graphics.newImage("gfx/enemy/7_small.png"),
+	large  = love.graphics.newImage("gfx/enemy/6_large.png"),
+	crescent = love.graphics.newImage("gfx/enemy/9_large.png"),
 }
 
 
@@ -526,7 +526,7 @@ function enemies:draw()
 			love.graphics.print("x:"..x, x-10,y-10)
 			love.graphics.print("y:".. y, x-10,y)
 			
-			love.graphics.print("shield: "..e.shield .. "/" ..e.shieldmax, x-10,y+10)
+			love.graphics.print("shield: "..math.floor(e.shield) .. "/" ..e.shieldmax, x-10,y+10)
 			
 			love.graphics.setColor(255,155,255,155)
 			love.graphics.rectangle("line", x,y, e.w, e.h)
