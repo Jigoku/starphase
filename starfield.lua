@@ -29,8 +29,7 @@ starfield.limit = 1000
 starfield.speed = 1.5
 
 starfield.hyperspace = love.graphics.newImage("gfx/hyperspace.png")
-
-
+starfield.mist = love.graphics.newImage("gfx/mist.png")
 starfield.dense_star = love.graphics.newImage("gfx/glow.png")
 starfield.star = love.graphics.newImage("gfx/star.png")
 
@@ -41,8 +40,8 @@ starfield.nebulae.max = 16
 starfield.nebulae.size = 512
 starfield.nebulae.quads = loadsprite(starfield.nebulae.sprite, starfield.nebulae.size, starfield.nebulae.max )
 starfield.nebulae.red = 0
-starfield.nebulae.green = 205
-starfield.nebulae.blue = 205
+starfield.nebulae.green = 220
+starfield.nebulae.blue = 220
 
 
 -- colour themes
@@ -73,6 +72,9 @@ function starfield:populate()
 	starfield.w = love.graphics.getWidth()
 	starfield.h = love.graphics.getHeight()+starfield.offset
 	starfield.canvas = love.graphics.newCanvas(starfield.w, starfield.h)
+	starfield.mist_quad = love.graphics.newQuad(0,0, starfield.w, starfield.h, starfield.mist:getDimensions() )
+	starfield.mist:setWrap("repeat", "repeat")
+	starfield.mist_scroll = 0
 	
 	--populate starfield
 	for i=0,self.limit do
@@ -223,6 +225,13 @@ function starfield:update(dt)
 		end
 	end
 
+	--mist overlay
+	self.mist_scroll = self.mist_scroll + (5 * dt)
+	if self.mist_scroll > self.mist:getWidth()then
+		self.mist_scroll = 0
+	end
+	self.mist_quad:setViewport(self.mist_scroll,0,starfield.w,starfield.h )
+
 end
 
 
@@ -233,6 +242,12 @@ function starfield:draw(x,y)
 	
 	love.graphics.setColor(0,0,0,255)
 	love.graphics.rectangle("fill", 0,0,self.w,self.h )
+	
+	--overlay  mist effect 
+	love.graphics.setColor(self.nebulae.red,self.nebulae.green,self.nebulae.blue,25)
+	love.graphics.draw(
+		self.mist, self.mist_quad, 0,0, 0, self.w/self.mist:getWidth(), self.h/self.mist:getHeight()
+	)
 	
 	love.graphics.setColor(255,255,255,255)
 
@@ -319,10 +334,9 @@ function starfield:draw(x,y)
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.draw(self.canvas, x,y,0,love.graphics.getWidth()/starfield.w,love.graphics.getWidth()/starfield.w)
 
-	--overlay mild hyperspace effect (experiment with this as an animation)
+	--overlay  hyperspace effect 
 	love.graphics.setColor(255,255,255,20)
 	love.graphics.draw(
 		starfield.hyperspace, 0,0, 0, 1920/starfield.hyperspace:getWidth(), 1080/starfield.hyperspace:getHeight()
 	)
-
 end
