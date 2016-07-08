@@ -8,4 +8,4 @@ See `binds.lua` for game controls
 GNU GPLv3 / CC-BY-SA
 
 # Previews
-![screen16](https://cloud.githubusercontent.com/assets/1535179/16680690/6089b384-44e8-11e6-895b-ff97e20dd148.png)
+![screen17](https://cloud.githubusercontent.com/assets/1535179/16699540/a2b70360-454c-11e6-9a06-c75b331a2d30.png)
