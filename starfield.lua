@@ -35,13 +35,11 @@ starfield.dense_star = love.graphics.newImage("gfx/glow.png")
 starfield.star = love.graphics.newImage("gfx/star.png")
 
 starfield.nebulae = { }
-starfield.nebulae.quad = love.graphics.newQuad
 starfield.nebulae.sprite = love.graphics.newImage("gfx/nebulae/proc_sheet_nebula.png")
 starfield.nebulae.min = 1
 starfield.nebulae.max = 16
 starfield.nebulae.size = 512
-starfield.nebulae.quads = { }
-starfield.nebulae.quads['nebula'] = { }
+starfield.nebulae.quads = loadsprite(starfield.nebulae.sprite, starfield.nebulae.size, starfield.nebulae.max )
 starfield.nebulae.red = 0
 starfield.nebulae.green = 205
 starfield.nebulae.blue = 205
@@ -54,28 +52,6 @@ starfield.nebulae.blue = 205
 -- red 			255,55,55
 -- pink 		255,100,255
 -- blue/orange 	100,100,255
-
-local jy = 0
-local jx = 0
-for n=1,starfield.nebulae.max do
-	--load the sprites from a spritesheet 
-	starfield.nebulae.quads['nebula'][n] = starfield.nebulae.quad(
-		jx, 
-		jy, 
-		starfield.nebulae.size, 
-		starfield.nebulae.size,  
-		starfield.nebulae.sprite:getWidth(), 
-		starfield.nebulae.sprite:getHeight()
-	)
-	
-	jx = jx + starfield.nebulae.size
-	
-	if jx >= starfield.nebulae.sprite:getWidth() then 
-		jx = 0
-		jy = jy + starfield.nebulae.size
-	end
-end
-
 
 
 
@@ -184,7 +160,7 @@ function starfield:addNebula(x,y)
 		g = self.nebulae.green,
 		b = self.nebulae.blue,
 		o = math.random(40,90),
-		gfx = self.nebulae.quads['nebula'][math.random(self.nebulae.min,self.nebulae.max)],
+		gfx = self.nebulae.quads[math.random(self.nebulae.min,self.nebulae.max)],
 		scale = scale
 	})
 	self.count.nebulae = self.count.nebulae +1

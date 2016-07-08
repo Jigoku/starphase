@@ -388,8 +388,8 @@ function enemies:update(dt)
 		if player.alive and e.alive then
 			if collision:check(e.x,e.y,e.w,e.h, player.x,player.y,player.w,player.h) then
 				table.remove(enemies.wave, i)
-				explosions:addobject(
-						e.x-explosions.size/2+e.w/2,e.y-explosions.size/2+e.h/2,e.xvel,e.yvel
+				explosions:addLarge(
+						e.x+e.w/2,e.y+e.h/2,e.xvel,e.yvel
 				)
 				
 				if not cheats.invincible then
@@ -416,8 +416,8 @@ function enemies:update(dt)
 					e.shieldopacity = 100
 						
 					if p.type == "rocket" then
-						explosions:addobject(
-							p.x-explosions.size/2+p.w/2,p.y-explosions.size/2+p.h/2,-p.xvel/8,-p.yvel/8
+						explosions:addLarge(
+							p.x+p.w/2,p.y+p.h/2,-p.xvel/8,-p.yvel/8
 						)
 						sound:play(projectiles.rocket.sound.explode)
 					end
@@ -436,8 +436,8 @@ function enemies:update(dt)
 			if e.alive then
 				e.alive = false
 				e.shield = 0
-				explosions:addobject(
-					e.x-explosions.size/2+e.w/2,e.y-explosions.size/2+e.h/2,e.xvel/2,e.yvel/2
+				explosions:addLarge(
+					e.x+e.w/2,e.y+e.h/2,e.xvel/2,e.yvel/2
 				)
 			end
 			

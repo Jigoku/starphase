@@ -12,7 +12,12 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
-
+ 
+require("misc")
+require("binds")
+require("collision")
+require("sound")
+require("starfield")
 require("screen/title")
 require("screen/hud")
 require("screen/fonts")
@@ -21,14 +26,6 @@ require("entities/enemies")
 require("entities/explosions")
 require("entities/player")
 require("entities/projectiles")
-require("misc")
-require("binds")
-require("starfield")
-require("collision")
-require("sound")
-
-
-
 
 
 

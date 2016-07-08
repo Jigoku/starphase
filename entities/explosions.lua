@@ -16,45 +16,50 @@
 explosions = {}
 explosions.objects = {} --stores the active explosions
 
-explosions.quad = love.graphics.newQuad
-explosions.sprite = love.graphics.newImage("gfx/explosion/bleed/explosion.png")
-explosions.min = 1
-explosions.max = 13
-explosions.size = explosions.sprite:getHeight()
-explosions.quads = { }
-explosions.quads['explosion'] = { }
-explosions.red = 255
-explosions.green = 255
-explosions.blue = 255
-
-local jy = 0
-local jx = 0
-for n=1,explosions.max do
-	--load the sprites from a spritesheet 
-	explosions.quads['explosion'][n] = explosions.quad(
-		jx, 
-		jy, 
-		explosions.size, 
-		explosions.size,  
-		explosions.sprite:getWidth(), 
-		explosions.sprite:getHeight()
-	)
-	
-	jx = jx + explosions.size
-end
+explosions.large_sprite = love.graphics.newImage("gfx/explosion/bleed/explosion.png")
+explosions.large_size = explosions.large_sprite:getHeight()
+explosions.large_min = 1
+explosions.large_max = 13
+explosions.large_quads = loadsprite(explosions.large_sprite, explosions.large_size, explosions.large_max )
 
 
-function explosions:addobject(x,y,xvel,yvel)
+explosions.small_sprite = love.graphics.newImage("gfx/explosion/jswars/explosion2.png")
+explosions.small_size = explosions.small_sprite:getHeight()
+explosions.small_min = 1
+explosions.small_max = 17
+explosions.small_quads = loadsprite(explosions.small_sprite, explosions.small_size, explosions.small_max )
+
+
+
+function explosions:addLarge(x,y,xvel,yvel)
 	table.insert(self.objects, {
-		frame = 1,
+		type = "large",
+		frame = self.large_min,
+		maxframes = self.large_max,
 		delay = 0.05,
 		cycle = 0,
-		x = x,
-		y = y,
+		x = x-self.large_size/2,
+		y = y-self.large_size/2,
 		xvel = xvel,
 		yvel = yvel,
-		w = self.size,
-		h = self.size,
+		w = self.large_size,
+		h = self.large_size,
+	})
+end
+
+function explosions:addSmall(x,y,xvel,yvel)
+	table.insert(self.objects, {
+		type = "small",
+		frame = self.small_min,
+		maxframes = self.small_max,
+		delay = 0.04,
+		cycle = 0,
+		x = x-self.small_size/2,
+		y = y-self.small_size/2,
+		xvel = xvel,
+		yvel = yvel,
+		w = self.small_size,
+		h = self.small_size,
 	})
 end
 
@@ -82,7 +87,7 @@ function explosions:update(dt)
 			e.frame = e.frame +1
 			e.cycle = e.delay
 			
-			if e.frame >= self.max then
+			if e.frame >= e.maxframes then
 				table.remove(self.objects, i)
 			end
 			
@@ -92,19 +97,29 @@ end
 
 
 function explosions:draw()
-	love.graphics.setColor(170,170,255,205)
 	
 	for i=#self.objects,1,-1 do
 		local e = self.objects[i]
 		local x = math.floor(e.x)
 		local y = math.floor(e.y)
 		
-		love.graphics.draw(
-			self.sprite, self.quads['explosion'][e.frame],
-			x,
-			y,
-			0, 1, 1
-		)
+		if e.type == "large" then
+			love.graphics.setColor(170,170,255,205)
+			love.graphics.draw(
+				self.large_sprite, self.large_quads[e.frame],
+				x,
+				y,
+				0, 1, 1
+			)
+		elseif e.type == "small" then
+			love.graphics.setColor(255,255,255,205)
+			love.graphics.draw(
+				self.small_sprite, self.small_quads[e.frame],
+				x,
+				y,
+				0, 1, 1
+			)
+		end
 		
 		if debug then 
 			love.graphics.rectangle("line",x,y,e.w,e.h)

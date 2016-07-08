@@ -235,8 +235,8 @@ function player:update(dt)
 	
 	
 	if player.shield <= 0 and player.alive then
-		explosions:addobject(
-			player.x-explosions.size/2+player.w/2,player.y-explosions.size/2+player.h/2,0,0
+		explosions:addLarge(
+			player.x+player.w/2,player.y+player.h/2,0,0
 		)
 		
 		player.shield = 0
