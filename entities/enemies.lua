@@ -416,12 +416,19 @@ function enemies:update(dt)
 					e.shieldopacity = 100
 						
 					if p.type == "rocket" then
+						sound:play(projectiles.rocket.sound.explode)
 						explosions:addLarge(
 							p.x+p.w/2,p.y+p.h/2,-p.xvel/8,-p.yvel/8
 						)
-						sound:play(projectiles.rocket.sound.explode)
 					end
 						
+					if p.type == "radial" then
+						sound:play(projectiles.rocket.sound.explode)
+						explosions:addSmall(
+							p.x+p.w/2,p.y+p.h/2,0,0
+						)
+					end
+					
 					if not p.collide then
 						table.remove(projectiles.missiles, z)
 					end
