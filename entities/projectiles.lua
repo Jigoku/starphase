@@ -120,8 +120,8 @@ function projectiles:update(dt)
 				
 				p.timer = math.max(0, p.timer - dt)
 				if p.timer <= 0 then
-					sound:play(projectiles.rocket.sound.launch)
-					
+					--sound:play(projectiles.rocket.sound.launch)
+					sound:play(projectiles.rocket.sound.explode)
 					explosions:addSmall(
 						p.x+p.w/2,p.y+p.h/2,0,0
 					)
