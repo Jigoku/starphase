@@ -59,7 +59,7 @@ function love.load(args)
 	game = {}
 	game.width, game.height, game.flags = love.window.getMode( )
 
-	game.max_fps = 60	
+	game.max_fps = 200
 	game.min_dt = 1/game.max_fps
 	game.next_time = love.timer.getTime()
 	
@@ -152,12 +152,12 @@ function love.draw()
 
 	-- caps fps
 
-		local cur_time = love.timer.getTime()
-		if game.next_time <= cur_time then
-			game.next_time = cur_time
-			return
-		end
-		love.timer.sleep(game.next_time - cur_time)
+	local cur_time = love.timer.getTime()
+	if game.next_time <= cur_time then
+		game.next_time = cur_time
+		return
+	end
+	love.timer.sleep(game.next_time - cur_time)
 
 end
 

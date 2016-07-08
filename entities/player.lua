@@ -86,10 +86,10 @@ function player:init(playersel)
 	
 	--weapon powerups
 	player.hascannon = true --default
-	player.hasplasma = true 
+	player.hasplasma = false 
 	player.hasradial = false
 	player.hasrocket = true
-	player.haswave = false
+	player.haswave = true
 	player.hasblaster = true
 	player.hasbeam = false
 
@@ -332,7 +332,6 @@ function player:fireWave(dt)
 		
 	if self.wave.cycle <= 0 then
 		sound:play(projectiles.wave.sound.shoot)
-			
 		
 		table.insert(projectiles.missiles, {
 			player = true,

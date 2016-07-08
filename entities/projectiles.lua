@@ -97,26 +97,26 @@ function projectiles:update(dt)
 
 			
 			if p.type == "cannon" then
-				p.x = p.x + p.xvel *dt
+				p.x = p.x + (p.xvel *dt)
 			end
 			
 			if p.type == "blaster" then
-				p.x = p.x + p.xvel *dt
+				p.x = p.x + (p.xvel *dt)
 			end
 			
 			if p.type == "plasma" then
 				self:rotate(p, 15, dt)
-				p.x = p.x + p.xvel *dt
+				p.x = p.x + (p.xvel *dt)
 			end
 			
 			if p.type == "beam" then
-				p.x = p.x + p.xvel *dt
+				p.x = p.x + (p.xvel *dt)
 			end
 			
 			if p.type == "radial" then
 				self:rotate(p, 5, dt)
-				p.x = p.x + p.xvel *dt
-				p.y = p.y + p.yvel *dt
+				p.x = p.x + (p.xvel *dt)
+				p.y = p.y + (p.yvel *dt)
 				
 				p.timer = math.max(0, p.timer - dt)
 				if p.timer <= 0 then
@@ -131,13 +131,13 @@ function projectiles:update(dt)
 			end
 			
 			if p.type == "wave" then
-				if p.yvel > 300 then p.switch = false end
-				if p.yvel < -300 then p.switch = true end
+				if p.yvel > 250 then p.switch = false end
+				if p.yvel < -250 then p.switch = true end
 			
-				p.yvel = p.yvel + (p.switch and 50 or -50)
+				p.yvel = p.yvel + (p.switch and 2500 or -2500) *dt
 				
-				p.x = p.x + p.xvel *dt
-				p.y = p.y + p.yvel *dt
+				p.x = p.x + (p.xvel *dt)
+				p.y = p.y + (p.yvel *dt)
 				
 			end
 			
@@ -150,10 +150,10 @@ function projectiles:update(dt)
 						p.launched = true
 					end
 				else
-					p.yvel = p.yvel + (p.switch and 10 or -10)
+					p.yvel = p.yvel + (p.switch and 500 or -500) *dt
 					
-					p.y = p.y + p.yvel *dt
-					p.x = p.x + 80 *dt
+					p.y = p.y + (p.yvel *dt)
+					p.x = p.x + (80 *dt)
 				end
 			end
 			

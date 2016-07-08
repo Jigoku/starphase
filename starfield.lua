@@ -143,7 +143,7 @@ function starfield:addobject(x,y)
 		velocity = 1500
 	end
 	
-	
+
 	table.insert(self.objects, {
 		x = x,
 		y = y,
