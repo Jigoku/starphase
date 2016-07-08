@@ -131,8 +131,8 @@ function projectiles:update(dt)
 			end
 			
 			if p.type == "wave" then
-				if p.yvel > 250 then p.switch = false end
-				if p.yvel < -250 then p.switch = true end
+				if p.yvel > 300 then p.switch = false end
+				if p.yvel < -300 then p.switch = true end
 			
 				p.yvel = p.yvel + (p.switch and 2500 or -2500) *dt
 				

@@ -354,7 +354,7 @@ function enemies:update(dt)
 		-- test basic enemy movements
 		if e.type == "abomination" then
 			if e.x < 1450 and e.xvel >= 0 then
-				e.xvel = e.xvel - 10 *dt
+				e.xvel = e.xvel - (10 *dt)
 			
 				
 				if e.xvel <= 0 then 
@@ -366,9 +366,9 @@ function enemies:update(dt)
 					end
 				
 					if player.y + player.h/2 < e.y + e.h/2 then
-						e.yvel = e.yvel + 100 *dt
+						e.yvel = e.yvel + (100 *dt)
 					elseif player.y + player.h/2 > e.y + e.h/2 then
-						e.yvel = e.yvel - 100 *dt
+						e.yvel = e.yvel - (100 *dt)
 					end
 					
 					if e.yvel > 100 then e.yvel = 100 end
@@ -382,8 +382,8 @@ function enemies:update(dt)
 		end
 		
 		
-		e.x = (e.x - e.xvel *dt)
-		e.y = (e.y - e.yvel *dt)
+		e.x = e.x - (e.xvel *dt)
+		e.y = e.y - (e.yvel *dt)
 		
 		if player.alive and e.alive then
 			if collision:check(e.x,e.y,e.w,e.h, player.x,player.y,player.w,player.h) then

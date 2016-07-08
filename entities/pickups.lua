@@ -71,8 +71,8 @@ function pickups:update(dt)
 	if paused then return end
 	
 	for i, p in ipairs(pickups.items) do
-		p.x = p.x + p.xvel *dt
-		p.y = p.y + p.yvel *dt
+		p.x = p.x + (p.xvel *dt)
+		p.y = p.y + (p.yvel *dt)
 		
 		if p.x+p.w > love.graphics.getWidth() then
 			p.xvel = -p.xvel

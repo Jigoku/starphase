@@ -73,8 +73,8 @@ function explosions:update(dt)
 			table.remove(self.objects, i)
 		end
 		
-		e.x = (e.x - e.xvel *dt)
-		e.y = (e.y - e.yvel *dt)
+		e.x = e.x - (e.xvel *dt)
+		e.y = e.y - (e.yvel *dt)
 		
 		e.cycle = math.max(0, e.cycle - dt)
 		
