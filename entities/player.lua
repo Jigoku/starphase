@@ -24,7 +24,7 @@ function player:init(playersel)
 	player.gfx = love.graphics.newImage("gfx/player/"..player.type.."_small.png") -- default
 
 	player.x = love.graphics.getWidth()/3
-	player.y = love.graphics.getHeight()/2-player.gfx:getHeight()/2
+	player.y = (starfield.h+starfield.offset)/2-player.gfx:getHeight()
 	player.w = player.gfx:getWidth()
 	player.h = player.gfx:getHeight()
 	player.lives = 3
@@ -86,12 +86,12 @@ function player:init(playersel)
 	
 	--weapon powerups
 	player.hascannon = true --default
-	player.hasplasma = false 
-	player.hasradial = false
+	player.hasplasma = true 
+	player.hasradial = true
 	player.hasrocket = true
 	player.haswave = true
 	player.hasblaster = true
-	player.hasbeam = false
+	player.hasbeam = true
 
 		
 	
@@ -345,9 +345,9 @@ function player:fireWave(dt)
 			xvel = 750,
 			yvel = 0,
 			damage = projectiles.wave.damage,
-			r = 100,
-			g = 100,
-			b = 255,
+			r = 255,
+			g = 50,
+			b = 220,
 		})
 		
 		
@@ -363,9 +363,9 @@ function player:fireWave(dt)
 			xvel = 750,
 			yvel = 0,
 			damage = projectiles.wave.damage,
-			r = 100,
-			g = 100,
-			b = 255,
+			r = 255,
+			g = 50,
+			b = 220,
 		})
 		
 		self.wave.cycle = self.wave.delay
@@ -621,9 +621,9 @@ function player:fireBeam(dt)
 			xvel = 800,
 			yvel = 0,
 			damage = projectiles.beam.damage,
-			r = 255,
-			g = 50,
-			b = 220,
+			r = 50,
+			g = 200,
+			b = 255,
 		})
 		self.beam.cycle = self.beam.delay
 	end		

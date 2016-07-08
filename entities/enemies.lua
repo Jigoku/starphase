@@ -232,7 +232,7 @@ function enemies:add_large()
 		x = starfield.w,
 		y = math.random(gfx:getHeight(),starfield.h-gfx:getHeight()),
 		yvel = 0,
-		xvel = 150,
+		xvel = 200,
 		gfx = gfx or nil,
 		score = 500,
 		shield = 500,

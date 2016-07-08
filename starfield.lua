@@ -43,12 +43,7 @@ starfield.nebulae.red = 0
 starfield.nebulae.green = 205
 starfield.nebulae.blue = 205
 
-starfield.count = {
-	nebulae = 0,
-	star = 0,
-	dense = 0,
-	debris = 0,
-}
+
 -- colour themes
 --
 -- orange 		255,155,55
@@ -82,18 +77,23 @@ end
 
 
 function starfield:populate()
-	--reset
+	starfield.count = {
+		nebulae = 0,
+		star = 0,
+		dense = 0,
+		debris = 0,
+	}
+
+	--reset all entities
 	starfield.objects = {}
 	enemies.wave = {}
 	explosions.objects = {}
 	projectiles.missiles = {}
 	pickups.items = {}
 	
-	
 	starfield.w = love.graphics.getWidth()
 	starfield.h = love.graphics.getHeight()+starfield.offset
 	starfield.canvas = love.graphics.newCanvas(starfield.w, starfield.h)
-
 	
 	--populate starfield
 	for i=0,self.limit do
@@ -104,58 +104,106 @@ function starfield:populate()
 	end
 end
 
-
-
-function starfield:addobject(x,y)
-	local type = math.random(0,100)
-	local velocity = math.random(30,160)
-	local gfx
-	
-	--normal star
-	local r = math.random(170,215)
-	local g = math.random(170,215)
-	local b = math.random(170,215)
-	local o = math.random(10,140)
-	
-	--dense star
-	if type == 0 then
-		velocity = math.random(40,70) 
-		gfx = self.dense_star
-		r = math.random (100,255)
-		g = math.random (100,255)
-		b = math.random (100,255)
-		o = velocity
-	end
-	
-	--nebula
-	if type == 1 then
-		velocity = 30
-		gfx = self.nebulae.quads['nebula'][math.random(self.nebulae.min,self.nebulae.max)]
-		r = self.nebulae.red
-		g = self.nebulae.green
-		b = self.nebulae.blue
-		o = math.random(40,90)
-		scale = math.random(10,15)/10
-	end
-	
-	--debris
-	if type > 1 and type < 8 then
-		velocity = 1500
-	end
-	
-
+function starfield:addStar(x,y)
+	--normal star	
 	table.insert(self.objects, {
 		x = x,
 		y = y,
-		velocity = velocity * self.speed,
-		type = type,
-		r = r or 255,
-		g = g or 255,
-		b = b or 255,
-		gfx = gfx or nil,
-		o = o or nil,
-		scale = scale or 1,
+		w = self.star:getWidth(),
+		h = self.star:getHeight(),
+		velocity = math.random(30,160) * self.speed,
+		type = "star",
+		r = math.random(170,215),
+		g = math.random(170,215),
+		b = math.random(170,215),
+		o = math.random(10,140),
+		gfx = self.star,
+		scale = 1
 	})
+	self.count.star = self.count.star +1
+end
+
+function starfield:addDense_star(x,y)
+	--dense star
+	if self.count.dense < 15 then
+	table.insert(self.objects, {
+		x = x,
+		y = y,
+		w = self.dense_star:getWidth(),
+		h = self.dense_star:getHeight(),
+		velocity = math.random(40,70)  * self.speed,
+		type = "dense_star",
+		r = math.random (100,255),
+		g = math.random (100,255),
+		b = math.random (100,255),
+		o = math.random(30,70),
+		gfx = self.dense_star,
+		scale = 1
+	})
+	self.count.dense = self.count.dense +1
+	end
+end
+
+function starfield:addDebris(x,y)
+	--debris
+	if not (mode == "title") then
+		table.insert(self.objects, {
+			x = x,
+			y = y,
+			w = self.star:getWidth(),
+			h = self.star:getHeight(),
+			velocity = 1500  * self.speed,
+			type = "debris",
+			r = 185,
+			g = 185,
+			b = 185,
+			o = 150,
+			gfx = self.star,
+			scale = 1
+		})
+	end
+	self.count.debris = self.count.debris +1
+end
+		
+		
+function starfield:addNebula(x,y)
+	--nebula
+	if self.count.nebulae < 15 then
+	local scale = math.random(10,15)/10
+	table.insert(self.objects, {
+		x = x,
+		y = y,
+		w = self.nebulae.size*scale,
+		h = self.nebulae.size*scale,
+		velocity = 30  * self.speed,
+		type = "nebula",
+		r = self.nebulae.red,
+		g = self.nebulae.green,
+		b = self.nebulae.blue,
+		o = math.random(40,90),
+		gfx = self.nebulae.quads['nebula'][math.random(self.nebulae.min,self.nebulae.max)],
+		scale = scale
+	})
+	self.count.nebulae = self.count.nebulae +1
+	end
+end
+	
+	
+
+function starfield:addobject(x,y)
+	local n = math.random(0,100)
+	local velocity, type, gfx, r,g,b,o
+
+	if n == 0 then
+		self:addDense_star(x,y)
+	elseif n == 1 then
+		self:addNebula(x,y)
+	elseif n > 1 and n < 8 then
+		self:addDebris(x,y)
+	else
+		self:addStar(x,y)
+	end
+
 end
 
 
@@ -176,45 +224,24 @@ function starfield:update(dt)
 	end
 	
 	--process object movement
-	starfield.count = {
-		nebulae = 0,
-		star = 0,
-		dense = 0,
-		debris = 0,
-	}
 	
 	for i=#self.objects,1,-1 do
 		local o = self.objects[i]
 		
 		o.x = o.x - (o.velocity *dt)
 		
-		if o.type == 0 then
-			self.count.dense = self.count.dense +1
-			if o.x < 0 then
-				table.remove(self.objects, i)
-			end
-			
-
-		elseif o.type == 1 then
-			self.count.nebulae = self.count.nebulae +1
-			if o.x < -self.nebulae.size*o.scale then
-				table.remove(self.objects, i)
-			end
-			
-			
-		elseif o.type > 1 and o.type < 8 then
-			self.count.debris = self.count.debris +1
-			if o.x < 0 then
-				table.remove(self.objects, i)
-			end
-		else
-			self.count.star = self.count.star +1
-			
-			if o.x < 0 then
-				table.remove(self.objects, i)
+		if o.x+o.w < 0 then
+			table.remove(self.objects, i)
+			if o.type == "dense_star" then
+				self.count.dense = self.count.dense -1
+			elseif o.type == "nebula" then
+				self.count.nebulae = self.count.nebulae -1
+			elseif o.type == "debris" then
+				self.count.debris = self.count.debris -1
+			elseif o.type == "star" then
+				self.count.star = self.count.star -1
 			end
 		end
-		
 	end
 
 end
@@ -228,29 +255,30 @@ function starfield:draw(x,y)
 	love.graphics.setColor(0,0,0,255)
 	love.graphics.rectangle("fill", 0,0,self.w,self.h )
 	
-
 	love.graphics.setColor(255,255,255,255)
 
 	for _, o in ipairs(self.objects) do
-	
 		
-		--star
-		--love.graphics.setColor(o.r,o.g,o.b,o.o*1.4)
-		--love.graphics.line(o.x,o.y, o.x,o.y+1)
-		
-		love.graphics.setColor(o.r,o.g,o.b,o.o)
-		love.graphics.draw(
-			self.star, o.x-self.star:getWidth()/2, 
-			o.y-self.star:getHeight()/2, 0, 1, 1
-		)
-
-		--dense star
-		if o.type == 0 then
+		if o.type == "star" then
 			love.graphics.setColor(o.r,o.g,o.b,o.o)
 			love.graphics.draw(
 				o.gfx, o.x-o.gfx:getWidth()/2, 
 				o.y-o.gfx:getHeight()/2, 0, 1, 1
 			)
+		end
+
+		if o.type == "dense_star" then
+			love.graphics.setColor(o.r,o.g,o.b,o.o)
+			love.graphics.draw(
+				o.gfx, o.x-o.gfx:getWidth()/2, 
+				o.y-o.gfx:getHeight()/2, 0, 1, 1
+			)
+			love.graphics.setColor(255,255,255,100)
+			love.graphics.draw(
+				self.star, o.x-self.star:getWidth()/2, 
+				o.y-self.star:getHeight()/2, 0, 1, 1
+			)
+			
 			if debug then
 				love.graphics.rectangle(
 					"line",
@@ -263,8 +291,7 @@ function starfield:draw(x,y)
 
 		end
 
-		--nebulae
-		if o.type == 1 then
+		if o.type == "nebula" then
 			love.graphics.setColor(o.r,o.g,o.b,o.o)
 			if o.gfx then
 
@@ -287,8 +314,8 @@ function starfield:draw(x,y)
 			end
 		end
 			
-		--debris
-		if o.type > 1 and o.type < 8 then
+
+		if o.type == "debris" then
 			love.graphics.setColor(255,255,255,20)
 			love.graphics.line(o.x,o.y, o.x+150,o.y)
 		end
@@ -305,7 +332,6 @@ function starfield:draw(x,y)
 		projectiles:draw()
 		player:draw()
 	end
-
 
 	
 	love.graphics.setCanvas()

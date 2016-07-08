@@ -34,10 +34,6 @@ require("sound")
 
 function love.load(args)
 
-  
-	--used to scale things (reccomended display resolution)
-	WIDTH=1920
-	HEIGHT=1080
 
 	debug = false
 	debugarcade = false
@@ -59,10 +55,15 @@ function love.load(args)
 	game = {}
 	game.width, game.height, game.flags = love.window.getMode( )
 
-	game.max_fps = 200
+	game.max_fps = game.flags.refreshrate
 	game.min_dt = 1/game.max_fps
 	game.next_time = love.timer.getTime()
 	
+	game.scale = {}
+	game.scale.x = love.graphics.getWidth()/1920
+	game.scale.y = love.graphics.getHeight()/1080
+	game.scale.w = 1920
+	game.scale.h = 1080
 	
 	cursor = love.mouse.newCursor( "gfx/cursor.png", 0, 0 )
 	love.mouse.setCursor(cursor)	
@@ -81,7 +82,7 @@ function initarcade(playersel)
 	mode = "arcade"
 	love.graphics.setBackgroundColor(0,0,0,255)
 	
-	starfield.offset = love.graphics.getHeight()/2-100
+	starfield.offset = love.graphics.getHeight()/2-200
 	starfield.nebulae.r = 0
 	starfield.nebulae.g = 255
 	starfield.nebulae.b = 255
@@ -129,9 +130,10 @@ end
 
 
 
-
+	
 function love.draw()
-
+	--investigate this......
+	--love.graphics.scale(game.scale.x,game.scale.y)
 	
 	--draw arcade game
 	if mode == "arcade" then
@@ -187,15 +189,15 @@ function love.keypressed(key)
 	end
 	
 	if key == "0" then
-		love.window.setMode(1024,(HEIGHT/WIDTH)*1024 )
+		love.window.setMode(1024,(game.scale.h/game.scale.w)*1024 )
 	end
 	
 	if key == "9" then
-		love.window.setMode(800,(HEIGHT/WIDTH)*800 )
+		love.window.setMode(800,(game.scale.h/game.scale.w)*800 )
 	end
 	
 	if key == "8" then
-		love.window.setMode(1200,(HEIGHT/WIDTH)*1200 )
+		love.window.setMode(1200,(game.scale.h/game.scale.w)*1200 )
 	end
 	
 	
