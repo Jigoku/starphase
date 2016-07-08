@@ -28,6 +28,9 @@ starfield.offset = 0
 starfield.limit = 1000
 starfield.speed = 1.5
 
+starfield.hyperspace = love.graphics.newImage("gfx/hyperspace.png")
+
+
 starfield.dense_star = love.graphics.newImage("gfx/glow.png")
 starfield.star = love.graphics.newImage("gfx/star.png")
 
@@ -334,9 +337,16 @@ function starfield:draw(x,y)
 	end
 
 	
+	
 	love.graphics.setCanvas()
 
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.draw(self.canvas, x,y,0,love.graphics.getWidth()/starfield.w,love.graphics.getWidth()/starfield.w)
+
+	--overlay mild hyperspace effect (experiment with this as an animation)
+	love.graphics.setColor(255,255,255,20)
+	love.graphics.draw(
+		starfield.hyperspace, 0,0, 0, 1920/starfield.hyperspace:getWidth(), 1080/starfield.hyperspace:getHeight()
+	)
 
 end

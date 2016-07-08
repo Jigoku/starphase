@@ -138,7 +138,7 @@ function love.draw()
 	--draw arcade game
 	if mode == "arcade" then
 		starfield:draw(0,-player.y/4)
-
+		
 		hud:draw()
 	end
 	

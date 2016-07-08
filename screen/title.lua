@@ -132,14 +132,13 @@ function title:draw()
 	end
 	
 	starfield:draw(0,0)
-	
+
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.draw(title.planet,0-title.planet:getWidth()/2, starfield.h/2-title.planet:getHeight()/2 )	
+	
+			
 	love.graphics.setCanvas(title.menu.canvas)
 	title.menu.canvas:clear()
-
-	
-	
 	
 	love.graphics.setFont(fonts.title_large)		
 	local wrap = 500
