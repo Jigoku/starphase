@@ -172,7 +172,7 @@ function projectiles:update(dt)
 					 
 				table.remove(self.missiles, i)
 				player.shield = player.shield - p.damage
-				sound:play(enemies.sound.explode)
+				sound:play(explosions.sounds[math.random(1,#explosions.sounds)])
 					
 		
 			end
