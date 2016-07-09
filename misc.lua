@@ -15,27 +15,27 @@
  
 misc = {}
 
-function loadsprite(sprite, framesize, maxframes )
+function loadsprite(sprite, size, frames )
 	-- returns a table of quads used for sprite animation
 	local y = 0
 	local x = 0
 	local quad = love.graphics.newQuad
 	local quads = {}
 	
-	for n=1,maxframes do
+	for n=1,frames do
 		quads[n] = quad(
 			x, 
 			y, 
-			framesize, 
-			framesize,  
+			size, 
+			size,  
 			sprite:getWidth(), 
 			sprite:getHeight()
 		)
-		x = x + framesize
+		x = x + size
 		
 		if x >= sprite:getWidth() then 
 			x = 0
-			y = y + framesize
+			y = y + size
 		end
 	end
 	

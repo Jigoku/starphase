@@ -226,7 +226,7 @@ function starfield:update(dt)
 	end
 
 	--mist overlay
-	self.mist_scroll = self.mist_scroll + (5 * dt)
+	self.mist_scroll = self.mist_scroll + ((5*self.speed )* dt)
 	if self.mist_scroll > self.mist:getWidth()then
 		self.mist_scroll = 0
 	end
@@ -331,12 +331,14 @@ function starfield:draw(x,y)
 	
 	love.graphics.setCanvas()
 
+	
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.draw(self.canvas, x,y,0,love.graphics.getWidth()/starfield.w,love.graphics.getWidth()/starfield.w)
-
+	
 	--overlay  hyperspace effect 
 	love.graphics.setColor(255,255,255,20)
 	love.graphics.draw(
 		starfield.hyperspace, 0,0, 0, 1920/starfield.hyperspace:getWidth(), 1080/starfield.hyperspace:getHeight()
 	)
+
 end

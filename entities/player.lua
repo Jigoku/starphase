@@ -102,7 +102,6 @@ end
 
 function player:update(dt)
 	if paused then return end
-	self.idle = true
 	
 	
 	if not player.alive then 
@@ -120,6 +119,17 @@ function player:update(dt)
 		return
 	end
 	
+	self:move(dt)
+	self:checkPickups(dt)
+	self:checkShield(dt)
+	self:checkEnergy(dt)
+	self:shoot(dt)
+
+end
+
+function player:move(dt)
+	self.idle = true
+	
 	if love.keyboard.isDown(binds.up, binds.altup) then 
 		self.yvel = self.yvel - self.speed * dt
 		self.idle = false
@@ -136,9 +146,6 @@ function player:update(dt)
 		self.xvel = self.xvel + self.speed * dt
 		self.idle = false
 	end
-
-
-
 	
 	if self.idle then
 		if self.yvel ~= 0 then
@@ -164,13 +171,10 @@ function player:update(dt)
 		end
 	end
 	
-	
-	
 	if self.yvel > self.maxvel then self.yvel = self.maxvel	end
 	if self.xvel > self.maxvel then self.xvel = self.maxvel end
 	if self.yvel < -self.maxvel then self.yvel = -self.maxvel end
 	if self.xvel < -self.maxvel then self.xvel = -self.maxvel end
-
 
 	self.y = self.y + self.yvel * dt
 	self.x = self.x + self.xvel * dt
@@ -192,8 +196,30 @@ function player:update(dt)
 		self.y = starfield.h-self.h
 		self.yvel = 0
 	end
-	
+end
 
+function player:checkEnergy(dt)
+	if self.energy < 0 then self.energy = 0 end
+end
+
+function player:checkShield(dt)
+
+	if player.shield <= 0 and player.alive then
+		explosions:addLarge(
+			player.x+player.w/2,player.y+player.h/2,0,0
+		)
+		
+		player.shield = 0
+		player.xvel = 0
+		player.yvel = 0
+		player.lives = player.lives -1
+		self.alive = false
+		if player.lives < 0 then sound:playbgm(2) end
+		
+	end
+end
+
+function player:checkPickups(dt) 
 	for i,p in ipairs(pickups.items) do
 		if player.alive and collision:check(p.x,p.y,p.w,p.h,player.x,player.y,player.w,player.h) then
 			sound:play(pickups.sound)
@@ -212,8 +238,9 @@ function player:update(dt)
 			table.remove(pickups.items, i)
 		end
 	end
+end
 
-
+function player:shoot(dt)
 	if love.keyboard.isDown(binds.shoot) 
 	or love.mouse.isDown("l") then
 		if player.hascannon then self:fireCannon(dt) end
@@ -232,23 +259,6 @@ function player:update(dt)
 			-- decide whether energy should be used for special attacks
 			-- possibly remove this and just have powerups added automatically
 	end	
-	
-	
-	if player.shield <= 0 and player.alive then
-		explosions:addLarge(
-			player.x+player.w/2,player.y+player.h/2,0,0
-		)
-		
-		player.shield = 0
-		player.xvel = 0
-		player.yvel = 0
-		player.lives = player.lives -1
-		self.alive = false
-		if player.lives < 0 then sound:playbgm(2) end
-		
-	end
-	if self.energy < 0 then self.energy = 0 end
-
 end
 
 function player:draw()
@@ -264,7 +274,6 @@ function player:draw()
 		self.y, 0, 1, 1
 	)
 	
-
 	if debug then
 		love.graphics.setColor(255,255,0,100)
 		love.graphics.rectangle("line", self.x,self.y, self.gfx:getWidth(),self.gfx:getHeight())

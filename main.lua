@@ -13,6 +13,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
  
+
+assert(love.graphics.isSupported("canvas"), "Your graphics card does not support canvases, sorry!")
+
 require("misc")
 require("binds")
 require("collision")
