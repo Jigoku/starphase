@@ -29,6 +29,9 @@ sound.music[5] = "sfx/music/maxstack/crystal-space.ogg"
 sound.music[6] = "sfx/music/maxstack/bazaarnet.ogg"
 sound.music[7] = "sfx/music/maxstack/the-client.ogg"
 sound.music[8] = "sfx/music/maxstack/deprecation.ogg"
+sound.music[9] = "sfx/music/maxstack/inevitable.ogg"
+sound.music[10] = "sfx/music/maxstack/mediathreat.ogg"
+
 	
 love.audio.setVolume( 1 )--master volume
 
