@@ -133,6 +133,7 @@ function explosions:draw()
 		end
 		
 		if debug then 
+			love.graphics.setColor(255,190,70,140)
 			love.graphics.rectangle("line",x,y,e.w,e.h)
 		end
 	end
