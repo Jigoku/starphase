@@ -19,7 +19,7 @@ projectiles.missiles = {}
 
 projectiles.cannon = {}
 projectiles.cannon.gfx = love.graphics.newImage("gfx/projectiles/cannon.png")
-projectiles.cannon.damage = 10
+projectiles.cannon.damage = 15
 projectiles.cannon.sound = {}
 projectiles.cannon.sound.shoot = love.audio.newSource("sfx/projectiles/cannon.ogg", "static")
 projectiles.cannon.sound.shoot:setVolume(0.3)
@@ -43,7 +43,7 @@ projectiles.plasma.description = "Alternating plasma cannons"
 
 projectiles.beam = {}
 projectiles.beam.gfx = love.graphics.newImage("gfx/projectiles/beam.png")
-projectiles.beam.damage = 0.2
+projectiles.beam.damage = 0.15
 projectiles.beam.sound = {}
 projectiles.beam.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.ogg", "static")
 projectiles.beam.sound.shoot:setVolume(0.1)
@@ -51,7 +51,7 @@ projectiles.beam.description = "A frequency disruptor, has a more damaging effec
 
 projectiles.wave = {}
 projectiles.wave.gfx = love.graphics.newImage("gfx/projectiles/wave.png")
-projectiles.wave.damage = 2
+projectiles.wave.damage = 0.15
 projectiles.wave.sound = {}
 projectiles.wave.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.ogg", "static")
 projectiles.wave.sound.shoot:setVolume(0.1)
@@ -168,14 +168,12 @@ function projectiles:update(dt)
 			p.x = p.x - math.floor(p.xvel *dt)
 			
 			if not cheats.invincible then
-			if player.alive and collision:check(p.x,p.y,p.w,p.h, player.x,player.y,player.w,player.h) then
+				if player.alive and collision:check(p.x,p.y,p.w,p.h, player.x,player.y,player.w,player.h) then
 					 
-				table.remove(self.missiles, i)
-				player.shield = player.shield - p.damage
-				sound:play(explosions.sounds[math.random(1,#explosions.sounds)])
-					
-		
-			end
+					table.remove(self.missiles, i)
+					player.shield = player.shield - p.damage
+					sound:play(explosions.sounds[math.random(1,#explosions.sounds)])
+				end
 			end
 		end
 		

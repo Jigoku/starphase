@@ -603,7 +603,7 @@ function player:fireBeam(dt)
 			
 		table.insert(projectiles.missiles, {
 			player = true,
-			collide = true, -- whether particle dissapears on collision
+			collide = false, -- whether particle dissapears on collision
 			type = "beam",
 			gfx = projectiles.beam.gfx,
 			w = projectiles.beam.gfx:getWidth(),

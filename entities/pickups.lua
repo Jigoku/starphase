@@ -26,6 +26,7 @@ pickups.type = {
 	[5] = love.graphics.newImage("gfx/pickups/wave.png"),
 	[6] = love.graphics.newImage("gfx/pickups/plasma.png"),
 	[7] = love.graphics.newImage("gfx/pickups/beam.png"),
+	[8] = love.graphics.newImage("gfx/pickups/rocket.png"),
 	
 }
 
@@ -77,7 +78,9 @@ function pickups:update(dt)
 	for i, p in ipairs(pickups.items) do
 		p.x = p.x + (p.xvel *dt)
 		p.y = p.y + (p.yvel *dt)
-		projectiles:rotate(p, 3, dt)
+		
+		projectiles:rotate(p, 1, dt)
+		
 		if p.x+p.w > love.graphics.getWidth() then
 			p.xvel = -p.xvel
 		end
@@ -119,6 +122,10 @@ function pickups:update(dt)
 					
 				elseif p.type == 7 then 
 					player.hasbeam = true
+					player.score = player.score + 500
+					
+				elseif p.type == 8 then 
+					player.hasrocket = true
 					player.score = player.score + 500
 			end
 		
