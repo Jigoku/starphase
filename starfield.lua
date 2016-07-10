@@ -163,7 +163,8 @@ function starfield:addNebula(x,y)
 		b = self.nebulae.blue,
 		o = math.random(40,90),
 		gfx = self.nebulae.quads[math.random(self.nebulae.min,self.nebulae.max)],
-		scale = scale
+		scale = scale,
+		rotation = math.random(math.pi),
 	})
 	self.count.nebulae = self.count.nebulae +1
 	end
@@ -287,24 +288,31 @@ function starfield:draw(x,y)
 		end
 
 		if o.type == "nebula" then
+			love.graphics.push()
+			
 			love.graphics.setColor(o.r,o.g,o.b,o.o)
 			if o.gfx then
-
-			love.graphics.draw(
-				starfield.nebulae.sprite, o.gfx,  o.x, 
-				o.y-starfield.nebulae.size/2, 0, o.scale, o.scale
+			
+				love.graphics.translate(o.x+o.w/2,o.y+o.h/2)
+				love.graphics.rotate(o.rotation or 0)
+				love.graphics.translate(-o.x-o.w/2,-o.y-o.h/2)
+				love.graphics.draw(
+					starfield.nebulae.sprite, o.gfx,  o.x, 
+					o.y, 0, o.scale, o.scale	
+				)
 				
-			)
 			if debug then
 				love.graphics.setColor(0,255,255,40)			
 				love.graphics.rectangle(
 					"line",
 					o.x,
-					o.y-starfield.nebulae.size/2,
-					starfield.nebulae.size*o.scale,
-					starfield.nebulae.size*o.scale
+					o.y,
+					o.w,
+					o.h
 				)
 			end
+			
+			love.graphics.pop()
 			
 			end
 		end
