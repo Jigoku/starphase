@@ -37,7 +37,7 @@ function player:init(playersel)
 	player.maxvel = 550
 	player.xvel = 0
 	player.yvel = 0
-	player.float = 1.3
+	player.drift = 1.1
 	player.respawnCycle = 3
 	player.respawnDelay = 3
 	player.alive = true
@@ -150,22 +150,22 @@ function player:move(dt)
 	if self.idle then
 		if self.yvel ~= 0 then
 			if self.yvel > 0 then
-				self.yvel = self.yvel - (self.speed/self.float) *dt
+				self.yvel = self.yvel - (self.speed/self.drift) *dt
 				if self.yvel < 0 then self.yvel = 0 end
 				
 			elseif player.yvel < 0 then
-				self.yvel = self.yvel + (self.speed/self.float) *dt
+				self.yvel = self.yvel + (self.speed/self.drift) *dt
 				if self.yvel > 0 then self.yvel = 0 end
 			end
 		end
 
 		if self.xvel ~= 0 then
 			if self.xvel > 0 then
-				self.xvel = self.xvel - (self.speed/self.float) *dt
+				self.xvel = self.xvel - (self.speed/self.drift) *dt
 				if self.xvel < 0 then self.xvel = 0 end
 				
 			elseif self.xvel < 0 then
-				self.xvel = self.xvel + (self.speed/self.float) *dt
+				self.xvel = self.xvel + (self.speed/self.drift) *dt
 				if self.xvel > 0 then self.xvel = 0 end
 			end
 		end
