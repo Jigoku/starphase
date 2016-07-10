@@ -458,7 +458,7 @@ function enemies:update(dt)
 				if rand > 12 then
 					pickups:add(e.x+e.w/2,e.y+e.h/2)
 				end
-				hud.score = hud.score + e.score
+				player.score = player.score + e.score
 				sound:play(enemies.sound.explode)			
 			
 			end
@@ -469,6 +469,7 @@ end
 
 function enemies:drawshield(e)
 	if e.shieldopacity > 0 and e.alive then
+		
 		love.graphics.setColor(100,200,255,e.shieldopacity)
 		love.graphics.draw(
 			enemies.shield,  math.floor(e.x)+e.w/2-(enemies.shield:getWidth()/2/e.shieldscale), 

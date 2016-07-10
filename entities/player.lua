@@ -16,7 +16,10 @@
 player = {}
 player.sounds = {}
 
-
+--
+   --add laser beam weapon... follows ship whilst activated
+   --rename current weapons
+--
 
 
 function player:init(playersel)
@@ -27,6 +30,7 @@ function player:init(playersel)
 	player.y = (starfield.h+starfield.offset)/2-player.gfx:getHeight()
 	player.w = player.gfx:getWidth()
 	player.h = player.gfx:getHeight()
+	player.score = 0
 	player.lives = 3
 	player.shield = 100
 	player.shieldmax = 100
@@ -86,12 +90,12 @@ function player:init(playersel)
 	
 	--weapon powerups
 	player.hascannon = true --default
-	player.hasplasma = true 
-	player.hasradial = true
-	player.hasrocket = true
-	player.haswave = true
-	player.hasblaster = true
-	player.hasbeam = true
+	player.hasplasma = false 
+	player.hasradial = false
+	player.hasrocket = false
+	player.haswave = false
+	player.hasblaster = false
+	player.hasbeam = false
 
 		
 	
@@ -120,7 +124,6 @@ function player:update(dt)
 	end
 	
 	self:move(dt)
-	self:checkPickups(dt)
 	self:checkShield(dt)
 	self:checkEnergy(dt)
 	self:shoot(dt)
@@ -219,26 +222,6 @@ function player:checkShield(dt)
 	end
 end
 
-function player:checkPickups(dt) 
-	for i,p in ipairs(pickups.items) do
-		if player.alive and collision:check(p.x,p.y,p.w,p.h,player.x,player.y,player.w,player.h) then
-			sound:play(pickups.sound)
-			
-			if 		   p.type == 1 then player.shield = player.shield + 20
-				elseif p.type == 2 then player.energy = player.energy + 20
-				elseif p.type == 3 then player.speed = player.speed + 200
-				elseif p.type == 4 then player:addBarrier(dt)
-			end
-			
-			if player.shield > player.shieldmax then player.shield = player.shieldmax	end
-			if player.energy > player.energymax then player.energy = player.energymax	end
-			if player.speed > player.speedmax then player.speed = player.speedmax	end
-
-			
-			table.remove(pickups.items, i)
-		end
-	end
-end
 
 function player:shoot(dt)
 	if love.keyboard.isDown(binds.shoot) 

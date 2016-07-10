@@ -167,6 +167,8 @@ end
 
 
 function love.keypressed(key)
+if key == "k" then pickups:add(200,200) end
+
 
 	--global controls
 	if key == binds.fullscreen then misc:togglefullscreen() end

@@ -36,7 +36,6 @@ function hud:init()
 	}	
 	
 	hud.time = 0
-	hud.score = 0
 end
 
 
@@ -238,7 +237,7 @@ function hud:draw()
 	love.graphics.print("progress : " .. math.floor(hud.display.progress/hud.display.w*100).."%", 10,hud.display.h-10)	
 	--score
 	love.graphics.setColor(255,255,255,155)
-	love.graphics.print("score: " .. hud.score, 10+hud.display.w/4,hud.display.h-10)
+	love.graphics.print("score: " .. player.score, 10+hud.display.w/4,hud.display.h-10)
 		
 
 

@@ -274,6 +274,7 @@ function starfield:draw(x,y)
 			)
 			
 			if debug then
+				love.graphics.setColor(o.r,o.g,o.b,o.o)
 				love.graphics.rectangle(
 					"line",
 					o.x-o.gfx:getWidth()/2, 

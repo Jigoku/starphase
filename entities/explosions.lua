@@ -123,7 +123,7 @@ function explosions:draw()
 				0, 1, 1
 			)
 		elseif e.type == "small" then
-			love.graphics.setColor(100,255,255,205)
+			love.graphics.setColor(160,255,255,250)
 			love.graphics.draw(
 				self.small_sprite, self.small_quads[e.frame],
 				x,

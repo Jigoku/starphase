@@ -248,20 +248,6 @@ function projectiles:draw()
 				
 			end
 			
-			
-			if p.type == "homingrocket" then
-				love.graphics.push()
-				love.graphics.setColor(p.r,p.g,p.b,255)
-				love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
-				love.graphics.rotate(p.rotation or 0)
-				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
-				love.graphics.draw(
-					p.gfx, x, 
-					y,  0, 1, 1
-				)
-				love.graphics.pop()
-			end
-			
 			if p.type == "barrier" then
 				love.graphics.push()
 				love.graphics.setColor(p.r,p.g,p.b,140)
@@ -281,10 +267,9 @@ function projectiles:draw()
 					p.gfx, x, 
 					y, 0, 1, 1				
 				)
-	
-
-
 			end
+			
+			
 		elseif not p.player then
 			if p.type == "cannon" then
 				love.graphics.setColor(p.r,p.g,p.b,255)

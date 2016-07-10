@@ -14,15 +14,19 @@
  --]]
  
 pickups = {}
-pickups.texture = love.graphics.newImage("gfx/pickups/template_small.png")
+--pickups.texture = love.graphics.newImage("gfx/pickups/template_small.png")
 pickups.sound = love.audio.newSource("sfx/pickups/collect.ogg", "static")
 
 
 pickups.type = {
-	shield = love.graphics.newImage("gfx/pickups/shield.png"),
-	energy = love.graphics.newImage("gfx/pickups/energy.png"),
-	speed = love.graphics.newImage("gfx/pickups/speed.png"),
-	mystery = love.graphics.newImage("gfx/pickups/mystery.png"),
+	[1] = love.graphics.newImage("gfx/pickups/shield.png"),
+	[2] = love.graphics.newImage("gfx/pickups/energy.png"),
+	[3] = love.graphics.newImage("gfx/pickups/unimplemented.png"),
+	[4] = love.graphics.newImage("gfx/pickups/blaster.png"),
+	[5] = love.graphics.newImage("gfx/pickups/wave.png"),
+	[6] = love.graphics.newImage("gfx/pickups/plasma.png"),
+	[7] = love.graphics.newImage("gfx/pickups/beam.png"),
+	
 }
 
 pickups.items = {} --active pickups on the starfield
@@ -31,21 +35,21 @@ pickups.items = {} --active pickups on the starfield
 function pickups:draw()
 	
 	for _, p in ipairs(pickups.items) do
-		local x = math.floor(p.x)
-		local y = math.floor(p.y)
-	
+		
+		love.graphics.push()
 		--love.graphics.setColor(p.r,p.g,p.b)
 		love.graphics.setColor(255,255,255,255)
+		love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
+		love.graphics.rotate(p.rotation or 0)
+		love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
 		
-		if 		   p.type == 1 then love.graphics.draw(pickups.type.shield, x,y)
-			elseif p.type == 2 then love.graphics.draw(pickups.type.energy, x,y)
-			elseif p.type == 3 then love.graphics.draw(pickups.type.speed, x,y)
-			elseif p.type == 4 then love.graphics.draw(pickups.type.mystery, x,y)
-		end
+		 love.graphics.draw(pickups.type[p.type], p.x,p.y)
+		
+		love.graphics.pop()
 		
 		if debug then
-			love.graphics.rectangle("line", x,y,p.w,p.h)
-			love.graphics.print(p.xvel .. " " ..p.yvel,x-20,y-20)
+			love.graphics.rectangle("line", p.x,p.y,p.w,p.h)
+			love.graphics.print(p.xvel .. " " ..p.yvel,p.x-20,p.y-20)
 		end
 		
 	end
@@ -54,11 +58,11 @@ end
 function pickups:add(x,y)
 
 	table.insert(pickups.items, {
-		type = math.random(1,misc:count(pickups.type)),
+		type = math.random(1,#pickups.type),
 		x = x,
 		y = y,
-		w = pickups.texture:getWidth(),
-		h = pickups.texture:getHeight(),
+		w = 30,
+		h = 30,
 		xvel =  math.random(-70,70),
 		yvel =  math.random(-70,70),
 		r = math.random(100,255),
@@ -73,7 +77,7 @@ function pickups:update(dt)
 	for i, p in ipairs(pickups.items) do
 		p.x = p.x + (p.xvel *dt)
 		p.y = p.y + (p.yvel *dt)
-		
+		projectiles:rotate(p, 3, dt)
 		if p.x+p.w > love.graphics.getWidth() then
 			p.xvel = -p.xvel
 		end
@@ -87,6 +91,44 @@ function pickups:update(dt)
 			p.yvel = -p.yvel
 		end
 
+
+		if player.alive and collision:check(p.x,p.y,p.w,p.h,player.x,player.y,player.w,player.h) then
+			sound:play(pickups.sound)
+			
+			if  p.type == 1 then 
+					player.shield = player.shield + 20
+					player.score = player.score + 150
+				elseif p.type == 2 then 
+					player.energy = player.energy + 20
+					player.score = player.score + 150
+					
+				elseif p.type == 3 then 
+					--unimplemented
+					
+				elseif p.type == 4 then 
+					player.hasblaster = true
+					player.score = player.score + 500
+					
+				elseif p.type == 5 then 
+					player.haswave = true
+					player.score = player.score + 500
+					
+				elseif p.type == 6 then 
+					player.hasplasma = true
+					player.score = player.score + 500
+					
+				elseif p.type == 7 then 
+					player.hasbeam = true
+					player.score = player.score + 500
+			end
+		
+			if player.shield > player.shieldmax then player.shield = player.shieldmax	end
+			if player.energy > player.energymax then player.energy = player.energymax	end
+			if player.speed > player.speedmax then player.speed = player.speedmax	end
+
+				
+			table.remove(pickups.items, i)
+		end
+
 	end
 end
-
