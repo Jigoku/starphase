@@ -248,7 +248,7 @@ function starfield:draw(x,y)
 	love.graphics.setColor(self.nebulae.red,self.nebulae.green,self.nebulae.blue,25)
 	love.graphics.draw(
 		self.mist, self.mist_quad, 0,0, 0, self.w/self.mist:getWidth(), self.h/self.mist:getHeight()
-	)
+	)	
 	
 	love.graphics.setColor(255,255,255,255)
 
@@ -336,14 +336,15 @@ function starfield:draw(x,y)
 		player:draw()
 	end
 
-	
+
 	
 	love.graphics.setCanvas()
+	
 
 	
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.draw(self.canvas, x,y,0,love.graphics.getWidth()/starfield.w,love.graphics.getWidth()/starfield.w)
-	
+
 	--overlay  hyperspace effect 
 	love.graphics.setColor(255,255,255,20)
 	love.graphics.draw(

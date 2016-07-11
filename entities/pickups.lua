@@ -82,13 +82,13 @@ function pickups:update(dt)
 		
 		projectiles:rotate(p, 1, dt)
 		
-		if p.x+p.w > love.graphics.getWidth() then
+		if p.x+p.w > starfield.w then
 			p.xvel = -p.xvel
 		end
 		if p.x < 0 then
 			p.xvel = -p.xvel
 		end
-		if p.y > starfield.h then
+		if p.y +p.h > starfield.h then
 			p.yvel = -p.yvel
 		end
 		if p.y < 0 then

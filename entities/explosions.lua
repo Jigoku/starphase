@@ -16,16 +16,17 @@
 explosions = {}
 explosions.objects = {} --stores the active explosions
 
-explosions.sounds = {}
-explosions.sounds[1] = love.audio.newSource("sfx/explosions/unnamed/explosion01.ogg")
-explosions.sounds[2] = love.audio.newSource("sfx/explosions/unnamed/explosion02.ogg")
-explosions.sounds[3] = love.audio.newSource("sfx/explosions/unnamed/explosion03.ogg")
-explosions.sounds[4] = love.audio.newSource("sfx/explosions/unnamed/explosion04.ogg")
-explosions.sounds[5] = love.audio.newSource("sfx/explosions/unnamed/explosion05.ogg")
-explosions.sounds[6] = love.audio.newSource("sfx/explosions/unnamed/explosion06.ogg")
-explosions.sounds[7] = love.audio.newSource("sfx/explosions/unnamed/explosion07.ogg")
-explosions.sounds[8] = love.audio.newSource("sfx/explosions/unnamed/explosion08.ogg")
-explosions.sounds[9] = love.audio.newSource("sfx/explosions/unnamed/explosion09.ogg")
+explosions.sounds = {
+	[1] = love.audio.newSource("sfx/explosions/unnamed/explosion01.ogg"),
+	[2] = love.audio.newSource("sfx/explosions/unnamed/explosion02.ogg"),
+	[3] = love.audio.newSource("sfx/explosions/unnamed/explosion03.ogg"),
+	[4] = love.audio.newSource("sfx/explosions/unnamed/explosion04.ogg"),
+	[5] = love.audio.newSource("sfx/explosions/unnamed/explosion05.ogg"),
+	[6] = love.audio.newSource("sfx/explosions/unnamed/explosion06.ogg"),
+	[7] = love.audio.newSource("sfx/explosions/unnamed/explosion07.ogg"),
+	[8] = love.audio.newSource("sfx/explosions/unnamed/explosion08.ogg"),
+	[9] = love.audio.newSource("sfx/explosions/unnamed/explosion09.ogg"),
+}
 
 explosions.large_sprite = love.graphics.newImage("gfx/explosion/bleed/explosion.png")
 explosions.large_size = explosions.large_sprite:getHeight()

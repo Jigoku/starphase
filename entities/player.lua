@@ -31,7 +31,7 @@ function player:init(playersel)
 	player.w = player.gfx:getWidth()
 	player.h = player.gfx:getHeight()
 	player.score = 0
-	player.lives = 3
+	player.lives = 9
 	player.shield = 100
 	player.shieldmax = 100
 	player.energy = 100
@@ -49,42 +49,47 @@ function player:init(playersel)
 	player.invincible = false
 	
 	
-	player.cannon = {}
-	player.cannon.switch = false 
-	player.cannon.cycle = 0
-	player.cannon.delay = 0.14
+	player.cannon = {
+		switch = false,
+		cycle = 0,
+		delay = 0.14,
+	}
 	
-	player.plasma = {}
-	player.plasma.switch = false
-	player.plasma.cycle = 0
-	player.plasma.delay = 0.5
+	player.plasma = {
+		switch = false,
+		cycle = 0,
+		delay = 0.5,
+	}
 	
-	player.radial = {}
-	player.radial.switch = nil
-	player.radial.cycle = 0
-	player.radial.delay = 1.75
+	player.radial = {
+		switch = nil,
+		cycle = 0,
+		delay = 1.75,
+	}
 
-	player.rocket = {}
-	player.rocket.switch = false
-	player.rocket.cycle = 0
-	player.rocket.delay = 0.8
+	player.rocket = {
+		switch = false,
+		cycle = 0,
+		delay = 0.8,
+	}
 	
+	player.wave = {
+		switch = false,
+		cycle = 0,
+		delay = 0.05,
+	}
 
-	player.wave = {}
-	player.wave.switch = false
-	player.wave.delay = 1
-	player.wave.cycle = 0
-	player.wave.delay = 0.05
-
-	player.blaster = {}
-	player.blaster.switch = nil
-	player.blaster.cycle = 0
-	player.blaster.delay = 0.25
-
-	player.beam = {}
-	player.beam.switch = nil
-	player.beam.cycle = 0
-	player.beam.delay = 0.02
+	player.blaster = {
+		switch = nil,
+		cycle = 0,
+		delay = 0.25,
+	}
+	
+	player.beam = {
+		switch = nil,
+		cycle = 0,
+		delay = 0.02,
+	}
 	
 
 	
