@@ -66,10 +66,20 @@ function enemies:add_delta()
 			shieldmax = 80,
 			shieldopacity = 0,
 			shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.8,
-			projectileCycle = projectileOffset,
-			projectileDelay = 2,
 			opacity = 255,
 			alive = true,
+			projectileCycle = projectileOffset,
+			projectileDelay = 2,
+			projectileGfx = projectiles.cannon.gfx,
+			projectileR = 255,
+			projectileG = 180,
+			projectileB = 100,
+			projectileDamage = 10,
+			projectileType = "cannon",
+			projectileXvel = 800,
+			projectileYvel = 0,
+			projectileSound = projectiles.cannon.sound.shoot,
+			
 		})
 		ny = ny + gfx:getHeight()
 		nx = nx + gfx:getWidth()
@@ -97,6 +107,17 @@ function enemies:add_abomination()
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
 		opacity = 255,
 		alive = true,
+		projectileCycle = 10,
+		projectileDelay = 3.5,
+		projectileGfx = projectiles.plasma.gfx,
+		projectileR = 255,
+		projectileG = 100,
+		projectileB = 100,
+		projectileDamage = 35,
+		projectileType = "plasma",
+		projectileXvel = 1100,
+		projectileYvel = 0,
+		projectileSound = projectiles.plasma.sound.shoot,
 	})
 
 
@@ -314,29 +335,32 @@ function enemies:update(dt)
 	
 	for i=#self.wave,1,-1 do
 		local e = self.wave[i]
+		
 	
 		if e.angle then
 			e.angle = math.atan2(player.y+player.h/2-e.h/2 - e.y, player.x+player.w/2-e.w/2 - e.x)
 		end
 				
-		if e.projectileCycle then
+		if e.projectileCycle and player.alive then
 			e.projectileCycle = math.max(0, e.projectileCycle - dt)
 			
 			if e.projectileCycle <= 0 then
+				sound:play(e.projectileSound)
+				
 				table.insert(projectiles.missiles, {
 					player = false,
-					type = "cannon",
-					gfx = projectiles.cannon.gfx,
-					w = projectiles.cannon.gfx:getWidth(),
-					h = projectiles.cannon.gfx:getHeight(),
-					x = e.x + e.gfx:getWidth()/2 - projectiles.cannon.gfx:getWidth(),
-					y = e.y + e.gfx:getHeight()/2 - projectiles.cannon.gfx:getHeight()/2,
-					xvel = 800,
-					yvel = 0,
-					damage = projectiles.cannon.damage,
-					r = 255,
-					g = 220,
-					b = 150,
+					type = e.projectileType,
+					gfx = e.projectileGfx,
+					w = e.projectileGfx:getWidth(),
+					h = e.projectileGfx:getHeight(),
+					x = e.x + e.gfx:getWidth()/2 - e.projectileGfx:getWidth(),
+					y = e.y + e.gfx:getHeight()/2 - e.projectileGfx:getHeight()/2,
+					xvel = -e.projectileXvel,
+					yvel = e.projectileYvel,
+					damage = e.projectileDamage,
+					r = e.projectileR,
+					g = e.projectileG,
+					b = e.projectileB,
 				})
 				
 				e.projectileCycle = e.projectileDelay
@@ -360,11 +384,6 @@ function enemies:update(dt)
 				if e.xvel <= 0 then 
 					e.xvel = 0 
 				
-					if not e.projectileCycle then
-						e.projectileCycle = 0
-						e.projectileDelay = 1
-					end
-				
 					if player.y + player.h/2 < e.y + e.h/2 then
 						e.yvel = e.yvel + (100 *dt)
 					elseif player.y + player.h/2 > e.y + e.h/2 then
@@ -374,9 +393,6 @@ function enemies:update(dt)
 					if e.yvel > 100 then e.yvel = 100 end
 					if e.yvel < -100 then e.yvel = -100 end
 				end
-				
-				
-				
 				
 			end
 		end
@@ -453,9 +469,9 @@ function enemies:update(dt)
 			if e.opacity <= 0 then
 				table.remove(self.wave, i)
 			
-				local rand = math.random(0,13)
+				local rand = math.random(0,pickups.chance)
 				--local rand = 9
-				if rand > 12 then
+				if rand > pickups.chance -1 then
 					pickups:add(e.x+e.w/2,e.y+e.h/2)
 				end
 				player.score = player.score + e.score

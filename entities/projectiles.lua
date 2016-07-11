@@ -43,7 +43,7 @@ projectiles.plasma.description = "Alternating plasma cannons"
 
 projectiles.beam = {}
 projectiles.beam.gfx = love.graphics.newImage("gfx/projectiles/beam.png")
-projectiles.beam.damage = 0.15
+projectiles.beam.damage = 0.24
 projectiles.beam.sound = {}
 projectiles.beam.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.ogg", "static")
 projectiles.beam.sound.shoot:setVolume(0.1)
@@ -51,7 +51,7 @@ projectiles.beam.description = "A frequency disruptor, has a more damaging effec
 
 projectiles.wave = {}
 projectiles.wave.gfx = love.graphics.newImage("gfx/projectiles/wave.png")
-projectiles.wave.damage = 0.15
+projectiles.wave.damage = 0.25
 projectiles.wave.sound = {}
 projectiles.wave.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.ogg", "static")
 projectiles.wave.sound.shoot:setVolume(0.1)
@@ -93,7 +93,7 @@ function projectiles:update(dt)
 		local p = self.missiles[i]
 		
 		--player projectiles
-		if p.player then
+		--if p.player then
 
 			
 			if p.type == "cannon" then
@@ -164,8 +164,8 @@ function projectiles:update(dt)
 			end
 
 		--enemy projectiles
-		elseif not p.player then
-			p.x = p.x - math.floor(p.xvel *dt)
+		if not p.player then
+			--p.x = p.x - (p.xvel *dt)
 			
 			if not cheats.invincible then
 				if player.alive and collision:check(p.x,p.y,p.w,p.h, player.x,player.y,player.w,player.h) then
@@ -197,14 +197,21 @@ function projectiles:draw()
 		local x = math.floor(p.x)
 		local y = math.floor(p.y)
 
-
+		local dir, offset
 		if p.player then
+			dir = 1
+			offset = 0
+		else
+			dir = -1
+			offset = p.w
+		end
+			
 
 			if p.type == "cannon" then
 				love.graphics.setColor(p.r,p.g,p.b,255)
 				love.graphics.draw(
 					p.gfx,  x, 
-					y, 0, 1, 1				
+					y, 0, dir, 1, offset
 				)
 			end
 			
@@ -212,7 +219,7 @@ function projectiles:draw()
 				love.graphics.setColor(p.r,p.g,p.b,255)
 				love.graphics.draw(
 					p.gfx,  x, 
-					y, 0, 1, 1				
+					y, 0, dir, 1, offset
 				)
 			end
 			
@@ -220,7 +227,7 @@ function projectiles:draw()
 				love.graphics.setColor(p.r,p.g,p.b,150)
 				love.graphics.draw(
 					p.gfx,  x, 
-					y, 0, 1, 1				
+					y, 0, dir, 1, offset
 				)				
 			end
 			
@@ -232,7 +239,7 @@ function projectiles:draw()
 				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
 				love.graphics.draw(
 					p.gfx, x, 
-					y,  0, 1, 1
+					y, 0, dir, 1, offset
 				)
 				love.graphics.pop()
 			end
@@ -241,7 +248,7 @@ function projectiles:draw()
 				love.graphics.setColor(p.r,p.g,p.b,255)
 				love.graphics.draw(
 					p.gfx,  x, 
-					y, 0, 1, 1				
+					y, 0, dir, 1, offset
 				)
 				
 			end
@@ -254,7 +261,7 @@ function projectiles:draw()
 				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
 				love.graphics.draw(
 					p.gfx,  x, 
-					y,  0, 1, 1
+					y, 0, dir, 1, offset
 				)
 				love.graphics.pop()
 			end
@@ -263,20 +270,11 @@ function projectiles:draw()
 				love.graphics.setColor(p.r,p.g,p.b,125)
 				love.graphics.draw(
 					p.gfx, x, 
-					y, 0, 1, 1				
+					y, 0, dir, 1, offset	
 				)
 			end
 			
 			
-		elseif not p.player then
-			if p.type == "cannon" then
-				love.graphics.setColor(p.r,p.g,p.b,255)
-				love.graphics.draw(
-					p.gfx,  x, 
-					y, 0, -1, 1,p.w
-				)
-			end
-		end
 		
 		if debug then
 			love.graphics.setColor(255,0,0,140)			
