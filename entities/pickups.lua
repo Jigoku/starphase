@@ -27,6 +27,7 @@ pickups.type = {
 	[6] = love.graphics.newImage("gfx/pickups/plasma.png"),
 	[7] = love.graphics.newImage("gfx/pickups/beam.png"),
 	[8] = love.graphics.newImage("gfx/pickups/rocket.png"),
+	[9] = love.graphics.newImage("gfx/pickups/radial.png"),
 	
 }
 
@@ -128,6 +129,11 @@ function pickups:update(dt)
 				elseif p.type == 8 then 
 					player.hasrocket = true
 					player.score = player.score + 500
+					
+				elseif p.type == 9 then 
+					player.hasradial = true
+					player.score = player.score + 500
+					
 			end
 		
 			if player.shield > player.shieldmax then player.shield = player.shieldmax	end

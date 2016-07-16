@@ -292,13 +292,24 @@ function hud:drawconsole()
 
 	--debug console
 		--frame
-		love.graphics.setColor(10,20,20,155)
-		love.graphics.rectangle("fill", hud.console.x,hud.console.y, hud.console.w,hud.console.h)
+		love.graphics.setColor(10,12,20,155)
+		--love.graphics.rectangle("fill", hud.console.x,hud.console.y, hud.console.w,hud.console.h)
+	
+		local points = {
+			hud.console.x, hud.console.y,
+			hud.console.x+hud.console.w, hud.console.y,
+			hud.console.x+hud.console.w, hud.console.y+hud.console.h-40,
+			hud.console.x+hud.console.w-40, hud.console.y+hud.console.h,
+			hud.console.x, hud.console.y+hud.console.h,
+		}
+		love.graphics.polygon("fill", points)
 		love.graphics.setColor(10,60,60,155)
-		love.graphics.rectangle("line", hud.console.x,hud.console.y-1, hud.console.w,hud.console.h)
-		love.graphics.setColor(155,255,255,100)
-		love.graphics.line(hud.console.x,hud.console.y+hud.console.h, hud.console.x+hud.console.w,hud.console.y+hud.console.h)
 		
+		love.graphics.setLineWidth(2)
+		love.graphics.polygon("line", points)
+		love.graphics.setColor(155,255,255,100)
+		love.graphics.line(hud.console.x,hud.console.y+hud.console.h, hud.console.x+hud.console.w-40,hud.console.y+hud.console.h)
+		love.graphics.setLineWidth(1)
 		--sysinfo
 		
 		love.graphics.setColor(200,100,200,255)

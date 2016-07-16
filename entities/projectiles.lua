@@ -19,7 +19,7 @@ projectiles.missiles = {}
 
 projectiles.cannon = {}
 projectiles.cannon.gfx = love.graphics.newImage("gfx/projectiles/cannon.png")
-projectiles.cannon.damage = 15
+projectiles.cannon.damage = 20
 projectiles.cannon.sound = {}
 projectiles.cannon.sound.shoot = love.audio.newSource("sfx/projectiles/cannon.ogg", "static")
 projectiles.cannon.sound.shoot:setVolume(0.3)
@@ -27,7 +27,7 @@ projectiles.cannon.description = "Standard issue pulse cannons"
 
 projectiles.blaster = {}
 projectiles.blaster.gfx = love.graphics.newImage("gfx/projectiles/blaster.png")
-projectiles.blaster.damage = 15
+projectiles.blaster.damage = 20
 projectiles.blaster.sound = {}
 projectiles.blaster.sound.shoot = love.audio.newSource("sfx/projectiles/shoot3.ogg", "static")
 projectiles.blaster.sound.shoot:setVolume(0.3)
@@ -43,7 +43,7 @@ projectiles.plasma.description = "Alternating plasma cannons"
 
 projectiles.beam = {}
 projectiles.beam.gfx = love.graphics.newImage("gfx/projectiles/beam.png")
-projectiles.beam.damage = 0.24
+projectiles.beam.damage = 0.3
 projectiles.beam.sound = {}
 projectiles.beam.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.ogg", "static")
 projectiles.beam.sound.shoot:setVolume(0.1)
@@ -67,7 +67,7 @@ projectiles.radial.description = "Deploys self destructing mines"
 
 projectiles.rocket = {}
 projectiles.rocket.gfx = love.graphics.newImage("gfx/projectiles/jswars/rocket.png")
-projectiles.rocket.damage = 80
+projectiles.rocket.damage = 90
 projectiles.rocket.sound = {}
 projectiles.rocket.sound.shoot = love.audio.newSource("sfx/projectiles/rocket_shoot.ogg", "static")
 projectiles.rocket.sound.shoot:setVolume(0.3)
