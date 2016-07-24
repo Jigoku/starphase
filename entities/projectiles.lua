@@ -123,7 +123,7 @@ function projectiles:update(dt)
 					--sound:play(projectiles.rocket.sound.launch)
 					sound:play(projectiles.rocket.sound.explode)
 					explosions:addSmall(
-						p.x+p.w/2,p.y+p.h/2,0,0
+						p.x+p.w/2,p.y+p.h/2,100,0
 					)
 					
 					table.remove(self.missiles, i)

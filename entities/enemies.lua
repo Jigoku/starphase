@@ -299,7 +299,8 @@ function enemies:update(dt)
 	
 	if paused or debugarcade then return end
 
-
+	
+	
 	enemies.waveCycle = math.max(0, enemies.waveCycle - dt)
 		
 	if enemies.waveCycle <= 0 then
@@ -321,7 +322,7 @@ function enemies:update(dt)
 			self:add_train()
 		end
 		if rand == 5 then
-			self:add_abomination()
+			--self:add_abomination()
 		end
 		if rand == 6 then
 			self:add_crescent()

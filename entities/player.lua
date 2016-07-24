@@ -41,7 +41,7 @@ function player:init(playersel)
 	player.maxvel = 550
 	player.xvel = 0
 	player.yvel = 0
-	player.drift = 1.1
+	player.drift = 1.4
 	player.respawnCycle = 3
 	player.respawnDelay = 3
 	player.alive = true

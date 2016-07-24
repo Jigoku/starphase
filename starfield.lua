@@ -69,8 +69,8 @@ function starfield:populate()
 	projectiles.missiles = {}
 	pickups.items = {}
 	
-	starfield.w = love.graphics.getWidth()
-	starfield.h = love.graphics.getHeight()+starfield.offset
+	starfield.w = game.scale.w
+	starfield.h = game.scale.h+starfield.offset
 	starfield.canvas = love.graphics.newCanvas(starfield.w, starfield.h)
 	starfield.mist_quad = love.graphics.newQuad(0,0, starfield.w, starfield.h, starfield.mist:getDimensions() )
 	starfield.mist:setWrap("repeat", "repeat")
@@ -348,7 +348,7 @@ function starfield:draw(x,y)
 	--overlay  hyperspace effect 
 	love.graphics.setColor(255,255,255,20)
 	love.graphics.draw(
-		starfield.hyperspace, 0,0, 0, 1920/starfield.hyperspace:getWidth(), 1080/starfield.hyperspace:getHeight()
+		starfield.hyperspace, 0,0, 0, game.scale.w/starfield.hyperspace:getWidth(), game.scale.h/starfield.hyperspace:getHeight()
 	)
 
 end

@@ -31,7 +31,6 @@ require("entities/player")
 require("entities/projectiles")
 
 
-
 function love.load(args)
 
 
@@ -55,15 +54,16 @@ function love.load(args)
 	game = {}
 	game.width, game.height, game.flags = love.window.getMode( )
 
-	game.max_fps = game.flags.refreshrate
+	game.max_fps = 200--game.flags.refreshrate
 	game.min_dt = 1/game.max_fps
 	game.next_time = love.timer.getTime()
 	
 	game.scale = {}
-	game.scale.x = love.graphics.getWidth()/1920
-	game.scale.y = love.graphics.getHeight()/1080
 	game.scale.w = 1920
 	game.scale.h = 1080
+	game.scale.x = love.graphics.getWidth()/game.scale.w
+	game.scale.y = love.graphics.getHeight()/game.scale.h
+
 	
 	cursor = love.mouse.newCursor( "gfx/cursor.png", 0, 0 )
 	love.mouse.setCursor(cursor)	
@@ -82,7 +82,7 @@ function initarcade(playersel)
 	mode = "arcade"
 	love.graphics.setBackgroundColor(0,0,0,255)
 	
-	starfield.offset = love.graphics.getHeight()/2-200
+	starfield.offset = love.graphics.getHeight()/3
 	starfield.nebulae.r = 0
 	starfield.nebulae.g = 255
 	starfield.nebulae.b = 255
@@ -104,8 +104,10 @@ end
 function love.update(dt)
 	--cap fps
 
-		dt = math.min(dt, game.min_dt)
-		game.next_time = game.next_time + game.min_dt
+		--use this to slow down when setting < 60fps
+		--dt = math.min(dt, game.min_dt)
+		
+	game.next_time = game.next_time + game.min_dt
 	
 	--process arcade game mode
 	if mode == "arcade" then
