@@ -75,14 +75,20 @@ projectiles.rocket.sound.launch = love.audio.newSource("sfx/projectiles/rocket_l
 projectiles.rocket.sound.launch:setVolume(0.2)
 projectiles.rocket.sound.explode = love.audio.newSource("sfx/explosions/NenadSimic/muffled-distant.ogg", "static")
 projectiles.rocket.sound.explode:setVolume(1)
-
-
 projectiles.rocket.description = "Alternating rockets which explode on contact"
 
 projectiles.barrier = {}
 projectiles.barrier.gfx = love.graphics.newImage("gfx/projectiles/barrier.png")
 projectiles.barrier.damage = 120
 projectiles.barrier.description = "Defensive proximity shields"
+
+projectiles.orb = {}
+projectiles.orb.gfx = love.graphics.newImage("gfx/projectiles/orb.png")
+projectiles.orb.damage = 10
+projectiles.orb.sound = {}
+projectiles.orb.sound.shoot = love.audio.newSource("sfx/projectiles/orb.ogg", "static")
+projectiles.orb.sound.shoot:setVolume(0.3)
+projectiles.orb.description = "Directional projectiles"
 
 
 function projectiles:update(dt)
@@ -139,6 +145,16 @@ function projectiles:update(dt)
 				p.x = p.x + (p.xvel *dt)
 				p.y = p.y + (p.yvel *dt)
 				
+			end
+			
+			if p.type == "orb" then
+				p.x = p.x + (p.xvel *dt)
+				
+				if p.switch then
+					p.y = p.y + (p.yvel *dt)	
+				else
+					p.y = p.y - (p.yvel *dt)	
+				end
 			end
 			
 			if p.type == "rocket" then
@@ -242,6 +258,14 @@ function projectiles:draw()
 					y, 0, dir, 1, offset
 				)
 				love.graphics.pop()
+			end
+			
+			if p.type == "orb" then
+				love.graphics.setColor(p.r,p.g,p.b,255)
+				love.graphics.draw(
+					p.gfx,  x, 
+					y, 0, dir, 1, offset
+				)
 			end
 			
 			if p.type == "rocket" then

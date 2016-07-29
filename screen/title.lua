@@ -205,9 +205,9 @@ function title:draw()
 	love.graphics.setFont(fonts.default)
 	love.graphics.setCanvas()
 
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(255,255,255,200)
 	love.graphics.draw(title.menu.canvas,title.menu.x,title.menu.y)
-	love.graphics.printf("v"..version..build.." (by "..author..")",50,love.graphics.getHeight()-50,300,"left",0,1,1)		--version
+	love.graphics.printf("v"..version..build.." ("..love.system.getOS() ..") by "..author,50,love.graphics.getHeight()-50,300,"left",0,1,1)		--version
 	
 	love.graphics.setColor(0,0,0,title.overlay.opacity)
 	love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())

@@ -21,7 +21,7 @@ pickups.chance = 5 --chance of a pickup being dropped
 pickups.type = {
 	[1] = love.graphics.newImage("gfx/pickups/shield.png"),
 	[2] = love.graphics.newImage("gfx/pickups/energy.png"),
-	[3] = love.graphics.newImage("gfx/pickups/unimplemented.png"),
+	[3] = love.graphics.newImage("gfx/pickups/orb.png"),
 	[4] = love.graphics.newImage("gfx/pickups/blaster.png"),
 	[5] = love.graphics.newImage("gfx/pickups/wave.png"),
 	[6] = love.graphics.newImage("gfx/pickups/plasma.png"),
@@ -108,7 +108,8 @@ function pickups:update(dt)
 					player.score = player.score + 150
 					
 				elseif p.type == 3 then 
-					--unimplemented
+					player.hasorb = true
+					player.score = player.score + 500
 					
 				elseif p.type == 4 then 
 					player.hasblaster = true

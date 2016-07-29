@@ -55,6 +55,12 @@ function player:init(playersel)
 		delay = 0.14,
 	}
 	
+	player.orb = {
+		switch = false,
+		cycle = 0,
+		delay = 0.05,
+	}
+	
 	player.plasma = {
 		switch = false,
 		cycle = 0,
@@ -101,7 +107,7 @@ function player:init(playersel)
 	player.haswave = false
 	player.hasblaster = false
 	player.hasbeam = false
-
+	player.hasorb = false
 		
 	
 	if cheats.invincible then player.invincible = true end
@@ -238,7 +244,7 @@ function player:shoot(dt)
 		if player.hasrocket then self:fireRocket(dt) end
 		if player.haswave then self:fireWave(dt) end
 		if player.hasbeam then self:fireBeam(dt) end
-		
+		if player.hasorb then self:fireOrb(dt) end
 	end
 
 	if love.keyboard.isDown(binds.special) 
@@ -562,6 +568,33 @@ function player:firePlasma(dt)
 
 end
 
+
+function player:fireOrb(dt)
+	self.orb.cycle = math.max(0, self.orb.cycle - dt)
+		
+	if self.orb.cycle <= 0 then
+		sound:play(projectiles.orb.sound.shoot)
+		
+		player.orb.switch = not player.orb.switch
+			
+		table.insert(projectiles.missiles, {
+			player = true,
+			type = "orb",
+			gfx = projectiles.orb.gfx,
+			w = projectiles.orb.gfx:getWidth(),
+			h = projectiles.orb.gfx:getHeight(),
+			x = self.x + self.gfx:getWidth()/2,
+			y = self.y + self.gfx:getHeight()/2-projectiles.orb.gfx:getHeight()/2 +(player.orb.switch and -28 or 28),
+			xvel = 1000,
+			yvel = (player.orb.switch and 300 or -300),
+			damage = projectiles.orb.damage,
+			r = 225,
+			g = 180,
+			b = 140,
+		})
+		self.orb.cycle = self.orb.delay
+	end
+end
 
 function player:fireRocket(dt)
 
