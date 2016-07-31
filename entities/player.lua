@@ -58,7 +58,7 @@ function player:init(playersel)
 	player.orb = {
 		switch = false,
 		cycle = 0,
-		delay = 0.05,
+		delay = 0.1,
 	}
 	
 	player.plasma = {
@@ -322,9 +322,9 @@ function player:fireBlaster(dt)
 			xvel = 1250,
 			yvel = 0,
 			damage = projectiles.blaster.damage,
-			r = 0,
-			g = 255,
-			b = 140,
+			r = 255,
+			g = 170,
+			b = 70,
 		})
 		self.blaster.cycle = self.blaster.delay
 	end
@@ -348,8 +348,8 @@ function player:fireWave(dt)
 			xvel = 750,
 			yvel = 0,
 			damage = projectiles.wave.damage,
-			r = 255,
-			g = 50,
+			r = 50,
+			g = 255,
 			b = 220,
 		})
 		
@@ -366,8 +366,8 @@ function player:fireWave(dt)
 			xvel = 750,
 			yvel = 0,
 			damage = projectiles.wave.damage,
-			r = 255,
-			g = 50,
+			r = 50,
+			g = 255,
 			b = 220,
 		})
 		
@@ -588,9 +588,9 @@ function player:fireOrb(dt)
 			xvel = 1000,
 			yvel = (player.orb.switch and 300 or -300),
 			damage = projectiles.orb.damage,
-			r = 225,
-			g = 180,
-			b = 140,
+			r = 255,
+			g = 100,
+			b = 100,
 		})
 		self.orb.cycle = self.orb.delay
 	end

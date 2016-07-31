@@ -84,7 +84,7 @@ projectiles.barrier.description = "Defensive proximity shields"
 
 projectiles.orb = {}
 projectiles.orb.gfx = love.graphics.newImage("gfx/projectiles/orb.png")
-projectiles.orb.damage = 10
+projectiles.orb.damage = 20
 projectiles.orb.sound = {}
 projectiles.orb.sound.shoot = love.audio.newSource("sfx/projectiles/orb.ogg", "static")
 projectiles.orb.sound.shoot:setVolume(0.3)
@@ -116,6 +116,7 @@ function projectiles:update(dt)
 			end
 			
 			if p.type == "beam" then
+				self:rotate(p, 5, dt)
 				p.x = p.x + (p.xvel *dt)
 			end
 			
@@ -137,8 +138,8 @@ function projectiles:update(dt)
 			end
 			
 			if p.type == "wave" then
-				if p.yvel > 300 then p.switch = false end
-				if p.yvel < -300 then p.switch = true end
+				if p.yvel > 200 then p.switch = false end
+				if p.yvel < -200 then p.switch = true end
 			
 				p.yvel = p.yvel + (p.switch and 2500 or -2500) *dt
 				
@@ -148,6 +149,7 @@ function projectiles:update(dt)
 			end
 			
 			if p.type == "orb" then
+				self:rotate(p, 15, dt)
 				p.x = p.x + (p.xvel *dt)
 				
 				if p.switch then
@@ -222,7 +224,7 @@ function projectiles:draw()
 			offset = p.w
 		end
 			
-
+		love.graphics.push()
 			if p.type == "cannon" then
 				love.graphics.setColor(p.r,p.g,p.b,255)
 				love.graphics.draw(
@@ -248,7 +250,7 @@ function projectiles:draw()
 			end
 			
 			if p.type == "plasma" or p.type == "radial" then
-				love.graphics.push()
+				
 				love.graphics.setColor(p.r,p.g,p.b,255)
 				love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
 				love.graphics.rotate(p.rotation or 0)
@@ -257,15 +259,20 @@ function projectiles:draw()
 					p.gfx, x, 
 					y, 0, dir, 1, offset
 				)
-				love.graphics.pop()
+				
 			end
 			
 			if p.type == "orb" then
+
 				love.graphics.setColor(p.r,p.g,p.b,255)
+				love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
+				love.graphics.rotate(p.rotation or 0)
+				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
 				love.graphics.draw(
 					p.gfx,  x, 
 					y, 0, dir, 1, offset
 				)
+	
 			end
 			
 			if p.type == "rocket" then
@@ -278,7 +285,7 @@ function projectiles:draw()
 			end
 			
 			if p.type == "barrier" then
-				love.graphics.push()
+	
 				love.graphics.setColor(p.r,p.g,p.b,140)
 				love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
 				love.graphics.rotate(p.rotation or 0)
@@ -287,18 +294,22 @@ function projectiles:draw()
 					p.gfx,  x, 
 					y, 0, dir, 1, offset
 				)
-				love.graphics.pop()
+	
 			end
 			
 			if p.type == "beam" then
 				love.graphics.setColor(p.r,p.g,p.b,125)
+				love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
+				love.graphics.rotate(p.rotation or 0)
+				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
+				
 				love.graphics.draw(
 					p.gfx, x, 
 					y, 0, dir, 1, offset	
 				)
 			end
 			
-			
+		love.graphics.pop()		
 		
 		if debug then
 			love.graphics.setColor(255,0,0,140)			
@@ -310,7 +321,7 @@ function projectiles:draw()
 				p.h
 			)
 		end
-		
+
 	end
 end
 
