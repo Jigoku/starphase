@@ -79,14 +79,13 @@ end
 
 
 function hud:draw()
-
 	if paused and not debug then 
 		love.graphics.setColor(0,0,0,140)
 		love.graphics.rectangle("fill",0,0,love.graphics.getWidth(), love.graphics.getHeight())
     
 		love.graphics.setFont(fonts.paused_large)
 		love.graphics.setColor(255,255,255,200)
-		love.graphics.printf("PAUSED", love.graphics.getWidth()/2,love.graphics.getHeight()/3,0,"center",0,1,1)
+		love.graphics.printf("PAUSED", love.graphics.getWidth()/2-150,love.graphics.getHeight()/3,300,"center")
 		love.graphics.setFont(fonts.default)
 		local wrap = 200
 		love.graphics.setFont(fonts.paused_small)
@@ -200,7 +199,7 @@ function hud:draw()
 	
 	--display 
 	love.graphics.setCanvas(hud.display.canvas)
-	hud.display.canvas:clear()
+	love.graphics.clear()
 
 	love.graphics.setColor(255,255,255,255)
 
@@ -287,7 +286,7 @@ function hud:drawconsole()
 	
 	if hud.console.y  > -hud.console.h then
 	love.graphics.setCanvas(hud.console.canvas)
-	hud.console.canvas:clear()
+	love.graphics.clear()
 	love.graphics.setColor(255,255,255,255)
 
 	--debug console

@@ -25,7 +25,7 @@ starfield.offset = 0
 
 -- 326 -- populate starfield this amount higher than screen height
 --^^^ disabled due to scaling issue (needs fixing)
-starfield.limit = 1000
+starfield.limit = 1250
 starfield.speed = 1.5
 
 starfield.hyperspace = love.graphics.newImage("gfx/hyperspace.png")
@@ -42,7 +42,7 @@ starfield.nebulae.quads = loadsprite(starfield.nebulae.sprite, starfield.nebulae
 starfield.nebulae.red = 0
 starfield.nebulae.green = 220
 starfield.nebulae.blue = 220
-
+starfield.nebulae.populate = true
 
 -- colour themes
 --
@@ -92,12 +92,12 @@ function starfield:addStar(x,y)
 		y = y,
 		w = self.star:getWidth(),
 		h = self.star:getHeight(),
-		velocity = math.random(30,160) * self.speed,
+		velocity = math.random(30,80) * self.speed,
 		type = "star",
 		r = math.random(170,215),
 		g = math.random(170,215),
 		b = math.random(170,215),
-		o = math.random(10,140),
+		o = math.random(10,150),
 		gfx = self.star,
 		scale = 1
 	})
@@ -148,25 +148,27 @@ end
 		
 		
 function starfield:addNebula(x,y)
-	--nebula
-	if self.count.nebulae < 15 then
-	local scale = math.random(10,15)/10
-	table.insert(self.objects, {
-		x = x,
-		y = y,
-		w = self.nebulae.size*scale,
-		h = self.nebulae.size*scale,
-		velocity = 30  * self.speed,
-		type = "nebula",
-		r = self.nebulae.red,
-		g = self.nebulae.green,
-		b = self.nebulae.blue,
-		o = math.random(40,90),
-		gfx = self.nebulae.quads[math.random(self.nebulae.min,self.nebulae.max)],
-		scale = scale,
-		rotation = math.random(math.pi),
-	})
-	self.count.nebulae = self.count.nebulae +1
+	if self.nebulae.populate then
+		--nebula
+		if self.count.nebulae < 15 then
+		local scale = math.random(10,15)/10
+		table.insert(self.objects, {
+			x = x,
+			y = y,
+			w = self.nebulae.size*scale,
+			h = self.nebulae.size*scale,
+			velocity = 30  * self.speed,
+			type = "nebula",
+			r = self.nebulae.red,
+			g = self.nebulae.green,
+			b = self.nebulae.blue,
+			o = math.random(40,90),
+			gfx = self.nebulae.quads[math.random(self.nebulae.min,self.nebulae.max)],
+			scale = scale,
+			rotation = math.random(math.pi),
+		})
+		self.count.nebulae = self.count.nebulae +1
+		end
 	end
 end
 	
@@ -239,7 +241,7 @@ end
 function starfield:draw(x,y)
 
 	love.graphics.setCanvas(self.canvas)
-	starfield.canvas:clear()
+	love.graphics.clear()
 	
 	love.graphics.setColor(0,0,0,255)
 	love.graphics.rectangle("fill", 0,0,self.w,self.h )
@@ -328,6 +330,7 @@ function starfield:draw(x,y)
 	end
 	
 	if mode == "arcade" then
+	
 		pickups:draw()
 		
 		enemies:draw()

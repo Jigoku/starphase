@@ -210,6 +210,7 @@ end
 
 
 function projectiles:draw()
+	
 	for _, p in ipairs (projectiles.missiles) do
 
 		local x = math.floor(p.x)
@@ -323,6 +324,7 @@ function projectiles:draw()
 		end
 
 	end
+
 end
 
 

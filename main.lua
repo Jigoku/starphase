@@ -14,7 +14,7 @@
  --]]
  
 
-assert(love.graphics.isSupported("canvas"), "Your graphics card does not support canvases, sorry!")
+--assert(love.graphics.isSupported("canvas"), "Your graphics card does not support canvases, sorry!")
 
 require("misc")
 require("binds")
@@ -32,6 +32,8 @@ require("entities/projectiles")
 
 
 function love.load(args)
+
+
 
 
 	debug = false
@@ -83,9 +85,9 @@ function initarcade(playersel)
 	love.graphics.setBackgroundColor(0,0,0,255)
 	
 	starfield.offset = love.graphics.getHeight()/3
-	starfield.nebulae.r = 0
-	starfield.nebulae.g = 255
-	starfield.nebulae.b = 255
+	--starfield.nebulae.red = math.random(0,255)
+	--starfield.nebulae.green = math.random(0,255)
+	--starfield.nebulae.blue = math.random(0,255)
 	player:init(playersel)
 	starfield.speed = 1.0
 	starfield:populate()
@@ -139,6 +141,7 @@ function love.draw()
 	
 	--draw arcade game
 	if mode == "arcade" then
+
 		starfield:draw(0,-player.y/4)
 		
 		hud:draw()

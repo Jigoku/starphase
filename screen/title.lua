@@ -138,7 +138,7 @@ function title:draw()
 	
 			
 	love.graphics.setCanvas(title.menu.canvas)
-	title.menu.canvas:clear()
+	love.graphics.clear()
 	
 	love.graphics.setFont(fonts.title_large)		
 	local wrap = 500

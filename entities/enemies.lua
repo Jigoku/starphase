@@ -37,6 +37,8 @@ enemies.type = {
 	tri = love.graphics.newImage("gfx/enemy/7_small.png"),
 	large  = love.graphics.newImage("gfx/enemy/6_large.png"),
 	crescent = love.graphics.newImage("gfx/enemy/9_large.png"),
+	cruiser = love.graphics.newImage("gfx/enemy/10_small.png"),
+	asteroid = love.graphics.newImage("gfx/enemy/asteroid_small.png"),
 }
 
 
@@ -149,6 +151,30 @@ function enemies:add_dart()
 
 end
 
+function enemies:add_asteroid()
+	
+	
+	table.insert(self.wave, {
+		type = "asteroid",
+		w = self.type.asteroid:getWidth(),
+		h = self.type.asteroid:getHeight(),
+		x = starfield.w,
+		y = math.random(0,starfield.h),
+		yvel = 0,
+		xvel = math.random(100,300),
+		gfx = self.type.asteroid,
+		score = 10,
+		shield = 50,
+		shieldmax = 50,
+		shieldopacity = 0,
+		shieldscale = 0,
+		opacity = 255,
+		alive = true,
+		spin = (math.random(0,1) == 1 and 1 or -1),
+	})
+
+
+end
 
 function enemies:add_train()
 
@@ -164,11 +190,41 @@ function enemies:add_train()
 		x = x,
 		y = y,
 		yvel = math.random(-20,20),
-		xvel = 600,
+		xvel = 700,
 		gfx = gfx or nil,
 		score = 40,
 		shield = 40,
 		shieldmax = 40,
+		shieldopacity = 0,
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
+		opacity = 255,
+		alive = true,
+	})
+	x=x+gfx:getWidth()+30
+	end
+
+end
+
+
+function enemies:add_cruiser()
+
+	local gfx = self.type.cruiser
+	
+	local x = starfield.w
+	local y = math.random(0,starfield.h)
+	for i=1, 3 do
+	table.insert(self.wave, {
+		type = "cruiser",
+		w = gfx:getWidth(),
+		h = gfx:getHeight(),
+		x = x,
+		y = y,
+		yvel = math.random(-40,40),
+		xvel = 500,
+		gfx = gfx or nil,
+		score = 180,
+		shield = 180,
+		shieldmax = 180,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
 		opacity = 255,
@@ -297,15 +353,30 @@ end
 
 function enemies:update(dt)
 	
-	if paused or debugarcade then return end
+	if paused then return end
 
+	--[[ DEBUG ENEMIES --]]
+	if debugarcade then
+		enemies.waveCycle = math.max(0, enemies.waveCycle - dt)
+		
+		if enemies.waveCycle <= 0 then
+		
+			--[[ ENEMY TYPE --]]
+			self:add_asteroid()
+			
+			enemies.waveCycle = math.random(0.1,1)
+		end
+		
+	end
+	
+	
 	
 	
 	enemies.waveCycle = math.max(0, enemies.waveCycle - dt)
 		
-	if enemies.waveCycle <= 0 then
+	if not debugarcade and enemies.waveCycle <= 0 then
 	
-		local rand = math.random(0,6)
+		local rand = math.random(0,15)
 		if rand == 0 then
 			self:add_dart()
 		end
@@ -322,12 +393,18 @@ function enemies:update(dt)
 			self:add_train()
 		end
 		if rand == 5 then
-			--self:add_abomination()
+			self:add_abomination()
 		end
 		if rand == 6 then
 			self:add_crescent()
 		end
-		enemies.waveCycle = math.random(0.5,2)
+		if rand == 7 then
+			self:add_cruiser()
+		end
+		if rand > 7 then
+			self:add_asteroid()
+		end
+		enemies.waveCycle = math.random(0.25,1)
 	end
 	
 	
@@ -337,8 +414,11 @@ function enemies:update(dt)
 	for i=#self.wave,1,-1 do
 		local e = self.wave[i]
 		
+		if e.type == "asteroid" then
+			self:rotate(e,e.spin,dt)
+		end
 	
-		if e.angle then
+		if e.type == "tri" then
 			e.angle = math.atan2(player.y+player.h/2-e.h/2 - e.y, player.x+player.w/2-e.w/2 - e.x)
 		end
 				
@@ -499,6 +579,14 @@ function enemies:draw()
 	
 	for _, e in pairs (self.wave) do
 	
+		if e.type == "asteroid" then
+			love.graphics.push()
+				love.graphics.translate(e.x+e.w/2,e.y+e.h/2)
+				love.graphics.rotate(e.angle)
+				love.graphics.translate(-e.x-e.w/2,-e.y-e.h/2)
+			love.graphics.pop()
+		end
+	
 		if e.angle then
 			--rotating face to player
 			love.graphics.push()
@@ -560,3 +648,8 @@ function enemies:draw()
 end
 
 
+function enemies:rotate(e,n,dt)
+	if not e.angle then e.angle = 0 end
+	e.angle = e.angle + dt * n
+	e.angle = e.angle % (2*math.pi)
+end

@@ -36,65 +36,66 @@ function player:init(playersel)
 	player.shieldmax = 100
 	player.energy = 100
 	player.energymax = 100
-	player.speed = 1700
+	player.speed = 2000
 	player.speedmax = 3000
 	player.maxvel = 550
 	player.xvel = 0
 	player.yvel = 0
-	player.drift = 1.4
+	player.drift = 1.8
 	player.respawnCycle = 3
 	player.respawnDelay = 3
 	player.alive = true
 	player.idle = true
 	player.invincible = false
 	
-	
+	--test this for temporary particle speed boost (powerup?)
+	player.multiplier = 1 
 	player.cannon = {
 		switch = false,
 		cycle = 0,
-		delay = 0.14,
+		delay = 0.14/player.multiplier,
 	}
 	
 	player.orb = {
 		switch = false,
 		cycle = 0,
-		delay = 0.1,
+		delay = 0.1/player.multiplier,
 	}
 	
 	player.plasma = {
 		switch = false,
 		cycle = 0,
-		delay = 0.5,
+		delay = 0.5/player.multiplier,
 	}
 	
 	player.radial = {
 		switch = nil,
 		cycle = 0,
-		delay = 1.75,
+		delay = 1.75/player.multiplier,
 	}
 
 	player.rocket = {
 		switch = false,
 		cycle = 0,
-		delay = 0.8,
+		delay = 0.8/player.multiplier,
 	}
 	
 	player.wave = {
 		switch = false,
 		cycle = 0,
-		delay = 0.05,
+		delay = 0.05/player.multiplier,
 	}
 
 	player.blaster = {
 		switch = nil,
 		cycle = 0,
-		delay = 0.25,
+		delay = 0.25/player.multiplier,
 	}
 	
 	player.beam = {
 		switch = nil,
 		cycle = 0,
-		delay = 0.02,
+		delay = 0.02/player.multiplier,
 	}
 	
 
@@ -236,7 +237,7 @@ end
 
 function player:shoot(dt)
 	if love.keyboard.isDown(binds.shoot) 
-	or love.mouse.isDown("l") then
+	or love.mouse.isDown(1) then
 		if player.hascannon then self:fireCannon(dt) end
 		if player.hasplasma then self:firePlasma(dt) end
 		if player.hasradial then self:fireRadial(dt) end
@@ -248,7 +249,7 @@ function player:shoot(dt)
 	end
 
 	if love.keyboard.isDown(binds.special) 
-	or love.mouse.isDown("r") then
+	or love.mouse.isDown(2) then
 
 			-- decide whether energy should be used for special attacks
 			-- possibly remove this and just have powerups added automatically
@@ -274,7 +275,7 @@ function player:draw()
 	end
 	
 	love.graphics.pop()
-
+	
 end
 
 function player:fireCannon(dt)
@@ -674,9 +675,9 @@ function player:addBarrier(dt)
 		xvel = 750,
 		yvel = 0,
 		damage = projectiles.barrier.damage,
-		r = 255,
-		g = 255,
-		b = 255,
+		r = 148,
+		g = 148,
+		b = 252,
 	})
 
 end
