@@ -25,7 +25,11 @@ player.sounds = {}
 function player:init(playersel)
 	player.type = playersel
 	player.gfx = love.graphics.newImage("gfx/player/"..player.type.."_small.png") -- default
-
+	
+	player.warninggfx = love.graphics.newImage("gfx/warning.png")
+	player.warning_quad = love.graphics.newQuad(0,0, starfield.w, starfield.h, player.warninggfx:getDimensions() )
+	player.warningopacity = 0
+	
 	player.x = love.graphics.getWidth()/3
 	player.y = (starfield.h+starfield.offset)/2-player.gfx:getHeight()
 	player.w = player.gfx:getWidth()
@@ -41,12 +45,13 @@ function player:init(playersel)
 	player.maxvel = 550
 	player.xvel = 0
 	player.yvel = 0
-	player.drift = 1.8
+	player.drift = 1.9
 	player.respawnCycle = 3
 	player.respawnDelay = 3
 	player.alive = true
 	player.idle = true
 	player.invincible = false
+	player.warning = true
 	
 	--test this for temporary particle speed boost (powerup?)
 	player.multiplier = 1 
@@ -128,6 +133,7 @@ function player:update(dt)
 				if player.lives < 0 then
 					title:init()
 				else
+					player.warning = false
 					self.alive = true
 					player.shield = player.shieldmax
 				end
@@ -232,6 +238,17 @@ function player:checkShield(dt)
 		if player.lives < 0 then sound:playbgm(2) end
 		
 	end
+
+	if player.shield < 30 then
+		player.warning = true
+		if player.warningopacity <=0 then 
+			player.warningopacity = 255
+		else
+			player.warningopacity = player.warningopacity - 600 *dt
+		end
+	else
+		player.warning = false
+	end
 end
 
 
@@ -272,6 +289,14 @@ function player:draw()
 	if debug then
 		love.graphics.setColor(255,255,0,100)
 		love.graphics.rectangle("line", self.x,self.y, self.gfx:getWidth(),self.gfx:getHeight())
+	end
+	
+	
+	if player.warning then
+	love.graphics.setColor(255,0,0,player.warningopacity)
+	love.graphics.draw(
+		self.warninggfx, self.warning_quad, 0,0, 0, starfield.w/self.warninggfx:getWidth(), starfield.h/self.warninggfx:getHeight()
+	)	
 	end
 	
 	love.graphics.pop()

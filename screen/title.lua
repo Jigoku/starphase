@@ -63,7 +63,7 @@ function title:init()
 	starfield.nebulae.g = 255
 	starfield.nebulae.b = 255
 	starfield.offset = 0  
-	starfield.speed = 0.1
+	starfield.speed = 0.2
 	starfield:populate()
 	love.graphics.setBackgroundColor(0,0,0,255)
 	
@@ -136,13 +136,21 @@ function title:draw()
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.draw(title.planet,0-title.planet:getWidth()/2, starfield.h/2-title.planet:getHeight()/2 )	
 	
+	
+	--border bars
+	local h = 80
+	love.graphics.setColor(0,0,0,100)
+	love.graphics.rectangle("fill",0,love.graphics.getHeight()-h,love.graphics.getWidth(),h)
+	love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),h)
+	
+	
 			
 	love.graphics.setCanvas(title.menu.canvas)
 	love.graphics.clear()
 	
 	--love.graphics.setColor(0,0,0,155)
 	--love.graphics.rectangle("fill", 0,0,title.menu.w,title.menu.h)
-	
+
 	love.graphics.setFont(fonts.title_large)		
 	local wrap = 500
 			

@@ -23,8 +23,7 @@ function collision:check(x1,y1,w1,h1, x2,y2,w2,h2)
 end
 
 
-function collision:pixel(a, b)
 
+
+function collision:pixel(object1, object2)
 end
-   
-
