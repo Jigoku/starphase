@@ -34,12 +34,12 @@ starfield.dense_star = love.graphics.newImage("gfx/glow.png")
 starfield.star = love.graphics.newImage("gfx/star.png")
 
 starfield.nebulae = { }
-starfield.nebulae.sprite = love.graphics.newImage("gfx/nebulae/proc_sheet_nebula.png")
+starfield.nebulae.sprite = love.graphics.newImage("gfx/nebulae/proc_sheet_nebula3.png")
 starfield.nebulae.min = 1
 starfield.nebulae.max = 16
 starfield.nebulae.size = 512
 starfield.nebulae.quads = loadsprite(starfield.nebulae.sprite, starfield.nebulae.size, starfield.nebulae.max )
-starfield.nebulae.red = 0
+starfield.nebulae.red = 220
 starfield.nebulae.green = 220
 starfield.nebulae.blue = 220
 starfield.nebulae.populate = true

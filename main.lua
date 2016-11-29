@@ -31,8 +31,8 @@ require("entities/player")
 require("entities/projectiles")
 
 
-function love.load(args)
 
+function love.load(args)
 
 
 
@@ -84,12 +84,12 @@ function initarcade(playersel)
 	mode = "arcade"
 	love.graphics.setBackgroundColor(0,0,0,255)
 	
-	starfield.offset = love.graphics.getHeight()/3
+	--starfield.offset = love.graphics.getHeight()/3
 	--starfield.nebulae.red = math.random(0,255)
 	--starfield.nebulae.green = math.random(0,255)
 	--starfield.nebulae.blue = math.random(0,255)
 	player:init(playersel)
-	starfield.speed = 1.0
+	starfield.speed = 1.25
 	starfield:populate()
 	hud:init()
 
@@ -110,7 +110,7 @@ function love.update(dt)
 		--dt = math.min(dt, game.min_dt)
 		
 	game.next_time = game.next_time + game.min_dt
-	
+
 	--process arcade game mode
 	if mode == "arcade" then
 		starfield:update(dt)
@@ -142,10 +142,12 @@ function love.draw()
 	--draw arcade game
 	if mode == "arcade" then
 
-		starfield:draw(0,-player.y/4)
+		--starfield:draw(0,-player.y/4)
+		starfield:draw(0,0)
 		
 		hud:draw()
 	end
+	
 	
 	
 	--draw title screen
@@ -156,6 +158,9 @@ function love.draw()
 	--draw the debug console
 	hud:drawconsole()
 	
+
+
+
 
 	-- caps fps
 

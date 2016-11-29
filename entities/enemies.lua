@@ -393,7 +393,8 @@ function enemies:update(dt)
 			self:add_train()
 		end
 		if rand == 5 then
-			self:add_abomination()
+			--fix this so only one exists at a time
+			--self:add_abomination()
 		end
 		if rand == 6 then
 			self:add_crescent()

@@ -184,7 +184,7 @@ function hud:draw()
 	--time
 	love.graphics.setColor(255,255,255,100)
 	love.graphics.setFont(fonts.timer)
-	love.graphics.printf(misc:formatTime(hud.time), love.graphics.getWidth()/2,20,0,"center",0,1,1)
+	love.graphics.printf(misc:formatTime(hud.time), love.graphics.getWidth()/2-150,20,300,"center",0,1,1)
 	love.graphics.setFont(fonts.default)
 	
 	--lives (temporary)
