@@ -34,7 +34,8 @@ require("entities/projectiles")
 
 function love.load(args)
 
-
+	msgs = require("screen/messagebox")
+	msgs.callback = function() print("end of message test") end
 
 	debug = false
 	debugarcade = false
@@ -100,6 +101,23 @@ end
 function initdebugarcade(playersel)
 	initarcade(playersel)
 	debugarcade = true
+	
+	msgs.queue(
+		{
+			{		
+				face = love.graphics.newImage("gfx/faces/1.png"),
+				name = "Debug mode",
+				text = "Message box test",
+				duration = 2,
+			},
+			{		
+				face = love.graphics.newImage("gfx/faces/2.png"),
+				name = "Debug mode",
+				text = "Hello! This is another test",
+				duration = 6,
+			}
+		}
+	)
 end
 
 
@@ -120,6 +138,7 @@ function love.update(dt)
 		player:update(dt)
 		pickups:update(dt)
 		hud:update(dt)
+		msgs.update(dt)
 	end
 	
 	--process titlescreen
@@ -146,6 +165,7 @@ function love.draw()
 		starfield:draw(0,0)
 		
 		hud:draw()
+		msgs.draw()
 	end
 	
 	

@@ -14,7 +14,7 @@
  --]]
 
 title = {}
-title.splash = false
+title.splash = true
 title.splash_logo = love.graphics.newImage("gfx/artsoftware.png")
 title.splashDelay = 1
 title.splashCycle = 1

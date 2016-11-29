@@ -51,7 +51,7 @@ function player:init(playersel)
 	player.alive = true
 	player.idle = true
 	player.invincible = false
-	player.warning = true
+	player.warning = false
 	
 	--test this for temporary particle speed boost (powerup?)
 	player.multiplier = 1 
