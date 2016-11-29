@@ -23,16 +23,14 @@ function love.conf(t)
 	t.version = "0.10.1"
 	t.identity = "starphase"
 	t.window.title = name .. " " .. version
---	t.window.width = 1440
---	t.window.height = 900
 	t.window.width = 1920
 	t.window.height = 1080
 	t.modules.joystick = false
 	t.modules.physics = false
-	t.window.fsaa = 0
+	t.window.msaa = 0
 	t.window.resizable = true
 	t.window.vsync = true
 	t.window.fullscreen = true
-	--t.window.fullscreentype = "normal"
+	t.window.fullscreentype = "desktop"
 	t.window.icon = "gfx/icon.png"
 end

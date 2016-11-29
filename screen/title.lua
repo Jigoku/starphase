@@ -48,7 +48,7 @@ title.sounds.select = love.audio.newSource("sfx/menu/select.ogg",static)
 title.ship1 = love.graphics.newImage("gfx/player/1_large.png")
 title.ship2 = love.graphics.newImage("gfx/player/2_large.png")
 title.ship3 = love.graphics.newImage("gfx/player/3_large.png")
-title.planet = love.graphics.newImage("gfx/planets/planet_19.png")
+title.planet = love.graphics.newImage("gfx/planets/planet.png")
 
 function title:init()
 	title.overlay.fadein = true
@@ -140,6 +140,9 @@ function title:draw()
 	love.graphics.setCanvas(title.menu.canvas)
 	love.graphics.clear()
 	
+	--love.graphics.setColor(0,0,0,155)
+	--love.graphics.rectangle("fill", 0,0,title.menu.w,title.menu.h)
+	
 	love.graphics.setFont(fonts.title_large)		
 	local wrap = 500
 			
@@ -224,7 +227,7 @@ end
 
 function title:itemselected(selected)
 	if title.menu.selected == selected then
-		love.graphics.setColor(-title.opacity,title.opacity,-title.opacity/2,title.opacity)
+		love.graphics.setColor(title.opacity/2,title.opacity,title.opacity,title.opacity)
 	else
 		love.graphics.setColor(255,255,255,100)
 	end
