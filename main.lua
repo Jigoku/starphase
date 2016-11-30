@@ -12,9 +12,6 @@
  * u should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
- 
-
---assert(love.graphics.isSupported("canvas"), "Your graphics card does not support canvases, sorry!")
 
 require("misc")
 require("binds")
@@ -71,6 +68,7 @@ function love.load(args)
 	cursor = love.mouse.newCursor( "gfx/cursor.png", 0, 0 )
 	love.mouse.setCursor(cursor)	
 
+	sound:init()
 	title:init()
 	
 end

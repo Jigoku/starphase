@@ -50,6 +50,7 @@ title.ship2 = love.graphics.newImage("gfx/player/2_large.png")
 title.ship3 = love.graphics.newImage("gfx/player/3_large.png")
 title.planet = love.graphics.newImage("gfx/planets/planet.png")
 
+
 function title:init()
 	title.overlay.fadein = true
 	title.overlay.opacity = 255

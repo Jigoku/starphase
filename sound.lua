@@ -14,44 +14,71 @@
 --]]
  
 sound = {}
-sound.muted = false
+sound.enabled = true
+sound.volume = 80 -- 0>100 (used when a track is played)
+
 sound.bgm = nil
 sound.bgmtrack = nil
 
-sound.volume = 80  -- 0>100 (used when a track is played)
-
-sound.music = {}
-sound.music[1] = "sfx/music/zhelanov/space.ogg" -- title sound
-sound.music[2] = "sfx/music/maxstack/tst/lose.ogg" -- game over sound
-sound.music[3] = "sfx/music/maxstack/nebula.ogg"
-sound.music[4] = "sfx/music/maxstack/through-space.ogg"
-sound.music[5] = "sfx/music/maxstack/crystal-space.ogg"
-sound.music[6] = "sfx/music/maxstack/bazaarnet.ogg"
-sound.music[7] = "sfx/music/maxstack/the-client.ogg"
-sound.music[8] = "sfx/music/maxstack/deprecation.ogg"
-sound.music[9] = "sfx/music/maxstack/inevitable.ogg"
-sound.music[10] = "sfx/music/maxstack/mediathreat.ogg"
+sound.music = {
+	[1] = love.audio.newSource("sfx/music/zhelanov/space.ogg"),
+	[2] = love.audio.newSource("sfx/music/maxstack/tst/lose.ogg"),
+	[3] = love.audio.newSource("sfx/music/maxstack/nebula.ogg"),
+	[4] = love.audio.newSource("sfx/music/maxstack/through-space.ogg"),
+	[5] = love.audio.newSource("sfx/music/maxstack/crystal-space.ogg"),
+	[6] = love.audio.newSource("sfx/music/maxstack/bazaarnet.ogg"),
+	[7] = love.audio.newSource("sfx/music/maxstack/the-client.ogg"),
+	[8] = love.audio.newSource("sfx/music/maxstack/deprecation.ogg"),
+	[9] = love.audio.newSource("sfx/music/maxstack/inevitable.ogg"),
+	[10] = love.audio.newSource("sfx/music/maxstack/mediathreat.ogg")
+}
 
 	
 love.audio.setVolume( 1 )--master volume
 
-
-function sound:playbgm(n)
-	if sound.muted then return true end
-	if sound.bgm then sound.bgm:stop() end
-	sound.bgmtrack = n
-	sound.bgm = love.audio.newSource(sound.music[n])
-	sound.bgm:setVolume(sound.volume/100)
-	sound.bgm:play()
-	sound.bgm:setLooping(true)
+function sound:init()
+	if sound.enabled then
+		love.audio.setVolume( sound.volume/100 )
+	else
+		love.audio.setVolume( 0 )
+	end
 end
 
+function sound:toggle()
+	sound.enabled = not sound.enabled
+	if sound.enabled then
+		love.audio.setVolume( sound.volume/100 )
+	else
+		love.audio.setVolume( 0 )
+	end
+end
+
+function sound:playbgm(id)
+
+	self.bgm = self.music[id]
+	self.bgmtrack = id
+	self:stoplooping(self.music)
+	--self.bgm:setPitch(0.5)
+	love.audio.rewind( )
+
+	if id ~= 0 then
+		self.bgm:setLooping(true)
+		self.bgm:setVolume(0.8)
+		self.bgm:play()
+	end
+end
 
 function sound:play(sfx)
 	if sound.muted then return true end
-	
+	--fix this, move source definition of effects to this file
 	if sfx:isPlaying() then
 		sfx:stop()
 	end
 	sfx:play()
+end
+
+function sound:stoplooping(type)
+	for _,t in ipairs(type) do
+		t:stop()
+	end
 end

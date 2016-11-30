@@ -39,9 +39,9 @@ starfield.nebulae.min = 1
 starfield.nebulae.max = 16
 starfield.nebulae.size = 512
 starfield.nebulae.quads = loadsprite(starfield.nebulae.sprite, starfield.nebulae.size, starfield.nebulae.max )
-starfield.nebulae.red = 220
-starfield.nebulae.green = 220
-starfield.nebulae.blue = 220
+starfield.nebulae.red = 200
+starfield.nebulae.green = 200
+starfield.nebulae.blue = 200
 starfield.nebulae.populate = true
 
 -- colour themes
