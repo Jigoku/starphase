@@ -59,7 +59,7 @@ function pickups:draw()
 end
 
 function pickups:add(x,y)
-	local n = math.random(1,#pickups.type)
+	local n = love.math.random(1,#pickups.type)
 	
 	table.insert(pickups.items, {
 		type = n,
@@ -67,11 +67,11 @@ function pickups:add(x,y)
 		y = y,
 		w = pickups.type[n]:getWidth(),
 		h = pickups.type[n]:getHeight(),
-		xvel =  math.random(-70,70),
-		yvel =  math.random(-70,70),
-		r = math.random(100,255),
-		g = math.random(100,255),
-		b = math.random(100,255),
+		xvel =  love.math.random(-70,70),
+		yvel =  love.math.random(-70,70),
+		r = love.math.random(100,255),
+		g = love.math.random(100,255),
+		b = love.math.random(100,255),
 	})
 end
 

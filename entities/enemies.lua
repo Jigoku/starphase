@@ -47,7 +47,7 @@ function enemies:add_delta()
 
 	local gfx = self.type.delta
 	
-	local ny = math.random(0, starfield.h - gfx:getHeight()*4)
+	local ny = love.math.random(0, starfield.h - gfx:getHeight()*4)
 	local nx = starfield.w
 	
 	local xvel = 400
@@ -98,7 +98,7 @@ function enemies:add_abomination()
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		x = starfield.w,
-		y = math.random(gfx:getHeight(),starfield.h-gfx:getHeight()),		
+		y = love.math.random(gfx:getHeight(),starfield.h-gfx:getHeight()),		
 		yvel = 0,
 		xvel = 50,
 		gfx = gfx or nil,
@@ -135,9 +135,9 @@ function enemies:add_dart()
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		x = starfield.w,
-		y = player.y+starfield.offset/2+math.random(-200,200),
+		y = player.y+starfield.offset/2+love.math.random(-200,200),
 		yvel = 0,
-		xvel = math.random(500,600),
+		xvel = love.math.random(500,600),
 		gfx = gfx or nil,
 		score = 40,
 		shield = 40,
@@ -159,9 +159,9 @@ function enemies:add_asteroid()
 		w = self.type.asteroid:getWidth(),
 		h = self.type.asteroid:getHeight(),
 		x = starfield.w,
-		y = math.random(0,starfield.h),
+		y = love.math.random(0,starfield.h),
 		yvel = 0,
-		xvel = math.random(100,300),
+		xvel = love.math.random(100,300),
 		gfx = self.type.asteroid,
 		score = 10,
 		shield = 50,
@@ -170,7 +170,7 @@ function enemies:add_asteroid()
 		shieldscale = 0,
 		opacity = 255,
 		alive = true,
-		spin = (math.random(0,1) == 1 and 1 or -1),
+		spin = (love.math.random(0,1) == 1 and 1 or -1),
 	})
 
 
@@ -181,7 +181,7 @@ function enemies:add_train()
 	local gfx = self.type.train
 	
 	local x = starfield.w
-	local y = math.random(0,starfield.h)
+	local y = love.math.random(0,starfield.h)
 	for i=1, 5 do
 	table.insert(self.wave, {
 		type = "train",
@@ -189,7 +189,7 @@ function enemies:add_train()
 		h = gfx:getHeight(),
 		x = x,
 		y = y,
-		yvel = math.random(-20,20),
+		yvel = love.math.random(-20,20),
 		xvel = 700,
 		gfx = gfx or nil,
 		score = 40,
@@ -211,7 +211,7 @@ function enemies:add_cruiser()
 	local gfx = self.type.cruiser
 	
 	local x = starfield.w
-	local y = math.random(0,starfield.h)
+	local y = love.math.random(0,starfield.h)
 	for i=1, 3 do
 	table.insert(self.wave, {
 		type = "cruiser",
@@ -219,7 +219,7 @@ function enemies:add_cruiser()
 		h = gfx:getHeight(),
 		x = x,
 		y = y,
-		yvel = math.random(-40,40),
+		yvel = love.math.random(-40,40),
 		xvel = 500,
 		gfx = gfx or nil,
 		score = 180,
@@ -238,14 +238,14 @@ end
 function enemies:add_tri()
 
 	local gfx = self.type.tri
-	local rand = math.random(-200,200)
+	local rand = love.math.random(-200,200)
 	table.insert(self.wave, {
 		type = "tri",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		x = starfield.w,
 		y = player.y+starfield.offset/2+rand,
-		yvel = math.random(-50,50),
+		yvel = love.math.random(-50,50),
 		xvel = 340,
 		gfx = gfx or nil,
 		score = 80,
@@ -264,7 +264,7 @@ function enemies:add_tri()
 		h = gfx:getHeight(),
 		x = starfield.w+gfx:getWidth(),
 		y = player.y+starfield.offset/2-gfx:getHeight()/2+rand,
-		yvel = math.random(0,50),
+		yvel = love.math.random(0,50),
 		xvel = 330,
 		gfx = gfx or nil,
 		score = 80,
@@ -282,7 +282,7 @@ function enemies:add_tri()
 		h = gfx:getHeight(),
 		x = starfield.w+gfx:getWidth(),
 		y = player.y+starfield.offset/2+gfx:getHeight()/2+rand,
-		yvel = math.random(-50,0),
+		yvel = love.math.random(-50,0),
 		xvel = 330,
 		gfx = gfx or nil,
 		score = 80,
@@ -307,7 +307,7 @@ function enemies:add_large()
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		x = starfield.w,
-		y = math.random(gfx:getHeight(),starfield.h-gfx:getHeight()),
+		y = love.math.random(gfx:getHeight(),starfield.h-gfx:getHeight()),
 		yvel = 0,
 		xvel = 200,
 		gfx = gfx or nil,
@@ -334,7 +334,7 @@ function enemies:add_crescent()
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		x = starfield.w,
-		y = math.random(gfx:getHeight(),starfield.h-gfx:getHeight()),
+		y = love.math.random(gfx:getHeight(),starfield.h-gfx:getHeight()),
 		yvel = 0,
 		xvel = 250,
 		gfx = gfx or nil,
@@ -364,7 +364,7 @@ function enemies:update(dt)
 			--[[ ENEMY TYPE --]]
 			self:add_asteroid()
 			
-			enemies.waveCycle = math.random(0.1,1)
+			enemies.waveCycle = love.math.random(0.1,1)
 		end
 		
 	end
@@ -376,7 +376,7 @@ function enemies:update(dt)
 		
 	if not debugarcade and enemies.waveCycle <= 0 then
 	
-		local rand = math.random(0,15)
+		local rand = love.math.random(0,15)
 		if rand == 0 then
 			self:add_dart()
 		end
@@ -405,7 +405,7 @@ function enemies:update(dt)
 		if rand > 7 then
 			self:add_asteroid()
 		end
-		enemies.waveCycle = math.random(0.25,1)
+		enemies.waveCycle = love.math.random(0.25,1)
 	end
 	
 	
@@ -551,7 +551,7 @@ function enemies:update(dt)
 			if e.opacity <= 0 then
 				table.remove(self.wave, i)
 			
-				local rand = math.random(0,pickups.chance)
+				local rand = love.math.random(0,pickups.chance)
 				--local rand = 9
 				if rand > pickups.chance -1 then
 					pickups:add(e.x+e.w/2,e.y+e.h/2)

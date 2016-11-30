@@ -322,9 +322,9 @@ function player:fireCannon(dt)
 			xvel = 2000,
 			yvel = 0,
 			damage = projectiles.cannon.damage,
-			r = math.random(150,255),
-			g = math.random(150,255),
-			b = math.random(150,255),
+			r = love.math.random(150,255),
+			g = love.math.random(150,255),
+			b = love.math.random(150,255),
 		})
 		self.cannon.cycle = self.cannon.delay
 	end

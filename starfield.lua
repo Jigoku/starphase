@@ -79,8 +79,8 @@ function starfield:populate()
 	--populate starfield
 	for i=0,self.limit do
 		self:addobject(
-			math.random(0, starfield.w),
-			math.random(0, starfield.h)
+			love.math.random(0, starfield.w),
+			love.math.random(0, starfield.h)
 		)
 	end
 end
@@ -92,12 +92,12 @@ function starfield:addStar(x,y)
 		y = y,
 		w = self.star:getWidth(),
 		h = self.star:getHeight(),
-		velocity = math.random(30,80) * self.speed,
+		velocity = love.math.random(30,80) * self.speed,
 		type = "star",
-		r = math.random(170,215),
-		g = math.random(170,215),
-		b = math.random(170,215),
-		o = math.random(10,150),
+		r = love.math.random(170,215),
+		g = love.math.random(170,215),
+		b = love.math.random(170,215),
+		o = love.math.random(10,150),
 		gfx = self.star,
 		scale = 1
 	})
@@ -112,12 +112,12 @@ function starfield:addDense_star(x,y)
 		y = y,
 		w = self.dense_star:getWidth(),
 		h = self.dense_star:getHeight(),
-		velocity = math.random(40,70)  * self.speed,
+		velocity = love.math.random(40,70)  * self.speed,
 		type = "dense_star",
-		r = math.random (100,255),
-		g = math.random (100,255),
-		b = math.random (100,255),
-		o = math.random(30,70),
+		r = love.math.random (100,255),
+		g = love.math.random (100,255),
+		b = love.math.random (100,255),
+		o = love.math.random(30,70),
 		gfx = self.dense_star,
 		scale = 1
 	})
@@ -151,7 +151,7 @@ function starfield:addNebula(x,y)
 	if self.nebulae.populate then
 		--nebula
 		if self.count.nebulae < 15 then
-		local scale = math.random(10,15)/10
+		local scale = love.math.random(10,15)/10
 		table.insert(self.objects, {
 			x = x,
 			y = y,
@@ -162,10 +162,10 @@ function starfield:addNebula(x,y)
 			r = self.nebulae.red,
 			g = self.nebulae.green,
 			b = self.nebulae.blue,
-			o = math.random(40,90),
-			gfx = self.nebulae.quads[math.random(self.nebulae.min,self.nebulae.max)],
+			o = love.math.random(40,90),
+			gfx = self.nebulae.quads[love.math.random(self.nebulae.min,self.nebulae.max)],
 			scale = scale,
-			rotation = math.random(math.pi),
+			rotation = love.math.random(math.pi),
 		})
 		self.count.nebulae = self.count.nebulae +1
 		end
@@ -175,7 +175,7 @@ end
 	
 
 function starfield:addobject(x,y)
-	local n = math.random(0,100)
+	local n = love.math.random(0,100)
 	local velocity, type, gfx, r,g,b,o
 
 	if n == 0 then
@@ -199,7 +199,7 @@ function starfield:update(dt)
 	if #self.objects < self.limit then
 		self:addobject(
 			self.w,
-			math.random(self.h)
+			love.math.random(self.h)
 		)
 	end
 	

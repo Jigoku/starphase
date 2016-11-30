@@ -46,10 +46,6 @@ function love.load(args)
 		if arg == "-fullscreen" or arg == "-f" then love.window.setFullscreen(1) end
 	end
 	
-	
-	
-	--initialize seed
-	math.randomseed(os.time())
 
 	game = {}
 	game.width, game.height, game.flags = love.window.getMode( )
@@ -84,16 +80,16 @@ function initarcade(playersel)
 	love.graphics.setBackgroundColor(0,0,0,255)
 	
 	--starfield.offset = love.graphics.getHeight()/3
-	--starfield.nebulae.red = math.random(0,255)
-	--starfield.nebulae.green = math.random(0,255)
-	--starfield.nebulae.blue = math.random(0,255)
+	--starfield.nebulae.red = love.math.random(0,255)
+	--starfield.nebulae.green = love.math.random(0,255)
+	--starfield.nebulae.blue = love.math.random(0,255)
 	player:init(playersel)
 	starfield.speed = 2
 	starfield:populate()
 	hud:init()
 
 	
-	sound:playbgm(math.random(3,#sound.music))
+	sound:playbgm(love.math.random(3,#sound.music))
 end
 
 function initdebugarcade(playersel)
