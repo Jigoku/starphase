@@ -31,6 +31,8 @@ require("entities/projectiles")
 
 function love.load(args)
 
+	love.math.setRandomSeed( os.time() )
+
 	msgs = require("screen/messagebox")
 	msgs.callback = function() print("end of message test") end
 
@@ -46,6 +48,7 @@ function love.load(args)
 		if arg == "-fullscreen" or arg == "-f" then love.window.setFullscreen(1) end
 	end
 	
+
 
 	game = {}
 	game.width, game.height, game.flags = love.window.getMode( )

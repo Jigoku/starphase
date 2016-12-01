@@ -39,10 +39,11 @@ starfield.nebulae.min = 1
 starfield.nebulae.max = 16
 starfield.nebulae.size = 512
 starfield.nebulae.quads = loadsprite(starfield.nebulae.sprite, starfield.nebulae.size, starfield.nebulae.max )
-starfield.nebulae.red = 200
-starfield.nebulae.green = 200
-starfield.nebulae.blue = 200
+starfield.nebulae.red = 255
+starfield.nebulae.green = 255
+starfield.nebulae.blue = 255
 starfield.nebulae.populate = true
+starfield.nebulae.limit = 15
 
 -- colour themes
 --
@@ -92,12 +93,12 @@ function starfield:addStar(x,y)
 		y = y,
 		w = self.star:getWidth(),
 		h = self.star:getHeight(),
-		velocity = love.math.random(30,80) * self.speed,
+		velocity = love.math.random(20,80),
 		type = "star",
 		r = love.math.random(170,215),
 		g = love.math.random(170,215),
 		b = love.math.random(170,215),
-		o = love.math.random(10,150),
+		o = love.math.random(10,190),
 		gfx = self.star,
 		scale = 1
 	})
@@ -106,13 +107,13 @@ end
 
 function starfield:addDense_star(x,y)
 	--dense star
-	if self.count.dense < 15 then
+	if self.count.dense < starfield.nebulae.limit then
 	table.insert(self.objects, {
 		x = x,
 		y = y,
 		w = self.dense_star:getWidth(),
 		h = self.dense_star:getHeight(),
-		velocity = love.math.random(40,70)  * self.speed,
+		velocity = love.math.random(20,70) ,
 		type = "dense_star",
 		r = love.math.random (100,255),
 		g = love.math.random (100,255),
@@ -133,7 +134,7 @@ function starfield:addDebris(x,y)
 			y = y,
 			w = self.star:getWidth(),
 			h = self.star:getHeight(),
-			velocity = 1500  * self.speed,
+			velocity = 1500 ,
 			type = "debris",
 			r = 185,
 			g = 185,
@@ -150,14 +151,14 @@ end
 function starfield:addNebula(x,y)
 	if self.nebulae.populate then
 		--nebula
-		if self.count.nebulae < 15 then
+		if self.count.nebulae < starfield.nebulae.limit then
 		local scale = love.math.random(10,15)/10
 		table.insert(self.objects, {
 			x = x,
 			y = y,
 			w = self.nebulae.size*scale,
 			h = self.nebulae.size*scale,
-			velocity = 30  * self.speed,
+			velocity = love.math.random(20,30),
 			type = "nebula",
 			r = self.nebulae.red,
 			g = self.nebulae.green,
@@ -181,7 +182,7 @@ function starfield:addobject(x,y)
 	if n == 0 then
 		self:addDense_star(x,y)
 	elseif n == 1 then
-		self:addNebula(x,y)
+		self:addNebula(x,y-starfield.nebulae.size/2)
 	elseif n > 1 and n < 8 then
 		self:addDebris(x,y)
 	else
@@ -196,7 +197,7 @@ function starfield:update(dt)
 	if paused then return end
 
 	--populate starfield
-	if #self.objects < self.limit then
+	while #self.objects < self.limit do
 		self:addobject(
 			self.w,
 			love.math.random(self.h)
@@ -212,7 +213,7 @@ function starfield:update(dt)
 	for i=#self.objects,1,-1 do
 		local o = self.objects[i]
 		
-		o.x = o.x - (o.velocity *dt)
+		o.x = o.x - ((o.velocity * self.speed) *dt)
 		
 		if o.x+o.w < 0 then
 			table.remove(self.objects, i)

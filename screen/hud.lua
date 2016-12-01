@@ -57,11 +57,11 @@ end
 
 function hud:updateconsole(dt)
 	if debug then
-		if mode == "title" then
-			hud.console.h = 50
-		else
-			hud.console.h = 250
-		end
+		--if mode == "title" then
+		--	hud.console.h = 50
+		--else
+		--	hud.console.h = 250
+		--end
 
 		hud.console.y = hud.console.y + hud.console.speed *dt
 		if hud.console.y >= 0 then
@@ -326,33 +326,35 @@ function hud:drawconsole()
 		love.graphics.print("bgmtrack: #" .. tostring(sound.bgmtrack) .. " | sources: "..love.audio.getSourceCount(),hud.console.x+10,hud.console.y+30)
 		
 	
-		if mode == "arcade" then
+		--
 		--divider
 		love.graphics.setColor(155,255,255,100)
 		love.graphics.line(hud.console.x+10,hud.console.y+60, hud.console.x+hud.console.w-10,hud.console.y+60)
 
 
 		--player info
+		if mode == "arcade" then
 		love.graphics.setColor(100,190,200,255)
 		love.graphics.print("player yvel: " .. math.round(player.yvel,4),hud.console.x+10,hud.console.y+70)
 		love.graphics.print("player xvel: " .. math.round(player.xvel,4),hud.console.x+10,hud.console.y+90)
 		love.graphics.print("player posx: " .. math.round(player.x,4),hud.console.x+10,hud.console.y+110)
 		love.graphics.print("player posy: " .. math.round(player.y,4),hud.console.x+10,hud.console.y+130)
 		love.graphics.print("player idle: " .. tostring(player.idle),hud.console.x+10,hud.console.y+150)
-		
+		end
 		
 		--divider
 		love.graphics.setColor(155,255,255,100)
 		love.graphics.line(hud.console.x+10,hud.console.y+180, hud.console.x+200,hud.console.y+180)
 
 		--mission info
+		if mode == "arcade" then
 		love.graphics.setColor(100,190,200,255)
 		love.graphics.print("progress: " ..math.round(hud.display.progress/hud.display.w*100,4) .."%",hud.console.x+10,hud.console.y+190)
 		love.graphics.print("elapsed: " .. 
 			misc:formatTime(hud.time),
 			hud.console.x+10,hud.console.y+210
 		)
-		
+		end
 		--vertical divider
 		love.graphics.setColor(155,255,255,100)
 		love.graphics.line(hud.console.x+201,hud.console.y+60, hud.console.x+201,hud.console.y+249)
@@ -367,12 +369,14 @@ function hud:drawconsole()
 			"[debris:" .. string.format("%02d",starfield.count.debris) .. "]"
 			,hud.console.x+215,hud.console.y+70
 		)
+		
+		if mode == "arcade" then
 		love.graphics.print("projectiles: " .. #projectiles.missiles,hud.console.x+215,hud.console.y+90)
 		love.graphics.print("enemies    : " .. #enemies.wave,hud.console.x+215,hud.console.y+110)
 		love.graphics.print("pickups    : " .. #pickups.items,hud.console.x+215,hud.console.y+130)
 		love.graphics.print("explosions : " .. #explosions.objects,hud.console.x+215,hud.console.y+150)
-	
 		end
+		--end
 	love.graphics.setCanvas()
 
 	love.graphics.setColor(255,255,255,hud.console.opacity)

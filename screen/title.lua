@@ -52,6 +52,7 @@ title.planet = love.graphics.newImage("gfx/planets/planet.png")
 
 
 function title:init()
+
 	title.overlay.fadein = true
 	title.overlay.opacity = 255
 	paused = false
@@ -72,6 +73,22 @@ function title:init()
 end
 
 function title:update(dt)
+
+	if debugstarfield then
+		if love.keyboard.isDown("left") then
+			starfield.speed = math.max(starfield.speed -0.1,0)
+			--starfield:populate()
+			for _,o in ipairs(starfield.objects) do
+				o.velocity = math.max(o.velocity -0.1, 30)
+			end
+		elseif love.keyboard.isDown("right") then
+			starfield.speed = starfield.speed +0.1
+			--starfield:populate()
+			for _,o in ipairs(starfield.objects) do
+				o.velocity = o.velocity +0.1
+			end
+		end
+	end
 
 	if title.splash then
 		title.splashCycle = math.max(0, title.splashCycle - dt)
@@ -133,6 +150,11 @@ function title:draw()
 	end
 	
 	starfield:draw(0,0)
+
+	if debugstarfield then 
+		love.graphics.setColor(255,255,255,255)
+		love.graphics.print("speed: " .. starfield.speed,10,10)
+	return end
 
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.draw(title.planet,0-title.planet:getWidth()/2, starfield.h/2-title.planet:getHeight()/2 )	
@@ -259,6 +281,10 @@ function title:keypressed(key)
 	end
 		
 		
+	if key == "space" then
+		debugstarfield = not debugstarfield
+	end
+	
 
 	
 	

@@ -357,17 +357,20 @@ function enemies:update(dt)
 
 	--[[ DEBUG ENEMIES --]]
 	if debugarcade then
-		enemies.waveCycle = math.max(0, enemies.waveCycle - dt)
-		
-		if enemies.waveCycle <= 0 then
-		
-			--[[ ENEMY TYPE --]]
-			self:add_asteroid()
-			
-			enemies.waveCycle = love.math.random(0.1,1)
-		end
-		
+		return
 	end
+	
+	--	enemies.waveCycle = math.max(0, enemies.waveCycle - dt)
+	--	
+	--	if enemies.waveCycle <= 0 then
+		
+	--		--[[ ENEMY TYPE --]]
+	--		self:add_asteroid()
+	--		
+	--		enemies.waveCycle = love.math.random(0.1,1)
+	--	end
+	--	
+	--end
 	
 	
 	
@@ -394,7 +397,7 @@ function enemies:update(dt)
 		end
 		if rand == 5 then
 			--fix this so only one exists at a time
-			--self:add_abomination()
+			self:add_abomination()
 		end
 		if rand == 6 then
 			self:add_crescent()
