@@ -17,7 +17,6 @@ require("misc")
 require("binds")
 require("collision")
 require("sound")
-require("starfield")
 require("screen/title")
 require("screen/hud")
 require("screen/fonts")
@@ -30,10 +29,13 @@ require("entities/projectiles")
 
 
 function love.load(args)
-
 	love.math.setRandomSeed( os.time() )
 
+
+	
+	starfield = require("starfield")
 	msgs = require("screen/messagebox")
+	
 	msgs.callback = function() print("end of message test") end
 
 	debug = false

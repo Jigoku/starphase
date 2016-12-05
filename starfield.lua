@@ -18,7 +18,7 @@
 --	add starfield:update(dt) to love.update()
 --  add starfield:draw(x,y) to love.draw(), x/y are position of the canvas
 
-starfield = {}
+local starfield = {}
 starfield.objects = {}
 
 starfield.offset = 0
@@ -331,7 +331,7 @@ function starfield:draw(x,y)
 	end
 	
 	if mode == "arcade" then
-	
+	-- move this
 		pickups:draw()
 		
 		enemies:draw()
@@ -356,3 +356,5 @@ function starfield:draw(x,y)
 	)
 
 end
+
+return starfield
