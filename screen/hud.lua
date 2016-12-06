@@ -14,6 +14,13 @@
  --]]
  
 hud = {}
+hud.life_gfx = love.graphics.newImage("gfx/life.png")
+
+hud.colors = {
+	["frame"] = {155,255,255,50},
+	["lives"] = {100,190,200,120},
+	
+}
 
 hud.console = {
 	w = 720,
@@ -37,6 +44,7 @@ function hud:init()
 	
 	hud.time = 0
 end
+
 
 
 function hud:update(dt)
@@ -98,7 +106,9 @@ function hud:draw()
   --hud
 	--decor / lines
 	if not debug then
-	love.graphics.setColor(155,255,255,50)
+	love.graphics.setColor(
+		hud.colors["frame"][1],hud.colors["frame"][2],hud.colors["frame"][3],hud.colors["frame"][4]
+	)
 	
 	--dynamic decor/lines
 	--[[love.graphics.setColor(
@@ -191,10 +201,10 @@ function hud:draw()
 
 	love.graphics.printf("lives: ", love.graphics.getWidth()/2,60,0,"center",0,1,1)
 	for i=1,player.lives do
-		love.graphics.setColor(100,190,200,100)
-		love.graphics.rectangle("fill", 25*i+love.graphics.getWidth()/2,50, 20,20)
-		love.graphics.setColor(255,255,255,255)
-		love.graphics.draw(player.gfx,25*i+love.graphics.getWidth()/2,50,0,0.2,0.2)
+		love.graphics.setColor(
+			hud.colors["lives"][1],hud.colors["lives"][2],hud.colors["lives"][3],hud.colors["lives"][4]
+		)
+		love.graphics.draw(hud.life_gfx,(25*i)+50,love.graphics.getHeight()-80,0,1,1)
 	end
 	
 	--display 
