@@ -34,7 +34,7 @@ starfield.dense_star = love.graphics.newImage("gfx/glow.png")
 starfield.star = love.graphics.newImage("gfx/star.png")
 
 starfield.nebulae = { }
-starfield.nebulae.sprite = love.graphics.newImage("gfx/nebulae/proc_sheet_nebula3.png")
+starfield.nebulae.sprite = love.graphics.newImage("gfx/nebulae/proc_sheet_nebula2.png")
 starfield.nebulae.min = 1
 starfield.nebulae.max = 16
 starfield.nebulae.size = 512
@@ -92,7 +92,7 @@ function starfield:speedAdjust(n,dt)
 	self.speed = math.max(self.speed +n,0)
 	for _,o in ipairs(self.objects) do
 		if o.maxvel > o.minvel then
-			o.maxvel = math.max(o.maxvel +n, 30)
+			o.maxvel = math.max(o.maxvel +n, o.minvel)
 		end
 	end
 end
@@ -115,7 +115,7 @@ function starfield:addStar(x,y)
 		r = love.math.random(170,215),
 		g = love.math.random(170,215),
 		b = love.math.random(170,215),
-		o = love.math.random(10,190),
+		o = love.math.random(10,200),
 		gfx = self.star,
 		scale = 1
 	})
@@ -165,8 +165,9 @@ function starfield:addDebris(x,y)
 			gfx = self.star,
 			scale = 1
 		})
+		self.count.debris = self.count.debris +1
 	end
-	self.count.debris = self.count.debris +1
+	
 end
 		
 		
@@ -174,8 +175,10 @@ function starfield:addNebula(x,y)
 	if self.nebulae.populate then
 		--nebula
 		if self.count.nebulae < starfield.nebulae.limit then
+		
 		local scale = love.math.random(10,15)/10
-		local vel = love.math.random(20,30)
+		local vel = love.math.random(20,25)
+		
 		table.insert(self.objects, {
 			x = x,
 			y = y,
@@ -187,14 +190,15 @@ function starfield:addNebula(x,y)
 			r = self.nebulae.red,
 			g = self.nebulae.green,
 			b = self.nebulae.blue,
-			o = love.math.random(40,90),
+			o = love.math.random(10,80),
 			gfx = self.nebulae.quads[love.math.random(self.nebulae.min,self.nebulae.max)],
 			scale = scale,
-			rotation = love.math.random(math.pi),
+			rotation = love.math.random(0.0,math.pi*10)/10,
 		})
 		self.count.nebulae = self.count.nebulae +1
 		end
 	end
+print (love.math.random(0.0,math.pi*10)/10)
 end
 	
 	

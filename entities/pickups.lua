@@ -43,7 +43,7 @@ function pickups:draw()
 		--love.graphics.setColor(p.r,p.g,p.b)
 		love.graphics.setColor(255,255,255,255)
 		love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
-		love.graphics.rotate(p.rotation or 0)
+		love.graphics.rotate(p.angle or 0)
 		love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
 		
 		 love.graphics.draw(pickups.type[p.type], p.x,p.y)
@@ -72,6 +72,7 @@ function pickups:add(x,y)
 		r = love.math.random(100,255),
 		g = love.math.random(100,255),
 		b = love.math.random(100,255),
+		spin = (love.math.random(0,1) == 1 and 1 or -1)
 	})
 end
 
@@ -82,7 +83,8 @@ function pickups:update(dt)
 		p.x = p.x + (p.xvel *dt)
 		p.y = p.y + (p.yvel *dt)
 		
-		projectiles:rotate(p, 1, dt)
+		
+		enemies:rotate(p,p.spin,dt)
 		
 		if p.x+p.w > starfield.w then
 			p.xvel = -p.xvel
