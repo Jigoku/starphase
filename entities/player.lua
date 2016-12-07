@@ -700,9 +700,9 @@ function player:addBarrier(dt)
 		xvel = 750,
 		yvel = 0,
 		damage = projectiles.barrier.damage,
-		r = 148,
+		r = 255,
 		g = 148,
-		b = 252,
+		b = 255,
 	})
 
 end

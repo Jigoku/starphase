@@ -89,7 +89,8 @@ function initarcade(playersel)
 	--starfield.nebulae.green = love.math.random(0,255)
 	--starfield.nebulae.blue = love.math.random(0,255)
 	player:init(playersel)
-	starfield.speed = 2
+	--starfield.speed = 2
+	starfield.speed = 5.0
 	starfield:populate()
 	hud:init()
 

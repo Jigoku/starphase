@@ -76,17 +76,12 @@ function title:update(dt)
 
 	if debugstarfield then
 		if love.keyboard.isDown("left") then
-			starfield.speed = math.max(starfield.speed -0.1,0)
-			--starfield:populate()
-			for _,o in ipairs(starfield.objects) do
-				o.velocity = math.max(o.velocity -0.1, 30)
-			end
+			
+			starfield:speedAdjust(-0.1, dt)
+			
 		elseif love.keyboard.isDown("right") then
-			starfield.speed = starfield.speed +0.1
-			--starfield:populate()
-			for _,o in ipairs(starfield.objects) do
-				o.velocity = o.velocity +0.1
-			end
+			
+			starfield:speedAdjust(0.1, dt)
 		end
 	end
 
