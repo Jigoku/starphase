@@ -54,7 +54,7 @@ function player:init(playersel)
 	player.warning = false
 	
 	--test this for temporary particle speed boost (powerup?)
-	player.multiplier = 1 
+	player.multiplier = 1
 	player.cannon = {
 		switch = false,
 		cycle = 0,

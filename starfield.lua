@@ -33,8 +33,9 @@ starfield.mist = love.graphics.newImage("gfx/mist.png")
 starfield.dense_star = love.graphics.newImage("gfx/glow.png")
 starfield.star = love.graphics.newImage("gfx/star.png")
 
+
 starfield.nebulae = { }
-starfield.nebulae.sprite = love.graphics.newImage("gfx/nebulae/proc_sheet_nebula2.png")
+starfield.nebulae.sprite = love.graphics.newImage("gfx/nebulae/proc_sheet_nebula3.png")
 starfield.nebulae.min = 1
 starfield.nebulae.max = 16
 starfield.nebulae.size = 512
@@ -77,6 +78,8 @@ function starfield:populate()
 	starfield.mist_quad = love.graphics.newQuad(0,0, starfield.w, starfield.h, starfield.mist:getDimensions() )
 	starfield.mist:setWrap("repeat", "repeat")
 	starfield.mist_scroll = 0
+	
+
 	
 	--populate starfield
 	for i=0,self.limit do
@@ -177,7 +180,7 @@ function starfield:addNebula(x,y)
 		if self.count.nebulae < starfield.nebulae.limit then
 		
 		local scale = love.math.random(10,15)/10
-		local vel = love.math.random(20,25)
+		local vel = love.math.random(20,24)
 		
 		table.insert(self.objects, {
 			x = x,
@@ -198,7 +201,6 @@ function starfield:addNebula(x,y)
 		self.count.nebulae = self.count.nebulae +1
 		end
 	end
-print (love.math.random(0.0,math.pi*10)/10)
 end
 	
 	
@@ -265,6 +267,7 @@ function starfield:update(dt)
 		self.mist_scroll = 0
 	end
 	self.mist_quad:setViewport(self.mist_scroll,0,starfield.w,starfield.h )
+
 
 end
 
@@ -368,6 +371,8 @@ function starfield:draw(x,y)
 		explosions:draw()
 		projectiles:draw()
 		player:draw()
+		
+
 	end
 
 

@@ -29,6 +29,9 @@ require("entities/projectiles")
 
 
 function love.load(args)
+
+
+
 	love.math.setRandomSeed( os.time() )
 
 
@@ -90,7 +93,7 @@ function initarcade(playersel)
 	--starfield.nebulae.blue = love.math.random(0,255)
 	player:init(playersel)
 	--starfield.speed = 2
-	starfield.speed = 4.8
+	starfield.speed = 3.2
 	starfield:populate()
 	hud:init()
 
@@ -220,6 +223,28 @@ if key == "k" then pickups:add(200,200) end
 		title:keypressed(key)
 	end
 	
+	
+	--debug enemy
+	if debugarcade then
+	if key == "1" then
+		enemies:add_abomination()
+	elseif key == "2" then
+		enemies:add_asteroid()
+	elseif key == "3" then
+		enemies:add_crescent()
+	elseif key == "4" then
+		enemies:add_dart()
+	elseif key == "5" then
+		enemies:add_delta()
+	elseif key == "6" then
+		enemies:add_large()
+	elseif key == "7" then
+		enemies:add_train()
+	elseif key == "8" then
+		enemies:add_tri()
+	end
+	end
+	--[[
 	if key == "0" then
 		love.window.setMode(1024,(game.scale.h/game.scale.w)*1024 )
 	end
@@ -232,7 +257,7 @@ if key == "k" then pickups:add(200,200) end
 		love.window.setMode(1200,(game.scale.h/game.scale.w)*1200 )
 	end
 	
-	
+	--]]
 
 
 end

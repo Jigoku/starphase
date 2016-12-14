@@ -100,21 +100,21 @@ function enemies:add_abomination()
 		x = starfield.w,
 		y = love.math.random(gfx:getHeight(),starfield.h-gfx:getHeight()),		
 		yvel = 0,
-		xvel = 50,
+		xvel = 100,
 		gfx = gfx or nil,
-		score = 2600,
-		shield = 2600,
-		shieldmax = 2600,
+		score = 100000,
+		shield = 15000,
+		shieldmax = 15000,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
 		opacity = 255,
 		alive = true,
-		projectileCycle = 10,
-		projectileDelay = 3.5,
+		projectileCycle = 5,
+		projectileDelay = 0.35,
 		projectileGfx = projectiles.plasma.gfx,
-		projectileR = 255,
-		projectileG = 100,
-		projectileB = 100,
+		projectileR = 100,
+		projectileG = 255,
+		projectileB = 170,
 		projectileDamage = 35,
 		projectileType = "plasma",
 		projectileXvel = 1100,
@@ -137,11 +137,11 @@ function enemies:add_dart()
 		x = starfield.w,
 		y = player.y+starfield.offset/2+love.math.random(-200,200),
 		yvel = 0,
-		xvel = love.math.random(500,600),
+		xvel = love.math.random(700,800),
 		gfx = gfx or nil,
-		score = 40,
-		shield = 40,
-		shieldmax = 40,
+		score = 10,
+		shield = 10,
+		shieldmax = 10,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
 		opacity = 255,
@@ -355,10 +355,7 @@ function enemies:update(dt)
 	
 	if paused then return end
 
-	--[[ DEBUG ENEMIES --]]
-	if debugarcade then
-		return
-	end
+
 	
 	--	enemies.waveCycle = math.max(0, enemies.waveCycle - dt)
 	--	
@@ -462,21 +459,28 @@ function enemies:update(dt)
 		
 		-- test basic enemy movements
 		if e.type == "abomination" then
-			if e.x < 1450 and e.xvel >= 0 then
-				e.xvel = e.xvel - (10 *dt)
+			if e.x < love.graphics.getWidth() - love.graphics.getWidth()/5 and e.xvel >= 0 then
+				e.xvel = e.xvel - (50 *dt)
 			
 				
 				if e.xvel <= 0 then 
 					e.xvel = 0 
 				
+					local speed = 800
 					if player.y + player.h/2 < e.y + e.h/2 then
-						e.yvel = e.yvel + (100 *dt)
+						e.yvel = e.yvel + (speed *dt)
 					elseif player.y + player.h/2 > e.y + e.h/2 then
-						e.yvel = e.yvel - (100 *dt)
+						e.yvel = e.yvel - (speed *dt)
 					end
 					
-					if e.yvel > 100 then e.yvel = 100 end
-					if e.yvel < -100 then e.yvel = -100 end
+					if e.yvel > speed/2 then 
+						e.yvel = speed/2 
+					end
+					
+					
+					if e.yvel < -speed/2 then 
+						e.yvel = -speed/2 
+					end
 				end
 				
 			end
