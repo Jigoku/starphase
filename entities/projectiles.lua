@@ -116,7 +116,7 @@ function projectiles:update(dt)
 			end
 			
 			if p.type == "beam" then
-				self:rotate(p, 5, dt)
+				self:rotate(p, 8, dt)
 				p.x = p.x + (p.xvel *dt)
 			end
 			
@@ -210,7 +210,7 @@ end
 
 
 function projectiles:draw()
-	
+
 	for _, p in ipairs (projectiles.missiles) do
 
 		local x = math.floor(p.x)

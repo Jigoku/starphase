@@ -38,7 +38,11 @@ enemies.type = {
 	large  = love.graphics.newImage("gfx/enemy/6_large.png"),
 	crescent = love.graphics.newImage("gfx/enemy/9_large.png"),
 	cruiser = love.graphics.newImage("gfx/enemy/10_small.png"),
-	asteroid = love.graphics.newImage("gfx/enemy/asteroid_small.png"),
+	asteroids = {
+		love.graphics.newImage("gfx/enemy/asteroid_large.png"),
+		love.graphics.newImage("gfx/enemy/asteroid_small.png"),
+		love.graphics.newImage("gfx/enemy/asteroid_tiny.png"),
+	}
 }
 
 
@@ -153,16 +157,16 @@ end
 
 function enemies:add_asteroid()
 	
-	
+	local gfx = self.type.asteroids[love.math.random(1,#self.type.asteroids)]
 	table.insert(self.wave, {
 		type = "asteroid",
-		w = self.type.asteroid:getWidth(),
-		h = self.type.asteroid:getHeight(),
+		w = gfx:getWidth(),
+		h = gfx:getHeight(),
 		x = starfield.w,
 		y = love.math.random(0,starfield.h),
 		yvel = 0,
 		xvel = love.math.random(100,300),
-		gfx = self.type.asteroid,
+		gfx = gfx,
 		score = 10,
 		shield = 50,
 		shieldmax = 50,
@@ -375,7 +379,9 @@ function enemies:update(dt)
 	enemies.waveCycle = math.max(0, enemies.waveCycle - dt)
 		
 	if not debugarcade and enemies.waveCycle <= 0 then
-	
+		
+		love.math.setRandomSeed( love.math.getRandomSeed()+1 )
+		
 		local rand = love.math.random(0,15)
 		if rand == 0 then
 			self:add_dart()
@@ -394,7 +400,7 @@ function enemies:update(dt)
 		end
 		if rand == 5 then
 			--fix this so only one exists at a time
-			self:add_abomination()
+			--self:add_abomination()
 		end
 		if rand == 6 then
 			self:add_crescent()
@@ -627,22 +633,23 @@ function enemies:draw()
 		local x = math.floor(e.x)
 		local y = math.floor(e.y)
 			
-		if e.shield > 0 then
 		
-			--health bar
-			local barheight = 6
-			love.graphics.setColor(40,40,40,50)
-			love.graphics.rectangle("fill", x+e.w/1.5/4,y-20,e.w/1.5,barheight)
-		
-		
-			love.graphics.setColor(55,155,155,50)
-			love.graphics.rectangle("fill", x+e.w/1.5/4,y-20,(e.shield/e.shieldmax)*(e.w/1.5),barheight)
-		
-			love.graphics.setColor(155,255,255,50)
-			love.graphics.rectangle("line", x+e.w/1.5/4,y-20,e.w/1.5,barheight)
-		end
 		
 		if debug then
+		
+			if e.shield > 0 then
+				--health bar
+				local barheight = 6
+				love.graphics.setColor(40,40,40,50)
+				love.graphics.rectangle("fill", x+e.w/1.5/4,y-20,e.w/1.5,barheight)
+		
+				love.graphics.setColor(55,155,155,50)
+				love.graphics.rectangle("fill", x+e.w/1.5/4,y-20,(e.shield/e.shieldmax)*(e.w/1.5),barheight)
+		
+				love.graphics.setColor(155,255,255,50)
+				love.graphics.rectangle("line", x+e.w/1.5/4,y-20,e.w/1.5,barheight)
+			end
+			
 			love.graphics.setColor(255,255,255,255)
 			love.graphics.print("x:"..x, x-10,y-10)
 			love.graphics.print("y:".. y, x-10,y)

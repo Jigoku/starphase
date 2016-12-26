@@ -14,7 +14,7 @@
  --]]
 
 title = {}
-title.splash = false
+title.splash = true
 title.splash_logo = love.graphics.newImage("gfx/artsoftware.png")
 title.splashDelay = 1
 title.splashCycle = 1
@@ -52,7 +52,7 @@ title.planet = love.graphics.newImage("gfx/planets/planet.png")
 
 
 function title:init()
-
+love.math.setRandomSeed( game.seed )
 	title.overlay.fadein = true
 	title.overlay.opacity = 255
 	paused = false
@@ -60,12 +60,9 @@ function title:init()
 	title.active = "main"
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
-
-	starfield.nebulae.r = 0
-	starfield.nebulae.g = 255
-	starfield.nebulae.b = 255
+	love.math.setRandomSeed( os.time() )
 	starfield.offset = 0  
-	starfield.speed = 0.2
+	starfield.speed = 2
 	starfield:populate()
 	love.graphics.setBackgroundColor(0,0,0,255)
 	
@@ -73,15 +70,15 @@ function title:init()
 end
 
 function title:update(dt)
-
+	
 	if debugstarfield then
 		if love.keyboard.isDown("left") then
 			
-			starfield:speedAdjust(-0.1, dt)
+			starfield:speedAdjust(-0.5, dt)
 			
 		elseif love.keyboard.isDown("right") then
 			
-			starfield:speedAdjust(0.1, dt)
+			starfield:speedAdjust(0.5, dt)
 		end
 	end
 
@@ -151,8 +148,8 @@ function title:draw()
 		love.graphics.print("speed: " .. starfield.speed,10,10)
 	return end
 
-	love.graphics.setColor(255,255,255,255)
-	love.graphics.draw(title.planet,0-title.planet:getWidth()/2, starfield.h/2-title.planet:getHeight()/2 )	
+	--love.graphics.setColor(255,255,255,255)
+	--love.graphics.draw(title.planet,0-title.planet:getWidth()/2, starfield.h/2-title.planet:getHeight()/2 )	
 	
 	
 	--border bars
@@ -262,7 +259,16 @@ end
 function title:keypressed(key)
 	if key == "escape" then love.event.quit() end
 	
-	if title.splash then return end
+	
+	
+	
+	if title.splash then 
+		if key == "space" then 
+			title.splash = false 
+			
+			return 
+		end
+	end
 	
 	if key == "up" then 
 		title.sounds.option:play() 
@@ -280,7 +286,7 @@ function title:keypressed(key)
 		debugstarfield = not debugstarfield
 	end
 	
-
+	
 	
 	
 	if key == "return" then

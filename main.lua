@@ -31,8 +31,7 @@ require("entities/projectiles")
 function love.load(args)
 
 
-
-	love.math.setRandomSeed( os.time() )
+	--love.math.setRandomSeed( os.time() )
 
 
 	
@@ -57,7 +56,7 @@ function love.load(args)
 
 	game = {}
 	game.width, game.height, game.flags = love.window.getMode( )
-
+	game.seed = 133742069
 	game.max_fps = 200--game.flags.refreshrate
 	game.min_dt = 1/game.max_fps
 	game.next_time = love.timer.getTime()
@@ -93,12 +92,13 @@ function initarcade(playersel)
 	--starfield.nebulae.blue = love.math.random(0,255)
 	player:init(playersel)
 	--starfield.speed = 2
-	starfield.speed = 3.2
-	starfield:populate()
+	starfield.speed = 10
+	--starfield.offset = 300
+	--starfield:populate()
 	hud:init()
 
-	
-	sound:playbgm(love.math.random(3,#sound.music))
+	local s = love.math.random(3,#sound.music)
+	sound:playbgm(s)
 end
 
 function initdebugarcade(playersel)
@@ -115,8 +115,8 @@ function initdebugarcade(playersel)
 			},
 			{		
 				face = love.graphics.newImage("gfx/faces/2.png"),
-				name = "Debug mode",
-				text = "Hello! This is another test",
+				name = "Achievment unlocked!",
+				text = "Absolutely nothing.",
 				duration = 6,
 			}
 		}

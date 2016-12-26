@@ -52,6 +52,7 @@ function player:init(playersel)
 	player.idle = true
 	player.invincible = false
 	player.warning = false
+	player.boostspeed = 0
 	
 	--test this for temporary particle speed boost (powerup?)
 	player.multiplier = 1
@@ -145,7 +146,7 @@ function player:update(dt)
 	self:checkShield(dt)
 	self:checkEnergy(dt)
 	self:shoot(dt)
-
+	self:boost(dt)
 end
 
 function player:move(dt)
@@ -273,8 +274,26 @@ function player:shoot(dt)
 	end	
 end
 
+function player:boost(dt) 
+--fix this
+	--[[
+	if love.keyboard.isDown(binds.boost) then
+		
+		if player.energy > 0 then
+			player.boostspeed = player.boostspeed + (1 *dt)
+			player.energy = math.max(player.energy - 50 *dt,0)
+		end
+		
+	else
+		if player.boostspeed > 0 then
+			player.boostspeed = math.max(player.boostspeed - (100 *dt),100)
+		end
+	end
+	--]]
+end
+
 function player:draw()
-	
+	love.graphics.print(player.boostspeed .. "|"..starfield.speed,0,0)
 	if not player.alive then return end
 	
 	love.graphics.push()

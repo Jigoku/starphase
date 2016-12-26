@@ -54,7 +54,6 @@ function sound:toggle()
 end
 
 function sound:playbgm(id)
-
 	self.bgm = self.music[id]
 	self.bgmtrack = id
 	self:stoplooping(self.music)

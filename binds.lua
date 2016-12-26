@@ -9,6 +9,7 @@ binds.altleft = "a"
 binds.altdown = "s"
 binds.altright = "d"
 binds.shoot = "rctrl"
+binds.boost = "lctrl"
 binds.special = " "
 
 binds.fullscreen = "f5"

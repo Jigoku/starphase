@@ -191,6 +191,7 @@ function hud:draw()
 	end
 	
 	
+	
 	--time
 	love.graphics.setColor(255,255,255,100)
 	love.graphics.setFont(fonts.timer)
@@ -277,6 +278,8 @@ function hud:draw()
 	love.graphics.setFont(fonts.default)
 
 	
+
+	
 	love.graphics.setCanvas()
 
 	love.graphics.setColor(255,255,255,255)
@@ -333,7 +336,7 @@ function hud:drawconsole()
 
 		
 		love.graphics.setColor(200,100,100,255)
-		love.graphics.print("bgmtrack: #" .. tostring(sound.bgmtrack) .. " | sources: "..love.audio.getSourceCount(),hud.console.x+10,hud.console.y+30)
+		love.graphics.print("bgmtrack: #" .. tostring(sound.bgmtrack) .. " | sources: "..love.audio.getSourceCount() .. " | [Seed: "..love.math.getRandomSeed().."]",hud.console.x+10,hud.console.y+30)
 		
 	
 		--
