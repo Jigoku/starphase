@@ -28,22 +28,22 @@ starfield.offset = 0
 starfield.limit = 1100
 starfield.speed = 0
 
-starfield.hyperspace = love.graphics.newImage("gfx/hyperspace.png")
-starfield.mist = love.graphics.newImage("gfx/mist.png")
-starfield.dense_star = love.graphics.newImage("gfx/glow.png")
-starfield.star = love.graphics.newImage("gfx/star.png")
+starfield.hyperspace = love.graphics.newImage("gfx/starfield/hyperspace.png")
+starfield.mist = love.graphics.newImage("gfx/starfield/mist.png")
+starfield.nova = love.graphics.newImage("gfx/starfield/nova.png")
+starfield.star = love.graphics.newImage("gfx/starfield/star.png")
 
 
 starfield.planets = {
 	--love.graphics.newImage("gfx/planets/planet.png"),
-	love.graphics.newImage("gfx/planets/planet.png"),
+	love.graphics.newImage("gfx/starfield/planets/planet.png"),
 
 }
 starfield.planets.populate = true
 starfield.planets.limit = 2
 
 starfield.nebulae = { }
-starfield.nebulae.sprite = love.graphics.newImage("gfx/nebulae/proc_sheet_nebula2.png")
+starfield.nebulae.sprite = love.graphics.newImage("gfx/starfield/nebulae/proc_sheet_nebula2.png")
 starfield.nebulae.min = 1
 starfield.nebulae.max = 16
 starfield.nebulae.size = 512
@@ -69,7 +69,7 @@ function starfield:populate()
 	starfield.count = {
 		nebulae = 0,
 		star = 0,
-		dense = 0,
+		nova = 0,
 		debris = 0,
 		planet = 0,
 	}
@@ -133,27 +133,27 @@ function starfield:addStar(x,y)
 	self.count.star = self.count.star +1
 end
 
-function starfield:addDense_star(x,y)
+function starfield:addNova(x,y)
 	--dense star
 	
-	if self.count.dense < starfield.nebulae.limit then
+	if self.count.nova < starfield.nebulae.limit then
 	local vel =  love.math.random(30,35)/10
 	table.insert(self.objects, {
 		x = x,
 		y = y,
-		w = self.dense_star:getWidth(),
-		h = self.dense_star:getHeight(),
+		w = self.nova:getWidth(),
+		h = self.nova:getHeight(),
 		maxvel = vel,
 		minvel = vel,
-		type = "dense_star",
+		type = "nova",
 		r = love.math.random (100,255),
 		g = love.math.random (100,255),
 		b = love.math.random (100,255),
 		o = love.math.random(30,70),
-		gfx = self.dense_star,
+		gfx = self.nova,
 		scale = 1
 	})
-	self.count.dense = self.count.dense +1
+	self.count.nova = self.count.nova +1
 	end
 end
 
@@ -245,7 +245,7 @@ function starfield:addobject(x,y)
 	local velocity, type, gfx, r,g,b,o
 
 	if n == 0 then
-		self:addDense_star(x,y)
+		self:addNova(x,y)
 	elseif n == 1 then
 		self:addNebula(x,y-starfield.nebulae.size/2)
 	elseif n > 1 and n < 15 then
@@ -294,8 +294,8 @@ function starfield:update(dt)
 
 		if o.x+o.w < 0 then
 			table.remove(self.objects, i)
-			if o.type == "dense_star" then
-				self.count.dense = self.count.dense -1
+			if o.type == "nova" then
+				self.count.nova = self.count.nova -1
 			elseif o.type == "nebula" then
 				self.count.nebulae = self.count.nebulae -1
 			elseif o.type == "debris" then
@@ -314,7 +314,6 @@ function starfield:update(dt)
 		self.mist_scroll = 0
 	end
 	self.mist_quad:setViewport(self.mist_scroll,0,starfield.w,starfield.h )
-
 
 
 end
@@ -340,12 +339,11 @@ function starfield:draw(x,y)
 			love.graphics.draw(
 					o.gfx, o.x-o.gfx:getWidth()/2, 
 					o.y-o.gfx:getHeight()/2, 0, 1, 1
-				)
-				
+			)
 		end
 
 		
-		if o.type == "dense_star" then
+		if o.type == "nova" then
 			love.graphics.setColor(o.r,o.g,o.b,o.o)
 			love.graphics.draw(
 				o.gfx, o.x-o.gfx:getWidth()/2, 

@@ -375,11 +375,12 @@ function hud:drawconsole()
 		--arena info
 		love.graphics.setColor(100,190,200,255)
 
-		love.graphics.print("starfield  : " .. string.format("%04d",#starfield.objects) .. 
-			" [star:" .. string.format("%03d",starfield.count.star) .. "]" .. 
-			"[dense:" .. string.format("%02d",starfield.count.dense) .. "]" .. 
-			"[nebulae:" .. string.format("%02d",starfield.count.nebulae) .. "]" .. 
-			"[debris:" .. string.format("%02d",starfield.count.debris) .. "]"
+		love.graphics.print("[starfield:" .. string.format("%04d",#starfield.objects) .. 
+			"|st:" .. string.format("%03d",starfield.count.star) .. 
+			"|no:" .. string.format("%02d",starfield.count.nova) .. 
+			"|ne:" .. string.format("%02d",starfield.count.nebulae) .. 
+			"|de:" .. string.format("%02d",starfield.count.debris) ..
+			"|pl:" .. string.format("%02d",starfield.count.planet) .. "]"
 			,hud.console.x+215,hud.console.y+70
 		)
 		
