@@ -25,7 +25,7 @@ starfield.offset = 0
 
 -- 326 -- populate starfield this amount higher than screen height
 --^^^ disabled due to scaling issue (needs fixing)
-starfield.limit = 1100
+starfield.limit = 1140
 starfield.speed = 0
 
 starfield.hyperspace = love.graphics.newImage("gfx/starfield/hyperspace.png")
@@ -42,7 +42,7 @@ starfield.planets.populate = true
 starfield.planets.limit = 2
 
 starfield.nebulae = { }
-starfield.nebulae.sprite = love.graphics.newImage("gfx/starfield/nebulae/proc_sheet_nebula.png")
+starfield.nebulae.sprite = love.graphics.newImage("gfx/starfield/nebulae/proc_sheet_nebula3.png")
 starfield.nebulae.min = 1
 starfield.nebulae.max = 16
 starfield.nebulae.size = 512
@@ -51,7 +51,7 @@ starfield.nebulae.red = 255
 starfield.nebulae.green = 255
 starfield.nebulae.blue = 255
 starfield.nebulae.populate = true
-starfield.nebulae.limit = 12
+starfield.nebulae.limit = 10
 
 
 -- colour themes
@@ -112,7 +112,7 @@ end
 function starfield:addStar(x,y)
 	--normal star	
 	
-	local vel =  love.math.random(10,35)/10
+	local vel =  love.math.random(15,35)/10
 	
 	table.insert(self.objects, {
 		x = x,
@@ -186,8 +186,8 @@ function starfield:addNebula(x,y)
 		--nebula
 		if self.count.nebulae < starfield.nebulae.limit then
 		
-		local scale = love.math.random(5,20)/10
-		local vel = love.math.random(10,15)/10
+		local scale = love.math.random(9,20)/10
+		local vel = love.math.random(15,20)/10
 		
 		table.insert(self.objects, {
 			x = x,
@@ -200,7 +200,7 @@ function starfield:addNebula(x,y)
 			r = self.nebulae.red,
 			g = self.nebulae.green,
 			b = self.nebulae.blue,
-			o = love.math.random(10,90),
+			o = love.math.random(10,80),
 			gfx = self.nebulae.quads[love.math.random(self.nebulae.min,self.nebulae.max)],
 			scale = scale,
 			rotation = love.math.random(0.0,math.pi*10)/10,
@@ -214,7 +214,7 @@ end
 function starfield:addPlanet(x,y)
 	if self.planets.populate and self.speed < 100 then
 		if self.count.planet < starfield.planets.limit then
-		local scale = love.math.random(1,10)/10
+		local scale = love.math.random(1,5)/10
 		local vel = love.math.random(5,10)
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		table.insert(self.objects, {
@@ -225,9 +225,9 @@ function starfield:addPlanet(x,y)
 			maxvel = vel,
 			minvel = vel,
 			type = "planet",
-			r = love.math.random(100,255),
-			g = love.math.random(100,255),
-			b = love.math.random(100,255),
+			r = 100,
+			g = love.math.random(150,255),
+			b = love.math.random(150,255),
 			o = 255,
 			gfx = gfx,
 			scale = scale,
