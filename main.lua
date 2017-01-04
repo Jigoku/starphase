@@ -43,8 +43,10 @@ function love.load(args)
 
 	debug = false
 	debugarcade = false
+	
+	
 	cheats = {
-		invincible = true,
+		invincible = false,
 	}
 	
 	--parse command line arguments to the game
@@ -136,6 +138,16 @@ function love.update(dt)
 		
 	game.next_time = game.next_time + game.min_dt
 
+
+		if love.keyboard.isDown("[") then
+			
+			starfield:speedAdjust(-1, dt)
+			
+		elseif love.keyboard.isDown("]") then
+			
+			starfield:speedAdjust(1, dt)
+		end
+
 	--process arcade game mode
 	if mode == "arcade" then
 		starfield:update(dt)
@@ -204,7 +216,11 @@ end
 
 
 function love.keypressed(key)
-if key == "k" then pickups:add(200,200) end
+
+
+	if debug then if key == "k" then pickups:add(200,200) end end
+
+
 
 
 	--global controls

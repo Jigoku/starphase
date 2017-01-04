@@ -221,7 +221,7 @@ function player:move(dt)
 end
 
 function player:checkEnergy(dt)
-	if self.energy < 0 then self.energy = 0 end
+	self.energy = math.min(math.max(self.energy,0), self.energymax) 
 end
 
 function player:checkShield(dt)
@@ -231,7 +231,6 @@ function player:checkShield(dt)
 			player.x+player.w/2,player.y+player.h/2,0,0
 		)
 		
-		player.shield = 0
 		player.xvel = 0
 		player.yvel = 0
 		player.lives = player.lives -1
@@ -250,6 +249,9 @@ function player:checkShield(dt)
 	else
 		player.warning = false
 	end
+	
+	self.shield = math.min(math.max(self.shield,0), self.shieldmax) 
+
 end
 
 
@@ -630,11 +632,11 @@ function player:fireOrb(dt)
 			h = projectiles.orb.gfx:getHeight(),
 			x = self.x + self.gfx:getWidth()/2,
 			y = self.y + self.gfx:getHeight()/2-projectiles.orb.gfx:getHeight()/2 +(player.orb.switch and -28 or 28),
-			xvel = 1000,
-			yvel = (player.orb.switch and 300 or -300),
+			xvel = 800,
+			yvel = (player.orb.switch and 200 or -200),
 			damage = projectiles.orb.damage,
-			r = 255,
-			g = 100,
+			r = 0,
+			g = 255,
 			b = 100,
 		})
 		self.orb.cycle = self.orb.delay
@@ -661,12 +663,12 @@ function player:fireRocket(dt)
 			switch = player.rocket.switch,
 			trigger = 150,
 			launched = false,
-			xvel = 950,
+			xvel = 900,
 			yvel = (player.rocket.switch and -400 or 400),
 			damage = projectiles.rocket.damage,
-			r = 155,
-			g = 155,
-			b = 155,
+			r = 255,
+			g = 255,
+			b = 255,
 		})
 		
 		self.rocket.cycle = self.rocket.delay
@@ -693,12 +695,12 @@ function player:fireBeam(dt)
 			h = projectiles.beam.gfx:getHeight(),
 			x = self.x + self.gfx:getWidth(),
 			y = self.y + self.gfx:getHeight()/2-(projectiles.beam.gfx:getHeight()/2),
-			xvel = 800,
+			xvel = 700,
 			yvel = 0,
 			damage = projectiles.beam.damage,
-			r = 50,
-			g = 200,
-			b = 255,
+			r = 05,
+			g = 70,
+			b = 70,
 		})
 		self.beam.cycle = self.beam.delay
 	end		
@@ -716,11 +718,11 @@ function player:addBarrier(dt)
 		h = projectiles.barrier.gfx:getHeight(),
 		x = self.x + self.gfx:getWidth()/2,
 		y = self.y + self.gfx:getHeight()/2-projectiles.barrier.gfx:getHeight()/2,
-		xvel = 750,
+		xvel = 0,
 		yvel = 0,
 		damage = projectiles.barrier.damage,
 		r = 255,
-		g = 148,
+		g = 100,
 		b = 255,
 	})
 

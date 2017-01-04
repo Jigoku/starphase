@@ -376,11 +376,13 @@ function hud:drawconsole()
 		love.graphics.setColor(100,190,200,255)
 
 		love.graphics.print("[starfield:" .. string.format("%04d",#starfield.objects) .. 
-			"|st:" .. string.format("%03d",starfield.count.star) .. 
+			"|st:" .. string.format("%04d",starfield.count.star) .. 
 			"|no:" .. string.format("%02d",starfield.count.nova) .. 
 			"|ne:" .. string.format("%02d",starfield.count.nebulae) .. 
 			"|de:" .. string.format("%02d",starfield.count.debris) ..
-			"|pl:" .. string.format("%02d",starfield.count.planet) .. "]"
+			"|pl:" .. string.format("%02d",starfield.count.planet) ..
+			"][speed:" .. string.format("%04d",starfield.speed) ..
+			"]"
 			,hud.console.x+215,hud.console.y+70
 		)
 		

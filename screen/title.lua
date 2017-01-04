@@ -71,16 +71,7 @@ end
 
 function title:update(dt)
 	
-	if debugstarfield then
-		if love.keyboard.isDown("left") then
-			
-			starfield:speedAdjust(-0.5, dt)
-			
-		elseif love.keyboard.isDown("right") then
-			
-			starfield:speedAdjust(0.5, dt)
-		end
-	end
+
 
 	if title.splash then
 		title.splashCycle = math.max(0, title.splashCycle - dt)

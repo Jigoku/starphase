@@ -18,6 +18,8 @@ pickups = {}
 pickups.sound = love.audio.newSource("sfx/pickups/collect.ogg", "static")
 pickups.chance = 5 --chance of a pickup being dropped
 
+pickups.textures = {}
+
 pickups.type = {
 	[1] = love.graphics.newImage("gfx/pickups/shield.png"),
 	[2] = love.graphics.newImage("gfx/pickups/energy.png"),
@@ -31,6 +33,8 @@ pickups.type = {
 	[10] = love.graphics.newImage("gfx/pickups/barrier.png"),
 	
 }
+
+
 
 pickups.items = {} --active pickups on the starfield
 
@@ -69,9 +73,6 @@ function pickups:add(x,y)
 		h = pickups.type[n]:getHeight(),
 		xvel =  love.math.random(-70,70),
 		yvel =  love.math.random(-70,70),
-		r = love.math.random(100,255),
-		g = love.math.random(100,255),
-		b = love.math.random(100,255),
 		spin = (love.math.random(0,1) == 1 and 1 or -1)
 	})
 end
@@ -144,9 +145,7 @@ function pickups:update(dt)
 						
 			end
 		
-			if player.shield > player.shieldmax then player.shield = player.shieldmax	end
-			if player.energy > player.energymax then player.energy = player.energymax	end
-			if player.speed > player.speedmax then player.speed = player.speedmax	end
+
 
 				
 			table.remove(pickups.items, i)

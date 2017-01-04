@@ -151,7 +151,7 @@ function projectiles:update(dt)
 			end
 			
 			if p.type == "orb" then
-				self:rotate(p, 15, dt)
+				self:rotate(p, 10, dt)
 				p.x = p.x + (p.xvel *dt)
 				
 				if p.switch then

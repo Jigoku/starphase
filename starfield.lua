@@ -45,7 +45,7 @@ starfield.nebulae.min = 1
 starfield.nebulae.max = 16
 starfield.nebulae.size = 512
 starfield.nebulae.quads = loadsprite(starfield.nebulae.sprite, starfield.nebulae.size, starfield.nebulae.max )
-starfield.nebulae.red = 255
+starfield.nebulae.red = 0
 starfield.nebulae.green = 255
 starfield.nebulae.blue = 255
 starfield.nebulae.populate = true
@@ -103,6 +103,7 @@ function starfield:speedAdjust(n,dt)
 			o.maxvel = math.max(o.maxvel +n, o.minvel)
 		end
 	end
+	
 end
 
 
@@ -123,7 +124,7 @@ function starfield:addStar(x,y)
 		r = love.math.random(170,215),
 		g = love.math.random(170,215),
 		b = love.math.random(170,215),
-		o = love.math.random(10,200),
+		o = love.math.random(10,180),
 		gfx = self.star,
 		scale = 1,
 	})
