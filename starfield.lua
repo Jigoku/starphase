@@ -34,15 +34,13 @@ starfield.nova = love.graphics.newImage("gfx/starfield/nova.png")
 starfield.star = love.graphics.newImage("gfx/starfield/star.png")
 
 
-starfield.planets = {
-	love.graphics.newImage("gfx/starfield/planets/planet.png"),
+starfield.planets = textures:load("gfx/starfield/planets/")
 
-}
 starfield.planets.populate = true
-starfield.planets.limit = 2
+starfield.planets.limit = 3
 
 starfield.nebulae = { }
-starfield.nebulae.sprite = love.graphics.newImage("gfx/starfield/nebulae/proc_sheet_nebula3.png")
+starfield.nebulae.sprite = love.graphics.newImage("gfx/starfield/nebulae/proc_sheet_nebula.png")
 starfield.nebulae.min = 1
 starfield.nebulae.max = 16
 starfield.nebulae.size = 512
@@ -51,7 +49,7 @@ starfield.nebulae.red = 255
 starfield.nebulae.green = 255
 starfield.nebulae.blue = 255
 starfield.nebulae.populate = true
-starfield.nebulae.limit = 10
+starfield.nebulae.limit = 8
 
 
 -- colour themes
@@ -158,7 +156,7 @@ end
 
 function starfield:addDebris(x,y)
 	--debris
-	if not (mode == "title") then
+	if self.speed > 50 then
 		local vel = 1500
 		table.insert(self.objects, {
 			x = x,
@@ -168,9 +166,9 @@ function starfield:addDebris(x,y)
 			maxvel = vel,
 			minvel = vel,
 			type = "debris",
-			r = 185,
-			g = 185,
-			b = 185,
+			r = 225,
+			g = 225,
+			b = 255,
 			o = 150,
 			gfx = self.star,
 			scale = 1
@@ -241,16 +239,16 @@ end
 
 function starfield:addobject(x,y)
 	local n = love.math.random(0,100)
-	local velocity, type, gfx, r,g,b,o
+	
 
 	if n == 0 then
 		self:addNova(x,y)
 	elseif n == 1 then
 		self:addNebula(x,y-starfield.nebulae.size/2)
-	elseif n > 1 and n < 15 then
-		--self:addDebris(x,y)
-	elseif n == 15 then
+	elseif n == 2 then
 		self:addPlanet(x,y)
+	elseif n > 3 and n < 30 then
+		--self:addDebris(x,y)
 	else
 		self:addStar(x,y)
 	end

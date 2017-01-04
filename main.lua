@@ -17,6 +17,7 @@ require("misc")
 require("binds")
 require("collision")
 require("sound")
+require("textures")
 require("screen/title")
 require("screen/hud")
 require("screen/fonts")
@@ -245,6 +246,8 @@ if key == "k" then pickups:add(200,200) end
 		enemies:add_train()
 	elseif key == "8" then
 		enemies:add_tri()
+	elseif key == "9" then
+		enemies:add_cruiser()
 	end
 	end
 	--[[

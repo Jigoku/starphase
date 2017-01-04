@@ -458,9 +458,6 @@ function enemies:update(dt)
 						e.state = 1
 					end
 				end
-			
-			
-			
 			elseif e.state == 1 then
 				if e.y < starfield.h/2 then
 					e.xvel = 0
