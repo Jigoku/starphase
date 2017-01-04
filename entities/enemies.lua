@@ -164,7 +164,7 @@ function enemies:add_asteroid()
 		h = gfx:getHeight(),
 		x = starfield.w,
 		y = love.math.random(0,starfield.h),
-		yvel = 0,
+		yvel = love.math.random(-30,30),
 		xvel = love.math.random(100,300),
 		gfx = gfx,
 		score = 10,
@@ -349,9 +349,10 @@ function enemies:add_crescent()
 		shieldscale = enemies.shield:getWidth()/(gfx:getWidth()*2),
 		opacity = 255,
 		alive = true,
-		spin = (y < starfield.h/2 and 2 or -2),
+		spin = (y < starfield.h/2 and 4 or -4),
 		angle = math.pi,
 		state = 0,
+		scale = 1 
 		--[[
 		projectileCycle = 3,
 		projectileDelay = 1.2,
@@ -442,27 +443,36 @@ function enemies:update(dt)
 		end
 	
 		if e.type == "crescent" then
-			if e.state == 0 and e.x < player.x+e.gfx:getWidth()*4 then
-				if e.y < starfield.h/2 and e.angle > math.pi/2 then
-					self:rotate(e,-e.spin,dt)
-				elseif
-					e.y > starfield.h/2 and e.angle < math.pi+math.pi/2 then
-					self:rotate(e,-e.spin,dt)
-				else
-					e.state = 1 
+			if e.state == 0  then
+				if e.x < player.x+player.w+e.gfx:getWidth() then
+					e.xvel = math.max(e.xvel - 1000 *dt,0)
+					
+					if e.y < starfield.h/2 and e.angle > math.pi/2 then
+						self:rotate(e,-e.spin,dt)
+					elseif
+						e.y > starfield.h/2 and e.angle < math.pi+math.pi/2 then
+						self:rotate(e,-e.spin,dt)
+					end
+					
+					if e.xvel == 0 then
+						e.state = 1
+					end
 				end
+			
+			
+			
 			elseif e.state == 1 then
 				if e.y < starfield.h/2 then
-					e.xvel = 0 
+					e.xvel = 0
 					e.yvel = -700
 					e.state = 2
 				else
-					e.xvel = 0 
+					e.xvel = 0
 					e.yvel = 700
 					e.state = 2
 				end
-			elseif state == 2 then
-				e.scale = e.scale - 1*dt
+			elseif e.state == 2 then
+				--	e.scale = math.max(e.scale - 0.7*dt,0.1)
 			
 			end
 			
@@ -655,7 +665,7 @@ function enemies:draw()
 			love.graphics.setColor(255,255,255,e.opacity)
 			love.graphics.draw(
 				e.gfx,  e.x+e.w, 
-				e.y, 0, 1, 1,e.w
+				e.y, 0, (e.scale or 1), (e.scale or 1),e.w
 				
 			)
 			enemies:drawshield(e)
