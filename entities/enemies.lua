@@ -332,23 +332,39 @@ function enemies:add_crescent()
 
 	local gfx = self.type.crescent
 	
-	
+	local y = (love.math.random(0,1) == 1 and 0 or starfield.h - gfx:getHeight())
 	table.insert(self.wave, {
 		type = "crescent",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		x = starfield.w,
-		y = love.math.random(gfx:getHeight(),starfield.h-gfx:getHeight()),
-		yvel = 0,
-		xvel = 250,
+		y = y,
+		yvel = y < starfield.h/2 and -25 or 25,
+		xvel = 450,
 		gfx = gfx or nil,
-		score = 500,
-		shield = 500,
-		shieldmax = 500,
+		score = 200,
+		shield = 200,
+		shieldmax = 200,
 		shieldopacity = 0,
-		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.2,
+		shieldscale = enemies.shield:getWidth()/(gfx:getWidth()*2),
 		opacity = 255,
 		alive = true,
+		spin = (y < starfield.h/2 and 2 or -2),
+		angle = math.pi,
+		state = 0,
+		--[[
+		projectileCycle = 3,
+		projectileDelay = 1.2,
+		projectileGfx = projectiles.plasma.gfx,
+		projectileR = 255,
+		projectileG = 50,
+		projectileB = 80,
+		projectileDamage = 20,
+		projectileType = "plasma",
+		projectileXvel = 1000,
+		projectileYvel = (y < starfield.h/2 and -25 or -25),
+		projectileSound = projectiles.plasma.sound.shoot
+		--]]
 	})
 
 
@@ -423,6 +439,33 @@ function enemies:update(dt)
 		
 		if e.type == "asteroid" then
 			self:rotate(e,e.spin,dt)
+		end
+	
+		if e.type == "crescent" then
+			if e.state == 0 and e.x < player.x+e.gfx:getWidth()*4 then
+				if e.y < starfield.h/2 and e.angle > math.pi/2 then
+					self:rotate(e,-e.spin,dt)
+				elseif
+					e.y > starfield.h/2 and e.angle < math.pi+math.pi/2 then
+					self:rotate(e,-e.spin,dt)
+				else
+					e.state = 1 
+				end
+			elseif e.state == 1 then
+				if e.y < starfield.h/2 then
+					e.xvel = 0 
+					e.yvel = -700
+					e.state = 2
+				else
+					e.xvel = 0 
+					e.yvel = 700
+					e.state = 2
+				end
+			elseif state == 2 then
+				e.scale = e.scale - 1*dt
+			
+			end
+			
 		end
 	
 		if e.type == "tri" then
@@ -653,8 +696,8 @@ function enemies:draw()
 			love.graphics.setColor(255,255,255,255)
 			love.graphics.print("x:"..x, x-10,y-10)
 			love.graphics.print("y:".. y, x-10,y)
-			
-			love.graphics.print("shield: "..math.floor(e.shield) .. "/" ..e.shieldmax, x-10,y+10)
+			love.graphics.print("a:"..(e.angle or "nil"), x-10,y+10)
+			love.graphics.print("shield: "..math.floor(e.shield) .. "/" ..e.shieldmax, x-10,y+20)
 			
 			love.graphics.setColor(255,155,255,155)
 			love.graphics.rectangle("line", x,y, e.w, e.h)

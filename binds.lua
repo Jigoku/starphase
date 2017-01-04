@@ -8,6 +8,13 @@ binds.altup = "w"
 binds.altleft = "a"
 binds.altdown = "s"
 binds.altright = "d"
+
+binds.rup = "d"
+binds.rdown = "a"
+binds.rleft = "w"
+binds.rright = "s"
+
+
 binds.shoot = "rctrl"
 binds.boost = "lctrl"
 binds.special = " "

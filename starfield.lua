@@ -35,7 +35,6 @@ starfield.star = love.graphics.newImage("gfx/starfield/star.png")
 
 
 starfield.planets = {
-	--love.graphics.newImage("gfx/planets/planet.png"),
 	love.graphics.newImage("gfx/starfield/planets/planet.png"),
 
 }
@@ -52,7 +51,7 @@ starfield.nebulae.red = 255
 starfield.nebulae.green = 255
 starfield.nebulae.blue = 255
 starfield.nebulae.populate = true
-starfield.nebulae.limit = 10
+starfield.nebulae.limit = 12
 
 
 -- colour themes
@@ -113,7 +112,7 @@ end
 function starfield:addStar(x,y)
 	--normal star	
 	
-	local vel =  love.math.random(15,35)/10
+	local vel =  love.math.random(10,35)/10
 	
 	table.insert(self.objects, {
 		x = x,
@@ -201,7 +200,7 @@ function starfield:addNebula(x,y)
 			r = self.nebulae.red,
 			g = self.nebulae.green,
 			b = self.nebulae.blue,
-			o = love.math.random(10,100),
+			o = love.math.random(10,90),
 			gfx = self.nebulae.quads[love.math.random(self.nebulae.min,self.nebulae.max)],
 			scale = scale,
 			rotation = love.math.random(0.0,math.pi*10)/10,
@@ -215,12 +214,12 @@ end
 function starfield:addPlanet(x,y)
 	if self.planets.populate and self.speed < 100 then
 		if self.count.planet < starfield.planets.limit then
-		local scale = love.math.random(1,15)/10
+		local scale = love.math.random(1,10)/10
 		local vel = love.math.random(5,10)
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		table.insert(self.objects, {
 			x = x,
-			y = y-gfx:getHeight(),
+			y = y,
 			w = gfx:getWidth()*scale,
 			h = gfx:getHeight()*scale,
 			maxvel = vel,
@@ -404,9 +403,9 @@ function starfield:draw(x,y)
 	
 	--overlay  mist effect 
 	love.graphics.setColor(self.nebulae.red,self.nebulae.green,self.nebulae.blue,25)
-	love.graphics.draw(
-		self.mist, self.mist_quad, 0,0, 0, self.w/self.mist:getWidth(), self.h/self.mist:getHeight()
-	)	
+	--love.graphics.draw(
+	--	self.mist, self.mist_quad, 0,0, 0, self.w/self.mist:getWidth(), self.h/self.mist:getHeight()
+	--)	
 
 
 --top layer
@@ -469,10 +468,12 @@ function starfield:draw(x,y)
 	love.graphics.setCanvas()
 	love.graphics.push()
 
-				--rotate hack? mode select for sidescroll or vertical scroll?
-				--love.graphics.translate(love.graphics.getWidth()/2,love.graphics.getHeight()/2)
-				--love.graphics.rotate(-math.pi/2)
-				--love.graphics.translate(-love.graphics.getWidth()/2,-love.graphics.getHeight()/2)
+		--rotate hack? mode select for sidescroll or vertical scroll?
+		if game.rotate then
+			love.graphics.translate(love.graphics.getWidth()/2,love.graphics.getHeight()/2)
+			love.graphics.rotate(-math.pi/2)
+			love.graphics.translate(-love.graphics.getWidth()/2,-love.graphics.getHeight()/2)
+		end
 				
 	love.graphics.setColor(255,255,255,255)
 	love.graphics.draw(self.canvas, x,y,0,love.graphics.getWidth()/starfield.w,love.graphics.getWidth()/starfield.w)

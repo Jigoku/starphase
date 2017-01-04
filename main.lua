@@ -43,18 +43,21 @@ function love.load(args)
 	debug = false
 	debugarcade = false
 	cheats = {
-		invincible = false,
+		invincible = true,
 	}
 	
 	--parse command line arguments to the game
 	for _,arg in pairs(args) do
 		if arg == "-debug" or arg == "-d" then debug = true end
 		if arg == "-fullscreen" or arg == "-f" then love.window.setFullscreen(1) end
+		if arg == "-mute" or arg == "-m" then sound.enabled = false end
 	end
 	
 
 
 	game = {}
+	game.rotate = false
+	
 	game.width, game.height, game.flags = love.window.getMode( )
 	game.seed = 133742069
 	game.max_fps = 200--game.flags.refreshrate
