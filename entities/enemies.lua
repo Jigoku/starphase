@@ -141,7 +141,7 @@ function enemies:add_dart()
 		x = starfield.w,
 		y = player.y+starfield.offset/2+love.math.random(-200,200),
 		yvel = 0,
-		xvel = love.math.random(700,800),
+		xvel = love.math.random(500,600),
 		gfx = gfx or nil,
 		score = 10,
 		shield = 10,

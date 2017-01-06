@@ -230,7 +230,8 @@ function starfield:addPlanet(x,y)
 			o = 255,
 			gfx = gfx,
 			scale = scale,
-			rotation = 0.03
+			rotation = 0.03,
+			name = names:getPlanet()
 		})
 		self.count.planet = self.count.planet +1
 		end
@@ -318,7 +319,7 @@ end
 
 
 function starfield:draw(x,y)
-
+		
 
 	love.graphics.setCanvas(self.canvas)
 	love.graphics.clear()
@@ -397,6 +398,7 @@ function starfield:draw(x,y)
 			
 			end
 		end	
+		
 
 	end
 	
@@ -439,6 +441,11 @@ function starfield:draw(x,y)
 			
 			love.graphics.pop()
 			
+		--	love.graphics.setFont(fonts.hud)
+		--	love.graphics.setColor(200,255,255)
+		--	love.graphics.print(o.name, o.x,o.y)
+		--	love.graphics.setFont(fonts.default)
+			
 			end
 		end	
 		
@@ -475,14 +482,17 @@ function starfield:draw(x,y)
 		end
 				
 	love.graphics.setColor(255,255,255,255)
+	camera:set()
 	love.graphics.draw(self.canvas, x,y,0,love.graphics.getWidth()/starfield.w,love.graphics.getWidth()/starfield.w)
-
+	camera:unset()
+	
 	--overlay  hyperspace effect 
 	love.graphics.setColor(255,255,255,20)
 	love.graphics.draw(
 		starfield.hyperspace, 0,0, 0, game.scale.w/starfield.hyperspace:getWidth(), game.scale.h/starfield.hyperspace:getHeight()
 	)
 	love.graphics.pop()
+			
 end
 
 return starfield

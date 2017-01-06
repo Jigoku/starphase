@@ -14,6 +14,7 @@
  --]]
 
 require("misc")
+require("camera")
 require("binds")
 require("collision")
 require("sound")
@@ -27,13 +28,12 @@ require("entities/explosions")
 require("entities/player")
 require("entities/projectiles")
 
-
+require("names")
 
 function love.load(args)
 
 
 	--love.math.setRandomSeed( os.time() )
-
 
 	
 	starfield = require("starfield")
@@ -181,6 +181,7 @@ function love.draw()
 	if mode == "arcade" then
 
 		--starfield:draw(0,-player.y/4)
+
 		starfield:draw(0,0)
 		
 		hud:draw()
@@ -288,6 +289,14 @@ function love.mousepressed(x,y,button)
 
 end
 
+
+function love.wheelmoved(x, y)
+	if y < 0 then 
+		camera.scale = math.max(camera.scale +0.01,0.01)
+	elseif y > 0 then
+		camera.scale = camera.scale -0.01
+	end
+end
 
 function love.focus(f)
 	if f then

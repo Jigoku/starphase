@@ -31,7 +31,7 @@ function player:init(playersel)
 	player.warningopacity = 0
 	
 	player.x = love.graphics.getWidth()/3
-	player.y = (starfield.h+starfield.offset)/2-player.gfx:getHeight()
+	player.y = (starfield.h+starfield.offset)/2-player.gfx:getHeight()/2
 	player.w = player.gfx:getWidth()
 	player.h = player.gfx:getHeight()
 	player.score = 0
@@ -55,7 +55,9 @@ function player:init(playersel)
 	player.boostspeed = 0
 	
 	--test this for temporary particle speed boost (powerup?)
-	player.multiplier = 1
+	player.multiplier = 0.5
+	
+	
 	player.cannon = {
 		switch = false,
 		cycle = 0,
@@ -227,6 +229,15 @@ end
 function player:checkShield(dt)
 
 	if player.shield <= 0 and player.alive then
+	
+		player.hasplasma = false 
+		player.hasradial = false
+		player.hasrocket = false
+		player.haswave = false
+		player.hasblaster = false
+		player.hasbeam = false
+		player.hasorb = false
+	
 		explosions:addLarge(
 			player.x+player.w/2,player.y+player.h/2,0,0
 		)
@@ -396,8 +407,8 @@ function player:fireWave(dt)
 			yvel = 0,
 			damage = projectiles.wave.damage,
 			r = 50,
-			g = 255,
-			b = 220,
+			g = 200,
+			b = 255,
 		})
 		
 		
@@ -414,8 +425,8 @@ function player:fireWave(dt)
 			yvel = 0,
 			damage = projectiles.wave.damage,
 			r = 50,
-			g = 255,
-			b = 220,
+			g = 200,
+			b = 255,
 		})
 		
 		self.wave.cycle = self.wave.delay
