@@ -37,21 +37,22 @@ starfield.star = love.graphics.newImage("gfx/starfield/star.png")
 starfield.planets = textures:load("gfx/starfield/planets/")
 
 starfield.planets.populate = true
-starfield.planets.limit = 3
+starfield.planets.limit = 2
 
 starfield.nebulae = { }
-starfield.nebulae.sprite = love.graphics.newImage("gfx/starfield/nebulae/proc_sheet_nebula.png")
+starfield.nebulae.sprite = love.graphics.newImage("gfx/starfield/nebulae/proc_sheet_nebula3.png")
 starfield.nebulae.min = 1
 starfield.nebulae.max = 16
 starfield.nebulae.size = 512
 starfield.nebulae.quads = loadsprite(starfield.nebulae.sprite, starfield.nebulae.size, starfield.nebulae.max )
-starfield.nebulae.red = 0
+starfield.nebulae.red = 255
 starfield.nebulae.green = 255
 starfield.nebulae.blue = 255
 starfield.nebulae.populate = true
 starfield.nebulae.limit = 8
 
-
+starfield.debris = {}
+starfield.debris.limit = 150
 -- colour themes
 --
 -- orange 		255,155,55
@@ -111,7 +112,7 @@ end
 function starfield:addStar(x,y)
 	--normal star	
 	
-	local vel =  love.math.random(15,35)/10
+	local vel =  love.math.random(20,25)/10
 	
 	table.insert(self.objects, {
 		x = x,
@@ -127,6 +128,7 @@ function starfield:addStar(x,y)
 		o = love.math.random(10,180),
 		gfx = self.star,
 		scale = 1,
+		
 	})
 	self.count.star = self.count.star +1
 end
@@ -134,7 +136,7 @@ end
 function starfield:addNova(x,y)
 	--dense star
 	
-	if self.count.nova < starfield.nebulae.limit then
+	if self.count.nova < self.nebulae.limit then
 	local vel =  love.math.random(30,35)/10
 	table.insert(self.objects, {
 		x = x,
@@ -147,9 +149,10 @@ function starfield:addNova(x,y)
 		r = love.math.random (100,255),
 		g = love.math.random (100,255),
 		b = love.math.random (100,255),
-		o = love.math.random(30,70),
+		o = love.math.random(50,100),
 		gfx = self.nova,
-		scale = 1
+		scale = 1,
+		name = names:getPlanet()
 	})
 	self.count.nova = self.count.nova +1
 	end
@@ -157,24 +160,26 @@ end
 
 function starfield:addDebris(x,y)
 	--debris
-	if self.speed > 50 then
-		local vel = 1500
+	if self.count.debris < self.debris.limit then
+	if self.speed > 100 then
+		local vel = love.math.random(1500,2000)
 		table.insert(self.objects, {
 			x = x,
 			y = y,
-			w = self.star:getWidth(),
-			h = self.star:getHeight(),
+			w = love.math.random(100,200),
+			--h = self.star:getHeight(),
 			maxvel = vel,
 			minvel = vel,
 			type = "debris",
-			r = 225,
-			g = 225,
-			b = 255,
-			o = 150,
-			gfx = self.star,
-			scale = 1
+			r = 140,
+			g = love.math.random(200,255),
+			b = love.math.random(200,255),
+			o = math.min(25 *starfield.speed/100,80),
+			--gfx = self.star,
+			--scale = 1
 		})
 		self.count.debris = self.count.debris +1
+	end
 	end
 	
 end
@@ -213,7 +218,7 @@ end
 function starfield:addPlanet(x,y)
 	if self.planets.populate and self.speed < 100 then
 		if self.count.planet < starfield.planets.limit then
-		local scale = love.math.random(1,5)/10
+		local scale = love.math.random(10,20)/10
 		local vel = love.math.random(5,10)
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		table.insert(self.objects, {
@@ -250,7 +255,7 @@ function starfield:addobject(x,y)
 	elseif n == 2 then
 		self:addPlanet(x,y)
 	elseif n > 3 and n < 30 then
-		--self:addDebris(x,y)
+		self:addDebris(x,y)
 	else
 		self:addStar(x,y)
 	end
@@ -354,6 +359,8 @@ function starfield:draw(x,y)
 				o.y-self.star:getHeight()/2, 0, 1, 1
 			)
 			
+
+			
 			if debug then
 				love.graphics.setColor(o.r,o.g,o.b,o.o)
 				love.graphics.rectangle(
@@ -372,6 +379,7 @@ function starfield:draw(x,y)
 			
 			
 			love.graphics.setColor(o.r,o.g,o.b,o.o)
+			
 			if o.gfx then
 			
 				love.graphics.translate(o.x+o.w/2,o.y+o.h/2)
@@ -440,20 +448,24 @@ function starfield:draw(x,y)
 			end
 			
 			love.graphics.pop()
-			
-		--	love.graphics.setFont(fonts.hud)
-		--	love.graphics.setColor(200,255,255)
-		--	love.graphics.print(o.name, o.x,o.y)
-		--	love.graphics.setFont(fonts.default)
-			
+		
+
 			end
 		end	
 		
 		
 		if o.type == "debris" then
-			love.graphics.setColor(0,255,255,20)
-			love.graphics.line(o.x,o.y, o.x+150,o.y)
+			love.graphics.setColor(o.r,o.g,o.b,o.o)
+			love.graphics.line(o.x,o.y, o.x+o.w,o.y)
 		end
+		
+		
+					if debugstarfield then
+				love.graphics.setFont(fonts.labels)
+				love.graphics.setColor(200,255,255)
+				love.graphics.print((o.name or ""), o.x,o.y)
+				love.graphics.setFont(fonts.default)
+			end
 	end
 	
 	if mode == "arcade" then

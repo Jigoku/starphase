@@ -62,8 +62,8 @@ function love.load(args)
 	game.rotate = false
 	
 	game.width, game.height, game.flags = love.window.getMode( )
-	game.seed = 133742069
-	game.max_fps = 200--game.flags.refreshrate
+	game.seed = 1484956059
+	game.max_fps = game.flags.refreshrate
 	game.min_dt = 1/game.max_fps
 	game.next_time = love.timer.getTime()
 	
@@ -92,15 +92,17 @@ function initarcade(playersel)
 	mode = "arcade"
 	love.graphics.setBackgroundColor(0,0,0,255)
 	
+	love.math.setRandomSeed( os.time() )
+	starfield:populate()
+	
 	--starfield.offset = love.graphics.getHeight()/3
 	--starfield.nebulae.red = love.math.random(0,255)
 	--starfield.nebulae.green = love.math.random(0,255)
 	--starfield.nebulae.blue = love.math.random(0,255)
 	player:init(playersel)
-	--starfield.speed = 2
-	starfield.speed = 10
-	--starfield.offset = 300
-	--starfield:populate()
+	starfield.speed = 20
+
+	
 	hud:init()
 
 	local s = love.math.random(3,#sound.music)

@@ -19,8 +19,11 @@ hud.life_gfx = love.graphics.newImage("gfx/life.png")
 hud.colors = {
 	["frame"] = {155,255,255,50},
 	["lives"] = {100,190,200,120},
-	
+	["hsl_frame"] = 0,
 }
+
+-- HSL color for HUD when warping (not implemeneted)
+hud.warp = false
 
 hud.console = {
 	w = 720,
@@ -31,6 +34,24 @@ hud.console = {
 	speed = 400,
 	opacity = 220,
 }
+
+
+-- https://love2d.org/wiki/HSL_color
+function hud:HSL(h, s, l, a)
+	if s<=0 then return l,l,l,a end
+	h, s, l = h/256*6, s/255, l/255
+	local c = (1-math.abs(2*l-1))*s
+	local x = (1-math.abs(h%2-1))*c
+	local m,r,g,b = (l-.5*c), 0,0,0
+	if h < 1     then r,g,b = c,x,0
+	elseif h < 2 then r,g,b = x,c,0
+	elseif h < 3 then r,g,b = 0,c,x
+	elseif h < 4 then r,g,b = 0,x,c
+	elseif h < 5 then r,g,b = x,0,c
+	else              r,g,b = c,0,x
+	end return (r+m)*255,(g+m)*255,(b+m)*255,a
+end
+
 
 function hud:init()
 	hud.display = {
@@ -59,7 +80,14 @@ function hud:update(dt)
 	hud.display.progress = hud.display.progress + 1 *dt
 	hud.time = hud.time + 1 *dt
 	
-
+	if hud.warp then
+		if hud.colors["hsl_frame"] < 256 then
+			hud.colors["hsl_frame"] = hud.colors["hsl_frame"] + 500 *dt
+		else
+			hud.colors["hsl_frame"] = 0
+		end
+	end
+	
 end
 
 
@@ -88,6 +116,7 @@ end
 
 function hud:draw()
 	if paused and not debug then 
+		
 		love.graphics.setColor(0,0,0,140)
 		--love.graphics.rectangle("fill",0,0,love.graphics.getWidth(), love.graphics.getHeight())
     
@@ -106,10 +135,14 @@ function hud:draw()
   --hud
 	--decor / lines
 	if not debug then
-	love.graphics.setColor(
-		hud.colors["frame"][1],hud.colors["frame"][2],hud.colors["frame"][3],hud.colors["frame"][4]
-	)
 	
+	if hud.warp then
+		love.graphics.setColor(hud:HSL(hud.colors["hsl_frame"],100,80))
+	else
+		love.graphics.setColor(
+			hud.colors["frame"][1],hud.colors["frame"][2],hud.colors["frame"][3],hud.colors["frame"][4]
+		)
+	end
 	--dynamic decor/lines
 	--[[love.graphics.setColor(
 		starfield.nebulae.red,

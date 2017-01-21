@@ -107,8 +107,8 @@ function enemies:add_abomination()
 		xvel = 100,
 		gfx = gfx or nil,
 		score = 100000,
-		shield = 15000,
-		shieldmax = 15000,
+		shield = 10000,
+		shieldmax = 10000,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
 		opacity = 255,
@@ -123,7 +123,7 @@ function enemies:add_abomination()
 		projectileType = "plasma",
 		projectileXvel = 1100,
 		projectileYvel = 0,
-		projectileSound = projectiles.plasma.sound.shoot,
+		projectileSound = projectiles.cannon.sound.shoot,
 	})
 
 
@@ -340,7 +340,7 @@ function enemies:add_crescent()
 		x = starfield.w,
 		y = y,
 		yvel = y < starfield.h/2 and -25 or 25,
-		xvel = 450,
+		xvel = 550,
 		gfx = gfx or nil,
 		score = 200,
 		shield = 200,
@@ -349,7 +349,7 @@ function enemies:add_crescent()
 		shieldscale = enemies.shield:getWidth()/(gfx:getWidth()*2),
 		opacity = 255,
 		alive = true,
-		spin = (y < starfield.h/2 and 4 or -4),
+		spin = (y < starfield.h/2 and 7 or -7),
 		angle = math.pi,
 		state = 0,
 		scale = 1 
@@ -395,7 +395,8 @@ function enemies:update(dt)
 	
 	enemies.waveCycle = math.max(0, enemies.waveCycle - dt)
 		
-	if not debugarcade and enemies.waveCycle <= 0 then
+	while not debugarcade and enemies.waveCycle <= 0 do
+		if starfield.speed > 50 then break end
 		
 		love.math.setRandomSeed( love.math.getRandomSeed()+1 )
 		
@@ -445,30 +446,33 @@ function enemies:update(dt)
 		if e.type == "crescent" then
 			if e.state == 0  then
 				if e.x < player.x+player.w+e.gfx:getWidth() then
-					e.xvel = math.max(e.xvel - 1000 *dt,0)
-					
-					if e.y < starfield.h/2 and e.angle > math.pi/2 then
-						self:rotate(e,-e.spin,dt)
-					elseif
-						e.y > starfield.h/2 and e.angle < math.pi+math.pi/2 then
-						self:rotate(e,-e.spin,dt)
-					end
-					
+					e.xvel = math.max(e.xvel - 1500 *dt,0)
 					if e.xvel == 0 then
 						e.state = 1
 					end
 				end
+					
 			elseif e.state == 1 then
-				if e.y < starfield.h/2 then
-					e.xvel = 0
-					e.yvel = -700
-					e.state = 2
-				else
-					e.xvel = 0
-					e.yvel = 700
+				if e.y < starfield.h/2 and e.angle > math.pi/2 then
+						self:rotate(e,-e.spin,dt)
+				elseif
+					e.y > starfield.h/2 and e.angle < math.pi+math.pi/2 then
+					self:rotate(e,-e.spin,dt)
+				else 
 					e.state = 2
 				end
+				
 			elseif e.state == 2 then
+				if e.y < starfield.h/2 then
+					e.xvel = 0
+					e.yvel = -1000
+					e.state = 3
+				else
+					e.xvel = 0
+					e.yvel = 1000
+					e.state = 3
+				end
+			elseif e.state == 3 then
 				--	e.scale = math.max(e.scale - 0.7*dt,0.1)
 			
 			end

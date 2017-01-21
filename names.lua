@@ -1,32 +1,64 @@
 names = {}
 
 
-names.syl = {
-	"ab", "ac", "ad", "ae", "af", "al", "ak", "ai", "ap", "ar" , "am" ,"an",
-	"dr", "ja", "io", "li", "il", "ra", "be", "je", "ke", "ek", "na", "ze",
-	"ur", "in", "ze", "zo", "oz", "pe", "ni", "is", 
-	"ori", "net", "gin", "ge", "ga", "gi", "hi",
-	"ju", "ij", "ja", "je", "xe", "xu", "xi","ao", "ch", "ph", "cu", "nt",
-	"ba", "st", "de", "we", "ed", "ca", "bi", "gla", "sin", "cos", "phi", "dos", "win",
-	"shu", "min", "kel", "pal", "del"
+names.phonetic = {
+	-- https://en.wikibooks.org/wiki/Japanese/Pronunciation
+	-- japanese phonetics
+	"a", "i", "u", "e", "o", 
+	"ka", "ki", "ku", "ke", "ko",
+	"sa", "shi", "su", "se", "so", 
+	"ta", "chi", "tsu", "te", "to",
+	"na", "ni", "nu", "ne", "no",
+	"ha", "hi", "fu", "he", "ho",
+	"ma", "mi", "mu", "me", "mo",
+	"ya", "yu", "yo",
+	"ra", "ri", "ru", "re", "ro",
+	"wa",
+	"ga", "gi", "gu", "ge", "go",
+	"za", "ji", "zu", "ze", "zo",
+	"da", "de", "do",
+	"ba", "bi", "bu", "be", "bo",
+	"pa", "pi", "pu", "pe", "po",
+	"kya", "kyu", "kyo",
+	"sha", "shu", "sho",
+	"cha", "chu", "cho",
+	"nya", "nyu", "nyo",
+	"hya", "hyu", "hyo",
+	"mya", "myu", "myo",
+	"rya", "ryu", "ryo",
+	"gya", "gyu", "gyo",
+	"ja", "ju", "jo",
+	"bya", "byu", "byo",
+	"pya", "pyu", "pyo",
+
 }
 
-
-function names:getGalaxy()
-
-end
-
 function names:getPlanet()
-	local len = love.math.random(2,4)
-	local digits = love.math.random(0,5)
+	local len = love.math.random(2,3) -- number of syllables to use
 	local str = ""
 	
 	for i=1,len do
-		str = str .. self.syl[love.math.random(1,#self.syl)]
+		str = str .. self.phonetic[love.math.random(1,#self.phonetic)]
 	end
 	
-	if digits == 4 then str = str .. "-".. love.math.random(1,9) end
-	if digits == 5 then str = str .. "-".. love.math.random(1,9) .. love.math.random(1,9) end
+	local digits = love.math.random(1,3) -- 1/3 chance of appended digits
+	local append = love.math.random(1,2) -- 1/2 chance of appended character
+	
+	if digits == 1 then 
+		str = str .. "-".. love.math.random(1,9) 
+		
+		if append == 1 then 
+			str = str .. string.char(love.math.random(97,123))
+		end
+	end
 
 	return str
+end
+
+
+
+love.math.setRandomSeed(os.time())
+
+for i=1, 10 do
+	print( names:getPlanet(),names:getPlanet(),names:getPlanet())
 end

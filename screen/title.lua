@@ -60,7 +60,7 @@ love.math.setRandomSeed( game.seed )
 	title.active = "main"
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
-	love.math.setRandomSeed( os.time() )
+	love.math.setRandomSeed( game.seed )
 	starfield.offset = 0  
 	starfield.speed = 2
 	starfield:populate()
@@ -134,11 +134,12 @@ function title:draw()
 	
 	starfield:draw(0,0)
 
-	if debugstarfield then 
-		love.graphics.setColor(255,255,255,255)
-		love.graphics.print("speed: " .. starfield.speed,10,10)
-	return end
+	
 
+	if debugstarfield then return end
+	love.graphics.setColor(255,255,255,255)
+	love.graphics.print("Debug:  [`] for console    [space] for starfield",10,10)
+		
 	--love.graphics.setColor(255,255,255,255)
 	--love.graphics.draw(title.planet,0-title.planet:getWidth()/2, starfield.h/2-title.planet:getHeight()/2 )	
 	

@@ -40,12 +40,12 @@ function player:init(playersel)
 	player.shieldmax = 100
 	player.energy = 100
 	player.energymax = 100
-	player.speed = 2000
+	player.speed = 2360
 	player.speedmax = 3000
-	player.maxvel = 550
+	player.maxvel = 640
 	player.xvel = 0
 	player.yvel = 0
-	player.drift = 1.9
+	player.drift = 1.75
 	player.respawnCycle = 3
 	player.respawnDelay = 3
 	player.alive = true
@@ -55,7 +55,7 @@ function player:init(playersel)
 	player.boostspeed = 0
 	
 	--test this for temporary particle speed boost (powerup?)
-	player.multiplier = 0.5
+	player.multiplier = 0.85
 	
 	
 	player.cannon = {
@@ -306,7 +306,7 @@ function player:boost(dt)
 end
 
 function player:draw()
-	love.graphics.print(player.boostspeed .. "|"..starfield.speed,0,0)
+
 	if not player.alive then return end
 	
 	love.graphics.push()
