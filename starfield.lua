@@ -37,15 +37,15 @@ starfield.star = love.graphics.newImage("gfx/starfield/star.png")
 starfield.planets = textures:load("gfx/starfield/planets/")
 
 starfield.planets.populate = true
-starfield.planets.limit = 2
+starfield.planets.limit = 1
 
 starfield.nebulae = { }
-starfield.nebulae.sprite = love.graphics.newImage("gfx/starfield/nebulae/proc_sheet_nebula3.png")
+starfield.nebulae.sprite = love.graphics.newImage("gfx/starfield/nebulae/proc_sheet_nebula.png")
 starfield.nebulae.min = 1
 starfield.nebulae.max = 16
 starfield.nebulae.size = 512
 starfield.nebulae.quads = loadsprite(starfield.nebulae.sprite, starfield.nebulae.size, starfield.nebulae.max )
-starfield.nebulae.red = 255
+starfield.nebulae.red = 100
 starfield.nebulae.green = 255
 starfield.nebulae.blue = 255
 starfield.nebulae.populate = true
@@ -135,7 +135,7 @@ end
 
 function starfield:addNova(x,y)
 	--dense star
-	
+	if self.speed > 100 then return end
 	if self.count.nova < self.nebulae.limit then
 	local vel =  love.math.random(30,35)/10
 	table.insert(self.objects, {
@@ -174,7 +174,7 @@ function starfield:addDebris(x,y)
 			r = 140,
 			g = love.math.random(200,255),
 			b = love.math.random(200,255),
-			o = math.min(25 *starfield.speed/100,80),
+			o = math.min(25 *starfield.speed/100,60),
 			--gfx = self.star,
 			--scale = 1
 		})
@@ -223,19 +223,19 @@ function starfield:addPlanet(x,y)
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		table.insert(self.objects, {
 			x = x,
-			y = y,
+			y = y-(gfx:getHeight()*scale)/2,
 			w = gfx:getWidth()*scale,
 			h = gfx:getHeight()*scale,
 			maxvel = vel,
 			minvel = vel,
 			type = "planet",
-			r = 100,
+			r = love.math.random(150,255),
 			g = love.math.random(150,255),
 			b = love.math.random(150,255),
 			o = 255,
 			gfx = gfx,
 			scale = scale,
-			rotation = 0.03,
+			rotation = (love.math.random(0,1) == 1 and 0.02 or -0.02),
 			name = names:getPlanet()
 		})
 		self.count.planet = self.count.planet +1
@@ -245,6 +245,7 @@ end
 
 
 function starfield:addobject(x,y)
+
 	local n = love.math.random(0,100)
 	
 
@@ -259,6 +260,7 @@ function starfield:addobject(x,y)
 	else
 		self:addStar(x,y)
 	end
+
 
 end
 
@@ -293,7 +295,7 @@ function starfield:update(dt)
 		end
 
 		if o.type == "planet" then
-			enemies:rotate(o,o.rotation,dt)
+			enemies:rotate(o,o.rotation/o.scale,dt)
 		end	
 
 		if o.x+o.w < 0 then
@@ -332,7 +334,11 @@ function starfield:draw(x,y)
 	love.graphics.setColor(0,0,0,255)
 	love.graphics.rectangle("fill", 0,0,self.w,self.h )
 	
-
+	--hyperspace warp test
+	if self.speed > 100 then 
+		love.graphics.setColor(100,240,210,math.min(2 *starfield.speed/50,30))
+		love.graphics.rectangle("fill",0,0,starfield.w,starfield.h)
+	end
 	
 	love.graphics.setColor(255,255,255,255)
 
@@ -417,6 +423,9 @@ function starfield:draw(x,y)
 	--)	
 
 
+
+
+
 --top layer
 	for _, o in ipairs(self.objects) do
 		
@@ -497,6 +506,8 @@ function starfield:draw(x,y)
 	camera:set()
 	love.graphics.draw(self.canvas, x,y,0,love.graphics.getWidth()/starfield.w,love.graphics.getWidth()/starfield.w)
 	camera:unset()
+	
+
 	
 	--overlay  hyperspace effect 
 	love.graphics.setColor(255,255,255,20)

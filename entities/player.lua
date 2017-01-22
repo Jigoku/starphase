@@ -313,10 +313,18 @@ function player:draw()
 
 	love.graphics.setColor(255,255,255,255)
 	
-	love.graphics.draw(
-		self.gfx, self.x, 
-		self.y, 0, 1, 1
-	)
+	local s = 200
+	if starfield.speed > s then
+		love.graphics.draw(
+			self.gfx, love.math.random(self.x-starfield.speed/s,self.x+starfield.speed/s), 
+			love.math.random(self.y-starfield.speed/s,self.y+starfield.speed/s), 0, 1, 1
+		)
+	else
+		love.graphics.draw(
+			self.gfx, self.x, 
+			self.y, 0, 1, 1
+		)
+	end
 	
 	if debug then
 		love.graphics.setColor(255,255,0,100)

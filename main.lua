@@ -62,7 +62,7 @@ function love.load(args)
 	game.rotate = false
 	
 	game.width, game.height, game.flags = love.window.getMode( )
-	game.seed = 1484956059
+	game.seed = 1485024578
 	game.max_fps = game.flags.refreshrate
 	game.min_dt = 1/game.max_fps
 	game.next_time = love.timer.getTime()
@@ -143,11 +143,11 @@ function love.update(dt)
 
 		if love.keyboard.isDown("[") then
 			
-			starfield:speedAdjust(-1, dt)
+			starfield:speedAdjust(-2, dt)
 			
 		elseif love.keyboard.isDown("]") then
 			
-			starfield:speedAdjust(1, dt)
+			starfield:speedAdjust(2, dt)
 		end
 
 	--process arcade game mode
