@@ -40,12 +40,12 @@ function player:init(playersel)
 	player.shieldmax = 100
 	player.energy = 100
 	player.energymax = 100
-	player.speed = 2360
+	player.speed = 2860
 	player.speedmax = 3000
 	player.maxvel = 640
 	player.xvel = 0
 	player.yvel = 0
-	player.drift = 1.75
+	player.drift = 1.35
 	player.respawnCycle = 3
 	player.respawnDelay = 3
 	player.alive = true
@@ -313,8 +313,8 @@ function player:draw()
 
 	love.graphics.setColor(255,255,255,255)
 	
-	local s = 200
-	if starfield.speed > s then
+	local s = starfield.warpspeed*2
+	if starfield.speed > s and not paused then
 		love.graphics.draw(
 			self.gfx, love.math.random(self.x-starfield.speed/s,self.x+starfield.speed/s), 
 			love.math.random(self.y-starfield.speed/s,self.y+starfield.speed/s), 0, 1, 1

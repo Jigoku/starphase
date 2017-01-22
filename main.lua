@@ -62,7 +62,7 @@ function love.load(args)
 	game.rotate = false
 	
 	game.width, game.height, game.flags = love.window.getMode( )
-	game.seed = 1485024578
+	game.seed = nil
 	game.max_fps = game.flags.refreshrate
 	game.min_dt = 1/game.max_fps
 	game.next_time = love.timer.getTime()
@@ -83,8 +83,19 @@ function love.load(args)
 end
 
 
+function setNewSeed(seed)
+	if not seed then 
+		game.seed = love.math.random(0,9999999999)
+	else
+		game.seed = seed
+	end
+	
+	love.math.setRandomSeed(game.seed)
+end
+
 --test function
 function initarcade(playersel)
+	setNewSeed()
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
 	paused = false
@@ -92,7 +103,6 @@ function initarcade(playersel)
 	mode = "arcade"
 	love.graphics.setBackgroundColor(0,0,0,255)
 	
-	love.math.setRandomSeed( os.time() )
 	starfield:populate()
 	
 	--starfield.offset = love.graphics.getHeight()/3
@@ -100,8 +110,9 @@ function initarcade(playersel)
 	--starfield.nebulae.green = love.math.random(0,255)
 	--starfield.nebulae.blue = love.math.random(0,255)
 	player:init(playersel)
-	starfield.speed = 20
-
+	
+	starfield.minspeed = 20
+	starfield.maxspeed = 400
 	
 	hud:init()
 
@@ -142,12 +153,11 @@ function love.update(dt)
 
 
 		if love.keyboard.isDown("[") then
-			
 			starfield:speedAdjust(-2, dt)
 			
-		elseif love.keyboard.isDown("]") then
-			
+		elseif love.keyboard.isDown("]") then			
 			starfield:speedAdjust(2, dt)
+
 		end
 
 	--process arcade game mode
@@ -267,7 +277,14 @@ function love.keypressed(key)
 		enemies:add_tri()
 	elseif key == "9" then
 		enemies:add_cruiser()
+	elseif key == "space" then
+	
+		game.seed = love.math.random(0,9999999999)
+		love.math.setRandomSeed(game.seed)
+		starfield:populate()
 	end
+	
+	
 	end
 	--[[
 	if key == "0" then

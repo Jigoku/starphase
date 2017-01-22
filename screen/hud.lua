@@ -113,47 +113,7 @@ function hud:updateconsole(dt)
 
 end
 
-
-function hud:draw()
-	if paused and not debug then 
-		
-		love.graphics.setColor(0,0,0,140)
-		--love.graphics.rectangle("fill",0,0,love.graphics.getWidth(), love.graphics.getHeight())
-    
-		love.graphics.setFont(fonts.paused_large)
-		love.graphics.setColor(255,255,255,200)
-		love.graphics.printf("PAUSED", love.graphics.getWidth()/2-150,love.graphics.getHeight()/3,300,"center")
-		love.graphics.setFont(fonts.default)
-		local wrap = 200
-		love.graphics.setFont(fonts.paused_small)
-		love.graphics.setColor(255,255,255,200)
-		love.graphics.printf("Press "..string.upper(binds.pausequit).." to quit", love.graphics.getWidth()/2-wrap/2,love.graphics.getHeight()/3+50,wrap,"center",0,1,1)
-		love.graphics.setFont(fonts.default)
-		return
-	end
-	
-  --hud
-	--decor / lines
-	if not debug then
-	
-	if hud.warp then
-		love.graphics.setColor(hud:HSL(hud.colors["hsl_frame"],100,80))
-	else
-		love.graphics.setColor(
-			hud.colors["frame"][1],hud.colors["frame"][2],hud.colors["frame"][3],hud.colors["frame"][4]
-		)
-	end
-	--dynamic decor/lines
-	--[[love.graphics.setColor(
-		starfield.nebulae.red,
-		starfield.nebulae.green,
-		starfield.nebulae.blue,
-		50
-	)--]]
-	
-	love.graphics.setLineWidth(2)
-	love.graphics.setLineStyle("smooth")
-	
+function hud:drawFrame()
 	--left side
 	love.graphics.line(
 		60,love.graphics.getHeight()-20,
@@ -221,6 +181,49 @@ function hud:draw()
 		love.graphics.getWidth()-61,20,
 		love.graphics.getWidth()-love.graphics.getWidth()/4,20
 	)
+end 
+
+function hud:draw()
+	if paused and not debug then 
+		
+		love.graphics.setColor(0,0,0,140)
+		--love.graphics.rectangle("fill",0,0,love.graphics.getWidth(), love.graphics.getHeight())
+    
+		love.graphics.setFont(fonts.paused_large)
+		love.graphics.setColor(255,255,255,200)
+		love.graphics.printf("PAUSED", love.graphics.getWidth()/2-150,love.graphics.getHeight()/3,300,"center")
+		love.graphics.setFont(fonts.default)
+		local wrap = 200
+		love.graphics.setFont(fonts.paused_small)
+		love.graphics.setColor(255,255,255,200)
+		love.graphics.printf("Press "..string.upper(binds.pausequit).." to quit", love.graphics.getWidth()/2-wrap/2,love.graphics.getHeight()/3+50,wrap,"center",0,1,1)
+		love.graphics.setFont(fonts.default)
+		return
+	end
+	
+  --hud
+	--decor / lines
+	if not debug then
+
+	
+		if hud.warp then
+			love.graphics.setColor(hud:HSL(hud.colors["hsl_frame"],100,80))
+		else
+			love.graphics.setColor(
+				hud.colors["frame"][1],hud.colors["frame"][2],hud.colors["frame"][3],hud.colors["frame"][4]
+			)
+		end
+		--dynamic decor/lines
+		--[[love.graphics.setColor(
+			starfield.nebulae.red,
+			starfield.nebulae.green,
+			starfield.nebulae.blue,
+			50
+		)--]]
+	
+		love.graphics.setLineWidth(2)
+		love.graphics.setLineStyle("smooth")
+		hud:drawFrame()
 	end
 	
 	

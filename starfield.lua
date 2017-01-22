@@ -25,15 +25,16 @@ starfield.offset = 0
 
 -- 326 -- populate starfield this amount higher than screen height
 --^^^ disabled due to scaling issue (needs fixing)
-starfield.limit = 1140
+starfield.limit = 1150
 starfield.speed = 0
+starfield.minspeed = 10   --slowest speed
+starfield.maxspeed = 400  --fastest speed
+starfield.warpspeed = 100 --speed when warp starts
 
 starfield.hyperspace = love.graphics.newImage("gfx/starfield/hyperspace.png")
 starfield.mist = love.graphics.newImage("gfx/starfield/mist.png")
 starfield.nova = love.graphics.newImage("gfx/starfield/nova.png")
 starfield.star = love.graphics.newImage("gfx/starfield/star.png")
-
-
 starfield.planets = textures:load("gfx/starfield/planets/")
 
 starfield.planets.populate = true
@@ -45,11 +46,11 @@ starfield.nebulae.min = 1
 starfield.nebulae.max = 16
 starfield.nebulae.size = 512
 starfield.nebulae.quads = loadsprite(starfield.nebulae.sprite, starfield.nebulae.size, starfield.nebulae.max )
-starfield.nebulae.red = 100
+starfield.nebulae.red = 0
 starfield.nebulae.green = 255
 starfield.nebulae.blue = 255
 starfield.nebulae.populate = true
-starfield.nebulae.limit = 8
+starfield.nebulae.limit = 7
 
 starfield.debris = {}
 starfield.debris.limit = 150
@@ -125,7 +126,7 @@ function starfield:addStar(x,y)
 		r = love.math.random(170,215),
 		g = love.math.random(170,215),
 		b = love.math.random(170,215),
-		o = love.math.random(10,180),
+		o = love.math.random(5,160),
 		gfx = self.star,
 		scale = 1,
 		
@@ -135,7 +136,7 @@ end
 
 function starfield:addNova(x,y)
 	--dense star
-	if self.speed > 100 then return end
+	if self.speed > self.warpspeed then return end
 	if self.count.nova < self.nebulae.limit then
 	local vel =  love.math.random(30,35)/10
 	table.insert(self.objects, {
@@ -161,7 +162,7 @@ end
 function starfield:addDebris(x,y)
 	--debris
 	if self.count.debris < self.debris.limit then
-	if self.speed > 100 then
+	if self.speed > self.warpspeed then
 		local vel = love.math.random(1500,2000)
 		table.insert(self.objects, {
 			x = x,
@@ -216,7 +217,7 @@ end
 	
 	
 function starfield:addPlanet(x,y)
-	if self.planets.populate and self.speed < 100 then
+	if self.planets.populate and self.speed < self.warpspeed then
 		if self.count.planet < starfield.planets.limit then
 		local scale = love.math.random(10,20)/10
 		local vel = love.math.random(5,10)
@@ -229,9 +230,9 @@ function starfield:addPlanet(x,y)
 			maxvel = vel,
 			minvel = vel,
 			type = "planet",
-			r = love.math.random(150,255),
-			g = love.math.random(150,255),
-			b = love.math.random(150,255),
+			r = love.math.random(150,205),
+			g = love.math.random(150,205),
+			b = love.math.random(150,205),
 			o = 255,
 			gfx = gfx,
 			scale = scale,
@@ -277,7 +278,7 @@ function starfield:update(dt)
 		)
 	end
 	
-	self.speed = self.speed + (player.boostspeed or 0)
+	self.speed = math.max(math.min(self.speed,self.maxspeed),self.minspeed)
 	--if mode == "arcade" then
 	--	self.offset = player.y
 	--end
@@ -336,7 +337,11 @@ function starfield:draw(x,y)
 	
 	--hyperspace warp test
 	if self.speed > 100 then 
-		love.graphics.setColor(100,240,210,math.min(2 *starfield.speed/50,30))
+	
+	--green/blue
+	love.graphics.setColor(100,240,210,math.min(2 *starfield.speed/50,30))
+	--pink/purple
+	--love.graphics.setColor(255,100,255,math.min(2 *starfield.speed/50,30))
 		love.graphics.rectangle("fill",0,0,starfield.w,starfield.h)
 	end
 	
@@ -345,7 +350,7 @@ function starfield:draw(x,y)
 	for _, o in ipairs(self.objects) do
 		
 		if o.type == "star" then
-			love.graphics.setColor(o.r,o.g,o.b,o.o)
+			love.graphics.setColor(o.r,o.g,o.b,(self.speed > 200 and o.o / (self.speed/200) or o.o))
 			love.graphics.draw(
 					o.gfx, o.x-o.gfx:getWidth()/2, 
 					o.y-o.gfx:getHeight()/2, 0, 1, 1
@@ -384,7 +389,7 @@ function starfield:draw(x,y)
 			love.graphics.push()
 			
 			
-			love.graphics.setColor(o.r,o.g,o.b,o.o)
+			love.graphics.setColor(o.r,o.g,o.b,(self.speed > 200 and o.o / (self.speed/200) or o.o))
 			
 			if o.gfx then
 			
@@ -417,10 +422,10 @@ function starfield:draw(x,y)
 	end
 	
 	--overlay  mist effect 
-	love.graphics.setColor(self.nebulae.red,self.nebulae.green,self.nebulae.blue,25)
-	--love.graphics.draw(
-	--	self.mist, self.mist_quad, 0,0, 0, self.w/self.mist:getWidth(), self.h/self.mist:getHeight()
-	--)	
+	love.graphics.setColor(self.nebulae.red,self.nebulae.green,self.nebulae.blue,15)
+	love.graphics.draw(
+		self.mist, self.mist_quad, 0,0, 0, self.w/self.mist:getWidth(), self.h/self.mist:getHeight()
+	)	
 
 
 
@@ -490,7 +495,10 @@ function starfield:draw(x,y)
 	end
 
 
-
+	love.graphics.setColor(255,255,255,20)
+	love.graphics.draw(
+		starfield.hyperspace, 0,0, 0, game.scale.w/starfield.hyperspace:getWidth(), game.scale.h/starfield.hyperspace:getHeight()
+	)
 	
 	love.graphics.setCanvas()
 	love.graphics.push()
@@ -510,10 +518,7 @@ function starfield:draw(x,y)
 
 	
 	--overlay  hyperspace effect 
-	love.graphics.setColor(255,255,255,20)
-	love.graphics.draw(
-		starfield.hyperspace, 0,0, 0, game.scale.w/starfield.hyperspace:getWidth(), game.scale.h/starfield.hyperspace:getHeight()
-	)
+
 	love.graphics.pop()
 			
 end

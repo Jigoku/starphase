@@ -52,7 +52,7 @@ title.ship3 = love.graphics.newImage("gfx/player/3_large.png")
 
 
 function title:init()
-love.math.setRandomSeed( game.seed )
+	setNewSeed()
 	title.overlay.fadein = true
 	title.overlay.opacity = 255
 	paused = false
@@ -60,9 +60,9 @@ love.math.setRandomSeed( game.seed )
 	title.active = "main"
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
-	love.math.setRandomSeed( game.seed )
 	starfield.offset = 0  
-	starfield.speed = 2
+	starfield.minspeed = 5
+	starfield.maxspeed = 400
 	starfield:populate()
 	love.graphics.setBackgroundColor(0,0,0,255)
 	
