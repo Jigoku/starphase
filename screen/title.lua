@@ -31,7 +31,7 @@ title.menu.canvas = love.graphics.newCanvas(title.menu.w,title.menu.h)
 title.menu.selected = 0
 
 title.opacity = 255
-title.opacitystep = 200
+title.opacitystep = 232
 title.opacitymin = 100
 title.opacitymax = 255
 
@@ -61,6 +61,7 @@ function title:init()
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
 	starfield.offset = 0  
+	starfield.speed = 0
 	starfield.minspeed = 5
 	starfield.maxspeed = 400
 	starfield:populate()
@@ -150,7 +151,6 @@ function title:draw()
 	love.graphics.rectangle("fill",0,love.graphics.getHeight()-h,love.graphics.getWidth(),h)
 	love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),h)
 	
-	
 			
 	love.graphics.setCanvas(title.menu.canvas)
 	love.graphics.clear()
@@ -162,7 +162,7 @@ function title:draw()
 	local wrap = 500
 			
 	--title
-	love.graphics.setColor(200,200,200,155)
+	love.graphics.setColor(255,255,255,155)
 	love.graphics.printf("Star Phase", 0,0,wrap,"center",0,1,1)
 	love.graphics.setColor(200,200,200,105)
 	love.graphics.printf("Star Phase", 5,0,wrap,"center",0,1,1)
@@ -244,7 +244,7 @@ function title:itemselected(selected)
 	if title.menu.selected == selected then
 		love.graphics.setColor(title.opacity/2,title.opacity,title.opacity,title.opacity)
 	else
-		love.graphics.setColor(255,255,255,100)
+		love.graphics.setColor(85,85,85,255)
 	end
 end
 

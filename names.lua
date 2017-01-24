@@ -56,9 +56,11 @@ function names:getPlanet()
 end
 
 
-
+--[[
 love.math.setRandomSeed(os.time())
 
 for i=1, 10 do
 	print( names:getPlanet(),names:getPlanet(),names:getPlanet())
 end
+
+--]]

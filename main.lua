@@ -123,7 +123,7 @@ end
 function initdebugarcade(playersel)
 	initarcade(playersel)
 	debugarcade = true
-	
+	--[[
 	msgs.queue(
 		{
 			{		
@@ -140,6 +140,7 @@ function initdebugarcade(playersel)
 			}
 		}
 	)
+	--]]
 end
 
 
@@ -279,9 +280,20 @@ function love.keypressed(key)
 		enemies:add_cruiser()
 	elseif key == "space" then
 	
-		game.seed = love.math.random(0,9999999999)
-		love.math.setRandomSeed(game.seed)
+		setNewSeed()
 		starfield:populate()
+		
+		msgs.queue(
+		{
+			{		
+				face = love.graphics.newImage("gfx/faces/1.png"),
+				name = "DEBUG: new seed",
+				text = love.math.getRandomSeed(),
+				duration = 1,
+			}
+		}
+	)
+		
 	end
 	
 	

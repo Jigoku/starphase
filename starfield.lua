@@ -46,7 +46,7 @@ starfield.nebulae.min = 1
 starfield.nebulae.max = 16
 starfield.nebulae.size = 512
 starfield.nebulae.quads = loadsprite(starfield.nebulae.sprite, starfield.nebulae.size, starfield.nebulae.max )
-starfield.nebulae.red = 0
+starfield.nebulae.red = 255
 starfield.nebulae.green = 255
 starfield.nebulae.blue = 255
 starfield.nebulae.populate = true
@@ -54,14 +54,6 @@ starfield.nebulae.limit = 7
 
 starfield.debris = {}
 starfield.debris.limit = 150
--- colour themes
---
--- orange 		255,155,55
--- green/blue 	0,255,255
--- red 			255,55,55
--- pink 		255,100,255
--- blue/orange 	100,100,255
-
 
 
 function starfield:populate()
@@ -79,6 +71,11 @@ function starfield:populate()
 	explosions.objects = {}
 	projectiles.missiles = {}
 	pickups.items = {}
+	
+	
+	starfield.nebulae.red = love.math.random(55,255)
+	starfield.nebulae.green = love.math.random(55,255)
+	starfield.nebulae.blue = love.math.random(55,255)
 	
 	starfield.w = game.scale.w
 	starfield.h = game.scale.h+starfield.offset
@@ -150,7 +147,7 @@ function starfield:addNova(x,y)
 		r = love.math.random (100,255),
 		g = love.math.random (100,255),
 		b = love.math.random (100,255),
-		o = love.math.random(50,100),
+		o = love.math.random(50,80),
 		gfx = self.nova,
 		scale = 1,
 		name = names:getPlanet()
@@ -219,8 +216,8 @@ end
 function starfield:addPlanet(x,y)
 	if self.planets.populate and self.speed < self.warpspeed then
 		if self.count.planet < starfield.planets.limit then
-		local scale = love.math.random(10,20)/10
-		local vel = love.math.random(5,10)
+		local scale = love.math.random(10,25)/10
+		local vel = 5
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		table.insert(self.objects, {
 			x = x,
@@ -230,7 +227,7 @@ function starfield:addPlanet(x,y)
 			maxvel = vel,
 			minvel = vel,
 			type = "planet",
-			r = love.math.random(150,205),
+			r = love.math.random(50,205),
 			g = love.math.random(150,205),
 			b = love.math.random(150,205),
 			o = 255,
@@ -350,7 +347,7 @@ function starfield:draw(x,y)
 	for _, o in ipairs(self.objects) do
 		
 		if o.type == "star" then
-			love.graphics.setColor(o.r,o.g,o.b,(self.speed > 200 and o.o / (self.speed/200) or o.o))
+			love.graphics.setColor(o.r,o.g,o.b,(self.speed > self.warpspeed*2 and o.o / (self.speed/(self.warpspeed*2)) or o.o))
 			love.graphics.draw(
 					o.gfx, o.x-o.gfx:getWidth()/2, 
 					o.y-o.gfx:getHeight()/2, 0, 1, 1
@@ -389,7 +386,7 @@ function starfield:draw(x,y)
 			love.graphics.push()
 			
 			
-			love.graphics.setColor(o.r,o.g,o.b,(self.speed > 200 and o.o / (self.speed/200) or o.o))
+			love.graphics.setColor(o.r,o.g,o.b,(self.speed > self.warpspeed*2 and o.o / (self.speed/(self.warpspeed*2)) or o.o))
 			
 			if o.gfx then
 			
@@ -474,7 +471,7 @@ function starfield:draw(x,y)
 		end
 		
 		
-					if debugstarfield then
+			if debugstarfield then
 				love.graphics.setFont(fonts.labels)
 				love.graphics.setColor(200,255,255)
 				love.graphics.print((o.name or ""), o.x,o.y)
