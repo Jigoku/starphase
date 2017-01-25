@@ -52,7 +52,7 @@ title.ship3 = love.graphics.newImage("gfx/player/3_large.png")
 
 
 function title:init()
-	setNewSeed()
+	starfield:setSeed()
 	title.overlay.fadein = true
 	title.overlay.opacity = 255
 	paused = false

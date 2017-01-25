@@ -83,19 +83,11 @@ function love.load(args)
 end
 
 
-function setNewSeed(seed)
-	if not seed then 
-		game.seed = love.math.random(0,9999999999)
-	else
-		game.seed = seed
-	end
-	
-	love.math.setRandomSeed(game.seed)
-end
+
 
 --test function
 function initarcade(playersel)
-	setNewSeed()
+	starfield:setSeed()
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
 	paused = false
@@ -280,8 +272,8 @@ function love.keypressed(key)
 		enemies:add_cruiser()
 	elseif key == "space" then
 	
-		setNewSeed()
-		starfield:populate()
+		starfield:setSeed()
+		--starfield:populate()
 		
 		msgs.queue(
 		{

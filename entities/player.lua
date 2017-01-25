@@ -41,11 +41,10 @@ function player:init(playersel)
 	player.energy = 100
 	player.energymax = 100
 	player.speed = 2860
-	player.speedmax = 3000
-	player.maxvel = 640
+	player.maxvel = 800
 	player.xvel = 0
 	player.yvel = 0
-	player.drift = 1.35
+	player.drift = 1.1
 	player.respawnCycle = 3
 	player.respawnDelay = 3
 	player.alive = true

@@ -55,6 +55,11 @@ starfield.nebulae.limit = 7
 starfield.debris = {}
 starfield.debris.limit = 150
 
+function starfield:setColor()
+	starfield.nebulae.red = love.math.random(0,255)
+	starfield.nebulae.green = love.math.random(0,255)
+	starfield.nebulae.blue = love.math.random(0,255)
+end
 
 function starfield:populate()
 	starfield.count = {
@@ -72,10 +77,7 @@ function starfield:populate()
 	projectiles.missiles = {}
 	pickups.items = {}
 	
-	
-	starfield.nebulae.red = love.math.random(55,255)
-	starfield.nebulae.green = love.math.random(55,255)
-	starfield.nebulae.blue = love.math.random(55,255)
+	starfield:setColor()
 	
 	starfield.w = game.scale.w
 	starfield.h = game.scale.h+starfield.offset
@@ -217,7 +219,7 @@ function starfield:addPlanet(x,y)
 	if self.planets.populate and self.speed < self.warpspeed then
 		if self.count.planet < starfield.planets.limit then
 		local scale = love.math.random(10,25)/10
-		local vel = 5
+		local vel = love.math.random(4,5)
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		table.insert(self.objects, {
 			x = x,
@@ -262,6 +264,18 @@ function starfield:addobject(x,y)
 
 end
 
+
+function starfield:setSeed(seed)
+	if not seed then 
+		game.seed = love.math.random(0,9999999999)
+	else
+		game.seed = seed
+	end
+	
+	love.math.setRandomSeed(game.seed)
+	
+	starfield:setColor()
+end
 
 
 function starfield:update(dt)
@@ -419,7 +433,7 @@ function starfield:draw(x,y)
 	end
 	
 	--overlay  mist effect 
-	love.graphics.setColor(self.nebulae.red,self.nebulae.green,self.nebulae.blue,15)
+	love.graphics.setColor(80,80,80,15)
 	love.graphics.draw(
 		self.mist, self.mist_quad, 0,0, 0, self.w/self.mist:getWidth(), self.h/self.mist:getHeight()
 	)	
