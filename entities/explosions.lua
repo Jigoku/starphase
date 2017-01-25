@@ -32,14 +32,14 @@ explosions.large_sprite = love.graphics.newImage("gfx/explosion/bleed/explosion.
 explosions.large_size = explosions.large_sprite:getHeight()
 explosions.large_min = 1
 explosions.large_max = 13
-explosions.large_quads = loadsprite(explosions.large_sprite, explosions.large_size, explosions.large_max )
+explosions.large_quads = textures:loadSprite(explosions.large_sprite, explosions.large_size, explosions.large_max )
 
 
 explosions.small_sprite = love.graphics.newImage("gfx/explosion/jswars/explosion2.png")
 explosions.small_size = explosions.small_sprite:getHeight()
 explosions.small_min = 1
 explosions.small_max = 17
-explosions.small_quads = loadsprite(explosions.small_sprite, explosions.small_size, explosions.small_max )
+explosions.small_quads = textures:loadSprite(explosions.small_sprite, explosions.small_size, explosions.small_max )
 
 
 

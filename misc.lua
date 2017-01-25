@@ -15,32 +15,7 @@
  
 misc = {}
 
-function loadsprite(sprite, size, frames )
-	-- returns a table of quads used for sprite animation
-	local y = 0
-	local x = 0
-	local quad = love.graphics.newQuad
-	local quads = {}
-	
-	for n=1,frames do
-		quads[n] = quad(
-			x, 
-			y, 
-			size, 
-			size,  
-			sprite:getWidth(), 
-			sprite:getHeight()
-		)
-		x = x + size
-		
-		if x >= sprite:getWidth() then 
-			x = 0
-			y = y + size
-		end
-	end
-	
-	return quads
-end
+
 
 function math.round(num, idp)
 	-- round integer to decimal places
