@@ -1,5 +1,5 @@
 # Star Phase
-A side-scrolling space shooter 
+A side-scrolling space shooter made with Lua and Love2D
 
 See `binds.lua` for game controls
 
