@@ -112,7 +112,7 @@ end
 function starfield:addStar(x,y)
 	--normal star	
 	
-	local vel =  love.math.random(20,25)/10
+	local vel =  love.math.random(12,15)/10
 	
 	table.insert(self.objects, {
 		x = x,
@@ -135,9 +135,9 @@ end
 
 function starfield:addNova(x,y)
 	--dense star
-	if self.speed > self.warpspeed then return end
+	--if self.speed > self.warpspeed then return end
 	if self.count.nova < self.nebulae.limit then
-	local vel =  love.math.random(30,35)/10
+	local vel =  love.math.random(12,15)/10
 	table.insert(self.objects, {
 		x = x,
 		y = y,

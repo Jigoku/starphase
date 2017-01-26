@@ -103,7 +103,7 @@ function initarcade(playersel)
 	--starfield.nebulae.blue = love.math.random(0,255)
 	player:init(playersel)
 	
-	starfield.minspeed = 20
+	starfield.minspeed = 25
 	starfield.maxspeed = 400
 	
 	hud:init()

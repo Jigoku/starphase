@@ -40,8 +40,8 @@ function player:init(playersel)
 	player.shieldmax = 100
 	player.energy = 100
 	player.energymax = 100
-	player.speed = 2860
-	player.maxvel = 800
+	player.speed = 2800
+	player.maxvel = 650
 	player.xvel = 0
 	player.yvel = 0
 	player.drift = 1.1

@@ -62,7 +62,7 @@ function title:init()
 	love.mouse.setGrabbed(true)
 	starfield.offset = 0  
 	starfield.speed = 0
-	starfield.minspeed = 5
+	starfield.minspeed = 10
 	starfield.maxspeed = 400
 	starfield:populate()
 	love.graphics.setBackgroundColor(0,0,0,255)

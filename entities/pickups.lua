@@ -16,7 +16,7 @@
 pickups = {}
 --pickups.texture = love.graphics.newImage("gfx/pickups/template_small.png")
 pickups.sound = love.audio.newSource("sfx/pickups/collect.ogg", "static")
-pickups.chance = 5 --chance of a pickup being dropped
+pickups.chance = 15 --chance of a pickup being dropped
 
 pickups.textures = {}
 
