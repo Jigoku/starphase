@@ -19,6 +19,7 @@ enemies.wave = {}
 enemies.waveCycle = 0 -- delay until first wave start
 enemies.waveDelay = 3
 enemies.fadespeed = 1000 -- fade out on death
+enemies.spawned = 0
 
 enemies.sound = {}
 enemies.sound.hit = love.audio.newSource("sfx/projectiles/hit.ogg", "static")
@@ -430,6 +431,7 @@ function enemies:update(dt)
 			self:add_asteroid()
 		end
 		enemies.waveCycle = love.math.random(0.25,1)
+		enemies.spawned = enemies.spawned + 1
 	end
 	
 	
@@ -624,6 +626,7 @@ function enemies:update(dt)
 					pickups:add(e.x+e.w/2,e.y+e.h/2)
 				end
 				player.score = player.score + e.score
+				player.kills = player.kills + 1
 				sound:play(enemies.sound.explode)			
 			
 			end

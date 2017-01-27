@@ -149,7 +149,7 @@ function starfield:addNova(x,y)
 		r = love.math.random (100,255),
 		g = love.math.random (100,255),
 		b = love.math.random (100,255),
-		o = love.math.random(50,80),
+		o = love.math.random(20,80),
 		gfx = self.nova,
 		scale = 1,
 		name = names:getPlanet()
@@ -229,9 +229,9 @@ function starfield:addPlanet(x,y)
 			maxvel = vel,
 			minvel = vel,
 			type = "planet",
-			r = love.math.random(50,205),
-			g = love.math.random(150,205),
-			b = love.math.random(150,205),
+			r = love.math.random(50,150),
+			g = love.math.random(50,150),
+			b = love.math.random(50,150),
 			o = 255,
 			gfx = gfx,
 			scale = scale,
@@ -350,9 +350,9 @@ function starfield:draw(x,y)
 	if self.speed > 100 then 
 	
 	--green/blue
-	love.graphics.setColor(100,240,210,math.min(2 *starfield.speed/50,30))
+	--love.graphics.setColor(100,240,210,math.min(2 *starfield.speed/50,30))
 	--pink/purple
-	--love.graphics.setColor(255,100,255,math.min(2 *starfield.speed/50,30))
+	love.graphics.setColor(255,100,255,math.min(2 *starfield.speed/50,30))
 		love.graphics.rectangle("fill",0,0,starfield.w,starfield.h)
 	end
 	
@@ -485,7 +485,7 @@ function starfield:draw(x,y)
 		end
 		
 		
-			if debugstarfield then
+			if debug then
 				love.graphics.setFont(fonts.labels)
 				love.graphics.setColor(200,255,255)
 				love.graphics.print((o.name or ""), o.x,o.y)

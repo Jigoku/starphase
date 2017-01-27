@@ -97,6 +97,9 @@ function initarcade(playersel)
 	
 	starfield:populate()
 	
+	enemies.spawned = 0
+	
+	
 	--starfield.offset = love.graphics.getHeight()/3
 	--starfield.nebulae.red = love.math.random(0,255)
 	--starfield.nebulae.green = love.math.random(0,255)
@@ -159,8 +162,8 @@ function love.update(dt)
 		projectiles:update(dt)
 		enemies:update(dt)
 		explosions:update(dt)
-		player:update(dt)
 		pickups:update(dt)
+		player:update(dt)
 		hud:update(dt)
 		msgs.update(dt)
 	end

@@ -52,7 +52,7 @@ function player:init(playersel)
 	player.invincible = false
 	player.warning = false
 	player.boostspeed = 0
-	
+	player.kills = 0
 	--test this for temporary particle speed boost (powerup?)
 	player.multiplier = 0.85
 	

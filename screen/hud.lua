@@ -427,6 +427,7 @@ function hud:drawconsole()
 		love.graphics.print("enemies    : " .. #enemies.wave,hud.console.x+215,hud.console.y+110)
 		love.graphics.print("pickups    : " .. #pickups.items,hud.console.x+215,hud.console.y+130)
 		love.graphics.print("explosions : " .. #explosions.objects,hud.console.x+215,hud.console.y+150)
+		love.graphics.print("kill/spawn : " .. player.kills.."/"..enemies.spawned,hud.console.x+215,hud.console.y+170)
 		end
 		--end
 	love.graphics.setCanvas()
