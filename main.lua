@@ -107,7 +107,7 @@ function initarcade(playersel)
 	player:init(playersel)
 	
 	starfield.minspeed = 25
-	starfield.maxspeed = 400
+	starfield.maxspeed = 600
 	
 	hud:init()
 
@@ -118,24 +118,16 @@ end
 function initdebugarcade(playersel)
 	initarcade(playersel)
 	debugarcade = true
-	--[[
 	msgs.queue(
 		{
 			{		
 				face = love.graphics.newImage("gfx/faces/1.png"),
-				name = "Debug mode",
-				text = "Message box test",
-				duration = 2,
-			},
-			{		
-				face = love.graphics.newImage("gfx/faces/2.png"),
-				name = "Achievment unlocked!",
-				text = "Absolutely nothing.",
-				duration = 6,
+				name = "Debug notice",
+				text = "Now using debug mode",
+				duration = 3,
 			}
-		}
-	)
-	--]]
+
+	})
 end
 
 
@@ -149,10 +141,10 @@ function love.update(dt)
 
 
 		if love.keyboard.isDown("[") then
-			starfield:speedAdjust(-2, dt)
+			starfield:speedAdjust(-3, dt)
 			
 		elseif love.keyboard.isDown("]") then			
-			starfield:speedAdjust(2, dt)
+			starfield:speedAdjust(3, dt)
 
 		end
 
@@ -227,7 +219,7 @@ end
 function love.keypressed(key)
 
 
-	if debug then if key == "k" then pickups:add(200,200) end end
+	if debugarcade then if key == "k" then pickups:add(starfield.w/2,starfield.h/2) end end
 
 
 

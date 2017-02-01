@@ -1,5 +1,17 @@
 # Star Phase
 A side-scrolling space shooter made with Lua and Love2D
+This is still an early work in progress, so many bugs / changes will come.
+
+To create a love2d executable on Linux, simply run the script;
+`` $ ./make_dist.sh ``
+
+To launch the game directly, use this command in the working directory;
+`` $ love . ``
+
+On all other platforms (windows/mac) you simply need to compress the game data into a zip archive and change the extension to ".love"
+
+Requirements;
+Install the love2d library from here https://love2d.org
 
 See `binds.lua` for game controls
 

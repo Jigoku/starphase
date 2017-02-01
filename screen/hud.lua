@@ -224,6 +224,9 @@ function hud:draw()
 		love.graphics.setLineWidth(2)
 		love.graphics.setLineStyle("smooth")
 		hud:drawFrame()
+		
+		love.graphics.setColor(150,255,255,200)
+		love.graphics.print("DEBUG:\npress [ or ] to adjust starfield speed\npress 1-9 to spawn enemies\npress space to set new starfield seed\npress ` for console/debug overlay\npress k to spawn powerup", 30, starfield.h-200)
 	end
 	
 	

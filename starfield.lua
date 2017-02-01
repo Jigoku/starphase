@@ -28,7 +28,7 @@ starfield.offset = 0
 starfield.limit = 1150
 starfield.speed = 0
 starfield.minspeed = 10   --slowest speed
-starfield.maxspeed = 400  --fastest speed
+starfield.maxspeed = 600  --fastest speed
 starfield.warpspeed = 100 --speed when warp starts
 
 starfield.hyperspace = love.graphics.newImage("gfx/starfield/hyperspace.png")
@@ -50,15 +50,15 @@ starfield.nebulae.red = 255
 starfield.nebulae.green = 255
 starfield.nebulae.blue = 255
 starfield.nebulae.populate = true
-starfield.nebulae.limit = 7
+starfield.nebulae.limit = 10
 
 starfield.debris = {}
 starfield.debris.limit = 150
 
-function starfield:setColor()
-	starfield.nebulae.red = love.math.random(0,255)
-	starfield.nebulae.green = love.math.random(0,255)
-	starfield.nebulae.blue = love.math.random(0,255)
+function starfield:setColor(r,g,b)
+	starfield.nebulae.red = (r or love.math.random(50,255))
+	starfield.nebulae.green = (g or love.math.random(50,255))
+	starfield.nebulae.blue = (b or love.math.random(50,255))
 end
 
 function starfield:populate()
@@ -77,7 +77,7 @@ function starfield:populate()
 	projectiles.missiles = {}
 	pickups.items = {}
 	
-	starfield:setColor()
+	starfield:setColor(50,255,255)
 	
 	starfield.w = game.scale.w
 	starfield.h = game.scale.h+starfield.offset
@@ -191,7 +191,7 @@ function starfield:addNebula(x,y)
 		if self.count.nebulae < starfield.nebulae.limit then
 		
 		local scale = love.math.random(9,20)/10
-		local vel = love.math.random(15,20)/10
+		local vel = love.math.random(10,15)/10
 		
 		table.insert(self.objects, {
 			x = x,

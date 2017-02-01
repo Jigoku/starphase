@@ -21,7 +21,7 @@ messagebox.fadespeed = 1000
 messagebox.padding = 10
 messagebox.x = 100
 messagebox.y = 100
-messagebox.w = 200
+messagebox.w = 350
 messagebox.h = 64
 
 function messagebox.active()
