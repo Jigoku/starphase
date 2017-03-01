@@ -52,21 +52,21 @@ function enemies:add_delta()
 
 	local gfx = self.type.delta
 	
-	local ny = love.math.random(0, starfield.h - gfx:getHeight()*4)
-	local nx = starfield.w
+	local nx = love.math.random(0, starfield.w - gfx:getWidth()*4)
+	local ny = 0
 	
-	local xvel = 400
+	local yvel = -250
 	local projectileOffset = 0.25
-	for i=1, starfield.h, starfield.h/4 do
-		xvel = xvel -10
+	for i=1, starfield.w, starfield.w/4 do
+		yvel = yvel +10
 
 		table.insert(self.wave, {
 			w = gfx:getWidth(),
 			h = gfx:getHeight(),
 			x = nx,
-			y = ny,
-			yvel = 30,
-			xvel = xvel,
+			y = ny - gfx:getHeight(),
+			xvel = 30,
+			yvel = yvel,
 			gfx = gfx or nil,
 			score = 80,
 			shield = 80,
@@ -78,17 +78,17 @@ function enemies:add_delta()
 			projectileCycle = projectileOffset,
 			projectileDelay = 2,
 			projectileGfx = projectiles.cannon.gfx,
-			projectileR = 255,
-			projectileG = 180,
-			projectileB = 100,
+			projectileR = 100,
+			projectileG = 255,
+			projectileB = 180,
 			projectileDamage = 10,
 			projectileType = "cannon",
-			projectileXvel = 800,
-			projectileYvel = 0,
+			projectileXvel = 0,
+			projectileYvel = 500,
 			projectileSound = projectiles.cannon.sound.shoot,
 			
 		})
-		ny = ny + gfx:getHeight()
+		ny = ny - gfx:getHeight()
 		nx = nx + gfx:getWidth()
 		projectileOffset = projectileOffset + 0.25
 	end
@@ -159,14 +159,15 @@ end
 function enemies:add_asteroid()
 	
 	local gfx = self.type.asteroids[love.math.random(1,#self.type.asteroids)]
+	
 	table.insert(self.wave, {
 		type = "asteroid",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
-		x = starfield.w,
-		y = love.math.random(0,starfield.h),
-		yvel = love.math.random(-30,30),
-		xvel = love.math.random(100,300),
+		x = love.math.random(0,starfield.w),
+		y = -gfx:getHeight(),
+		xvel = love.math.random(-100,100),
+		yvel = -love.math.random(50,200),
 		gfx = gfx,
 		score = 10,
 		shield = 50,
@@ -175,6 +176,7 @@ function enemies:add_asteroid()
 		shieldscale = 0,
 		opacity = 255,
 		alive = true,
+		
 		spin = (love.math.random(0,1) == 1 and 1 or -1),
 	})
 
@@ -217,27 +219,27 @@ function enemies:add_cruiser()
 
 	local gfx = self.type.cruiser
 	
-	local x = starfield.w
-	local y = love.math.random(0,starfield.h)
-	for i=1, 3 do
+	local x = love.math.random(0,starfield.w-gfx:getWidth())
+	local y = 0
+	for i=1, 2 do
 	table.insert(self.wave, {
 		type = "cruiser",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		x = x,
-		y = y,
-		yvel = love.math.random(-40,40),
-		xvel = 500,
+		y = y - gfx:getHeight(),
+		yvel = -300+(i*10),
+		xvel = love.math.random(-40,40),
 		gfx = gfx or nil,
-		score = 180,
-		shield = 180,
-		shieldmax = 180,
+		score = 90,
+		shield = 90,
+		shieldmax = 90,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
 		opacity = 255,
 		alive = true,
 	})
-	x=x+gfx:getWidth()+30
+	y=y-gfx:getHeight()-30
 	end
 
 end
@@ -316,11 +318,11 @@ function enemies:add_large()
 		x = love.math.random(gfx:getWidth(),starfield.w-gfx:getWidth()),
 		y = -gfx:getHeight(),
 		xvel = 0,
-		yvel = -100,
+		yvel = -love.math.random(50,70),
 		gfx = gfx or nil,
 		score = 500,
-		shield = 400,
-		shieldmax = 400,
+		shield = 600,
+		shieldmax = 600,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.2,
 		opacity = 255,
@@ -504,10 +506,10 @@ function enemies:update(dt)
 					gfx = e.projectileGfx,
 					w = e.projectileGfx:getWidth(),
 					h = e.projectileGfx:getHeight(),
-					x = e.x + e.gfx:getWidth()/2 - e.projectileGfx:getWidth(),
-					y = e.y + e.gfx:getHeight()/2 - e.projectileGfx:getHeight()/2,
-					xvel = -e.projectileXvel,
-					yvel = e.projectileYvel,
+					x = e.x + e.gfx:getWidth()/2 - e.projectileGfx:getWidth()/2,
+					y = e.y + e.gfx:getHeight()/2,
+					xvel = e.projectileXvel,
+					yvel = -e.projectileYvel,
 					damage = e.projectileDamage,
 					r = e.projectileR,
 					g = e.projectileG,

@@ -82,6 +82,9 @@ end
 --test function
 function initarcade(playersel)
 	starfield:setSeed()
+	starfield:setColor()
+	--starfield:setColor(50,255,255)
+	
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
 	paused = false
@@ -91,6 +94,7 @@ function initarcade(playersel)
 	
 	starfield:populate()
 	
+		
 	enemies.spawned = 0
 	
 	

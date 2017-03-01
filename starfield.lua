@@ -76,8 +76,7 @@ function starfield:populate()
 	explosions.objects = {}
 	projectiles.missiles = {}
 	pickups.items = {}
-	
-	starfield:setColor(50,255,255)
+
 	
 	starfield.w = game.width
 	starfield.h = game.height
@@ -219,7 +218,7 @@ function starfield:addPlanet(x,y)
 	if self.planets.populate then
 		if self.count.planet < starfield.planets.limit then
 		local scale = love.math.random(10,25)/10
-		local vel = love.math.random(4,5)
+		local vel = love.math.random(2,3)
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		table.insert(self.objects, {
 			x = x-(gfx:getWidth()*scale)/2,
