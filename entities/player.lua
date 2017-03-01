@@ -451,7 +451,7 @@ function player:fireRadial(dt)
 		g = 255
 		b = 255
 		
-		local timer =  1
+		local timer =  0.75
 		local vel = 400
 		--east
 		table.insert(projectiles.missiles, {

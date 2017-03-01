@@ -245,15 +245,15 @@ end
 function enemies:add_tri()
 
 	local gfx = self.type.tri
-	local rand = love.math.random(-200,200)
+	local rand = love.math.random(-100,100)
 	table.insert(self.wave, {
 		type = "tri",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
-		x = starfield.w,
-		y = player.y+starfield.offset/2+rand,
-		yvel = love.math.random(-50,50),
-		xvel = 340,
+		x = player.x+player.w/2+rand,
+		y = -gfx:getHeight(),
+		xvel = love.math.random(-30,30),
+		yvel = -200,
 		gfx = gfx or nil,
 		score = 80,
 		shield = 80,
@@ -269,10 +269,10 @@ function enemies:add_tri()
 		type = "tri",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
-		x = starfield.w+gfx:getWidth(),
-		y = player.y+starfield.offset/2-gfx:getHeight()/2+rand,
-		yvel = love.math.random(0,50),
-		xvel = 330,
+		x = player.x+player.w/2-gfx:getWidth()+rand,
+		y = -gfx:getHeight()*2,
+		xvel = love.math.random(0,30),
+		yvel = -190,
 		gfx = gfx or nil,
 		score = 80,
 		shield = 80,
@@ -287,10 +287,10 @@ function enemies:add_tri()
 		type = "tri",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
-		x = starfield.w+gfx:getWidth(),
-		y = player.y+starfield.offset/2+gfx:getHeight()/2+rand,
-		yvel = love.math.random(-50,0),
-		xvel = 330,
+		x = player.x+player.w/2+gfx:getWidth()+rand,
+		y = -gfx:getHeight()*2,
+		xvel = love.math.random(-30,0),
+		yvel = -190,
 		gfx = gfx or nil,
 		score = 80,
 		shield = 80,
@@ -488,7 +488,7 @@ function enemies:update(dt)
 		end
 	
 		if e.type == "tri" then
-			e.angle = math.atan2(player.y+player.h/2-e.h/2 - e.y, player.x+player.w/2-e.w/2 - e.x)
+			e.angle = -math.atan2(player.x+player.w/2-e.x-e.w/2, player.y+player.h/2-e.y-e.h/2)
 		end
 				
 		if e.projectileCycle and player.alive then
@@ -664,31 +664,26 @@ function enemies:draw()
 			love.graphics.pop()
 		end
 	
+		
+		love.graphics.push()
+			
 		if e.angle then
-			--rotating face to player
-			love.graphics.push()
-
 			love.graphics.translate(e.x+e.w/2,e.y+e.h/2)
 			love.graphics.rotate(e.angle)
 			love.graphics.translate(-e.x-e.w/2,-e.y-e.h/2)
-			
-			love.graphics.setColor(255,255,255,e.opacity)
-			love.graphics.draw(
-				e.gfx,  e.x+e.w, 
-				e.y, 0, (e.scale or 1), (e.scale or 1),e.w
-				
-			)
-			enemies:drawshield(e)
-			love.graphics.pop()
-		else
-			love.graphics.setColor(255,255,255,e.opacity)
-			love.graphics.draw(
-				e.gfx,  e.x, 
-				e.y, 0, (e.scale or 1), (e.scale or 1)
-				
-			)
-			enemies:drawshield(e)
 		end
+	
+		love.graphics.setColor(255,255,255,e.opacity)
+		love.graphics.draw(
+			e.gfx,  e.x, 
+			e.y, 0, (e.scale or 1), (e.scale or 1)		
+		)
+		
+		enemies:drawshield(e)
+		
+		love.graphics.pop()
+		
+		
 	end
 	
 	--draw this on top everything else
