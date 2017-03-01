@@ -28,7 +28,6 @@ require("entities/explosions")
 require("entities/player")
 require("entities/projectiles")
 
-require("names")
 
 function love.load(args)
 
@@ -59,21 +58,16 @@ function love.load(args)
 
 
 	game = {}
-	game.rotate = false
+
 	
 	game.width, game.height, game.flags = love.window.getMode( )
 	game.seed = nil
 	game.max_fps = game.flags.refreshrate
 	game.min_dt = 1/game.max_fps
 	game.next_time = love.timer.getTime()
-	
-	game.scale = {}
-	game.scale.w = 1920
-	game.scale.h = 1080
-	game.scale.x = love.graphics.getWidth()/game.scale.w
-	game.scale.y = love.graphics.getHeight()/game.scale.h
 
-	
+
+
 	cursor = love.mouse.newCursor( "gfx/cursor.png", 0, 0 )
 	love.mouse.setCursor(cursor)	
 
@@ -181,6 +175,7 @@ function love.draw()
 	if mode == "arcade" then
 
 		--starfield:draw(0,-player.y/4)
+
 
 		starfield:draw(0,0)
 		

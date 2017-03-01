@@ -185,7 +185,7 @@ end
 
 function hud:draw()
 	if paused and not debug then 
-		
+
 		love.graphics.setColor(0,0,0,140)
 		love.graphics.rectangle("fill",0,0,love.graphics.getWidth(), love.graphics.getHeight())
     
@@ -199,6 +199,7 @@ function hud:draw()
 		love.graphics.printf("Press "..string.upper(binds.pausequit).." to quit", love.graphics.getWidth()/2-wrap/2,love.graphics.getHeight()/3+50,wrap,"center",0,1,1)
 		love.graphics.setFont(fonts.default)
 		return
+	
 	end
 	
   --hud
@@ -225,10 +226,14 @@ function hud:draw()
 		love.graphics.setLineStyle("smooth")
 		hud:drawFrame()
 		
+		
+	end
+	
+	
+	if debugarcade then
 		love.graphics.setColor(150,255,255,200)
 		love.graphics.print("DEBUG:\npress [ or ] to adjust starfield speed\npress 1-9 to spawn enemies\npress space to set new starfield seed\npress ` for console/debug overlay\npress k to spawn powerup", 30, starfield.h-200)
 	end
-	
 	
 	
 	--time

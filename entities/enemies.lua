@@ -139,10 +139,10 @@ function enemies:add_dart()
 		type = "dart",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
-		x = starfield.w,
-		y = player.y+starfield.offset/2+love.math.random(-200,200),
-		yvel = 0,
-		xvel = love.math.random(500,600),
+		x = player.x+love.math.random(-200,200),
+		y = -gfx:getHeight(),
+		xvel = 0,
+		yvel = -love.math.random(500,600),
 		gfx = gfx or nil,
 		score = 10,
 		shield = 10,
@@ -185,17 +185,18 @@ function enemies:add_train()
 
 	local gfx = self.type.train
 	
-	local x = starfield.w
-	local y = love.math.random(0,starfield.h)
-	for i=1, 5 do
+	local x = love.math.random(0,starfield.w-gfx:getHeight())
+	local y = -gfx:getHeight()
+	
+	for i=1, 4 do
 	table.insert(self.wave, {
 		type = "train",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		x = x,
 		y = y,
-		yvel = love.math.random(-20,20),
-		xvel = 700,
+		yvel = -400,
+		xvel = love.math.random(-20,20),
 		gfx = gfx or nil,
 		score = 40,
 		shield = 40,
@@ -204,8 +205,9 @@ function enemies:add_train()
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
 		opacity = 255,
 		alive = true,
+		--scale = 1.5,
 	})
-	x=x+gfx:getWidth()+30
+	y=y-gfx:getHeight()-30
 	end
 
 end
@@ -441,6 +443,10 @@ function enemies:update(dt)
 	for i=#self.wave,1,-1 do
 		local e = self.wave[i]
 		
+		if e.scale then
+			e.scale = math.max(e.scale - 1 *dt,1)
+		end
+		
 		if e.type == "asteroid" then
 			self:rotate(e,e.spin,dt)
 		end
@@ -568,9 +574,9 @@ function enemies:update(dt)
 		end
 		
 		
-		if e.x + e.w < 0 or
-			e.y + e.h < 0 or
-			e.y > starfield.h 
+		if e.y > starfield.h or
+			e.x > starfield.w or
+			e.x + e.w < 0
 		then
 			table.remove(self.wave, i)
 		end
@@ -677,8 +683,8 @@ function enemies:draw()
 		else
 			love.graphics.setColor(255,255,255,e.opacity)
 			love.graphics.draw(
-				e.gfx,  e.x+e.w, 
-				e.y, 0, -1, 1
+				e.gfx,  e.x, 
+				e.y, 0, (e.scale or 1), (e.scale or 1)
 				
 			)
 			enemies:drawshield(e)

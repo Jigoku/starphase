@@ -1,5 +1,5 @@
 # Star Phase
-A side-scrolling space shooter made with Lua and Love2D
+A top down space shooter made with Lua and Love2D
 This is still an early work in progress, so many bugs / changes will come.
 
 ### Running the game
@@ -20,6 +20,5 @@ See `binds.lua` for game controls
 GNU GPLv3 / CC-BY-SA
 
 # Previews
-![screenshot at 2017-01-25 02-01-25](https://cloud.githubusercontent.com/assets/1535179/22275120/66bf6f34-e2a2-11e6-8bf7-9afc890da812.png)
+![screenshot_2017-03-01_04-18-19](https://cloud.githubusercontent.com/assets/1535179/23445813/2d8baa48-fe36-11e6-9f32-912f15718fdc.png) ![screenshot_2017-03-01_04-17-35](https://cloud.githubusercontent.com/assets/1535179/23445816/2f7cb59a-fe36-11e6-8167-b28713ea1edd.png)
 
-![screenshot at 2017-01-25 02-02-15](https://cloud.githubusercontent.com/assets/1535179/22275122/689554ae-e2a2-11e6-855f-28c800b47bba.png)

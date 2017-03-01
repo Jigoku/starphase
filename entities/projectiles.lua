@@ -103,23 +103,23 @@ function projectiles:update(dt)
 
 			
 			if p.type == "cannon" then
-				p.x = p.x + (p.xvel *dt)
+				p.y = p.y - (p.yvel *dt)
 			end
 			
 			if p.type == "blaster" then
-				p.x = p.x + (p.xvel *dt)
+				p.y = p.y - (p.yvel *dt)
 			end
 			
 			if p.type == "plasma" then
 				self:rotate(p, 15, dt)
+				p.y = p.y - (p.yvel *dt)
 				p.x = p.x + (p.xvel *dt)
-				p.y = p.y + (p.yvel *dt)
 			end
 			
 			if p.type == "beam" then
 				self:rotate(p, 8, dt)
+				p.y = p.y - (p.yvel *dt)
 				p.x = p.x + (p.xvel *dt)
-				p.y = p.y + (p.yvel *dt)
 			end
 			
 			if p.type == "radial" then
@@ -132,7 +132,7 @@ function projectiles:update(dt)
 					--sound:play(projectiles.rocket.sound.launch)
 					sound:play(projectiles.rocket.sound.explode)
 					explosions:addSmall(
-						p.x+p.w/2,p.y+p.h/2,100,0
+						p.x+p.w/2,p.y+p.h/2,0,-(100+starfield.speed)
 					)
 					
 					table.remove(self.missiles, i)
@@ -140,40 +140,40 @@ function projectiles:update(dt)
 			end
 			
 			if p.type == "wave" then
-				if p.yvel > 200 then p.switch = false end
-				if p.yvel < -200 then p.switch = true end
+				if p.xvel > 200 then p.switch = false end
+				if p.xvel < -200 then p.switch = true end
 			
-				p.yvel = p.yvel + (p.switch and 2500 or -2500) *dt
+				p.xvel = p.xvel + (p.switch and 2500 or -2500) *dt
 				
+				p.y = p.y - (p.yvel *dt)
 				p.x = p.x + (p.xvel *dt)
-				p.y = p.y + (p.yvel *dt)
 				
 			end
 			
 			if p.type == "orb" then
 				self:rotate(p, 10, dt)
-				p.x = p.x + (p.xvel *dt)
+				p.y = p.y - (p.yvel *dt)
 				
 				if p.switch then
-					p.y = p.y + (p.yvel *dt)	
+					p.x = p.x + (p.xvel *dt)	
 				else
-					p.y = p.y - (p.yvel *dt)	
+					p.x = p.x - (p.xvel *dt)	
 				end
 			end
 			
 			if p.type == "rocket" then
-				if (p.yvel >= -p.trigger and p.switch) or (p.yvel <= p.trigger and not p.switch) then
-					p.yvel = 0
-					p.x = p.x + p.xvel *dt
+				if (p.xvel >= -p.trigger and p.switch) or (p.xvel <= p.trigger and not p.switch) then
+					p.xvel = 0
+					p.y = p.y - p.yvel *dt
 					if not p.launched then
 						sound:play(projectiles.rocket.sound.launch)
 						p.launched = true
 					end
 				else
-					p.yvel = p.yvel + (p.switch and 500 or -500) *dt
+					p.xvel = p.xvel + (p.switch and 500 or -500) *dt
 					
-					p.y = p.y + (p.yvel *dt)
-					p.x = p.x + (80 *dt)
+					p.x = p.x + (p.xvel *dt)
+					p.y = p.y - (80 *dt)
 				end
 			end
 			
