@@ -313,14 +313,14 @@ function enemies:add_large()
 		type = "large",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
-		x = starfield.w,
-		y = love.math.random(gfx:getHeight(),starfield.h-gfx:getHeight()),
-		yvel = 0,
-		xvel = 200,
+		x = love.math.random(gfx:getWidth(),starfield.w-gfx:getWidth()),
+		y = -gfx:getHeight(),
+		xvel = 0,
+		yvel = -100,
 		gfx = gfx or nil,
 		score = 500,
-		shield = 500,
-		shieldmax = 500,
+		shield = 400,
+		shieldmax = 400,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.2,
 		opacity = 255,
@@ -335,15 +335,15 @@ function enemies:add_crescent()
 
 	local gfx = self.type.crescent
 	
-	local y = (love.math.random(0,1) == 1 and 0 or starfield.h - gfx:getHeight())
+	local x = (love.math.random(0,1) == 1 and 0 or starfield.w - gfx:getWidth())
 	table.insert(self.wave, {
 		type = "crescent",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
-		x = starfield.w,
-		y = y,
-		yvel = y < starfield.h/2 and -25 or 25,
-		xvel = 550,
+		x = x,
+		y = -gfx:getHeight(),
+		xvel = x < starfield.w/2 and -25 or 25,
+		yvel = -400,
 		gfx = gfx or nil,
 		score = 200,
 		shield = 200,
@@ -352,8 +352,8 @@ function enemies:add_crescent()
 		shieldscale = enemies.shield:getWidth()/(gfx:getWidth()*2),
 		opacity = 255,
 		alive = true,
-		spin = (y < starfield.h/2 and 7 or -7),
-		angle = math.pi,
+		spin = 7,
+		angle = 0,
 		state = 0,
 		scale = 1 
 		--[[
@@ -453,31 +453,32 @@ function enemies:update(dt)
 	
 		if e.type == "crescent" then
 			if e.state == 0  then
-				if e.x < player.x+player.w+e.gfx:getWidth() then
-					e.xvel = math.max(e.xvel - 1500 *dt,0)
-					if e.xvel == 0 then
+				if e.y+e.gfx:getHeight()/2 >= player.y+player.h/2 then
+					e.yvel = math.max(e.yvel + 1500 *dt,0)
+					if e.yvel == 0 then
 						e.state = 1
 					end
 				end
 					
 			elseif e.state == 1 then
-				if e.y < starfield.h/2 and e.angle > math.pi/2 then
+			
+				if e.x < starfield.w/2 and (e.angle > math.pi+(math.pi/2) or e.angle == 0) then
 						self:rotate(e,-e.spin,dt)
 				elseif
-					e.y > starfield.h/2 and e.angle < math.pi+math.pi/2 then
-					self:rotate(e,-e.spin,dt)
+					e.x > starfield.w/2 and e.angle < math.pi/2 then
+						self:rotate(e,e.spin,dt)
 				else 
 					e.state = 2
 				end
 				
 			elseif e.state == 2 then
-				if e.y < starfield.h/2 then
-					e.xvel = 0
-					e.yvel = -1000
+				if e.x < starfield.w/2 then
+					e.yvel = 0
+					e.xvel = -800
 					e.state = 3
 				else
-					e.xvel = 0
-					e.yvel = 1000
+					e.yvel = 0
+					e.xvel = 800
 					e.state = 3
 				end
 			elseif e.state == 3 then
