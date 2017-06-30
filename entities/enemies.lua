@@ -52,20 +52,23 @@ function enemies:add_delta()
 
 	local gfx = self.type.delta
 	
-	local nx = love.math.random(0, starfield.w - gfx:getWidth()*4)
-	local ny = 0
+	local y = love.math.random(0, starfield.h-gfx:getHeight()*3)
+	local x = starfield.w
 	
-	local yvel = -250
+	local xvel = 250
+	local yvel = (y < starfield.h/2 and -30 or 30)
+	
+	
 	local projectileOffset = 0.25
-	for i=1, starfield.w, starfield.w/4 do
-		yvel = yvel +10
+	for i=1, 3 do
+		xvel = xvel -10
 
 		table.insert(self.wave, {
 			w = gfx:getWidth(),
 			h = gfx:getHeight(),
-			x = nx,
-			y = ny - gfx:getHeight(),
-			xvel = 30,
+			x = x,
+			y = y,
+			xvel = xvel,
 			yvel = yvel,
 			gfx = gfx or nil,
 			score = 80,
@@ -83,50 +86,51 @@ function enemies:add_delta()
 			projectileB = 180,
 			projectileDamage = 10,
 			projectileType = "cannon",
-			projectileXvel = 0,
-			projectileYvel = 500,
+			projectileXvel = 500,
+			projectileYvel = 0,
 			projectileSound = projectiles.cannon.sound.shoot,
 			
 		})
-		ny = ny - gfx:getHeight()
-		nx = nx + gfx:getWidth()
+		y = (y < starfield.h/2 and y - gfx:getHeight() or y + gfx:getHeight())
+		x = x + gfx:getWidth()
 		projectileOffset = projectileOffset + 0.25
 	end
 end
 
 function enemies:add_abomination()
-
+--TODO FIX THIS
+--[[
 	local gfx = self.type.abomination
 	
 	table.insert(self.wave, {
 		type = "abomination",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
-		x = starfield.w,
-		y = love.math.random(gfx:getHeight(),starfield.h-gfx:getHeight()),		
-		yvel = 0,
-		xvel = 100,
+		x = love.math.random(0,starfield.w-gfx:getWidth()),
+		y = -gfx:getHeight(),		
+		xvel = 0,
+		yvel = -100,
 		gfx = gfx or nil,
-		score = 100000,
-		shield = 10000,
-		shieldmax = 10000,
+		score = 10000,
+		shield = 8000,
+		shieldmax = 8000,
 		shieldopacity = 0,
-		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
+		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.2,
 		opacity = 255,
 		alive = true,
 		projectileCycle = 5,
-		projectileDelay = 0.35,
+		projectileDelay = 0.55,
 		projectileGfx = projectiles.plasma.gfx,
 		projectileR = 255,
 		projectileG = 150,
 		projectileB = 100,
 		projectileDamage = 35,
 		projectileType = "plasma",
-		projectileXvel = 1100,
-		projectileYvel = 0,
+		projectileXvel = 0,
+		projectileYvel = 300,
 		projectileSound = projectiles.cannon.sound.shoot,
 	})
-
+--]]
 
 end
 
@@ -139,10 +143,10 @@ function enemies:add_dart()
 		type = "dart",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
-		x = player.x+love.math.random(-200,200),
-		y = -gfx:getHeight(),
-		xvel = 0,
-		yvel = -love.math.random(500,600),
+		y = player.y+love.math.random(-200,200),
+		x = starfield.w,
+		xvel = love.math.random(500,600),
+		yvel = 0,
 		gfx = gfx or nil,
 		score = 10,
 		shield = 10,
@@ -164,10 +168,10 @@ function enemies:add_asteroid()
 		type = "asteroid",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
-		x = love.math.random(0,starfield.w),
-		y = -gfx:getHeight(),
-		xvel = love.math.random(-100,100),
-		yvel = -love.math.random(50,200),
+		x = starfield.w,
+		y = love.math.random(gfx:getHeight(),starfield.h-gfx:getHeight()),
+		xvel = love.math.random(50,200),
+		yvel = love.math.random(-100,100),
 		gfx = gfx,
 		score = 10,
 		shield = 50,
@@ -187,8 +191,8 @@ function enemies:add_train()
 
 	local gfx = self.type.train
 	
-	local x = love.math.random(0,starfield.w-gfx:getHeight())
-	local y = -gfx:getHeight()
+	local x = starfield.w
+	local y = love.math.random(-gfx:getHeight(),starfield.h-gfx:getHeight())
 	
 	for i=1, 4 do
 	table.insert(self.wave, {
@@ -197,8 +201,8 @@ function enemies:add_train()
 		h = gfx:getHeight(),
 		x = x,
 		y = y,
-		yvel = -400,
-		xvel = love.math.random(-20,20),
+		yvel = love.math.random(-20,20),
+		xvel = 400,
 		gfx = gfx or nil,
 		score = 40,
 		shield = 40,
@@ -209,7 +213,7 @@ function enemies:add_train()
 		alive = true,
 		--scale = 1.5,
 	})
-	y=y-gfx:getHeight()-30
+	x = x+gfx:getWidth()*1.5
 	end
 
 end
@@ -219,17 +223,17 @@ function enemies:add_cruiser()
 
 	local gfx = self.type.cruiser
 	
-	local x = love.math.random(0,starfield.w-gfx:getWidth())
-	local y = 0
+	local x = starfield.w
+	local y = love.math.random(gfx:getHeight(),starfield.h-gfx:getHeight())
 	for i=1, 2 do
 	table.insert(self.wave, {
 		type = "cruiser",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
 		x = x,
-		y = y - gfx:getHeight(),
-		yvel = -300+(i*10),
-		xvel = love.math.random(-40,40),
+		y = y - gfx:getHeight()/2,
+		yvel = love.math.random(-40,40),
+		xvel = 300-(i*10),
 		gfx = gfx or nil,
 		score = 90,
 		shield = 90,
@@ -239,7 +243,7 @@ function enemies:add_cruiser()
 		opacity = 255,
 		alive = true,
 	})
-	y=y-gfx:getHeight()-30
+	x = x+gfx:getWidth()
 	end
 
 end
@@ -248,14 +252,17 @@ function enemies:add_tri()
 
 	local gfx = self.type.tri
 	local rand = love.math.random(-100,100)
+	
+	local y = starfield.h/2 + love.math.random(-400,400)
+	local x = starfield.w
 	table.insert(self.wave, {
 		type = "tri",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
-		x = player.x+player.w/2+rand,
-		y = -gfx:getHeight(),
-		xvel = love.math.random(-30,30),
-		yvel = -200,
+		x = x,
+		y = y,
+		xvel = 200,
+		yvel = love.math.random(-30,30),
 		gfx = gfx or nil,
 		score = 80,
 		shield = 80,
@@ -271,10 +278,10 @@ function enemies:add_tri()
 		type = "tri",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
-		x = player.x+player.w/2-gfx:getWidth()+rand,
-		y = -gfx:getHeight()*2,
-		xvel = love.math.random(0,30),
-		yvel = -190,
+		x = x+gfx:getWidth(),
+		y = y-gfx:getHeight(),
+		xvel = 190,
+		yvel = love.math.random(0,30),
 		gfx = gfx or nil,
 		score = 80,
 		shield = 80,
@@ -289,10 +296,10 @@ function enemies:add_tri()
 		type = "tri",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
-		x = player.x+player.w/2+gfx:getWidth()+rand,
-		y = -gfx:getHeight()*2,
-		xvel = love.math.random(-30,0),
-		yvel = -190,
+		x = x+gfx:getWidth(),
+		y = y+gfx:getHeight(),
+		xvel = 190,
+		yvel = love.math.random(-30,0),
 		gfx = gfx or nil,
 		score = 80,
 		shield = 80,
@@ -315,10 +322,10 @@ function enemies:add_large()
 		type = "large",
 		w = gfx:getWidth(),
 		h = gfx:getHeight(),
-		x = love.math.random(gfx:getWidth(),starfield.w-gfx:getWidth()),
-		y = -gfx:getHeight(),
-		xvel = 0,
-		yvel = -love.math.random(50,70),
+		x = starfield.w,
+		y = love.math.random(gfx:getHeight(),starfield.h-gfx:getHeight()),
+		xvel = love.math.random(50,70),
+		yvel = 0,
 		gfx = gfx or nil,
 		score = 500,
 		shield = 600,
@@ -334,7 +341,8 @@ end
 
 
 function enemies:add_crescent()
-
+--TODO FIX THIS
+--[[
 	local gfx = self.type.crescent
 	
 	local x = (love.math.random(0,1) == 1 and 0 or starfield.w - gfx:getWidth())
@@ -351,14 +359,14 @@ function enemies:add_crescent()
 		shield = 200,
 		shieldmax = 200,
 		shieldopacity = 0,
-		shieldscale = enemies.shield:getWidth()/(gfx:getWidth()*2),
+		shieldscale = enemies.shield:getWidth()/(gfx:getWidth()*1.2),
 		opacity = 255,
 		alive = true,
 		spin = 7,
 		angle = 0,
 		state = 0,
 		scale = 1 
-		--[[
+		
 		projectileCycle = 3,
 		projectileDelay = 1.2,
 		projectileGfx = projectiles.plasma.gfx,
@@ -370,10 +378,10 @@ function enemies:add_crescent()
 		projectileXvel = 1000,
 		projectileYvel = (y < starfield.h/2 and -25 or -25),
 		projectileSound = projectiles.plasma.sound.shoot
-		--]]
+		
 	})
 
-
+--]]
 end
 
 
@@ -508,8 +516,8 @@ function enemies:update(dt)
 					h = e.projectileGfx:getHeight(),
 					x = e.x + e.gfx:getWidth()/2 - e.projectileGfx:getWidth()/2,
 					y = e.y + e.gfx:getHeight()/2,
-					xvel = e.projectileXvel,
-					yvel = -e.projectileYvel,
+					xvel = -e.projectileXvel,
+					yvel = e.projectileYvel,
 					damage = e.projectileDamage,
 					r = e.projectileR,
 					g = e.projectileG,
@@ -530,27 +538,27 @@ function enemies:update(dt)
 		
 		-- test basic enemy movements
 		if e.type == "abomination" then
-			if e.x < love.graphics.getWidth() - love.graphics.getWidth()/5 and e.xvel >= 0 then
-				e.xvel = e.xvel - (50 *dt)
+			if e.y > 30 and e.yvel <= 0 then
+				e.yvel = e.yvel + (50 *dt)
 			
 				
-				if e.xvel <= 0 then 
-					e.xvel = 0 
+				if e.yvel >= 0 then 
+					e.yvel = 0 
 				
-					local speed = 800
-					if player.y + player.h/2 < e.y + e.h/2 then
-						e.yvel = e.yvel + (speed *dt)
-					elseif player.y + player.h/2 > e.y + e.h/2 then
-						e.yvel = e.yvel - (speed *dt)
+					local speed = 600
+					if player.x + player.w/2 < e.x + e.w/2 then
+						e.xvel = e.xvel + (speed *dt)
+					elseif player.x + player.w/2 > e.x + e.w/2 then
+						e.xvel = e.xvel - (speed *dt)
 					end
 					
-					if e.yvel > speed/2 then 
-						e.yvel = speed/2 
+					if e.xvel > speed/2 then 
+						e.xvel = speed/2 
 					end
 					
 					
-					if e.yvel < -speed/2 then 
-						e.yvel = -speed/2 
+					if e.xvel < -speed/2 then 
+						e.xvel = -speed/2 
 					end
 				end
 				
@@ -577,9 +585,9 @@ function enemies:update(dt)
 		end
 		
 		
-		if e.y > starfield.h or
-			e.x > starfield.w or
-			e.x + e.w < 0
+		if e.x+e.w < 0 or
+			e.y > starfield.h or
+			e.y+e.h < 0
 		then
 			table.remove(self.wave, i)
 		end

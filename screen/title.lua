@@ -59,7 +59,7 @@ function title:init()
 	mode = "title"
 	title.active = "main"
 	love.mouse.setVisible(false)
-	love.mouse.setGrabbed(true)
+	--love.mouse.setGrabbed(true)
 	starfield.offset = 0  
 	starfield.speed = 0
 	starfield.minspeed = 10
@@ -278,6 +278,11 @@ function title:keypressed(key)
 		debugstarfield = not debugstarfield
 	end
 	
+	if key == "j" then
+		starfield:setSeed()
+		starfield:setColor()
+		starfield:populate()
+	end
 	
 	
 	

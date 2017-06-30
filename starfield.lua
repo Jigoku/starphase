@@ -25,7 +25,7 @@ starfield.offset = 0
 
 -- 326 -- populate starfield this amount higher than screen height
 --^^^ disabled due to scaling issue (needs fixing)
-starfield.limit = 575
+starfield.limit = 1150
 starfield.speed = 0
 starfield.minspeed = 10   --slowest speed
 starfield.maxspeed = 600  --fastest speed
@@ -50,7 +50,7 @@ starfield.nebulae.red = 255
 starfield.nebulae.green = 255
 starfield.nebulae.blue = 255
 starfield.nebulae.populate = true
-starfield.nebulae.limit = 5
+starfield.nebulae.limit = 6
 
 starfield.debris = {}
 starfield.debris.limit = 150
@@ -78,8 +78,8 @@ function starfield:populate()
 	pickups.items = {}
 
 	
-	starfield.w = game.width
-	starfield.h = game.height
+	starfield.w = love.graphics.getWidth()
+	starfield.h = love.graphics.getHeight()
 	
 	starfield.canvas = love.graphics.newCanvas(starfield.w, starfield.h)
 	starfield.mist_quad = love.graphics.newQuad(0,0, starfield.w, starfield.h, starfield.mist:getDimensions() )
@@ -162,11 +162,12 @@ function starfield:addDebris(x,y)
 	if self.count.debris < self.debris.limit then
 	if self.speed > self.warpspeed then
 		local vel = love.math.random(1000,1500) 
-		local h = love.math.random(100,200)
+		local w = love.math.random(100,200)
 		table.insert(self.objects, {
-			x = x,
-			y = y-h,
-			h = h,
+			x = x+w,
+			y = y,
+			w = w,
+			h = 1,
 			maxvel = vel,
 			minvel = vel,
 			type = "debris",
@@ -175,7 +176,7 @@ function starfield:addDebris(x,y)
 			b = love.math.random(200,255),
 			o = math.min(10 *starfield.speed/100,60),
 			--gfx = self.star,
-			--scale = 1
+			scale = 1
 		})
 		self.count.debris = self.count.debris +1
 	end
@@ -194,7 +195,7 @@ function starfield:addNebula(x,y)
 		
 		table.insert(self.objects, {
 			x = x,
-			y = y-self.nebulae.size*scale,
+			y = y-(self.nebulae.size*scale)/2,
 			w = self.nebulae.size*scale,
 			h = self.nebulae.size*scale,
 			maxvel = vel,
@@ -203,7 +204,7 @@ function starfield:addNebula(x,y)
 			r = self.nebulae.red,
 			g = self.nebulae.green,
 			b = self.nebulae.blue,
-			o = love.math.random(10,80),
+			o = love.math.random(40,120),
 			gfx = self.nebulae.quads[love.math.random(self.nebulae.min,self.nebulae.max)],
 			scale = scale,
 			rotation = love.math.random(0.0,math.pi*10)/10,
@@ -221,8 +222,8 @@ function starfield:addPlanet(x,y)
 		local vel = love.math.random(2,3)
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		table.insert(self.objects, {
-			x = x-(gfx:getWidth()*scale)/2,
-			y = y-(gfx:getHeight()*scale),
+			x = x+(gfx:getHeight()*scale),
+			y = y-(gfx:getWidth()*scale)/2,
 			w = gfx:getWidth()*scale,
 			h = gfx:getHeight()*scale,
 			maxvel = vel,
@@ -282,7 +283,7 @@ function starfield:update(dt)
 	--populate starfield
 	while #self.objects < self.limit do
 		self:addobject(
-			love.math.random(self.w),0
+			self.w,love.math.random(self.h)
 		)
 	end
 	
@@ -298,16 +299,16 @@ function starfield:update(dt)
 		local o = self.objects[i]
 
 		if o.type == "debris" then
-			o.y = o.y + (o.maxvel *dt)
+			o.x = o.x - (o.maxvel *dt)
 		else
-			o.y = o.y + ((o.maxvel * self.speed) *dt)
+			o.x = o.x - ((o.maxvel * self.speed) *dt)
 		end
 
 		if o.type == "planet" then
 			enemies:rotate(o,o.rotation/o.scale,dt)
 		end	
 
-		if o.y > self.h then
+		if o.x+(o.w*(o.scale)) < 0 then
 			table.remove(self.objects, i)
 			if o.type == "nova" then
 				self.count.nova = self.count.nova -1
@@ -326,11 +327,11 @@ function starfield:update(dt)
 
 
 	--mist overlay
-	self.mist_scroll = self.mist_scroll + ((self.speed/2 )* dt)
+	self.mist_scroll = self.mist_scroll - ((self.speed/2 )* dt)
 	if self.mist_scroll > self.mist:getWidth()then
 		self.mist_scroll = 0
 	end
-	self.mist_quad:setViewport(0,-self.mist_scroll,starfield.w,starfield.h )
+	self.mist_quad:setViewport(-self.mist_scroll,0,starfield.w,starfield.h )
 
 
 end
@@ -342,7 +343,7 @@ function starfield:draw(x,y)
 	love.graphics.setCanvas(self.canvas)
 	love.graphics.clear()
 	
-	love.graphics.setColor(0,0,0,255)
+	love.graphics.setColor(0,10,10,255)
 	love.graphics.rectangle("fill", 0,0,self.w,self.h )
 	
 	--hyperspace warp test
@@ -482,7 +483,7 @@ function starfield:draw(x,y)
 		
 		if o.type == "debris" then
 			love.graphics.setColor(o.r,o.g,o.b,o.o)
-			love.graphics.line(o.x,o.y, o.x,o.y+o.h)
+			love.graphics.line(o.x,o.y, o.x+o.w,o.y)
 		end
 		
 		

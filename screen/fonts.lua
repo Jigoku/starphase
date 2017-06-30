@@ -5,7 +5,7 @@ fonts = {
 	hud = love.graphics.newFont("fonts/robotech-gp/ROBOTECH GP.ttf",16),
 	paused_large = love.graphics.newFont("fonts/0xa000/0xA000-Squareish-Mono-Bold.ttf",40),
 	paused_small = love.graphics.newFont("fonts/0xa000/0xA000-Squareish-Mono-Bold.ttf",14),
-	title_large = love.graphics.newFont("fonts/0xa000/0xA000-Squareish-Mono-Bold.ttf",75),
-	title_select = love.graphics.newFont("fonts/robotech-gp/ROBOTECH GP.ttf",40),
+	title_large = love.graphics.newFont("fonts/0xa000/0xA000-Squareish-Mono-Bold.ttf",65),
+	title_select = love.graphics.newFont("fonts/robotech-gp/ROBOTECH GP.ttf",30),
 	labels = love.graphics.newFont("fonts/robotech-gp/ROBOTECH GP.ttf",18),
 }
