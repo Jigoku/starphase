@@ -346,17 +346,7 @@ function starfield:draw(x,y)
 	love.graphics.setColor(0,10,10,255)
 	love.graphics.rectangle("fill", 0,0,self.w,self.h )
 	
-	--hyperspace warp test
-	if self.speed > self.warpspeed then 
-	
-	--blue/green
-	love.graphics.setColor(20,110,155,math.min(2 *starfield.speed/50,30))
-	--green/blue
-	--love.graphics.setColor(100,240,210,math.min(2 *starfield.speed/50,30))
-	--pink/purple
-	--love.graphics.setColor(255,100,255,math.min(2 *starfield.speed/50,30))
-		love.graphics.rectangle("fill",0,0,starfield.w,starfield.h)
-	end
+
 	
 	love.graphics.setColor(255,255,255,255)
 
@@ -487,6 +477,20 @@ function starfield:draw(x,y)
 		end
 		
 		
+
+	end
+	
+	
+				--hyperspace warp test
+	if self.speed > self.warpspeed then 
+	
+	--blue/green
+	--love.graphics.setColor(70,110,155,math.min(2 *starfield.speed/50,30))
+	--green/blue
+	--love.graphics.setColor(100,240,210,math.min(2 *starfield.speed/50,30))
+	--pink/purple
+	love.graphics.setColor(255,100,255,math.min(2 *starfield.speed/50,30))
+		love.graphics.rectangle("fill",0,0,starfield.w,starfield.h)
 	end
 	
 	if mode == "arcade" then
