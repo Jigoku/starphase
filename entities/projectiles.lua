@@ -245,7 +245,7 @@ function projectiles:draw()
 			end
 			
 			if p.type == "wave" then
-				love.graphics.setColor(p.r,p.g,p.b,150)
+				love.graphics.setColor(p.r,p.g,p.b,200)
 				love.graphics.draw(
 					p.gfx,  x, 
 					y, 0, dir, 1, offset

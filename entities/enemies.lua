@@ -62,7 +62,7 @@ function enemies:add_delta()
 	local projectileOffset = 0.25
 	for i=1, 3 do
 		xvel = xvel -10
-
+		
 		table.insert(self.wave, {
 			w = gfx:getWidth(),
 			h = gfx:getHeight(),

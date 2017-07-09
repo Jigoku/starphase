@@ -356,7 +356,7 @@ function player:fireCannon(dt)
 			gfx = projectiles.cannon.gfx,
 			w = projectiles.cannon.gfx:getWidth(),
 			h = projectiles.cannon.gfx:getHeight(),
-			x = self.x - projectiles.cannon.gfx:getWidth()/2,
+			x = self.x + projectiles.cannon.gfx:getWidth()/2,
 			y = self.y + self.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2 +(player.cannon.switch and -35 or 35),
 			yvel = 0,
 			xvel = 2000,
@@ -413,9 +413,9 @@ function player:fireWave(dt)
 			yvel = 0,
 			xvel = 750,
 			damage = projectiles.wave.damage,
-			r = 50,
-			g = 200,
-			b = 255,
+			r = 255,
+			g = 120,
+			b = 170,
 		})
 		
 		
@@ -431,9 +431,9 @@ function player:fireWave(dt)
 			yvel = 0,
 			xvel = 750,
 			damage = projectiles.wave.damage,
-			r = 50,
-			g = 200,
-			b = 255,
+			r = 255,
+			g = 120,
+			b = 170,
 		})
 		
 		self.wave.cycle = self.wave.delay
@@ -739,8 +739,8 @@ function player:addBarrier(dt)
 		xvel = 0,
 		yvel = 0,
 		damage = projectiles.barrier.damage,
-		r = 255,
-		g = 100,
+		r = 100,
+		g = 255,
 		b = 255,
 	})
 
