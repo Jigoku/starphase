@@ -53,9 +53,6 @@ starfield.nebulae.blue = 255
 starfield.nebulae.populate = true
 starfield.nebulae.limit = 6
 
-starfield.debris = {}
-starfield.debris.limit = 0
-
 starfield.background = { 10, 20, 20 }
 
 function starfield:setColor(r,g,b)
@@ -69,7 +66,6 @@ function starfield:populate()
 		nebulae = 0,
 		star = 0,
 		nova = 0,
-		debris = 0,
 		planet = 0,
 	}
 
@@ -157,36 +153,7 @@ function starfield:addNova(x,y)
 	})
 	self.count.nova = self.count.nova +1
 	end
-end
-
-function starfield:addDebris(x,y)
-
-	--debris
-	if self.count.debris < self.debris.limit then
-	--if self.speed > self.warpspeed then
-		local vel = love.math.random(1000,1500) 
-		local w = love.math.random(100,200)
-		table.insert(self.objects, {
-			x = x+w,
-			y = y,
-			w = w,
-			h = 1,
-			maxvel = vel,
-			minvel = vel,
-			type = "debris",
-			r = 140,
-			g = love.math.random(200,255),
-			b = love.math.random(200,255),
-			o = math.min(20 *starfield.speed/100,40),
-			gfx = self.warp,
-			scale = 1
-		})
-		self.count.debris = self.count.debris +1
-	--end
-	end
-
-end
-		
+end	
 		
 function starfield:addNebula(x,y)
 	if self.nebulae.populate then
@@ -249,7 +216,6 @@ end
 function starfield:addobject(x,y)
 
 	local n = love.math.random(0,100)
-	
 
 	if n == 0 then
 		self:addNova(x,y)
@@ -257,12 +223,9 @@ function starfield:addobject(x,y)
 		self:addNebula(x,y)
 	elseif n == 2 then
 		self:addPlanet(x,y)
-	elseif n > 3 and n < 30 then
-		self:addDebris(x,y)
 	else
 		self:addStar(x,y)
 	end
-
 
 end
 
@@ -301,11 +264,8 @@ function starfield:update(dt)
 	for i=#self.objects,1,-1 do
 		local o = self.objects[i]
 
-		if o.type == "debris" then
-			o.x = o.x - (o.maxvel *dt)
-		else
-			o.x = o.x - ((o.maxvel * self.speed) *dt)
-		end
+
+		o.x = o.x - ((o.maxvel * self.speed) *dt)
 
 		if o.type == "planet" then
 			enemies:rotate(o,o.rotation/o.scale,dt)
@@ -317,8 +277,6 @@ function starfield:update(dt)
 				self.count.nova = self.count.nova -1
 			elseif o.type == "nebula" then
 				self.count.nebulae = self.count.nebulae -1
-			elseif o.type == "debris" then
-				self.count.debris = self.count.debris -1
 			elseif o.type == "planet" then
 				self.count.planet = self.count.planet -1
 			elseif o.type == "star" then
@@ -470,32 +428,21 @@ function starfield:draw(x,y)
 			
 			love.graphics.pop()
 		
-
 			end
 		end	
-		
-		
-		if o.type == "debris" then
-			love.graphics.setColor(o.r,o.g,o.b,o.o)
-			
-			love.graphics.draw(o.gfx, o.x,o.y,0,1,1)
-			--love.graphics.line(o.x,o.y, o.x+o.w,o.y)
-		end
-		
-		
 
 	end
 	
 	
-				--hyperspace warp test
+	--hyperspace warp test
 	if self.speed > self.warpspeed then 
 	
-	--blue/green
-	love.graphics.setColor(70,110,155,math.min(2 *starfield.speed/25,255))
-	--green/blue
-	--love.graphics.setColor(100,240,210,math.min(2 *starfield.speed/50,30))
-	--pink/purple
-	--love.graphics.setColor(255,100,255,math.min(2 *starfield.speed/25,255))
+		--blue/green
+		love.graphics.setColor(70,110,155,math.min(2 *starfield.speed/25,255))
+		--green/blue
+		--love.graphics.setColor(100,240,210,math.min(2 *starfield.speed/50,30))
+		--pink/purple
+		--love.graphics.setColor(255,100,255,math.min(2 *starfield.speed/25,255))
 		love.graphics.rectangle("fill",0,0,starfield.w,starfield.h)
 	end
 	

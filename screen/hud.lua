@@ -423,7 +423,6 @@ function hud:drawconsole()
 			"|st:" .. string.format("%04d",starfield.count.star) .. 
 			"|no:" .. string.format("%02d",starfield.count.nova) .. 
 			"|ne:" .. string.format("%02d",starfield.count.nebulae) .. 
-			"|de:" .. string.format("%02d",starfield.count.debris) ..
 			"|pl:" .. string.format("%02d",starfield.count.planet) ..
 			"][speed:" .. string.format("%04d",starfield.speed) ..
 			"]"
