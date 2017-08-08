@@ -2,7 +2,6 @@
 A top down space shooter made with Lua and Love2D
 This is still an early work in progress, so many bugs / changes will come.
 
-![gif](https://media.giphy.com/media/U1TdvczjcIhNu/giphy.gif)
 
 ### Running the game
 Run the game from the src/ directory using
