@@ -116,13 +116,14 @@ end
 function initdebugarcade(playersel)
 	initarcade(playersel)
 	debugarcade = true
+	debug = true
 	msgs.queue(
 		{
 			{		
 				face = love.graphics.newImage("gfx/faces/1.png"),
-				name = "Debug notice",
-				text = "Now using debug mode",
-				duration = 3,
+				name = "Message Test",
+				text = "Testing a dialog event!",
+				duration = 4,
 			}
 
 	})
@@ -139,10 +140,10 @@ function love.update(dt)
 
 
 		if love.keyboard.isDown("[") then
-			starfield:speedAdjust(-3, dt)
+			starfield:speedAdjust(-4, dt)
 			
 		elseif love.keyboard.isDown("]") then			
-			starfield:speedAdjust(3, dt)
+			starfield:speedAdjust(4, dt)
 
 		end
 

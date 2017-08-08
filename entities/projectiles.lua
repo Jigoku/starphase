@@ -104,6 +104,7 @@ function projectiles:update(dt)
 			
 			if p.type == "cannon" then
 				p.x = p.x + (p.xvel *dt)
+				p.y = p.y + (p.yvel *dt)
 			end
 			
 			if p.type == "blaster" then
@@ -118,7 +119,7 @@ function projectiles:update(dt)
 			
 			if p.type == "beam" then
 				self:rotate(p, 8, dt)
-				p.y = p.y - (p.yvel *dt)
+				p.y = p.y + (p.yvel *dt)
 				p.x = p.x + (p.xvel *dt)
 			end
 			

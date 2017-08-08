@@ -18,11 +18,12 @@ local messagebox = {}
 messagebox.screens = {}
 messagebox.callback = function() return end
 messagebox.fadespeed = 1000
-messagebox.padding = 10
-messagebox.x = 100
-messagebox.y = 100
+messagebox.textpadding = 10
 messagebox.w = 350
 messagebox.h = 64
+messagebox.x = love.graphics.getWidth()/2 - messagebox.w/2
+messagebox.y = love.graphics.getHeight()-100 - messagebox.h
+
 
 function messagebox.active()
 	if #messagebox.screens < 1 then
@@ -78,10 +79,10 @@ function messagebox.draw()
 		love.graphics.draw(msg.face,messagebox.x,messagebox.y)
 		
 		--name
-		love.graphics.print(msg.name,messagebox.x+msg.face:getWidth()+messagebox.padding,messagebox.y)
+		love.graphics.print(msg.name,messagebox.x+msg.face:getWidth()+messagebox.textpadding,messagebox.y)
 		
 		--text
-		love.graphics.print(msg.text,messagebox.x+msg.face:getWidth()+messagebox.padding,messagebox.y+20)
+		love.graphics.print(msg.text,messagebox.x+msg.face:getWidth()+messagebox.textpadding,messagebox.y+20)
 	end
 	
 end

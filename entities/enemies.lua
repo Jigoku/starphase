@@ -722,7 +722,7 @@ function enemies:draw()
 			love.graphics.setColor(255,255,255,255)
 			love.graphics.print("x pos:"..x, x-10,y-10)
 			love.graphics.print("y pos:".. y, x-10,y)
-			love.graphics.print("angle:"..math.deg((e.angle or 0)), x-10,y+10)
+			love.graphics.print("angle:"..math.floor(math.deg((e.angle or 0))), x-10,y+10)
 			love.graphics.print("shield: "..math.floor(e.shield) .. "/" ..e.shieldmax, x-10,y+20)
 			
 			love.graphics.setColor(255,155,255,155)

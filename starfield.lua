@@ -32,6 +32,7 @@ starfield.maxspeed = 600  --fastest speed
 starfield.warpspeed = 100 --speed when warp starts
 
 starfield.hyperspace = love.graphics.newImage("gfx/starfield/hyperspace.png")
+starfield.warp = love.graphics.newImage("gfx/starfield/warp.png")
 starfield.mist = love.graphics.newImage("gfx/starfield/mist.png")
 starfield.nova = love.graphics.newImage("gfx/starfield/nova.png")
 starfield.star = love.graphics.newImage("gfx/starfield/star.png")
@@ -53,7 +54,9 @@ starfield.nebulae.populate = true
 starfield.nebulae.limit = 6
 
 starfield.debris = {}
-starfield.debris.limit = 150
+starfield.debris.limit = 0
+
+starfield.background = { 10, 20, 20 }
 
 function starfield:setColor(r,g,b)
 	starfield.nebulae.red = (r or love.math.random(50,255))
@@ -85,7 +88,6 @@ function starfield:populate()
 	starfield.mist_quad = love.graphics.newQuad(0,0, starfield.w, starfield.h, starfield.mist:getDimensions() )
 	starfield.mist:setWrap("repeat", "repeat")
 	starfield.mist_scroll = 0
-	
 
 	--populate starfield
 	while #starfield.objects <  self.limit do
@@ -113,7 +115,7 @@ function starfield:addStar(x,y)
 	--normal star	
 	
 	local vel =  love.math.random(12,15)/10
-	
+	local scale = love.math.random(0.5,1.5)
 	table.insert(self.objects, {
 		x = x,
 		y = y,
@@ -122,12 +124,12 @@ function starfield:addStar(x,y)
 		maxvel = vel,
 		minvel = vel,
 		type = "star",
-		r = love.math.random(200,235),
-		g = love.math.random(200,235),
-		b = love.math.random(200,235),
+		r = love.math.random(200,245),
+		g = love.math.random(200,245),
+		b = love.math.random(200,245),
 		o = love.math.random(5,160),
 		gfx = self.star,
-		scale = 1,
+		scale = scale,
 		
 	})
 	self.count.star = self.count.star +1
@@ -158,9 +160,10 @@ function starfield:addNova(x,y)
 end
 
 function starfield:addDebris(x,y)
+
 	--debris
 	if self.count.debris < self.debris.limit then
-	if self.speed > self.warpspeed then
+	--if self.speed > self.warpspeed then
 		local vel = love.math.random(1000,1500) 
 		local w = love.math.random(100,200)
 		table.insert(self.objects, {
@@ -174,14 +177,14 @@ function starfield:addDebris(x,y)
 			r = 140,
 			g = love.math.random(200,255),
 			b = love.math.random(200,255),
-			o = math.min(10 *starfield.speed/100,60),
-			--gfx = self.star,
+			o = math.min(20 *starfield.speed/100,40),
+			gfx = self.warp,
 			scale = 1
 		})
 		self.count.debris = self.count.debris +1
+	--end
 	end
-	end
-	
+
 end
 		
 		
@@ -217,7 +220,7 @@ end
 	
 function starfield:addPlanet(x,y)
 	if self.planets.populate then
-		if self.count.planet < starfield.planets.limit then
+		if self.speed < self.warpspeed and self.count.planet < starfield.planets.limit then
 		local scale = love.math.random(10,25)/10
 		local vel = love.math.random(2,3)
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
@@ -343,7 +346,8 @@ function starfield:draw(x,y)
 	love.graphics.setCanvas(self.canvas)
 	love.graphics.clear()
 	
-	love.graphics.setColor(0,10,10,255)
+	--background
+	love.graphics.setColor(self.background[1],self.background[2],self.background[3],255)
 	love.graphics.rectangle("fill", 0,0,self.w,self.h )
 	
 
@@ -356,7 +360,7 @@ function starfield:draw(x,y)
 			love.graphics.setColor(o.r,o.g,o.b,(self.speed > self.warpspeed*2 and o.o / (self.speed/(self.warpspeed*2)) or o.o))
 			love.graphics.draw(
 					o.gfx, o.x-o.gfx:getWidth()/2, 
-					o.y-o.gfx:getHeight()/2, 0, 1, 1
+					o.y-o.gfx:getHeight()/2, 0, o.scale, o.scale
 			)
 		end
 
@@ -473,7 +477,9 @@ function starfield:draw(x,y)
 		
 		if o.type == "debris" then
 			love.graphics.setColor(o.r,o.g,o.b,o.o)
-			love.graphics.line(o.x,o.y, o.x+o.w,o.y)
+			
+			love.graphics.draw(o.gfx, o.x,o.y,0,1,1)
+			--love.graphics.line(o.x,o.y, o.x+o.w,o.y)
 		end
 		
 		
@@ -485,11 +491,11 @@ function starfield:draw(x,y)
 	if self.speed > self.warpspeed then 
 	
 	--blue/green
-	--love.graphics.setColor(70,110,155,math.min(2 *starfield.speed/50,30))
+	love.graphics.setColor(70,110,155,math.min(2 *starfield.speed/25,255))
 	--green/blue
 	--love.graphics.setColor(100,240,210,math.min(2 *starfield.speed/50,30))
 	--pink/purple
-	love.graphics.setColor(255,100,255,math.min(2 *starfield.speed/50,30))
+	--love.graphics.setColor(255,100,255,math.min(2 *starfield.speed/25,255))
 		love.graphics.rectangle("fill",0,0,starfield.w,starfield.h)
 	end
 	

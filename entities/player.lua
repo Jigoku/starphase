@@ -40,8 +40,8 @@ function player:init(playersel)
 	player.shieldmax = 100
 	player.energy = 100
 	player.energymax = 100
-	player.speed = 2900
-	player.maxvel = 620
+	player.speed = 2500
+	player.maxvel = 600
 	player.xvel = 0
 	player.yvel = 0
 	player.drift = 1.1
@@ -358,7 +358,7 @@ function player:fireCannon(dt)
 			h = projectiles.cannon.gfx:getHeight(),
 			x = self.x + projectiles.cannon.gfx:getWidth()/2,
 			y = self.y + self.gfx:getHeight()/2-projectiles.cannon.gfx:getHeight()/2 +(player.cannon.switch and -35 or 35),
-			yvel = 0,
+			yvel = (player.cannon.switch and -40 or 40),
 			xvel = 2000,
 			damage = projectiles.cannon.damage,
 			r = love.math.random(150,255),
