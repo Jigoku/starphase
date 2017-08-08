@@ -3,11 +3,15 @@ A top down space shooter made with Lua and Love2D
 This is still an early work in progress, so many bugs / changes will come.
 
 ### Running the game
-To create a love2d executable on Linux, simply run the script `` $ ./make_dist.sh ``
-To launch the game directly, use this command in the working directory `` $ love . ``
+Run the game from the src/ directory using
+```
+$ love src/
+```
 
-On all other platforms (windows/mac) you simply need to compress the game data into a zip archive and change the extension to ".love"
-
+To create standalone executables for all platforms 
+```
+$ make && make all
+```
 
 ### Requirements
 Install the love2d library from here https://love2d.org
