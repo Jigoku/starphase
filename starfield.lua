@@ -39,7 +39,7 @@ starfield.star = love.graphics.newImage("gfx/starfield/star.png")
 starfield.planets = textures:load("gfx/starfield/planets/")
 
 starfield.planets.populate = true
-starfield.planets.limit = 1
+starfield.planets.limit = 2
 
 starfield.nebulae = { }
 starfield.nebulae.sprite = love.graphics.newImage("gfx/starfield/nebulae/proc_sheet_nebula.png")
@@ -161,7 +161,7 @@ function starfield:addNebula(x,y)
 		if self.count.nebulae < starfield.nebulae.limit then
 		
 		local scale = love.math.random(9,20)/10
-		local vel = love.math.random(10,15)/10
+		local vel = love.math.random(10,13)/10
 		
 		table.insert(self.objects, {
 			x = x,
@@ -177,7 +177,7 @@ function starfield:addNebula(x,y)
 			o = love.math.random(40,120),
 			gfx = self.nebulae.quads[love.math.random(self.nebulae.min,self.nebulae.max)],
 			scale = scale,
-			rotation = love.math.random(0.0,math.pi*10)/10,
+			angle = love.math.random(0.0,math.pi*10)/10,
 		})
 		self.count.nebulae = self.count.nebulae +1
 		end
@@ -187,25 +187,25 @@ end
 	
 function starfield:addPlanet(x,y)
 	if self.planets.populate then
-		if self.speed < self.warpspeed and self.count.planet < starfield.planets.limit then
-		local scale = love.math.random(10,25)/10
-		local vel = love.math.random(2,3)
+		if  self.count.planet < starfield.planets.limit then
+		local scale = love.math.random(1,30)/10
+		local vel = love.math.random(20,30)/10
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		table.insert(self.objects, {
-			x = x+(gfx:getHeight()*scale),
-			y = y-(gfx:getWidth()*scale)/2,
+			x = x,
+			y = y-(gfx:getHeight()*scale)/2,
 			w = gfx:getWidth()*scale,
 			h = gfx:getHeight()*scale,
 			maxvel = vel,
 			minvel = vel,
 			type = "planet",
-			r = love.math.random(50,150),
-			g = love.math.random(50,150),
-			b = love.math.random(50,150),
+			r = 205,
+			g = 205,
+			b = 205,
 			o = 255,
 			gfx = gfx,
 			scale = scale,
-			rotation = (love.math.random(0,1) == 1 and 0.02 or -0.02),
+			angle =  love.math.random(0.0,math.pi*10)/10,
 		})
 		self.count.planet = self.count.planet +1
 		end
@@ -221,7 +221,7 @@ function starfield:addobject(x,y)
 		self:addNova(x,y)
 	elseif n == 1 then
 		self:addNebula(x,y)
-	elseif n == 2 then
+	elseif n >= 2 and n <= 3 then
 		self:addPlanet(x,y)
 	else
 		self:addStar(x,y)
@@ -267,11 +267,12 @@ function starfield:update(dt)
 
 		o.x = o.x - ((o.maxvel * self.speed) *dt)
 
+--[[
 		if o.type == "planet" then
 			enemies:rotate(o,o.rotation/o.scale,dt)
 		end	
-
-		if o.x+(o.w*(o.scale)) < 0 then
+--]]
+		if o.x+(o.w) < 0 then
 			table.remove(self.objects, i)
 			if o.type == "nova" then
 				self.count.nova = self.count.nova -1
@@ -359,7 +360,7 @@ function starfield:draw(x,y)
 			if o.gfx then
 			
 				love.graphics.translate(o.x+o.w/2,o.y+o.h/2)
-				love.graphics.rotate(o.rotation or 0)
+				love.graphics.rotate(o.angle or 0)
 				love.graphics.translate(-o.x-o.w/2,-o.y-o.h/2)
 				
 				love.graphics.draw(
