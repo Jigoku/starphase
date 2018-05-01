@@ -18,6 +18,7 @@ hud.life_gfx = love.graphics.newImage("gfx/life.png")
 
 hud.colors = {
 	["frame"] = {155,255,255,50},
+	["frame_dark"] = {10,10,10,100},
 	["lives"] = {100,190,200,120},
 	["hsl_frame"] = 0,
 }
@@ -80,9 +81,10 @@ function hud:update(dt)
 	hud.display.progress = hud.display.progress + 1 *dt
 	hud.time = hud.time + 1 *dt
 	
+	
 	if hud.warp then
 		if hud.colors["hsl_frame"] < 256 then
-			hud.colors["hsl_frame"] = hud.colors["hsl_frame"] + 500 *dt
+			hud.colors["hsl_frame"] = hud.colors["hsl_frame"] + starfield.speed *dt
 		else
 			hud.colors["hsl_frame"] = 0
 		end
@@ -113,7 +115,24 @@ function hud:updateconsole(dt)
 
 end
 
-function hud:drawFrame()
+function hud:drawFrames()
+
+	if hud.warp then
+		love.graphics.setColor(hud:HSL(hud.colors["hsl_frame"],100,80))
+	else
+		love.graphics.setColor(hud.colors["frame"][1],hud.colors["frame"][2],hud.colors["frame"][3],hud.colors["frame"][4])
+	end
+		--dynamic decor/lines
+		--[[love.graphics.setColor(
+			starfield.nebulae.red,
+			starfield.nebulae.green,
+			starfield.nebulae.blue,
+			50
+		)--]]
+	
+	love.graphics.setLineWidth(2)
+	love.graphics.setLineStyle("smooth")
+	
 	--left side
 	love.graphics.line(
 		60,love.graphics.getHeight()-20,
@@ -181,6 +200,26 @@ function hud:drawFrame()
 		love.graphics.getWidth()-61,20,
 		love.graphics.getWidth()-love.graphics.getWidth()/4,20
 	)
+	
+	
+	-- hud frame for bottom of screen
+	local w = 400
+	local a = 20
+	
+	local points = {
+		love.graphics.getWidth()/2-w,love.graphics.getHeight()+1,
+		love.graphics.getWidth()/2-w+a,love.graphics.getHeight()-70,
+		love.graphics.getWidth()/2+w-a,love.graphics.getHeight()-70,
+		love.graphics.getWidth()/2+w,love.graphics.getHeight()+1
+	}
+	
+	love.graphics.setColor(hud.colors["frame_dark"][1],hud.colors["frame_dark"][2],hud.colors["frame_dark"][3],hud.colors["frame_dark"][4])
+	love.graphics.polygon("fill", points)
+	
+	love.graphics.setColor(hud.colors["frame"][1],hud.colors["frame"][2],hud.colors["frame"][3],hud.colors["frame"][4])
+	love.graphics.polygon("line", points)
+	
+	love.graphics.setLineWidth(1)
 end 
 
 function hud:draw()
@@ -206,25 +245,8 @@ function hud:draw()
 	--decor / lines
 	if not debug then
 
-	
-		if hud.warp then
-			love.graphics.setColor(hud:HSL(hud.colors["hsl_frame"],100,80))
-		else
-			love.graphics.setColor(
-				hud.colors["frame"][1],hud.colors["frame"][2],hud.colors["frame"][3],hud.colors["frame"][4]
-			)
-		end
-		--dynamic decor/lines
-		--[[love.graphics.setColor(
-			starfield.nebulae.red,
-			starfield.nebulae.green,
-			starfield.nebulae.blue,
-			50
-		)--]]
-	
-		love.graphics.setLineWidth(2)
-		love.graphics.setLineStyle("smooth")
-		hud:drawFrame()
+
+		hud:drawFrames()
 		
 		
 	end
@@ -234,6 +256,10 @@ function hud:draw()
 		love.graphics.setColor(150,255,255,200)
 		love.graphics.print("DEBUG:\npress [ or ] to adjust starfield speed\npress 1-9 to spawn enemies\npress space to set new starfield seed\npress ` for console/debug overlay\npress k to spawn powerup", 30, starfield.h-200)
 	end
+	
+
+
+	
 	
 	
 	--time

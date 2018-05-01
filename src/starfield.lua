@@ -23,8 +23,6 @@ starfield.objects = {}
 
 starfield.offset = 0
 
--- 326 -- populate starfield this amount higher than screen height
---^^^ disabled due to scaling issue (needs fixing)
 starfield.limit = 1150
 starfield.speed = 0
 starfield.minspeed = 10   --slowest speed
@@ -39,7 +37,7 @@ starfield.star = love.graphics.newImage("gfx/starfield/star.png")
 starfield.planets = textures:load("gfx/starfield/planets/")
 
 starfield.planets.populate = true
-starfield.planets.limit = 2
+starfield.planets.limit = 1
 
 starfield.nebulae = { }
 starfield.nebulae.sprite = love.graphics.newImage("gfx/starfield/nebulae/proc_sheet_nebula.png")
@@ -51,7 +49,7 @@ starfield.nebulae.red = 255
 starfield.nebulae.green = 255
 starfield.nebulae.blue = 255
 starfield.nebulae.populate = true
-starfield.nebulae.limit = 6
+starfield.nebulae.limit = 5
 
 starfield.background = { 10, 20, 20 }
 
@@ -77,8 +75,8 @@ function starfield:populate()
 	pickups.items = {}
 
 	
-	starfield.w = love.graphics.getWidth()
-	starfield.h = love.graphics.getHeight()
+	starfield.w = 1920
+	starfield.h = 1080
 	
 	starfield.canvas = love.graphics.newCanvas(starfield.w, starfield.h)
 	starfield.mist_quad = love.graphics.newQuad(0,0, starfield.w, starfield.h, starfield.mist:getDimensions() )
@@ -110,8 +108,9 @@ end
 function starfield:addStar(x,y)
 	--normal star	
 	
-	local vel =  love.math.random(12,15)/10
+	local vel =  love.math.random(11,15)/10
 	local scale = love.math.random(0.5,1.5)
+	local o = vel*50
 	table.insert(self.objects, {
 		x = x,
 		y = y,
@@ -123,7 +122,8 @@ function starfield:addStar(x,y)
 		r = love.math.random(200,245),
 		g = love.math.random(200,245),
 		b = love.math.random(200,245),
-		o = love.math.random(5,160),
+		--o = love.math.random(5,160),
+		o = o,
 		gfx = self.star,
 		scale = scale,
 		
@@ -160,7 +160,7 @@ function starfield:addNebula(x,y)
 		--nebula
 		if self.count.nebulae < starfield.nebulae.limit then
 		
-		local scale = love.math.random(9,20)/10
+		local scale = love.math.random(9,30)/10
 		local vel = love.math.random(10,13)/10
 		
 		table.insert(self.objects, {
@@ -188,7 +188,7 @@ end
 function starfield:addPlanet(x,y)
 	if self.planets.populate then
 		if  self.count.planet < starfield.planets.limit then
-		local scale = love.math.random(1,30)/10
+		local scale = love.math.random(5,30)/10
 		local vel = love.math.random(20,30)/10
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		table.insert(self.objects, {
@@ -221,7 +221,7 @@ function starfield:addobject(x,y)
 		self:addNova(x,y)
 	elseif n == 1 then
 		self:addNebula(x,y)
-	elseif n >= 2 and n <= 3 then
+	elseif n == 2  then
 		self:addPlanet(x,y)
 	else
 		self:addStar(x,y)
@@ -249,11 +249,19 @@ function starfield:update(dt)
 	--populate starfield
 	while #self.objects < self.limit do
 		self:addobject(
-			self.w,love.math.random(self.h)
+			self.w,
+			love.math.random(self.h)
 		)
 	end
 	
 	self.speed = math.max(math.min(self.speed,self.maxspeed),self.minspeed)
+	
+	if starfield.speed >= starfield.warpspeed then
+		hud.warp = true 
+	else
+		hud.warp = false
+	end
+	
 	--if mode == "arcade" then
 	--	self.offset = player.y
 	--end
@@ -303,9 +311,10 @@ function starfield:draw(x,y)
 		
 
 	love.graphics.setCanvas(self.canvas)
-	love.graphics.clear()
+	--love.graphics.clear()
 	
 	--background
+	--commenting this causes cool trails effect, may be useful.
 	love.graphics.setColor(self.background[1],self.background[2],self.background[3],255)
 	love.graphics.rectangle("fill", 0,0,self.w,self.h )
 	
@@ -459,19 +468,22 @@ function starfield:draw(x,y)
 
 	end
 
-
+--[[
 	love.graphics.setColor(255,255,255,20)
 	love.graphics.draw(
 		starfield.hyperspace, 0,0, 0, self.w/self.hyperspace:getWidth(), self.h/self.hyperspace:getHeight()
 	)
-	
+	--]]
 	love.graphics.setCanvas()
 
 
 	love.graphics.setColor(255,255,255,255)
 
-	love.graphics.draw(self.canvas, x,y)
 
+	love.graphics.push()
+	love.graphics.scale(love.graphics.getWidth()/starfield.w,love.graphics.getHeight()/starfield.h)  
+	love.graphics.draw(self.canvas, x,y)
+	love.graphics.pop()
 	
 
 	

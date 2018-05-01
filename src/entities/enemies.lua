@@ -597,7 +597,7 @@ function enemies:update(dt)
 				if collision:check(p.x,p.y,p.w,p.h, e.x,e.y,e.w,e.h) then
 
 					e.shield = e.shield - p.damage
-					e.shieldopacity = 100
+					e.shieldopacity = 150
 						
 					if p.type == "rocket" then
 						sound:play(projectiles.rocket.sound.explode)
@@ -655,7 +655,7 @@ end
 function enemies:drawshield(e)
 	if e.shieldopacity > 0 and e.alive then
 		
-		love.graphics.setColor(100,200,255,e.shieldopacity)
+		love.graphics.setColor(100,210,255,e.shieldopacity)
 		love.graphics.draw(
 			enemies.shield,  math.floor(e.x)+e.w/2-(enemies.shield:getWidth()/2/e.shieldscale), 
 			math.floor(e.y)+e.h/2-(enemies.shield:getHeight()/2/e.shieldscale), 0, 1/e.shieldscale, 1/e.shieldscale

@@ -183,6 +183,8 @@ function love.draw()
 
 
 		starfield:draw(0,0)
+	
+	
 		
 		hud:draw()
 		msgs.draw()

@@ -25,8 +25,8 @@ function love.conf(t)
 	t.window.title = name .. " " .. version .. build
 	t.window.width = 1920
 	t.window.height = 1080
-	t.window.minwidth = 1920
-	t.window.minheight = 1080
+	t.window.minwidth = 960
+	t.window.minheight = 540
 	t.modules.joystick = false
 	t.modules.physics = false
 	t.window.msaa = 0

@@ -71,7 +71,7 @@ function sound:play(sfx)
 	if sound.muted then return true end
 	--fix this, move source definition of effects to this file
 	if sfx:isPlaying() then
-		sfx:stop()
+		sfx:rewind()
 	end
 	sfx:play()
 end

@@ -25,8 +25,8 @@ title.maxoptions = 3
 title.menu = {}
 title.menu.w = 600
 title.menu.h = 300
-title.menu.x = love.graphics.getWidth()/2 - title.menu.w/3
-title.menu.y = love.graphics.getHeight()/2-title.menu.h/3
+title.menu.x = love.graphics.getWidth() - title.menu.w
+title.menu.y = title.menu.h
 title.menu.canvas = love.graphics.newCanvas(title.menu.w,title.menu.h)
 title.menu.selected = 0
 
@@ -138,18 +138,13 @@ function title:draw()
 	
 
 	if debugstarfield then return end
-	love.graphics.setColor(255,255,255,255)
-	love.graphics.print("Debug:  [`] for console    [space] for starfield",10,10)
+
 		
 	--love.graphics.setColor(255,255,255,255)
 	--love.graphics.draw(title.planet,0-title.planet:getWidth()/2, starfield.h/2-title.planet:getHeight()/2 )	
 	
 	
-	--border bars
-	local h = 80
-	love.graphics.setColor(0,0,0,100)
-	love.graphics.rectangle("fill",0,love.graphics.getHeight()-h,love.graphics.getWidth(),h)
-	love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),h)
+
 	
 			
 	love.graphics.setCanvas(title.menu.canvas)
@@ -223,9 +218,23 @@ function title:draw()
 	love.graphics.setFont(fonts.default)
 	love.graphics.setCanvas()
 
-	love.graphics.setColor(255,255,255,200)
+	--border bars
+	local h = 30
+	love.graphics.setColor(0,0,0,150)
+	love.graphics.rectangle("fill",0,love.graphics.getHeight()-h,love.graphics.getWidth(),h)
+	love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),h)
+	
+	love.graphics.setColor(50,80,80,150)
+	love.graphics.line(0,love.graphics.getHeight()-h,love.graphics.getWidth(),love.graphics.getHeight()-h)
+	love.graphics.line(0,h,love.graphics.getWidth(),h)
+	
+	
+	love.graphics.setColor(255,255,255,155)
+	love.graphics.print("Debug title:  [`] = console, [space] = toggle hud, [j] = reseed",900,10)
+	
+	love.graphics.setColor(255,255,255,155)
 	love.graphics.draw(title.menu.canvas,title.menu.x,title.menu.y)
-	love.graphics.printf("v"..version..build.." ("..love.system.getOS() ..") by "..author,50,love.graphics.getHeight()-50,300,"left",0,1,1)		--version
+	love.graphics.printf("v"..version..build.." ("..love.system.getOS() ..") by "..author,10,love.graphics.getHeight()-25,300,"left",0,1,1)		--version
 	
 	love.graphics.setColor(0,0,0,title.overlay.opacity)
 	love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
