@@ -20,11 +20,11 @@ build = "-dev"
 print (name .. " " .. version .. build .. " by " .. author)
 
 function love.conf(t)
-	t.version = "0.10.2"
+	t.version = "11.0"
 	t.identity = "starphase"
 	t.window.title = name .. " " .. version .. build
-	t.window.width = 1920
-	t.window.height = 1080
+	t.window.width = 1920/2
+	t.window.height = 1080/2
 	t.window.minwidth = 960
 	t.window.minheight = 540
 	t.modules.joystick = false

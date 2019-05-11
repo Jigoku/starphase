@@ -14,7 +14,7 @@ binds.altright = "d"
 
 binds.shoot = "rctrl"
 binds.boost = "lctrl"
-binds.special = " "
+binds.special = "space"
 
 binds.fullscreen = "f5"
 binds.console = "`"

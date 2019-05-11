@@ -45,7 +45,7 @@ function pickups:draw()
 		
 		love.graphics.push()
 		--love.graphics.setColor(p.r,p.g,p.b)
-		love.graphics.setColor(255,255,255,255)
+		love.graphics.setColor(1,1,1,1)
 		love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
 		love.graphics.rotate(p.angle or 0)
 		love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)

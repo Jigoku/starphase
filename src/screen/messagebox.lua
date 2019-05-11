@@ -71,11 +71,11 @@ function messagebox.draw()
 		local msg = messagebox.screens[1]
 	
 		--fill
-		love.graphics.setColor(0,0,0,msg.fade-100)
+		love.graphics.setColor(0,0,0,msg.fade/2)
 		love.graphics.rectangle("fill", messagebox.x,messagebox.y, messagebox.w, messagebox.h)
 		
 		--face
-		love.graphics.setColor(255,255,255,msg.fade)
+		love.graphics.setColor(1,1,1,msg.fade)
 		love.graphics.draw(msg.face,messagebox.x,messagebox.y)
 		
 		--name

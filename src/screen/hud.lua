@@ -17,9 +17,9 @@ hud = {}
 hud.life_gfx = love.graphics.newImage("gfx/life.png")
 
 hud.colors = {
-	["frame"] = {155,255,255,50},
-	["frame_dark"] = {10,10,10,100},
-	["lives"] = {100,190,200,120},
+	["frame"] = {0.607,1,1,0.196},
+	["frame_dark"] = {0.039,0.039,0.039,0.39},
+	["lives"] = {0.39,0.745,0.784,0.470},
 	["hsl_frame"] = 0,
 }
 
@@ -33,7 +33,7 @@ hud.console = {
 	y = -250,
 	canvas = love.graphics.newCanvas(w, h),
 	speed = 400,
-	opacity = 220,
+	opacity = 1,
 }
 
 
@@ -83,7 +83,7 @@ function hud:update(dt)
 	
 	
 	if hud.warp then
-		if hud.colors["hsl_frame"] < 256 then
+		if hud.colors["hsl_frame"] < 1 then
 			hud.colors["hsl_frame"] = hud.colors["hsl_frame"] + starfield.speed *dt
 		else
 			hud.colors["hsl_frame"] = 0
@@ -118,7 +118,7 @@ end
 function hud:drawFrames()
 
 	if hud.warp then
-		love.graphics.setColor(hud:HSL(hud.colors["hsl_frame"],100,80))
+		love.graphics.setColor(hud:HSL(hud.colors["hsl_frame"],0.392,0.313))
 	else
 		love.graphics.setColor(hud.colors["frame"][1],hud.colors["frame"][2],hud.colors["frame"][3],hud.colors["frame"][4])
 	end
@@ -225,16 +225,16 @@ end
 function hud:draw()
 	if paused and not debug then 
 
-		love.graphics.setColor(0,0,0,140)
+		love.graphics.setColor(0,0,0,0.549)
 		love.graphics.rectangle("fill",0,0,love.graphics.getWidth(), love.graphics.getHeight())
     
 		love.graphics.setFont(fonts.paused_large)
-		love.graphics.setColor(255,255,255,200)
+		love.graphics.setColor(1,1,1,0.784)
 		love.graphics.printf("PAUSED", love.graphics.getWidth()/2-150,love.graphics.getHeight()/3,300,"center")
 		love.graphics.setFont(fonts.default)
 		local wrap = 200
 		love.graphics.setFont(fonts.paused_small)
-		love.graphics.setColor(255,255,255,200)
+		love.graphics.setColor(1,1,1,0.784)
 		love.graphics.printf("Press "..string.upper(binds.pausequit).." to quit", love.graphics.getWidth()/2-wrap/2,love.graphics.getHeight()/3+50,wrap,"center",0,1,1)
 		love.graphics.setFont(fonts.default)
 		return
@@ -253,7 +253,7 @@ function hud:draw()
 	
 	
 	if debugarcade then
-		love.graphics.setColor(150,255,255,200)
+		love.graphics.setColor(0.588,1,1,0.784)
 		love.graphics.print("DEBUG:\npress [ or ] to adjust starfield speed\npress 1-9 to spawn enemies\npress space to set new starfield seed\npress ` for console/debug overlay\npress k to spawn powerup", 30, starfield.h-200)
 	end
 	
@@ -263,7 +263,7 @@ function hud:draw()
 	
 	
 	--time
-	love.graphics.setColor(255,255,255,100)
+	love.graphics.setColor(1,1,1,0.39)
 	love.graphics.setFont(fonts.timer)
 	love.graphics.printf(misc:formatTime(hud.time), love.graphics.getWidth()/2-150,20,300,"center",0,1,1)
 	love.graphics.setFont(fonts.default)
@@ -282,10 +282,10 @@ function hud:draw()
 	love.graphics.setCanvas(hud.display.canvas)
 	love.graphics.clear()
 
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 
 	--wave progress marker
-	love.graphics.setColor(155,255,255,155)
+	love.graphics.setColor(0.607,1,1,0.607)
 	for i=0,hud.display.w, hud.display.w/4 do
 		love.graphics.line(i+1,10, i,hud.display.h-1)
 	end
@@ -294,16 +294,16 @@ function hud:draw()
 	love.graphics.setLineWidth(1)
   	for i=0,hud.display.w, hud.display.w/100 do
 		if i < hud.display.progress then 
-			love.graphics.setColor(0,255,150,255)
+			love.graphics.setColor(0,1,0.607,1)
 		else
-			love.graphics.setColor(155,255,255,200)
+			love.graphics.setColor(0.607,1,1,0.784)
 			
 		end
 		love.graphics.line(i,hud.display.h/3, i,hud.display.h/2)
 	end
 	
 	--progress marker arrow
-  	love.graphics.setColor(0,255,150,255)
+  	love.graphics.setColor(0,1,0.588,1)
   	love.graphics.setLineWidth(2)
 	love.graphics.line(hud.display.progress,hud.display.h/3, hud.display.progress-3,6)
 	love.graphics.line(hud.display.progress,hud.display.h/3, hud.display.progress+3,6)
@@ -313,35 +313,35 @@ function hud:draw()
 	love.graphics.setFont(fonts.hud)
 		
 	--progress
-	love.graphics.setColor(255,255,255,155)
+	love.graphics.setColor(1,1,1,0.607)
 	love.graphics.print("progress : " .. math.floor(hud.display.progress/hud.display.w*100).."%", 10,hud.display.h-10)	
 	--score
-	love.graphics.setColor(255,255,255,155)
+	love.graphics.setColor(1,1,1,0.607)
 	love.graphics.print("score: " .. player.score, 10+hud.display.w/4,hud.display.h-10)
 		
 
 
 		
 	--shield bar
-	love.graphics.setColor(255,255,255,155)
+	love.graphics.setColor(1,1,1,0.607)
 	love.graphics.print("shield", 10+hud.display.w/4*2,hud.display.h-10)
-	love.graphics.setColor(100,200,100,100)
+	love.graphics.setColor(0.39,0.784,0.39,0.39)
 	love.graphics.rectangle("fill", 65+hud.display.w/4*2,hud.display.h-5,hud.display.w/8, hud.display.h/3)
-	love.graphics.setColor(100,200,100,155)
+	love.graphics.setColor(0.39,0.784,0.39,0.607)
 	love.graphics.rectangle("fill", 65+hud.display.w/4*2,hud.display.h-5,player.shield/player.shieldmax*(hud.display.w/8), hud.display.h/3)
 	
-		love.graphics.setColor(155,255,255,50)
+		love.graphics.setColor(0.607,1,1,50)
 		love.graphics.rectangle("line", 65+hud.display.w/4*2,hud.display.h-5,hud.display.w/8, hud.display.h/3)
 		
 	--energy bar
-	love.graphics.setColor(255,255,255,155)
+	love.graphics.setColor(1,1,1,0.607)
 	love.graphics.print("energy", 10+hud.display.w/4*3,hud.display.h-10)
-		love.graphics.setColor(100,200,100,100)
+		love.graphics.setColor(0.39,0.784,0.39,0.39)
 	love.graphics.rectangle("fill", 65+hud.display.w/4*3,hud.display.h-5,hud.display.w/8, hud.display.h/3)
-	love.graphics.setColor(100,190,200,155)
+	love.graphics.setColor(0.39,0.745,0.784,0.607)
 	love.graphics.rectangle("fill", 65+hud.display.w/4*3,hud.display.h-5,player.energy/player.energymax*(hud.display.w/8), hud.display.h/3)
 		
-		love.graphics.setColor(155,255,255,50)
+		love.graphics.setColor(0.607,1,1,0.196)
 		love.graphics.rectangle("line", 65+hud.display.w/4*3,hud.display.h-5,hud.display.w/8, hud.display.h/3)
 
 	
@@ -352,7 +352,7 @@ function hud:draw()
 	
 	love.graphics.setCanvas()
 
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	
 	love.graphics.draw(hud.display.canvas, 
 		love.graphics.getWidth()/2-hud.display.w/2,
@@ -370,11 +370,11 @@ function hud:drawconsole()
 	if hud.console.y  > -hud.console.h then
 	love.graphics.setCanvas(hud.console.canvas)
 	love.graphics.clear()
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 
 	--debug console
 		--frame
-		love.graphics.setColor(10,12,20,155)
+		love.graphics.setColor(0.04,0.05,0.08,0.75)
 		--love.graphics.rectangle("fill", hud.console.x,hud.console.y, hud.console.w,hud.console.h)
 	
 		local points = {
@@ -385,16 +385,16 @@ function hud:drawconsole()
 			hud.console.x, hud.console.y+hud.console.h,
 		}
 		love.graphics.polygon("fill", points)
-		love.graphics.setColor(10,60,60,155)
+		love.graphics.setColor(0.039,0.235,0.235,0.607)
 		
 		love.graphics.setLineWidth(2)
 		love.graphics.polygon("line", points)
-		love.graphics.setColor(155,255,255,100)
+		love.graphics.setColor(0.607,1,1,0.39)
 		love.graphics.line(hud.console.x,hud.console.y+hud.console.h, hud.console.x+hud.console.w-40,hud.console.y+hud.console.h)
 		love.graphics.setLineWidth(1)
 		--sysinfo
 		
-		love.graphics.setColor(200,100,200,255)
+		love.graphics.setColor(0.784,0.39,0.784,1)
 		love.graphics.print(
 			"fps: " .. love.timer.getFPS() .. 
 			" | vsync: " ..tostring(game.flags.vsync)..
@@ -405,19 +405,19 @@ function hud:drawconsole()
 		)
 
 		
-		love.graphics.setColor(200,100,100,255)
-		love.graphics.print("bgmtrack: #" .. tostring(sound.bgmtrack) .. " | sources: "..love.audio.getSourceCount() .. " | [Seed: "..love.math.getRandomSeed().."]",hud.console.x+10,hud.console.y+30)
+		love.graphics.setColor(0.784,0.784,0.39,1)
+		love.graphics.print("bgmtrack: #" .. tostring(sound.bgmtrack) .. " | sources: "..love.audio.getActiveSourceCount() .. " | [Seed: "..love.math.getRandomSeed().."]",hud.console.x+10,hud.console.y+30)
 		
 	
 		--
 		--divider
-		love.graphics.setColor(155,255,255,100)
+		love.graphics.setColor(0.607,1,1,0.39)
 		love.graphics.line(hud.console.x+10,hud.console.y+60, hud.console.x+hud.console.w-10,hud.console.y+60)
 
 
 		--player info
 		if mode == "arcade" then
-		love.graphics.setColor(100,190,200,255)
+		love.graphics.setColor(0.39,0.745,0.784,1)
 		love.graphics.print("player yvel: " .. math.round(player.yvel,4),hud.console.x+10,hud.console.y+70)
 		love.graphics.print("player xvel: " .. math.round(player.xvel,4),hud.console.x+10,hud.console.y+90)
 		love.graphics.print("player posx: " .. math.round(player.x,4),hud.console.x+10,hud.console.y+110)
@@ -426,12 +426,12 @@ function hud:drawconsole()
 		end
 		
 		--divider
-		love.graphics.setColor(155,255,255,100)
+		love.graphics.setColor(0.607,1,1,0.39)
 		love.graphics.line(hud.console.x+10,hud.console.y+180, hud.console.x+200,hud.console.y+180)
 
 		--mission info
 		if mode == "arcade" then
-		love.graphics.setColor(100,190,200,255)
+		love.graphics.setColor(0.39,0.745,0.784,1)
 		love.graphics.print("progress: " ..math.round(hud.display.progress/hud.display.w*100,4) .."%",hud.console.x+10,hud.console.y+190)
 		love.graphics.print("elapsed: " .. 
 			misc:formatTime(hud.time),
@@ -439,11 +439,11 @@ function hud:drawconsole()
 		)
 		end
 		--vertical divider
-		love.graphics.setColor(155,255,255,100)
+		love.graphics.setColor(0.607,1,1,0.39)
 		love.graphics.line(hud.console.x+201,hud.console.y+60, hud.console.x+201,hud.console.y+249)
 		
 		--arena info
-		love.graphics.setColor(100,190,200,255)
+		love.graphics.setColor(0.39,0.745,0.784,1)
 
 		love.graphics.print("[starfield:" .. string.format("%04d",#starfield.objects) .. 
 			"|st:" .. string.format("%04d",starfield.count.star) .. 
@@ -465,7 +465,7 @@ function hud:drawconsole()
 		--end
 	love.graphics.setCanvas()
 
-	love.graphics.setColor(255,255,255,hud.console.opacity)
+	love.graphics.setColor(1,1,1,hud.console.opacity)
 	love.graphics.draw(hud.console.canvas,hud.console.x,hud.console.y)
 	end
 	

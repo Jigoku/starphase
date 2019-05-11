@@ -17,15 +17,15 @@ explosions = {}
 explosions.objects = {} --stores the active explosions
 
 explosions.sounds = {
-	[1] = love.audio.newSource("sfx/explosions/unnamed/explosion01.ogg"),
-	[2] = love.audio.newSource("sfx/explosions/unnamed/explosion02.ogg"),
-	[3] = love.audio.newSource("sfx/explosions/unnamed/explosion03.ogg"),
-	[4] = love.audio.newSource("sfx/explosions/unnamed/explosion04.ogg"),
-	[5] = love.audio.newSource("sfx/explosions/unnamed/explosion05.ogg"),
-	[6] = love.audio.newSource("sfx/explosions/unnamed/explosion06.ogg"),
-	[7] = love.audio.newSource("sfx/explosions/unnamed/explosion07.ogg"),
-	[8] = love.audio.newSource("sfx/explosions/unnamed/explosion08.ogg"),
-	[9] = love.audio.newSource("sfx/explosions/unnamed/explosion09.ogg"),
+	[1] = love.audio.newSource("sfx/explosions/unnamed/explosion01.ogg", "static"),
+	[2] = love.audio.newSource("sfx/explosions/unnamed/explosion02.ogg", "static"),
+	[3] = love.audio.newSource("sfx/explosions/unnamed/explosion03.ogg", "static"),
+	[4] = love.audio.newSource("sfx/explosions/unnamed/explosion04.ogg", "static"),
+	[5] = love.audio.newSource("sfx/explosions/unnamed/explosion05.ogg", "static"),
+	[6] = love.audio.newSource("sfx/explosions/unnamed/explosion06.ogg", "static"),
+	[7] = love.audio.newSource("sfx/explosions/unnamed/explosion07.ogg", "static"),
+	[8] = love.audio.newSource("sfx/explosions/unnamed/explosion08.ogg", "static"),
+	[9] = love.audio.newSource("sfx/explosions/unnamed/explosion09.ogg", "static"),
 }
 
 explosions.large_sprite = love.graphics.newImage("gfx/explosion/bleed/explosion.png")
@@ -116,7 +116,7 @@ function explosions:draw()
 		local y = math.floor(e.y)
 		
 		if e.type == "large" then
-			love.graphics.setColor(170,170,255,205)
+			love.graphics.setColor(0.666,0.666,1,0.803)
 			love.graphics.draw(
 				self.large_sprite, self.large_quads[e.frame],
 				x,
@@ -124,7 +124,7 @@ function explosions:draw()
 				0, 1, 1
 			)
 		elseif e.type == "small" then
-			love.graphics.setColor(160,255,255,205)
+			love.graphics.setColor(0.627,1,1,0.803)
 			love.graphics.draw(
 				self.small_sprite, self.small_quads[e.frame],
 				x,
@@ -134,7 +134,7 @@ function explosions:draw()
 		end
 		
 		if debug then 
-			love.graphics.setColor(255,190,70,140)
+			love.graphics.setColor(1,0.745,0.274,0.549)
 			love.graphics.rectangle("line",x,y,e.w,e.h)
 		end
 	end

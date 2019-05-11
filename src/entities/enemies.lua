@@ -76,7 +76,7 @@ function enemies:add_delta()
 			shieldmax = 80,
 			shieldopacity = 0,
 			shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.8,
-			opacity = 255,
+			opacity = 1,
 			alive = true,
 			projectileCycle = projectileOffset,
 			projectileDelay = 2,
@@ -153,7 +153,7 @@ function enemies:add_dart()
 		shieldmax = 10,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
-		opacity = 255,
+		opacity = 1,
 		alive = true,
 	})
 
@@ -178,7 +178,7 @@ function enemies:add_asteroid()
 		shieldmax = 50,
 		shieldopacity = 0,
 		shieldscale = 0,
-		opacity = 255,
+		opacity = 1,
 		alive = true,
 		
 		spin = (love.math.random(0,1) == 1 and 1 or -1),
@@ -209,7 +209,7 @@ function enemies:add_train()
 		shieldmax = 40,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
-		opacity = 255,
+		opacity = 1,
 		alive = true,
 		--scale = 1.5,
 	})
@@ -240,7 +240,7 @@ function enemies:add_cruiser()
 		shieldmax = 90,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
-		opacity = 255,
+		opacity = 1,
 		alive = true,
 	})
 	x = x+gfx:getWidth()
@@ -270,7 +270,7 @@ function enemies:add_tri()
 		angle = 0,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
-		opacity = 255,
+		opacity = 1,
 		alive = true,
 	})
 
@@ -289,7 +289,7 @@ function enemies:add_tri()
 		angle = 0,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
-		opacity = 255,
+		opacity = 1,
 		alive = true,
 	})
 	table.insert(self.wave, {
@@ -307,7 +307,7 @@ function enemies:add_tri()
 		angle = 0,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
-		opacity = 255,
+		opacity = 1,
 		alive = true,
 	})
 end
@@ -332,7 +332,7 @@ function enemies:add_large()
 		shieldmax = 600,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.2,
-		opacity = 255,
+		opacity = 1,
 		alive = true,
 	})
 
@@ -530,7 +530,7 @@ function enemies:update(dt)
 		
 
 		if e.shieldopacity > 0 then
-			e.shieldopacity = e.shieldopacity - 200 *dt
+			e.shieldopacity = e.shieldopacity - 1.275 *dt
 		else
 			e.shieldopacity = 0
 		end
@@ -597,7 +597,7 @@ function enemies:update(dt)
 				if collision:check(p.x,p.y,p.w,p.h, e.x,e.y,e.w,e.h) then
 
 					e.shield = e.shield - p.damage
-					e.shieldopacity = 150
+					e.shieldopacity = 0.7
 						
 					if p.type == "rocket" then
 						sound:play(projectiles.rocket.sound.explode)
@@ -655,10 +655,18 @@ end
 function enemies:drawshield(e)
 	if e.shieldopacity > 0 and e.alive then
 		
-		love.graphics.setColor(100,210,255,e.shieldopacity)
+		love.graphics.setColor(0.39,0.823,1,e.shieldopacity)
+		
+		local shake = 5
 		love.graphics.draw(
-			enemies.shield,  math.floor(e.x)+e.w/2-(enemies.shield:getWidth()/2/e.shieldscale), 
-			math.floor(e.y)+e.h/2-(enemies.shield:getHeight()/2/e.shieldscale), 0, 1/e.shieldscale, 1/e.shieldscale
+			enemies.shield,  
+			love.math.random(-shake,shake) + math.floor(e.x)+e.w/2, 
+			love.math.random(-shake,shake) + math.floor(e.y)+e.h/2, 
+			love.math.random(0,math.pi), 
+			1/e.shieldscale, 
+			1/e.shieldscale,
+			enemies.shield:getWidth()/2,
+			enemies.shield:getHeight()/2
 		)
 	end
 end
@@ -684,7 +692,7 @@ function enemies:draw()
 			love.graphics.translate(-e.x-e.w/2,-e.y-e.h/2)
 		end
 	
-		love.graphics.setColor(255,255,255,e.opacity)
+		love.graphics.setColor(1,1,1,e.opacity)
 		love.graphics.draw(
 			e.gfx,  e.x, 
 			e.y, 0, (e.scale or 1), (e.scale or 1)		
@@ -712,20 +720,20 @@ function enemies:draw()
 				love.graphics.setColor(40,40,40,50)
 				love.graphics.rectangle("fill", x+e.w/1.5/4,y-20,e.w/1.5,barheight)
 		
-				love.graphics.setColor(55,155,155,50)
+				love.graphics.setColor(0.215,0.607,0.607,0.215)
 				love.graphics.rectangle("fill", x+e.w/1.5/4,y-20,(e.shield/e.shieldmax)*(e.w/1.5),barheight)
 		
-				love.graphics.setColor(155,255,255,50)
+				love.graphics.setColor(0.607,1,1,0.215)
 				love.graphics.rectangle("line", x+e.w/1.5/4,y-20,e.w/1.5,barheight)
 			end
 			
-			love.graphics.setColor(255,255,255,255)
+			love.graphics.setColor(1,1,1,1)
 			love.graphics.print("x pos:"..x, x-10,y-10)
 			love.graphics.print("y pos:".. y, x-10,y)
 			love.graphics.print("angle:"..math.floor(math.deg((e.angle or 0))), x-10,y+10)
 			love.graphics.print("shield: "..math.floor(e.shield) .. "/" ..e.shieldmax, x-10,y+20)
 			
-			love.graphics.setColor(255,155,255,155)
+			love.graphics.setColor(1,0.607,1,0.607)
 			love.graphics.rectangle("line", x,y, e.w, e.h)
 		end
 	end

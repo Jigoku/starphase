@@ -18,7 +18,7 @@ title.splash = true
 title.splash_logo = love.graphics.newImage("gfx/artsoftware.png")
 title.splashDelay = 1
 title.splashCycle = 1
-title.splashOpacity = 255
+title.splashOpacity = 1
 
 title.active = "main"
 title.maxoptions = 3
@@ -30,20 +30,20 @@ title.menu.y = title.menu.h
 title.menu.canvas = love.graphics.newCanvas(title.menu.w,title.menu.h)
 title.menu.selected = 0
 
-title.opacity = 255
-title.opacitystep = 232
-title.opacitymin = 100
-title.opacitymax = 255
+title.opacity = 1
+title.opacitystep = 1
+title.opacitymin = 0.4
+title.opacitymax = 1
 
 title.overlay = {}
 title.overlay.opacity = 0
 title.overlay.fadeout = false
 title.overlay.fadein = false
-title.overlay.fadespeed = 200
+title.overlay.fadespeed = 0.78
 
 title.sounds = {}
-title.sounds.option = love.audio.newSource("sfx/menu/option.ogg",static)
-title.sounds.select = love.audio.newSource("sfx/menu/select.ogg",static)
+title.sounds.option = love.audio.newSource("sfx/menu/option.ogg","static")
+title.sounds.select = love.audio.newSource("sfx/menu/select.ogg","static")
 	
 title.ship1 = love.graphics.newImage("gfx/player/1_large.png")
 title.ship2 = love.graphics.newImage("gfx/player/2_large.png")
@@ -54,7 +54,7 @@ title.ship3 = love.graphics.newImage("gfx/player/3_large.png")
 function title:init()
 	starfield:setSeed()
 	title.overlay.fadein = true
-	title.overlay.opacity = 255
+	title.overlay.opacity = 1
 	paused = false
 	mode = "title"
 	title.active = "main"
@@ -65,7 +65,7 @@ function title:init()
 	starfield.minspeed = 10
 	starfield.maxspeed = 400
 	starfield:populate()
-	love.graphics.setBackgroundColor(0,0,0,255)
+	love.graphics.setBackgroundColor(0,0,0,1)
 	
 	sound:playbgm(1)
 end
@@ -79,7 +79,7 @@ function title:update(dt)
 		
 		if title.splashCycle <= 0 then
 			if title.splashOpacity > 0 then
-				title.splashOpacity = title.splashOpacity - 100 *dt
+				title.splashOpacity = title.splashOpacity - 0.4 *dt
 			else
 				title.overlay.fadein = true
 				title.splashCycle = title.splashDelay
@@ -107,7 +107,7 @@ function title:update(dt)
 	if title.overlay.fadeout then
 		title.overlay.opacity = title.overlay.opacity +title.overlay.fadespeed *dt
 		
-		if title.overlay.opacity > 255 then
+		if title.overlay.opacity > 1 then
 			title.overlay.opacity = 0
 			title.overlay.fadeout = false
 		end
@@ -128,7 +128,7 @@ end
 
 function title:draw()
 	if title.splash then
-		love.graphics.setColor(255,255,255,title.splashOpacity)
+		love.graphics.setColor(1,1,1,title.splashOpacity)
 		love.graphics.draw(title.splash_logo,love.graphics.getWidth()/2-title.splash_logo:getWidth()/2, love.graphics.getHeight()/2-title.splash_logo:getHeight()/2)
 		return
 	end
@@ -157,9 +157,9 @@ function title:draw()
 	local wrap = 500
 			
 	--title
-	love.graphics.setColor(255,255,255,155)
+	love.graphics.setColor(1,1,1,0.607)
 	love.graphics.printf("Star Phase", 0,0,wrap,"center",0,1,1)
-	love.graphics.setColor(200,200,200,105)
+	love.graphics.setColor(0.784,0.784,0.784,0.411)
 	love.graphics.printf("Star Phase", 5,0,wrap,"center",0,1,1)
 
 	--menu
@@ -204,7 +204,7 @@ function title:draw()
 	end
 	
 			
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	if title.active == "ship_selection" then
 		if title.menu.selected == 0 then
 			love.graphics.draw(title.ship3, 50,100, 0,0.5)
@@ -220,19 +220,19 @@ function title:draw()
 
 	--border bars
 	local h = 30
-	love.graphics.setColor(0,0,0,150)
+	love.graphics.setColor(0,0,0,0.588)
 	love.graphics.rectangle("fill",0,love.graphics.getHeight()-h,love.graphics.getWidth(),h)
 	love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),h)
 	
-	love.graphics.setColor(50,80,80,150)
+	love.graphics.setColor(0.2,0.3,0.3,0.6)
 	love.graphics.line(0,love.graphics.getHeight()-h,love.graphics.getWidth(),love.graphics.getHeight()-h)
 	love.graphics.line(0,h,love.graphics.getWidth(),h)
 	
 	
-	love.graphics.setColor(255,255,255,155)
+	love.graphics.setColor(1,1,1,0.607)
 	love.graphics.print("Debug title:  [`] = console, [space] = toggle hud, [j] = reseed",900,10)
 	
-	love.graphics.setColor(255,255,255,155)
+	love.graphics.setColor(1,1,1,0.607)
 	love.graphics.draw(title.menu.canvas,title.menu.x,title.menu.y)
 	love.graphics.printf("v"..version..build.." ("..love.system.getOS() ..") by "..author,10,love.graphics.getHeight()-25,300,"left",0,1,1)		--version
 	
@@ -253,7 +253,7 @@ function title:itemselected(selected)
 	if title.menu.selected == selected then
 		love.graphics.setColor(title.opacity/2,title.opacity,title.opacity,title.opacity)
 	else
-		love.graphics.setColor(85,85,85,255)
+		love.graphics.setColor(0.333,0.333,0.333,1)
 	end
 end
 

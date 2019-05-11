@@ -310,7 +310,7 @@ function player:draw()
 	
 	love.graphics.push()
 
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 	
 	local s = starfield.warpspeed*2
 	if starfield.speed > s and not paused then
@@ -326,13 +326,13 @@ function player:draw()
 	end
 	
 	if debug then
-		love.graphics.setColor(255,255,0,100)
+		love.graphics.setColor(1,1,0,0.391)
 		love.graphics.rectangle("line", self.x,self.y, self.gfx:getWidth(),self.gfx:getHeight())
 	end
 	
 	
 	if player.warning then
-	love.graphics.setColor(255,0,0,player.warningopacity)
+	love.graphics.setColor(1,0,0,player.warningopacity)
 	love.graphics.draw(
 		self.warninggfx, self.warning_quad, 0,0, 0, starfield.w/self.warninggfx:getWidth(), starfield.h/self.warninggfx:getHeight()
 	)	

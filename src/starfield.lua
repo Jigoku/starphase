@@ -24,6 +24,7 @@ starfield.objects = {}
 starfield.offset = 0
 
 starfield.limit = 1150
+--starfield.limit = 200
 starfield.speed = 0
 starfield.minspeed = 10   --slowest speed
 starfield.maxspeed = 600  --fastest speed
@@ -45,18 +46,19 @@ starfield.nebulae.min = 1
 starfield.nebulae.max = 16
 starfield.nebulae.size = 512
 starfield.nebulae.quads = textures:loadSprite(starfield.nebulae.sprite, starfield.nebulae.size, starfield.nebulae.max )
-starfield.nebulae.red = 255
-starfield.nebulae.green = 255
-starfield.nebulae.blue = 255
+starfield.nebulae.red = 1
+starfield.nebulae.green = 1
+starfield.nebulae.blue = 1
 starfield.nebulae.populate = true
 starfield.nebulae.limit = 5
 
-starfield.background = { 10, 20, 20 }
+
+starfield.background = { 0.0, 0.035, 0.06 }
 
 function starfield:setColor(r,g,b)
-	starfield.nebulae.red = (r or love.math.random(50,255))
-	starfield.nebulae.green = (g or love.math.random(50,255))
-	starfield.nebulae.blue = (b or love.math.random(50,255))
+	starfield.nebulae.red   = (r or love.math.random(50,200)/255)
+	starfield.nebulae.green = (g or love.math.random(50,200)/255)
+	starfield.nebulae.blue  = (b or love.math.random(50,200)/255)
 end
 
 function starfield:populate()
@@ -100,7 +102,6 @@ function starfield:speedAdjust(n,dt)
 			o.maxvel = math.max(o.maxvel +n, o.minvel)
 		end
 	end
-	
 end
 
 
@@ -110,7 +111,7 @@ function starfield:addStar(x,y)
 	
 	local vel =  love.math.random(11,15)/10
 	local scale = love.math.random(0.5,1.5)
-	local o = vel*50
+
 	table.insert(self.objects, {
 		x = x,
 		y = y,
@@ -119,11 +120,10 @@ function starfield:addStar(x,y)
 		maxvel = vel,
 		minvel = vel,
 		type = "star",
-		r = love.math.random(200,245),
-		g = love.math.random(200,245),
-		b = love.math.random(200,245),
-		--o = love.math.random(5,160),
-		o = o,
+		r = love.math.random(0.784,0.960),
+		g = love.math.random(0.784,0.960),
+		b = love.math.random(0.784,0.960),
+		o = love.math.random(5,120) /255,
 		gfx = self.star,
 		scale = scale,
 		
@@ -144,10 +144,10 @@ function starfield:addNova(x,y)
 		maxvel = vel,
 		minvel = vel,
 		type = "nova",
-		r = love.math.random (100,255),
-		g = love.math.random (100,255),
-		b = love.math.random (100,255),
-		o = love.math.random(20,80),
+		r = love.math.random (0.39,1),
+		g = love.math.random (0.39,1),
+		b = love.math.random (0.39,1),
+		o = love.math.random(0.07,0.3),
 		gfx = self.nova,
 		scale = 1,
 	})
@@ -174,7 +174,7 @@ function starfield:addNebula(x,y)
 			r = self.nebulae.red,
 			g = self.nebulae.green,
 			b = self.nebulae.blue,
-			o = love.math.random(40,120),
+			o = love.math.random(0.156,0.470),
 			gfx = self.nebulae.quads[love.math.random(self.nebulae.min,self.nebulae.max)],
 			scale = scale,
 			angle = love.math.random(0.0,math.pi*10)/10,
@@ -189,7 +189,7 @@ function starfield:addPlanet(x,y)
 	if self.planets.populate then
 		if  self.count.planet < starfield.planets.limit then
 		local scale = love.math.random(5,30)/10
-		local vel = love.math.random(20,30)/10
+		local vel = love.math.random(15,15)/10
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		table.insert(self.objects, {
 			x = x,
@@ -199,10 +199,10 @@ function starfield:addPlanet(x,y)
 			maxvel = vel,
 			minvel = vel,
 			type = "planet",
-			r = 205,
-			g = 205,
-			b = 205,
-			o = 255,
+			r = 0.503,
+			g = 0.503,
+			b = 0.503,
+			o = 1,
 			gfx = gfx,
 			scale = scale,
 			angle =  love.math.random(0.0,math.pi*10)/10,
@@ -315,12 +315,17 @@ function starfield:draw(x,y)
 	
 	--background
 	--commenting this causes cool trails effect, may be useful.
-	love.graphics.setColor(self.background[1],self.background[2],self.background[3],255)
-	love.graphics.rectangle("fill", 0,0,self.w,self.h )
-	
+	if self.speed >= self.warpspeed then
+	--	love.graphics.setColor(math.min(2 *starfield.speed/25,255),self.background[2],self.background[3],255)
+		--love.graphics.rectangle("fill", 0,0,self.w,self.h )
+		
+	else
+		love.graphics.setColor(self.background[1],self.background[2],self.background[3],1)
+		love.graphics.rectangle("fill", 0,0,self.w,self.h )
+	end
 
 	
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 
 	for _, o in ipairs(self.objects) do
 		
@@ -339,7 +344,7 @@ function starfield:draw(x,y)
 				o.gfx, o.x-o.gfx:getWidth()/2, 
 				o.y-o.gfx:getHeight()/2, 0, 1, 1
 			)
-			love.graphics.setColor(255,255,255,100)
+			love.graphics.setColor(1,1,1,0.392)
 			love.graphics.draw(
 				self.star, o.x-self.star:getWidth()/2, 
 				o.y-self.star:getHeight()/2, 0, 1, 1
@@ -378,7 +383,7 @@ function starfield:draw(x,y)
 				)
 				
 			if debug then
-				love.graphics.setColor(0,255,255,40)			
+				love.graphics.setColor(0,1,1,0.156)			
 				love.graphics.rectangle(
 					"line",
 					o.x,
@@ -397,7 +402,7 @@ function starfield:draw(x,y)
 	end
 	
 	--overlay  mist effect 
-	love.graphics.setColor(80,80,80,15)
+	love.graphics.setColor(.313,.313,.313,.058)
 	love.graphics.draw(
 		self.mist, self.mist_quad, 0,0, 0, self.w/self.mist:getWidth(), self.h/self.mist:getHeight()
 	)	
@@ -426,7 +431,7 @@ function starfield:draw(x,y)
 				)
 				
 			if debug then
-				love.graphics.setColor(0,255,100,140)			
+				love.graphics.setColor(0,1,0.39,0.549)			
 				love.graphics.rectangle(
 					"line",
 					o.x,
@@ -448,7 +453,7 @@ function starfield:draw(x,y)
 	if self.speed > self.warpspeed then 
 	
 		--blue/green
-		love.graphics.setColor(70,110,155,math.min(2 *starfield.speed/25,255))
+		love.graphics.setColor(0.274,0.431,0.607,math.min(2 *starfield.speed/25,1)/255)
 		--green/blue
 		--love.graphics.setColor(100,240,210,math.min(2 *starfield.speed/50,30))
 		--pink/purple
@@ -477,7 +482,7 @@ function starfield:draw(x,y)
 	love.graphics.setCanvas()
 
 
-	love.graphics.setColor(255,255,255,255)
+	love.graphics.setColor(1,1,1,1)
 
 
 	love.graphics.push()

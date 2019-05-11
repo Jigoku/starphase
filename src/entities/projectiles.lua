@@ -230,7 +230,7 @@ function projectiles:draw()
 			
 		love.graphics.push()
 			if p.type == "cannon" then
-				love.graphics.setColor(p.r,p.g,p.b,255)
+				love.graphics.setColor(p.r,p.g,p.b,1)
 				love.graphics.draw(
 					p.gfx,  x, 
 					y, 0, dir, 1, offset
@@ -238,7 +238,7 @@ function projectiles:draw()
 			end
 			
 			if p.type == "blaster" then
-				love.graphics.setColor(p.r,p.g,p.b,255)
+				love.graphics.setColor(p.r,p.g,p.b,1)
 				love.graphics.draw(
 					p.gfx,  x, 
 					y, 0, dir, 1, offset
@@ -246,7 +246,7 @@ function projectiles:draw()
 			end
 			
 			if p.type == "wave" then
-				love.graphics.setColor(p.r,p.g,p.b,200)
+				love.graphics.setColor(p.r,p.g,p.b,0.784)
 				love.graphics.draw(
 					p.gfx,  x, 
 					y, 0, dir, 1, offset
@@ -255,7 +255,7 @@ function projectiles:draw()
 			
 			if p.type == "plasma" or p.type == "radial" then
 				
-				love.graphics.setColor(p.r,p.g,p.b,255)
+				love.graphics.setColor(p.r,p.g,p.b,1)
 				love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
 				love.graphics.rotate(p.rotation or 0)
 				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
@@ -268,7 +268,7 @@ function projectiles:draw()
 			
 			if p.type == "orb" then
 
-				love.graphics.setColor(p.r,p.g,p.b,255)
+				love.graphics.setColor(p.r,p.g,p.b,1)
 				love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
 				love.graphics.rotate(p.rotation or 0)
 				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
@@ -280,7 +280,7 @@ function projectiles:draw()
 			end
 			
 			if p.type == "rocket" then
-				love.graphics.setColor(p.r,p.g,p.b,255)
+				love.graphics.setColor(p.r,p.g,p.b,1)
 				love.graphics.draw(
 					p.gfx,  x, 
 					y, 0, dir, 1, offset
@@ -290,7 +290,7 @@ function projectiles:draw()
 			
 			if p.type == "barrier" then
 	
-				love.graphics.setColor(p.r,p.g,p.b,140)
+				love.graphics.setColor(p.r,p.g,p.b,0.549)
 				love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
 				love.graphics.rotate(p.rotation or 0)
 				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
@@ -302,7 +302,7 @@ function projectiles:draw()
 			end
 			
 			if p.type == "beam" then
-				love.graphics.setColor(p.r,p.g,p.b,125)
+				love.graphics.setColor(p.r,p.g,p.b,0.490)
 				love.graphics.translate(p.x+p.w/2,p.y+p.h/2)
 				love.graphics.rotate(p.rotation or 0)
 				love.graphics.translate(-p.x-p.w/2,-p.y-p.h/2)
@@ -316,7 +316,7 @@ function projectiles:draw()
 		love.graphics.pop()		
 		
 		if debug then
-			love.graphics.setColor(255,0,0,140)			
+			love.graphics.setColor(1,0,0,0.549)			
 			love.graphics.rectangle(
 				"line",
 				p.x,
