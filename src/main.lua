@@ -13,29 +13,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
 
-require("misc")
-require("camera")
-require("binds")
-require("collision")
-require("sound")
-require("textures")
-require("screen/title")
-require("screen/hud")
-require("screen/fonts")
-require("entities/pickups")
-require("entities/enemies")
-require("entities/explosions")
-require("entities/player")
-require("entities/projectiles")
+
 
 
 function love.load(args)
 
 
 	--love.math.setRandomSeed( os.time() )
+	require("misc")
+	require("camera")
+	require("binds")
+	require("collision")
+	require("sound")
+	require("textures")
+	require("screen/title")
+	require("screen/hud")
+	require("screen/fonts")
+	require("entities/pickups")
+	require("entities/enemies")
+	require("entities/explosions")
+	require("entities/player")
+	require("entities/projectiles")
+	require("starfield")
 
-	
-	starfield = require("starfield")
 	msgs = require("screen/messagebox")
 	
 	msgs.callback = function() print("end of message test") end
@@ -63,6 +63,7 @@ function love.load(args)
 	game.width, game.height, game.flags = love.window.getMode( )
 	game.seed = nil
 	game.max_fps = game.flags.refreshrate
+	--game.max_fps = 60
 	game.min_dt = 1/game.max_fps
 	game.next_time = love.timer.getTime()
 
@@ -104,8 +105,9 @@ function initarcade(playersel)
 	--starfield.nebulae.blue = love.math.random(0,255)
 	player:init(playersel)
 	
-	starfield.minspeed = 25
-	starfield.maxspeed = 600
+	starfield.minspeed = 80
+	starfield.maxspeed = 500
+	
 	
 	hud:init()
 
@@ -120,7 +122,7 @@ function initdebugarcade(playersel)
 	msgs.queue(
 		{
 			{		
-				face = love.graphics.newImage("gfx/faces/1.png"),
+				face = love.graphics.newImage("gfx/faces/face1.png"),
 				name = "Message Test",
 				text = "Testing a dialog event!",
 				duration = 4,
@@ -282,7 +284,27 @@ function love.keypressed(key)
 			}
 		}
 	)
-		
+	elseif key == "m" then
+		msgs.queue(
+		{
+			{		
+				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,6)..".png"),
+				name = "Message Test",
+				text = "There should be an outpost up ahead.",
+				duration = 4,
+			},
+		})
+		--[[
+		msgs.queue(
+		{
+			{		
+				face = love.graphics.newImage("gfx/faces/face1.png"),
+				name = "Sophia",
+				text = "Try to find it. Good luck.",
+				duration = 6,
+			}
+		})
+		--]]
 	end
 	
 	

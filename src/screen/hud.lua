@@ -18,6 +18,7 @@ hud.life_gfx = love.graphics.newImage("gfx/life.png")
 
 hud.colors = {
 	["frame"] = {0.607,1,1,0.196},
+	["face"] = {0.607,1,1},
 	["frame_dark"] = {0.039,0.039,0.039,0.39},
 	["lives"] = {0.39,0.745,0.784,0.470},
 	["hsl_frame"] = 0,
@@ -56,7 +57,7 @@ end
 
 function hud:init()
 	hud.display = {
-		w = 700,
+		w = 900,
 		h = 30,
 		offset = 30,
 		canvas = love.graphics.newCanvas(w, h),
@@ -139,12 +140,12 @@ function hud:drawFrames()
 		20,love.graphics.getHeight()-40
 	)
 	love.graphics.line(
-		love.graphics.getWidth()/4+1,love.graphics.getHeight()-20,
-		love.graphics.getWidth()/4+40,love.graphics.getHeight()-40
+		love.graphics.getWidth()/5+1,love.graphics.getHeight()-20,
+		love.graphics.getWidth()/5+40,love.graphics.getHeight()-40
 	)	
 	love.graphics.line(
 		61,love.graphics.getHeight()-20,
-		love.graphics.getWidth()/4,love.graphics.getHeight()-20
+		love.graphics.getWidth()/5,love.graphics.getHeight()-20
 	)
 	
 	love.graphics.line(
@@ -158,12 +159,12 @@ function hud:drawFrames()
 		20,40
 	)
 	love.graphics.line(
-		love.graphics.getWidth()/4+1,20,
-		love.graphics.getWidth()/4+40,40
+		love.graphics.getWidth()/5+1,20,
+		love.graphics.getWidth()/5+40,40
 	)	
 	love.graphics.line(
 		61,20,
-		love.graphics.getWidth()/4,20
+		love.graphics.getWidth()/5,20
 	)
 	
 	
@@ -173,12 +174,12 @@ function hud:drawFrames()
 		love.graphics.getWidth()-20,love.graphics.getHeight()-40
 	)
 	love.graphics.line(
-		love.graphics.getWidth()-love.graphics.getWidth()/4-1,love.graphics.getHeight()-20,
-		love.graphics.getWidth()-love.graphics.getWidth()/4-40,love.graphics.getHeight()-40
+		love.graphics.getWidth()-love.graphics.getWidth()/5-1,love.graphics.getHeight()-20,
+		love.graphics.getWidth()-love.graphics.getWidth()/5-40,love.graphics.getHeight()-40
 	)
 	love.graphics.line(
 		love.graphics.getWidth()-61,love.graphics.getHeight()-20,
-		love.graphics.getWidth()-love.graphics.getWidth()/4,love.graphics.getHeight()-20
+		love.graphics.getWidth()-love.graphics.getWidth()/5,love.graphics.getHeight()-20
 	)
 	
 	love.graphics.line(
@@ -193,17 +194,17 @@ function hud:drawFrames()
 	)
 	
 	love.graphics.line(
-		love.graphics.getWidth()-love.graphics.getWidth()/4-1,20,
-		love.graphics.getWidth()-love.graphics.getWidth()/4-40,40
+		love.graphics.getWidth()-love.graphics.getWidth()/5-1,20,
+		love.graphics.getWidth()-love.graphics.getWidth()/5-40,40
 	)
 	love.graphics.line(
 		love.graphics.getWidth()-61,20,
-		love.graphics.getWidth()-love.graphics.getWidth()/4,20
+		love.graphics.getWidth()-love.graphics.getWidth()/5,20
 	)
 	
 	
 	-- hud frame for bottom of screen
-	local w = 400
+	local w = 510
 	local a = 20
 	
 	local points = {
@@ -254,7 +255,7 @@ function hud:draw()
 	
 	if debugarcade then
 		love.graphics.setColor(0.588,1,1,0.784)
-		love.graphics.print("DEBUG:\npress [ or ] to adjust starfield speed\npress 1-9 to spawn enemies\npress space to set new starfield seed\npress ` for console/debug overlay\npress k to spawn powerup", 30, starfield.h-200)
+		love.graphics.print("DEBUG:\npress [ or ] to adjust starfield speed\npress 1-9 to spawn enemies\npress space to set new starfield seed\npress ` for console/debug overlay\npress k to spawn powerup", 30, starfield.h-300)
 	end
 	
 
@@ -263,7 +264,7 @@ function hud:draw()
 	
 	
 	--time
-	love.graphics.setColor(1,1,1,0.39)
+	love.graphics.setColor(1,1,1,0.4)
 	love.graphics.setFont(fonts.timer)
 	love.graphics.printf(misc:formatTime(hud.time), love.graphics.getWidth()/2-150,20,300,"center",0,1,1)
 	love.graphics.setFont(fonts.default)
@@ -286,7 +287,7 @@ function hud:draw()
 
 	--wave progress marker
 	love.graphics.setColor(0.607,1,1,0.607)
-	for i=0,hud.display.w, hud.display.w/4 do
+	for i=0,hud.display.w, hud.display.w/10 do
 		love.graphics.line(i+1,10, i,hud.display.h-1)
 	end
 	
@@ -314,35 +315,35 @@ function hud:draw()
 		
 	--progress
 	love.graphics.setColor(1,1,1,0.607)
-	love.graphics.print("progress : " .. math.floor(hud.display.progress/hud.display.w*100).."%", 10,hud.display.h-10)	
+	love.graphics.print("Wave Progress : " .. math.floor(hud.display.progress/hud.display.w*100).."%", 10,hud.display.h)	
 	--score
 	love.graphics.setColor(1,1,1,0.607)
-	love.graphics.print("score: " .. player.score, 10+hud.display.w/4,hud.display.h-10)
+	love.graphics.print("Score : " .. player.score, 10+hud.display.w/4,hud.display.h)
 		
 
 
 		
 	--shield bar
 	love.graphics.setColor(1,1,1,0.607)
-	love.graphics.print("shield", 10+hud.display.w/4*2,hud.display.h-10)
-	love.graphics.setColor(0.39,0.784,0.39,0.39)
-	love.graphics.rectangle("fill", 65+hud.display.w/4*2,hud.display.h-5,hud.display.w/8, hud.display.h/3)
-	love.graphics.setColor(0.39,0.784,0.39,0.607)
-	love.graphics.rectangle("fill", 65+hud.display.w/4*2,hud.display.h-5,player.shield/player.shieldmax*(hud.display.w/8), hud.display.h/3)
+	love.graphics.print("shield", 10+hud.display.w/4*2,hud.display.h)
+	love.graphics.setColor(0.39,0.784,0.39,0.3)
+	love.graphics.rectangle("fill", 70+hud.display.w/4*2,hud.display.h+10,hud.display.w/8, hud.display.h/3,5,5)
+	love.graphics.setColor(0.39,0.784,0.39,0.7)
+	love.graphics.rectangle("fill", 70+hud.display.w/4*2,hud.display.h+10,player.shield/player.shieldmax*(hud.display.w/8), hud.display.h/3,5,5)
 	
-		love.graphics.setColor(0.607,1,1,50)
-		love.graphics.rectangle("line", 65+hud.display.w/4*2,hud.display.h-5,hud.display.w/8, hud.display.h/3)
+	love.graphics.setColor(0.607,1,1,0.3)
+	love.graphics.rectangle("line", 70+hud.display.w/4*2,hud.display.h+10,hud.display.w/8, hud.display.h/3,5,5)
 		
 	--energy bar
 	love.graphics.setColor(1,1,1,0.607)
-	love.graphics.print("energy", 10+hud.display.w/4*3,hud.display.h-10)
-		love.graphics.setColor(0.39,0.784,0.39,0.39)
-	love.graphics.rectangle("fill", 65+hud.display.w/4*3,hud.display.h-5,hud.display.w/8, hud.display.h/3)
-	love.graphics.setColor(0.39,0.745,0.784,0.607)
-	love.graphics.rectangle("fill", 65+hud.display.w/4*3,hud.display.h-5,player.energy/player.energymax*(hud.display.w/8), hud.display.h/3)
+	love.graphics.print("energy", 10+hud.display.w/4*3,hud.display.h)
+	love.graphics.setColor(0.39,0.784,0.39,0.3)
+	love.graphics.rectangle("fill", 70+hud.display.w/4*3,hud.display.h+10,hud.display.w/8, hud.display.h/3,5,5)
+	love.graphics.setColor(0.39,0.745,0.784,0.7)
+	love.graphics.rectangle("fill", 70+hud.display.w/4*3,hud.display.h+10,player.energy/player.energymax*(hud.display.w/8), hud.display.h/3,5,5)
 		
-		love.graphics.setColor(0.607,1,1,0.196)
-		love.graphics.rectangle("line", 65+hud.display.w/4*3,hud.display.h-5,hud.display.w/8, hud.display.h/3)
+	love.graphics.setColor(0.607,1,1,0.3)
+	love.graphics.rectangle("line", 70+hud.display.w/4*3,hud.display.h+10,hud.display.w/8, hud.display.h/3,5,5)
 
 	
 	love.graphics.setFont(fonts.default)

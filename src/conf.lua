@@ -32,7 +32,7 @@ function love.conf(t)
 	t.window.msaa = 0
 	t.window.resizable = true
 	t.window.vsync = true
-	t.window.fullscreen = false
+	t.window.fullscreen = true
 	t.window.fullscreentype = "desktop"
 	t.window.icon = "gfx/icon.png"
 end

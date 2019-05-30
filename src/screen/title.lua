@@ -41,6 +41,9 @@ title.overlay.fadeout = false
 title.overlay.fadein = false
 title.overlay.fadespeed = 0.78
 
+title.scene_timer = 0
+title.scene_delay = 5
+
 title.sounds = {}
 title.sounds.option = love.audio.newSource("sfx/menu/option.ogg","static")
 title.sounds.select = love.audio.newSource("sfx/menu/select.ogg","static")
@@ -58,12 +61,12 @@ function title:init()
 	paused = false
 	mode = "title"
 	title.active = "main"
-	love.mouse.setVisible(false)
-	--love.mouse.setGrabbed(true)
+	love.mouse.setVisible(true)
+	love.mouse.setGrabbed(true)
 	starfield.offset = 0  
 	starfield.speed = 0
 	starfield.minspeed = 10
-	starfield.maxspeed = 400
+	--starfield.maxspeed = 400
 	starfield:populate()
 	love.graphics.setBackgroundColor(0,0,0,1)
 	
@@ -91,6 +94,18 @@ function title:update(dt)
 	
 	end
 
+	--[[
+	title.scene_timer = math.max(0, title.scene_timer - dt)
+	if title.scene_timer <= 0 then
+		title.scene_timer = title.scene_delay
+		title.overlay.fadeout = true
+		--starfield:setSeed()
+		--starfield:populate()
+		--title.overlay.fadein = true
+	end
+	--]]
+	
+	
 	--main title sequence
 	
 

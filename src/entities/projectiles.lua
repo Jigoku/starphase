@@ -187,7 +187,7 @@ function projectiles:update(dt)
 		--enemy projectiles
 		if not p.player then
 			--p.x = p.x - (p.xvel *dt)
-			
+
 			if not cheats.invincible then
 				if player.alive and collision:check(p.x,p.y,p.w,p.h, player.x,player.y,player.w,player.h) then
 					 

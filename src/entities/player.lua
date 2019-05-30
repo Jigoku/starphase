@@ -31,7 +31,7 @@ function player:init(playersel)
 	player.warningopacity = 0
 	
 	player.x = 300
-	player.y = starfield.h/2-player.gfx:getHeight()/2
+	player.y = (starfield.h+starfield.offset)/2-player.gfx:getHeight()/2
 	player.w = player.gfx:getWidth()
 	player.h = player.gfx:getHeight()
 	player.score = 0
@@ -252,9 +252,9 @@ function player:checkShield(dt)
 	if player.shield < 30 then
 		player.warning = true
 		if player.warningopacity <=0 then 
-			player.warningopacity = 255
+			player.warningopacity = 1
 		else
-			player.warningopacity = player.warningopacity - 600 *dt
+			player.warningopacity = player.warningopacity - 2.5 *dt
 		end
 	else
 		player.warning = false
@@ -361,9 +361,9 @@ function player:fireCannon(dt)
 			yvel = (player.cannon.switch and -40 or 40),
 			xvel = 2000,
 			damage = projectiles.cannon.damage,
-			r = love.math.random(150,255),
-			g = love.math.random(150,255),
-			b = love.math.random(150,255),
+			r = love.math.random(0.58,1),
+			g = love.math.random(0.58,1),
+			b = love.math.random(0.58,1),
 		})
 		self.cannon.cycle = self.cannon.delay
 	end
@@ -387,9 +387,9 @@ function player:fireBlaster(dt)
 			yvel = 0,
 			xvel = 1250,
 			damage = projectiles.blaster.damage,
-			r = 255,
-			g = 170,
-			b = 70,
+			r = 1,
+			g = 0.66,
+			b = 0.27,
 		})
 		self.blaster.cycle = self.blaster.delay
 	end
@@ -413,9 +413,9 @@ function player:fireWave(dt)
 			yvel = 0,
 			xvel = 750,
 			damage = projectiles.wave.damage,
-			r = 255,
-			g = 120,
-			b = 170,
+			r = 1,
+			g = 0.47,
+			b = 0.66,
 		})
 		
 		
@@ -431,9 +431,9 @@ function player:fireWave(dt)
 			yvel = 0,
 			xvel = 750,
 			damage = projectiles.wave.damage,
-			r = 255,
-			g = 120,
-			b = 170,
+			r = 1,
+			g = 0.47,
+			b = 0.66,
 		})
 		
 		self.wave.cycle = self.wave.delay
@@ -447,9 +447,9 @@ function player:fireRadial(dt)
 		sound:play(projectiles.radial.sound.shoot)
 		
 		local r, g, b
-		r = 255
-		g = 255
-		b = 255
+		r = 1
+		g = 1
+		b = 1
 		
 		local timer =  0.75
 		local vel = 400
@@ -623,9 +623,9 @@ function player:firePlasma(dt)
 			yvel = 0,
 			xvel = 750,
 			damage = projectiles.plasma.damage,
-			r = 100,
-			g = 230,
-			b = 250,
+			r = 0.4,
+			g = 0.9,
+			b = 0.97,
 		})
 		
 		self.plasma.cycle = self.plasma.delay
@@ -654,8 +654,8 @@ function player:fireOrb(dt)
 			xvel = 800,
 			damage = projectiles.orb.damage,
 			r = 0,
-			g = 255,
-			b = 100,
+			g = 1,
+			b = 0.4,
 		})
 		self.orb.cycle = self.orb.delay
 	end
@@ -684,9 +684,9 @@ function player:fireRocket(dt)
 			yvel = (player.rocket.switch and -400 or 400),
 			xvel = 900,
 			damage = projectiles.rocket.damage,
-			r = 255,
-			g = 255,
-			b = 255,
+			r = 1,
+			g = 1,
+			b = 1,
 		})
 		
 		self.rocket.cycle = self.rocket.delay
@@ -716,9 +716,9 @@ function player:fireBeam(dt)
 			yvel = 0,
 			xvel = 700,
 			damage = projectiles.beam.damage,
-			r = 05,
-			g = 70,
-			b = 70,
+			r = 0.01,
+			g = 0.27,
+			b = 0.27,
 		})
 		self.beam.cycle = self.beam.delay
 	end		
@@ -739,9 +739,9 @@ function player:addBarrier(dt)
 		xvel = 0,
 		yvel = 0,
 		damage = projectiles.barrier.damage,
-		r = 100,
-		g = 255,
-		b = 255,
+		r = 0.4,
+		g = 1.0,
+		b = 1.0,
 	})
 
 end
