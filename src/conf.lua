@@ -15,7 +15,7 @@
 
 name = "Star Phase"
 author = "ricky thomson"
-version = 0.07
+version = 0.10
 build = "-dev"
 print (name .. " " .. version .. build .. " by " .. author)
 

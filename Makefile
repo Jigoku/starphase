@@ -1,6 +1,6 @@
 APP_NAME=starphase
-APP_VERSION=0.07-dev
-LOVE_VERSION=0.10.2
+APP_VERSION=0.10-dev
+LOVE_VERSION=11.1
 
 build setup:
 	mkdir build
