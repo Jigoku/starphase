@@ -69,7 +69,8 @@ end
 
 function messagebox.draw()
 	if paused then return end
-
+	
+	
 	
 	if #messagebox.screens > 0 then
 	
@@ -90,13 +91,15 @@ function messagebox.draw()
 		love.graphics.setColor(hud.colors.face)
 		love.graphics.draw(msg.face,0,0,0,1,1,0,0)
 		
-				--line
-		love.graphics.setColor(0.3,0.3,0.3,0.6)
-		love.graphics.rectangle("line", 0,0, messagebox.w, messagebox.h)
+		--line
+		--love.graphics.setColor(0.3,0.3,0.3,0.6)
+		love.graphics.setColor(hud.colors["frame"][1],hud.colors["frame"][2],hud.colors["frame"][3],0.5)
+		love.graphics.line(0,0, messagebox.w, 0)
+		love.graphics.line(0,messagebox.h, messagebox.w, messagebox.h)
 		
 		--name
 		local of = love.graphics.getFont()
-		love.graphics.setColor(0.2,0.7,0.6,1)
+		love.graphics.setColor(hud.colors["frame"][1]/2,hud.colors["frame"][2],hud.colors["frame"][3]*2,1)
 		love.graphics.setFont(fonts.message_header)
 		love.graphics.print(msg.name,0+msg.face:getWidth()+messagebox.textpadding,0)
 		

@@ -173,7 +173,7 @@ end
 function enemies:add_asteroid()
 	
 	local gfx = self.type.asteroids[love.math.random(1,#self.type.asteroids)]
-	local color = love.math.random(0.6,1)
+	local color = love.math.random(0,4)/10
 	table.insert(self.wave, {
 		type = "asteroid",
 		w = gfx:getWidth(),
@@ -190,10 +190,10 @@ function enemies:add_asteroid()
 		shieldscale = 0,
 		opacity = 1,
 		alive = true,
-		spin = (love.math.random(0,1) == 1 and 1 or -1),
-		r = color,
-		g = color,
-		b = color,
+		spin = (love.math.random(0,1) == 1 and love.math.random(1,3) or love.math.random(-1,-3)),
+		r = starfield.nebulae.red*2 + color,
+		g = starfield.nebulae.green*2 + color,
+		b = starfield.nebulae.blue*2 + color,
 	})
 
 

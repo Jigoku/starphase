@@ -105,7 +105,7 @@ function initarcade(playersel)
 	--starfield.nebulae.blue = love.math.random(0,255)
 	player:init(playersel)
 	
-	starfield.minspeed = 80
+	starfield.minspeed = 50
 	starfield.maxspeed = 500
 	
 	
@@ -340,6 +340,7 @@ function love.wheelmoved(x, y)
 	end
 end
 
+--[
 function love.focus(f)
 	if f then
 		print("Window focused.")

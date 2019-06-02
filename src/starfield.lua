@@ -18,10 +18,13 @@
 --	add starfield:update(dt) to love.update()
 --  add starfield:draw(x,y) to love.draw(), x/y are position of the canvas
 
+
+-- TODO ADD DEBUG HUD FOR SEED PALLETTE (COLOURS)
+
 starfield = {}
 starfield.objects = {}
 
-player.y = 0
+player.y = 0 --? move this.
 starfield.offset = 128
 	starfield.w = 1920
 	starfield.h = 1080+starfield.offset
@@ -36,12 +39,17 @@ starfield.warpspeed = 220 --speed when warp starts
 starfield.hyperspace = love.graphics.newImage("gfx/starfield/hyperspace.png")
 starfield.warp = love.graphics.newImage("gfx/starfield/warp.png")
 starfield.mist = love.graphics.newImage("gfx/starfield/mist.png")
-starfield.nova = love.graphics.newImage("gfx/starfield/nova.png")
+
 starfield.star = love.graphics.newImage("gfx/starfield/star.png")
 starfield.planets = textures:load("gfx/starfield/planets/")
 
 starfield.planets.populate = true
 starfield.planets.limit = 1
+
+starfield.nova = {}
+starfield.nova.sprite = love.graphics.newImage("gfx/starfield/nova.png")
+starfield.nova.limit = 5
+starfield.nova.limit = 5
 
 starfield.nebulae = { }
 starfield.nebulae.sprite = love.graphics.newImage("gfx/starfield/nebulae/proc_sheet_nebula.png")
@@ -53,16 +61,21 @@ starfield.nebulae.red = 1
 starfield.nebulae.green = 1
 starfield.nebulae.blue = 1
 starfield.nebulae.populate = true
-starfield.nebulae.limit = 5
+--starfield.nebulae.limit = 5
+starfield.nebulae.limit = 6
 
 starfield.background = { 0.0, 0.0, 0.0 }
 
 starfield.background_style = {
 	{ 0.0, 0.035, 0.06 }, -- blueish
---	{ 0.0, 0.055, 0.07 }, -- greenish
---	{ 0.055, 0.055, 0.07 }, -- rustic
---	{ 0.055, 0.07, 0.07 }, -- greyish
---	{ 0.055, 0.0, 0.00 } -- red
+	{ 0.0, 0.055, 0.07 }, -- greenish
+	{ 0.055, 0.055, 0.07 }, -- rustic
+	{ 0.055, 0.07, 0.07 }, -- greyish
+	{ 0.055, 0.0, 0.00 }, -- red
+	{ 0.05,0.05,0.02 } --- amber
+	
+	-- looks better with BG variation -BUT needs to 
+	-- "fade to new colour" when changing seed/warping
 }
 
 function starfield:setColor(r,g,b)
@@ -156,24 +169,23 @@ function starfield:addStar(x,y)
 end
 
 function starfield:addNova(x,y)
-	--dense star
-	--if self.speed > self.warpspeed then return end
-	if self.count.nova < self.nebulae.limit then
+	
+	if self.count.nova < self.nova.limit then
 	local vel =  love.math.random(12,15)/10
 	table.insert(self.objects, {
 		x = x,
 		y = y,
-		w = self.nova:getWidth(),
-		h = self.nova:getHeight(),
+		w = self.nova.sprite:getWidth(),
+		h = self.nova.sprite:getHeight(),
 		maxvel = vel,
 		minvel = vel,
 		type = "nova",
-		r = love.math.random (0.39,1),
-		g = love.math.random (0.39,1),
-		b = love.math.random (0.39,1),
-		o = love.math.random(0.07,0.3),
-		gfx = self.nova,
-		scale = 1,
+		r = love.math.random (0.39,0.8),
+		g = love.math.random (0.39,0.8),
+		b = love.math.random (0.39,0.8),
+		o = love.math.random(0.07,0.25),
+		gfx = self.nova.sprite,
+		--scale = 1,
 	})
 	self.count.nova = self.count.nova +1
 	end
@@ -195,10 +207,10 @@ function starfield:addNebula(x,y)
 			maxvel = vel,
 			minvel = vel,
 			type = "nebula",
-			r = self.nebulae.red,
-			g = self.nebulae.green,
-			b = self.nebulae.blue,
-			o = love.math.random(0.156,0.470),
+			r = self.nebulae.red/0.95,
+			g = self.nebulae.green/0.95,
+			b = self.nebulae.blue/0.95,
+			o = love.math.random(0.156,0.370),
 			gfx = self.nebulae.quads[love.math.random(self.nebulae.min,self.nebulae.max)],
 			scale = scale,
 			angle = love.math.random(0.0,math.pi*10)/10,
@@ -213,7 +225,7 @@ function starfield:addPlanet(x,y)
 	if self.planets.populate then
 		if  self.count.planet < starfield.planets.limit then
 		local scale = love.math.random(5,30)/10
-		local vel = love.math.random(15,15)/6
+		local vel = love.math.random(12,12)/6
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		table.insert(self.objects, {
 			x = x,
@@ -351,8 +363,7 @@ function starfield:draw(x,y)
 		love.graphics.rectangle("fill", 0,0,self.w,self.h )
 	end
 
-	
-	love.graphics.setColor(1,1,1,1)
+
 
 	for _, o in ipairs(self.objects) do
 		

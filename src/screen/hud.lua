@@ -16,16 +16,42 @@
 hud = {}
 hud.life_gfx = love.graphics.newImage("gfx/life.png")
 
+--cyan theme
 hud.colors = {
 	["frame"] = {0.607,1,1,0.196},
 	["face"] = {0.607,1,1},
 	["frame_dark"] = {0.039,0.039,0.039,0.39},
 	["lives"] = {0.39,0.745,0.784,0.470},
-	["hsl_frame"] = 0,
 }
 
--- HSL color for HUD when warping (not implemeneted)
-hud.warp = false
+
+--pink/purple
+--[[
+hud.colors = {
+	["frame"] = {1,0.607,1,0.196},
+	["face"] = {1,0.607,1},
+	["frame_dark"] = {0.039,0.039,0.039,0.39},
+	["lives"] = {0.745,0.39,0.784,0.470},
+}
+--]]
+
+
+
+function hud:init()
+	hud.display = {
+		w = 900,
+		h = 30,
+		offset = 30,
+		canvas = love.graphics.newCanvas(w, h),
+		progress = 0.0,
+		progress_speed = 1.5, -- 1 minute
+		progress_speed = 1.0, -- 1 minute 30 seconds
+		timer = os.time(),
+	}	
+	hud.warp = false
+	hud.time = 0
+end
+
 
 hud.console = {
 	w = 720,
@@ -38,36 +64,6 @@ hud.console = {
 }
 
 
--- https://love2d.org/wiki/HSL_color
-function hud:HSL(h, s, l, a)
-	if s<=0 then return l,l,l,a end
-	h, s, l = h/256*6, s/255, l/255
-	local c = (1-math.abs(2*l-1))*s
-	local x = (1-math.abs(h%2-1))*c
-	local m,r,g,b = (l-.5*c), 0,0,0
-	if h < 1     then r,g,b = c,x,0
-	elseif h < 2 then r,g,b = x,c,0
-	elseif h < 3 then r,g,b = 0,c,x
-	elseif h < 4 then r,g,b = 0,x,c
-	elseif h < 5 then r,g,b = x,0,c
-	else              r,g,b = c,0,x
-	end return (r+m)*255,(g+m)*255,(b+m)*255,a
-end
-
-
-function hud:init()
-	hud.display = {
-		w = 900,
-		h = 30,
-		offset = 30,
-		canvas = love.graphics.newCanvas(w, h),
-		progress = 0.0,
-		timer = os.time(),
-	}	
-	
-	hud.time = 0
-end
-
 
 
 function hud:update(dt)
@@ -79,16 +75,12 @@ function hud:update(dt)
 	end
 
 	if paused then return end
-	hud.display.progress = hud.display.progress + 1 *dt
+	hud.display.progress = hud.display.progress + hud.display.progress_speed *dt
 	hud.time = hud.time + 1 *dt
 	
 	
 	if hud.warp then
-		if hud.colors["hsl_frame"] < 1 then
-			hud.colors["hsl_frame"] = hud.colors["hsl_frame"] + starfield.speed *dt
-		else
-			hud.colors["hsl_frame"] = 0
-		end
+
 	end
 	
 end
@@ -96,11 +88,6 @@ end
 
 function hud:updateconsole(dt)
 	if debug then
-		--if mode == "title" then
-		--	hud.console.h = 50
-		--else
-		--	hud.console.h = 250
-		--end
 
 		hud.console.y = hud.console.y + hud.console.speed *dt
 		if hud.console.y >= 0 then
@@ -119,7 +106,7 @@ end
 function hud:drawFrames()
 
 	if hud.warp then
-		love.graphics.setColor(hud:HSL(hud.colors["hsl_frame"],0.392,0.313))
+		love.graphics.setColor(hud.colors["frame"][1],hud.colors["frame"][2],hud.colors["frame"][3],hud.colors["frame"][4])
 	else
 		love.graphics.setColor(hud.colors["frame"][1],hud.colors["frame"][2],hud.colors["frame"][3],hud.colors["frame"][4])
 	end
@@ -221,6 +208,7 @@ function hud:drawFrames()
 	love.graphics.polygon("line", points)
 	
 	love.graphics.setLineWidth(1)
+	
 end 
 
 function hud:draw()
@@ -285,30 +273,7 @@ function hud:draw()
 
 	love.graphics.setColor(1,1,1,1)
 
-	--wave progress marker
-	love.graphics.setColor(0.607,1,1,0.607)
-	for i=0,hud.display.w, hud.display.w/10 do
-		love.graphics.line(i+1,10, i,hud.display.h-1)
-	end
-	
-	--progress marker
-	love.graphics.setLineWidth(1)
-  	for i=0,hud.display.w, hud.display.w/100 do
-		if i < hud.display.progress then 
-			love.graphics.setColor(0,1,0.607,1)
-		else
-			love.graphics.setColor(0.607,1,1,0.784)
-			
-		end
-		love.graphics.line(i,hud.display.h/3, i,hud.display.h/2)
-	end
-	
-	--progress marker arrow
-  	love.graphics.setColor(0,1,0.588,1)
-  	love.graphics.setLineWidth(2)
-	love.graphics.line(hud.display.progress,hud.display.h/3, hud.display.progress-3,6)
-	love.graphics.line(hud.display.progress,hud.display.h/3, hud.display.progress+3,6)
-	
+	hud:drawProgress()
 	
 	
 	love.graphics.setFont(fonts.hud)
@@ -361,6 +326,40 @@ function hud:draw()
 	)
   
     love.graphics.setLineWidth(1)
+end
+
+
+function hud:drawProgress()
+	--wave progress marker
+	love.graphics.setColor(0.607,1,1,0.607)
+	for i=0,hud.display.w, hud.display.w/10 do
+		love.graphics.line(i+1,10, i,hud.display.h-1)
+	end
+	
+	--progress marker
+	love.graphics.setLineWidth(1)
+  	for i=0,hud.display.w, hud.display.w/100 do
+		if i < hud.display.progress then 
+			love.graphics.setColor(0,1,0.607,1)
+		else
+			love.graphics.setColor(0.607,1,1,0.784)
+			
+		end
+		love.graphics.line(i,hud.display.h/3, i,hud.display.h/2)
+		
+
+	end
+	
+	--wave progress bar indicator
+	love.graphics.setColor(0.607,1,1,0.4)
+	love.graphics.rectangle("fill", 0,hud.display.h/2, hud.display.progress ,5)
+	
+	--progress marker arrow
+  	love.graphics.setColor(0,1,0.588,1)
+  	love.graphics.setLineWidth(2)
+	love.graphics.line(hud.display.progress,hud.display.h/3, hud.display.progress-3,6)
+	love.graphics.line(hud.display.progress,hud.display.h/3, hud.display.progress+3,6)
+	
 end
 
 

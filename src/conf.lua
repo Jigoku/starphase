@@ -15,12 +15,12 @@
 
 name = "Star Phase"
 author = "ricky thomson"
-version = 0.10
+version = "0.10.0"
 build = "-dev"
 print (name .. " " .. version .. build .. " by " .. author)
 
 function love.conf(t)
-	t.version = "11.0"
+	t.version = "11.1"
 	t.identity = "starphase"
 	t.window.title = name .. " " .. version .. build
 	t.window.width = 1920/2
