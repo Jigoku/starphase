@@ -22,7 +22,7 @@ sound.bgmtrack = nil
 
 sound.music = {
 	--[1] =  love.audio.newSource("sfx/music/zhelanov/space.ogg",			"stream"),
-	[1] =  love.audio.newSource("sfx/music/zhelanov/ambient.ogg",			"stream"),
+	[1] =  love.audio.newSource("sfx/music/brandon/ambient.ogg",			"stream"),
 	[2] =  love.audio.newSource("sfx/music/maxstack/tst/lose.ogg", 		"stream"),
 	[3] =  love.audio.newSource("sfx/music/maxstack/nebula.ogg", 		"stream"),
 	[4] =  love.audio.newSource("sfx/music/maxstack/through-space.ogg", "stream"),
