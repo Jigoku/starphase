@@ -16,9 +16,11 @@
 enemies = {}
 
 enemies.wave = {}
-enemies.waveCycle = 5 -- delay until first wave start
-enemies.waveDelay = 2
+enemies.waveCycle = 0 
+enemies.waveDelay = 2 -- delay until next enemy spawn 
+enemies.waveDelayMin = 0.2
 enemies.waveDelayMod = 0.010
+
 
 enemies.fadespeed = 3.75 -- texture fade out on death
 enemies.spawned = 0
@@ -496,7 +498,7 @@ function enemies:update(dt)
 		enemies.spawned = enemies.spawned + 1
 	end
 	
-	enemies.waveDelay = math.max(0.1, enemies.waveDelay - enemies.waveDelayMod *dt)
+	enemies.waveDelay = math.max(enemies.waveDelayMin, enemies.waveDelay - enemies.waveDelayMod *dt)
 	
 
 	
