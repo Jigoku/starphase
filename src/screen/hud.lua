@@ -460,6 +460,13 @@ function hud:drawconsole()
 		love.graphics.print("explosions : " .. #explosions.objects,hud.console.x+215,hud.console.y+150)
 		love.graphics.print("kill/spawn : " .. player.kills.."/"..enemies.spawned,hud.console.x+215,hud.console.y+170)
 		end
+		
+		
+		if mode == "title" then
+			love.graphics.setColor(0.5,1,0.2,1)
+			love.graphics.print("Debug title:  [`] = console, [space] = toggle hud, [j] = reseed",900,10)
+	
+		end
 		--end
 	love.graphics.setCanvas()
 

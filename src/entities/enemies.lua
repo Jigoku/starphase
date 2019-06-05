@@ -361,14 +361,14 @@ end
 function enemies:add_large()
 
 	local gfx = self.type.large
-	
-	
+	local scale = love.math.random(75,100)/100
+	local color = love.math.random(1,3)/10
 	table.insert(self.wave, {
 		type = "large",
-		w = gfx:getWidth(),
-		h = gfx:getHeight(),
+		w = gfx:getWidth()*scale,
+		h = gfx:getHeight()*scale,
 		x = starfield.w,
-		y = love.math.random(gfx:getHeight(),starfield.h-gfx:getHeight()),
+		y = love.math.random(gfx:getHeight()*scale,starfield.h-(gfx:getHeight()*scale)),
 		xvel = love.math.random(50,70),
 		yvel = 0,
 		gfx = gfx or nil,
@@ -376,13 +376,13 @@ function enemies:add_large()
 		shield = 600,
 		shieldmax = 600,
 		shieldopacity = 0,
-		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.2,
+		shieldscale = enemies.shield:getWidth()/(gfx:getWidth()*scale)/1.2,
 		opacity = 1,
 		alive = true,
-		r = 1,
-		g = 1,
-		b = 1,
-		scale = 1,
+		r = 1 -color,
+		g = 1 -color,
+		b = 1 -color,
+		scale = scale,
 	})
 
 
@@ -677,11 +677,12 @@ function enemies:update(dt)
 		if e.shield <= 0 then
 			if e.alive then
 				e.alive = false
-				e.shield = 0
 				explosions:addLarge(
 					e.x+e.w/2,e.y+e.h/2,e.xvel/2,e.yvel/2
 				)
 			end
+			
+			e.shield = 0
 			
 			e.opacity = e.opacity - self.fadespeed *dt
 			

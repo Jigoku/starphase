@@ -18,8 +18,7 @@
 
 function love.load(args)
 
-
-	--love.math.setRandomSeed( os.time() )
+	
 	require("misc")
 	require("camera")
 	require("binds")

@@ -51,7 +51,9 @@ title.sounds.select = love.audio.newSource("sfx/menu/select.ogg","static")
 title.ship1 = love.graphics.newImage("gfx/player/1_large.png")
 title.ship2 = love.graphics.newImage("gfx/player/2_large.png")
 title.ship3 = love.graphics.newImage("gfx/player/3_large.png")
---title.planet = love.graphics.newImage("gfx/starfield/planets/planet.png")
+
+
+title.gradient = love.graphics.newImage("gfx/gradient_black.png")
 
 
 function title:init()
@@ -154,13 +156,14 @@ function title:draw()
 
 	if debugstarfield then return end
 
-		
-	--love.graphics.setColor(255,255,255,255)
-	--love.graphics.draw(title.planet,0-title.planet:getWidth()/2, starfield.h/2-title.planet:getHeight()/2 )	
 	
 	
-
 	
+	
+	love.graphics.setColor(1,1,1,1)
+	for i=0, love.graphics.getHeight(), 1 do
+		love.graphics.draw(title.gradient, love.graphics.getWidth()-title.gradient:getWidth(),i)
+	end
 			
 	love.graphics.setCanvas(title.menu.canvas)
 	love.graphics.clear()
@@ -172,9 +175,9 @@ function title:draw()
 	local wrap = 500
 			
 	--title
-	love.graphics.setColor(1,1,1,0.607)
+	love.graphics.setColor(1,1,1,0.7)
 	love.graphics.printf("Star Phase", 0,0,wrap,"center",0,1,1)
-	love.graphics.setColor(0.784,0.784,0.784,0.411)
+	love.graphics.setColor(1,1,1,0.3)
 	love.graphics.printf("Star Phase", 5,0,wrap,"center",0,1,1)
 
 	--menu
@@ -234,22 +237,22 @@ function title:draw()
 	love.graphics.setCanvas()
 
 	--border bars
-	local h = 30
-	love.graphics.setColor(0,0,0,0.588)
+	local h = 200
+	love.graphics.setColor(0,0,0,1)
 	love.graphics.rectangle("fill",0,love.graphics.getHeight()-h,love.graphics.getWidth(),h)
 	love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),h)
 	
-	love.graphics.setColor(0.2,0.3,0.3,0.6)
+	love.graphics.setColor(0.3,0.3,0.3,0.5)
 	love.graphics.line(0,love.graphics.getHeight()-h,love.graphics.getWidth(),love.graphics.getHeight()-h)
 	love.graphics.line(0,h,love.graphics.getWidth(),h)
 	
-	
-	love.graphics.setColor(1,1,1,0.607)
-	love.graphics.print("Debug title:  [`] = console, [space] = toggle hud, [j] = reseed",900,10)
-	
-	love.graphics.setColor(1,1,1,0.607)
+	love.graphics.setColor(1,1,1,1)
 	love.graphics.draw(title.menu.canvas,title.menu.x,title.menu.y)
-	love.graphics.printf("v"..version..build.." ("..love.system.getOS() ..") by "..author,10,love.graphics.getHeight()-25,300,"left",0,1,1)		--version
+	
+	
+	love.graphics.setColor(1,1,1,0.4)
+	local infostr = "v"..version..build.." ("..love.system.getOS() ..") by "..author
+	love.graphics.printf(infostr,10,love.graphics.getHeight()-20,love.graphics.getWidth(),"center",0,1,1)		--version
 	
 	love.graphics.setColor(0,0,0,title.overlay.opacity)
 	love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
@@ -266,9 +269,9 @@ end
 
 function title:itemselected(selected)
 	if title.menu.selected == selected then
-		love.graphics.setColor(title.opacity/2,title.opacity,title.opacity,title.opacity)
+		love.graphics.setColor(title.opacity*2,title.opacity*2,title.opacity*2,title.opacity)
 	else
-		love.graphics.setColor(0.333,0.333,0.333,1)
+		love.graphics.setColor(0.5,0.5,0.5,0.5)
 	end
 end
 
@@ -289,12 +292,12 @@ function title:keypressed(key)
 	if key == "up" then 
 		title.sounds.option:play() 
 		title.menu.selected = title.menu.selected -1 
-		title.opacity = 255 
+		title.opacity = 1 
 	end
 	if key == "down" then 
 		title.sounds.option:play() 
 		title.menu.selected = title.menu.selected +1 
-		title.opacity = 255 
+		title.opacity = 1 
 	end
 		
 		
