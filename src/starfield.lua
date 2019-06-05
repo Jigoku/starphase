@@ -67,12 +67,13 @@ starfield.nebulae.limit = 6
 starfield.background = { 0.0, 0.0, 0.0 }
 
 starfield.background_style = {
-	{ 0.0, 0.035, 0.06 }, -- blueish
-	{ 0.0, 0.055, 0.07 }, -- greenish
-	{ 0.055, 0.055, 0.07 }, -- rustic
-	{ 0.055, 0.07, 0.07 }, -- greyish
-	{ 0.055, 0.0, 0.00 }, -- red
-	{ 0.05,0.05,0.02 } --- amber
+	{ 0.0, 0.03, 0.06 }, -- blueish
+	{ 0.0, 0.05, 0.07 }, -- greenish
+	{ 0.05, 0.05, 0.07 }, -- rustic
+	{ 0.05, 0.07, 0.07 }, -- greyish
+	{ 0.04, 0.0, 0.00 }, -- red
+	{ 0.05,0.05,0.02 }, --- amber
+	{ 0.01,0.01,0.01 } --- black
 	
 	-- looks better with BG variation -BUT needs to 
 	-- "fade to new colour" when changing seed/warping
@@ -80,7 +81,7 @@ starfield.background_style = {
 
 function starfield:setColor(r,g,b)
 	starfield.nebulae.red   = (r or love.math.random(0.25,0.42))
-	starfield.nebulae.green = (g or love.math.random(0.25,0.42))
+	starfield.nebulae.green = (g or love.math.random(0.25,0.32))
 	starfield.nebulae.blue  = (b or love.math.random(0.25,0.42))
 end
 
@@ -160,7 +161,7 @@ function starfield:addStar(x,y)
 		r = love.math.random(0.784,0.960),
 		g = love.math.random(0.784,0.960),
 		b = love.math.random(0.784,0.960),
-		o = love.math.random(5,120) /255,
+		o = love.math.random(2,50) /100,
 		gfx = self.star,
 		scale = scale,
 		
@@ -441,6 +442,7 @@ function starfield:draw(x,y)
 	
 	--overlay  mist effect 
 	love.graphics.setColor(.313,.313,.313,.058)
+	
 	love.graphics.draw(
 		self.mist, self.mist_quad, 0,0, 0, self.w/self.mist:getWidth(), self.h/self.mist:getHeight()
 	)	
@@ -512,11 +514,14 @@ function starfield:draw(x,y)
 	end
 
 
-	love.graphics.setColor(1,1,1,0.1)
-	love.graphics.draw(
-		starfield.hyperspace, 0,0, 0, self.w/self.hyperspace:getWidth(), self.h/self.hyperspace:getHeight()
-	)
-
+	
+	
+	if starfield.speed > starfield.warpspeed then
+		love.graphics.setColor(1,1,1,0.1)
+		love.graphics.draw(
+			starfield.hyperspace, 0,0, 0, self.w/self.hyperspace:getWidth(), self.h/self.hyperspace:getHeight()
+		)
+	end
 	love.graphics.setCanvas()
 
 

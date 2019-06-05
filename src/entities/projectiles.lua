@@ -22,7 +22,7 @@ projectiles.cannon.gfx = love.graphics.newImage("gfx/projectiles/cannon.png")
 projectiles.cannon.damage = 20
 projectiles.cannon.sound = {}
 projectiles.cannon.sound.shoot = love.audio.newSource("sfx/projectiles/cannon.ogg", "static")
-projectiles.cannon.sound.shoot:setVolume(0.3)
+projectiles.cannon.sound.shoot:setVolume(0.4)
 projectiles.cannon.description = "Standard issue pulse cannons"
 
 projectiles.blaster = {}
@@ -30,7 +30,7 @@ projectiles.blaster.gfx = love.graphics.newImage("gfx/projectiles/blaster.png")
 projectiles.blaster.damage = 20
 projectiles.blaster.sound = {}
 projectiles.blaster.sound.shoot = love.audio.newSource("sfx/projectiles/shoot3.ogg", "static")
-projectiles.blaster.sound.shoot:setVolume(0.3)
+projectiles.blaster.sound.shoot:setVolume(0.4)
 projectiles.blaster.description = "A powerful energy discharge focused into a single projectile"
 
 projectiles.plasma = {}
@@ -38,7 +38,7 @@ projectiles.plasma.gfx = love.graphics.newImage("gfx/projectiles/plasma.png")
 projectiles.plasma.damage = 20
 projectiles.plasma.sound = {}
 projectiles.plasma.sound.shoot = love.audio.newSource("sfx/projectiles/shoot4.ogg", "static")
-projectiles.plasma.sound.shoot:setVolume(0.3)
+projectiles.plasma.sound.shoot:setVolume(0.4)
 projectiles.plasma.description = "Alternating plasma cannons"
 
 projectiles.beam = {}
@@ -46,7 +46,7 @@ projectiles.beam.gfx = love.graphics.newImage("gfx/projectiles/beam.png")
 projectiles.beam.damage = 0.3
 projectiles.beam.sound = {}
 projectiles.beam.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.ogg", "static")
-projectiles.beam.sound.shoot:setVolume(0.1)
+projectiles.beam.sound.shoot:setVolume(0.2)
 projectiles.beam.description = "A frequency disruptor, has a more damaging effect on larger targets"
 
 projectiles.wave = {}
@@ -54,7 +54,7 @@ projectiles.wave.gfx = love.graphics.newImage("gfx/projectiles/wave.png")
 projectiles.wave.damage = 0.25
 projectiles.wave.sound = {}
 projectiles.wave.sound.shoot = love.audio.newSource("sfx/projectiles/shoot2.ogg", "static")
-projectiles.wave.sound.shoot:setVolume(0.1)
+projectiles.wave.sound.shoot:setVolume(0.2)
 projectiles.wave.description = "Proton beam"
 
 projectiles.radial = {}
@@ -62,7 +62,7 @@ projectiles.radial.gfx = love.graphics.newImage("gfx/projectiles/radial.png")
 projectiles.radial.damage = 55
 projectiles.radial.sound = {}
 projectiles.radial.sound.shoot = love.audio.newSource("sfx/projectiles/shoot5.ogg", "static")
-projectiles.radial.sound.shoot:setVolume(0.5)
+projectiles.radial.sound.shoot:setVolume(0.6)
 projectiles.radial.description = "Deploys self destructing mines"
 
 projectiles.rocket = {}
@@ -70,9 +70,9 @@ projectiles.rocket.gfx = love.graphics.newImage("gfx/projectiles/jswars/rocket.p
 projectiles.rocket.damage = 90
 projectiles.rocket.sound = {}
 projectiles.rocket.sound.shoot = love.audio.newSource("sfx/projectiles/rocket_shoot.ogg", "static")
-projectiles.rocket.sound.shoot:setVolume(0.3)
+projectiles.rocket.sound.shoot:setVolume(0.4)
 projectiles.rocket.sound.launch = love.audio.newSource("sfx/projectiles/rocket_launch.ogg", "static")
-projectiles.rocket.sound.launch:setVolume(0.2)
+projectiles.rocket.sound.launch:setVolume(0.3)
 projectiles.rocket.sound.explode = love.audio.newSource("sfx/explosions/NenadSimic/muffled-distant.ogg", "static")
 projectiles.rocket.sound.explode:setVolume(1)
 projectiles.rocket.description = "Alternating rockets which explode on contact"
@@ -87,7 +87,7 @@ projectiles.orb.gfx = love.graphics.newImage("gfx/projectiles/orb.png")
 projectiles.orb.damage = 20
 projectiles.orb.sound = {}
 projectiles.orb.sound.shoot = love.audio.newSource("sfx/projectiles/orb.ogg", "static")
-projectiles.orb.sound.shoot:setVolume(0.3)
+projectiles.orb.sound.shoot:setVolume(0.4)
 projectiles.orb.description = "Directional projectiles"
 
 

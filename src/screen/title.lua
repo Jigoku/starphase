@@ -47,6 +47,8 @@ title.scene_delay = 5
 title.sounds = {}
 title.sounds.option = love.audio.newSource("sfx/menu/option.ogg","static")
 title.sounds.select = love.audio.newSource("sfx/menu/select.ogg","static")
+title.sounds.option:setVolume(0.75)
+title.sounds.select:setVolume(0.75)
 	
 title.ship1 = love.graphics.newImage("gfx/player/1_large.png")
 title.ship2 = love.graphics.newImage("gfx/player/2_large.png")
@@ -96,17 +98,16 @@ function title:update(dt)
 	
 	end
 
-	--[[
+--[[ debugging
 	title.scene_timer = math.max(0, title.scene_timer - dt)
 	if title.scene_timer <= 0 then
 		title.scene_timer = title.scene_delay
-		title.overlay.fadeout = true
-		--starfield:setSeed()
-		--starfield:populate()
-		--title.overlay.fadein = true
+		
+		starfield:setSeed()
+		starfield:populate()
+		
 	end
 	--]]
-	
 	
 	--main title sequence
 	
@@ -290,12 +291,12 @@ function title:keypressed(key)
 	end
 	
 	if key == "up" then 
-		title.sounds.option:play() 
+		sound:play(title.sounds.option)
 		title.menu.selected = title.menu.selected -1 
 		title.opacity = 1 
 	end
 	if key == "down" then 
-		title.sounds.option:play() 
+		sound:play(title.sounds.option)
 		title.menu.selected = title.menu.selected +1 
 		title.opacity = 1 
 	end
@@ -315,7 +316,7 @@ function title:keypressed(key)
 	
 	if key == "return" then
 
-		title.sounds.select:play()
+		sound:play(title.sounds.select)
 				
 		if title.active == "main" then
 			if title.menu.selected == 0 then title.active = "ship_selection" title.maxoptions = 3 end

@@ -15,13 +15,14 @@
  
 sound = {}
 sound.enabled = true
-sound.volume = 80 -- 0>100 (used when a track is played)
+sound.volume = 100 -- 0>100 (used when a track is played)
 
 sound.bgm = nil
 sound.bgmtrack = nil
 
 sound.music = {
-	[1] =  love.audio.newSource("sfx/music/zhelanov/space.ogg",			"stream"),
+	--[1] =  love.audio.newSource("sfx/music/zhelanov/space.ogg",			"stream"),
+	[1] =  love.audio.newSource("sfx/music/zhelanov/ambient.ogg",			"stream"),
 	[2] =  love.audio.newSource("sfx/music/maxstack/tst/lose.ogg", 		"stream"),
 	[3] =  love.audio.newSource("sfx/music/maxstack/nebula.ogg", 		"stream"),
 	[4] =  love.audio.newSource("sfx/music/maxstack/through-space.ogg", "stream"),
@@ -75,7 +76,7 @@ function sound:playbgm(id)
 
 	if id ~= 0 then
 		self.bgm:setLooping(true)
-		self.bgm:setVolume(0.8)
+		self.bgm:setVolume(1)
 		self.bgm:play()
 	end
 end
@@ -83,9 +84,8 @@ end
 function sound:play(sfx)
 	if sound.muted then return true end
 	--fix this, move source definition of effects to this file
-	if sfx:isPlaying() then
-		sfx:stop()
-	end
+
+	sfx:stop()
 	sfx:play()
 end
 
