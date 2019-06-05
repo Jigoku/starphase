@@ -16,9 +16,11 @@
 enemies = {}
 
 enemies.wave = {}
-enemies.waveCycle = 0 -- delay until first wave start
-enemies.waveDelay = 3
-enemies.fadespeed = 1000 -- fade out on death
+enemies.waveCycle = 5 -- delay until first wave start
+enemies.waveDelay = 2
+enemies.waveDelayMod = 0.010
+
+enemies.fadespeed = 3.75 -- texture fade out on death
 enemies.spawned = 0
 
 enemies.sound = {}
@@ -39,11 +41,7 @@ enemies.type = {
 	large  = love.graphics.newImage("gfx/enemy/6_large.png"),
 	crescent = love.graphics.newImage("gfx/enemy/crescent.png"),
 	cruiser = love.graphics.newImage("gfx/enemy/10_small.png"),
-	asteroids = {
-		love.graphics.newImage("gfx/enemy/asteroid_large.png"),
-		love.graphics.newImage("gfx/enemy/asteroid_small.png"),
-		love.graphics.newImage("gfx/enemy/asteroid_tiny.png"),
-	}
+	asteroid = love.graphics.newImage("gfx/enemy/asteroid_large.png"),
 }
 
 
@@ -93,6 +91,7 @@ function enemies:add_delta()
 			r = color,
 			g = color,
 			b = color,
+			scale = 1,
 		})
 		y = (y < starfield.h/2 and y - gfx:getHeight() or y + gfx:getHeight())
 		x = x + gfx:getWidth()
@@ -136,6 +135,7 @@ function enemies:add_abomination()
 		r = 1,
 		g = 1,
 		b = 1,
+		scale = 1,
 	})
 
 
@@ -165,6 +165,7 @@ function enemies:add_dart()
 		r = 1,
 		g = 1,
 		b = 1,
+		scale = 1,
 	})
 
 
@@ -172,14 +173,22 @@ end
 
 function enemies:add_asteroid()
 	
-	local gfx = self.type.asteroids[love.math.random(1,#self.type.asteroids)]
-	local color = love.math.random(0,4)/10
+	local gfx = self.type.asteroid
+	local color = love.math.random(0,3)/10
+	
+	local scale
+	if love.math.random(1,4) == 4 then
+		 scale = love.math.random(10,100)/100
+	else
+		 scale = love.math.random(10,50)/100
+	end
+	
 	table.insert(self.wave, {
 		type = "asteroid",
-		w = gfx:getWidth(),
-		h = gfx:getHeight(),
+		w = gfx:getWidth()*scale,
+		h = gfx:getHeight()*scale,
 		x = starfield.w,
-		y = love.math.random(gfx:getHeight(),starfield.h-gfx:getHeight()),
+		y = love.math.random(gfx:getHeight()*scale,starfield.h-gfx:getHeight()*scale),
 		xvel = love.math.random(50,200),
 		yvel = love.math.random(-100,100),
 		gfx = gfx,
@@ -189,11 +198,13 @@ function enemies:add_asteroid()
 		shieldopacity = 0,
 		shieldscale = 0,
 		opacity = 1,
+		scale = scale,
 		alive = true,
-		spin = (love.math.random(0,1) == 1 and love.math.random(1,3) or love.math.random(-1,-3)),
+		spin = (love.math.random(0,1) == 1 and love.math.random(10,30)/10 or love.math.random(-10,-30)/10),
 		r = starfield.nebulae.red*2 + color,
 		g = starfield.nebulae.green*2 + color,
 		b = starfield.nebulae.blue*2 + color,
+		
 	})
 
 
@@ -223,7 +234,7 @@ function enemies:add_train()
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
 		opacity = 1,
 		alive = true,
-		--scale = 1.5,
+		scale = 1,
 		r = 1,
 		g = 1,
 		b = 1,
@@ -260,6 +271,7 @@ function enemies:add_cruiser()
 		r = 1,
 		g = 1,
 		b = 1,
+		scale = 1,
 	})
 	x = x+gfx:getWidth()
 	end
@@ -293,6 +305,7 @@ function enemies:add_tri()
 		r = 1,
 		g = 1,
 		b = 1,
+		scale = 1,
 		
 	})
 
@@ -316,6 +329,7 @@ function enemies:add_tri()
 		r = 0.55,
 		g = 0.55,
 		b = 0.55,
+		scale = 1,
 	})
 	table.insert(self.wave, {
 		type = "tri",
@@ -337,6 +351,7 @@ function enemies:add_tri()
 		r = 0.55,
 		g = 0.55,
 		b = 0.55,
+		scale = 1,
 	})
 end
 
@@ -365,6 +380,7 @@ function enemies:add_large()
 		r = 1,
 		g = 1,
 		b = 1,
+		scale = 1,
 	})
 
 
@@ -445,7 +461,7 @@ function enemies:update(dt)
 	while not debugarcade and enemies.waveCycle <= 0 do
 		if starfield.speed >= starfield.warpspeed then break end
 		
-		love.math.setRandomSeed( love.math.getRandomSeed()+1 )
+	--	love.math.setRandomSeed( love.math.getRandomSeed()+1 )
 		
 		local rand = love.math.random(0,15)
 		if rand == 0 then
@@ -476,20 +492,21 @@ function enemies:update(dt)
 		if rand > 7 then
 			self:add_asteroid()
 		end
-		enemies.waveCycle = love.math.random(0.25,1)
+		enemies.waveCycle = enemies.waveDelay
 		enemies.spawned = enemies.spawned + 1
 	end
 	
-	
+	enemies.waveDelay = math.max(0.1, enemies.waveDelay - enemies.waveDelayMod *dt)
 	
 
 	
 	for i=#self.wave,1,-1 do
 		local e = self.wave[i]
 		
+		--[[
 		if e.scale then
 			e.scale = math.max(e.scale - 1 *dt,1)
-		end
+		end--]]
 		
 		if e.type == "asteroid" then
 			self:rotate(e,e.spin,dt)
@@ -707,6 +724,7 @@ function enemies:draw()
 	
 	for _, e in pairs (self.wave) do
 	
+	--[[ -- maybe not needed
 		if e.type == "asteroid" then
 			love.graphics.push()
 				love.graphics.translate(e.x+e.w/2,e.y+e.h/2)
@@ -714,7 +732,7 @@ function enemies:draw()
 				love.graphics.translate(-e.x-e.w/2,-e.y-e.h/2)
 			love.graphics.pop()
 		end
-	
+	--]]
 		
 		love.graphics.push()
 			
@@ -770,7 +788,7 @@ function enemies:draw()
 			love.graphics.print("y pos:".. y, x-10,y)
 			love.graphics.print("angle:"..math.floor(math.deg((e.angle or 0))), x-10,y+10)
 			love.graphics.print("shield: "..math.floor(e.shield) .. "/" ..e.shieldmax, x-10,y+20)
-			
+			love.graphics.print("scale: "..e.scale, x-10,y+30)
 			love.graphics.setColor(1,0.607,1,0.607)
 			love.graphics.rectangle("line", x,y, e.w, e.h)
 		end

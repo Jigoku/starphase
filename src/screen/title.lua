@@ -182,7 +182,7 @@ function title:draw()
 		
 	if title.active == "main" then
 		self:itemselected(0)
-		love.graphics.printf("Arcade mode", 300,100,wrap,"left",0,1,1)
+		love.graphics.printf("Infinite mode", 300,100,wrap,"left",0,1,1)
 		self:itemselected(1)
 		love.graphics.printf("Debug mode", 300,140,wrap,"left",0,1,1)
 		self:itemselected(2)
