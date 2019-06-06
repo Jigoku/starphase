@@ -1,5 +1,5 @@
 APP_NAME=starphase
-APP_VERSION=0.10-dev
+APP_VERSION=0.10.0-dev
 LOVE_VERSION=11.1
 
 build setup:
