@@ -16,8 +16,8 @@
 title = {}
 title.splash = true
 title.splash_logo = love.graphics.newImage("gfx/artsoftware.png")
-title.splashDelay = 1
-title.splashCycle = 1
+title.splashDelay = 2
+title.splashCycle = 2
 title.splashOpacity = 1
 
 title.active = "main"
@@ -38,7 +38,7 @@ title.opacitymax = 1
 title.overlay = {}
 title.overlay.opacity = 0
 title.overlay.fadeout = false
-title.overlay.fadein = false
+title.overlay.fadein = true
 title.overlay.fadespeed = 0.78
 
 title.scene_timer = 0
@@ -267,6 +267,14 @@ function title:draw()
 end
 
 
+function title:navigate(d)
+	sound:play(title.sounds.option)
+	title.menu.selected = title.menu.selected + d
+	title.opacity = 1 
+	starfield:setSeed()
+	starfield:populate()
+end
+
 
 function title:itemselected(selected)
 	if title.menu.selected == selected then
@@ -281,7 +289,6 @@ function title:keypressed(key)
 	
 	
 	
-	
 	if title.splash then 
 		if key == "space" then 
 			title.splash = false 
@@ -291,14 +298,10 @@ function title:keypressed(key)
 	end
 	
 	if key == "up" then 
-		sound:play(title.sounds.option)
-		title.menu.selected = title.menu.selected -1 
-		title.opacity = 1 
+		self:navigate(-1)
 	end
 	if key == "down" then 
-		sound:play(title.sounds.option)
-		title.menu.selected = title.menu.selected +1 
-		title.opacity = 1 
+		self:navigate(1)
 	end
 		
 		

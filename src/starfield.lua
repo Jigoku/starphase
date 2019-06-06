@@ -516,12 +516,12 @@ function starfield:draw(x,y)
 
 	
 	
-	if starfield.speed > starfield.warpspeed then
-		love.graphics.setColor(1,1,1,0.1)
+--	if starfield.speed > starfield.warpspeed then
+		love.graphics.setColor(1,1,1,0.075)
 		love.graphics.draw(
 			starfield.hyperspace, 0,0, 0, self.w/self.hyperspace:getWidth(), self.h/self.hyperspace:getHeight()
 		)
-	end
+--	end
 	love.graphics.setCanvas()
 
 

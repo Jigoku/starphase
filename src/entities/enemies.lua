@@ -173,24 +173,27 @@ function enemies:add_dart()
 
 end
 
-function enemies:add_asteroid()
+function enemies:add_asteroid(x,y,s)
 	
 	local gfx = self.type.asteroid
-	local color = love.math.random(0,3)/10
+	local color = love.math.random(1,3)/10
 	
-	local scale
-	if love.math.random(1,4) == 4 then
-		 scale = love.math.random(10,100)/100
-	else
-		 scale = love.math.random(10,50)/100
+	local scale = s
+	if not s then
+		-- set random scale if not provided
+		if love.math.random(1,4) == 4 then
+			scale = love.math.random(10,100)/100
+		else
+			scale = love.math.random(10,50)/100
+		end
 	end
 	
 	table.insert(self.wave, {
 		type = "asteroid",
 		w = gfx:getWidth()*scale,
 		h = gfx:getHeight()*scale,
-		x = starfield.w,
-		y = love.math.random(gfx:getHeight()*scale,starfield.h-gfx:getHeight()*scale),
+		x = x or starfield.w,
+		y = y or love.math.random(gfx:getHeight()*scale,starfield.h-gfx:getHeight()*scale),
 		xvel = love.math.random(50,200),
 		yvel = love.math.random(-100,100),
 		gfx = gfx,
@@ -200,7 +203,7 @@ function enemies:add_asteroid()
 		shieldopacity = 0,
 		shieldscale = 0,
 		opacity = 1,
-		scale = scale,
+		scale = math.round(scale,2),
 		alive = true,
 		spin = (love.math.random(0,1) == 1 and love.math.random(10,30)/10 or love.math.random(-10,-30)/10),
 		r = starfield.nebulae.red*2 + color,
@@ -209,8 +212,8 @@ function enemies:add_asteroid()
 		
 	})
 
-
 end
+
 
 function enemies:add_train()
 
@@ -680,6 +683,21 @@ function enemies:update(dt)
 				explosions:addLarge(
 					e.x+e.w/2,e.y+e.h/2,e.xvel/2,e.yvel/2
 				)
+				
+				
+				if e.type == "asteroid" then
+					if e.scale > 0.25 then
+						for i=0,4 do
+							enemies:add_asteroid(
+								e.x+e.w/2,
+								e.y+e.h/2,
+								love.math.random((e.scale/1.5)*10, (e.scale/2)*10)/10
+							)
+						end
+						
+					end
+									
+				end
 			end
 			
 			e.shield = 0
