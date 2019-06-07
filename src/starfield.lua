@@ -64,9 +64,11 @@ starfield.nebulae.populate = true
 --starfield.nebulae.limit = 5
 starfield.nebulae.limit = 6
 
-starfield.background = { 0.0, 0.0, 0.0 }
 
-starfield.background_style = {
+starfield.background = {}
+starfield.background.color = { 0.0, 0.0, 0.0 }
+
+starfield.background.styles = {
 	{ 0.0, 0.03, 0.06 }, -- blueish
 	{ 0.0, 0.05, 0.07 }, -- greenish
 	{ 0.05, 0.05, 0.07 }, -- rustic
@@ -90,7 +92,7 @@ end
 function starfield:populate()
 	--starfield.limit = love.math.random(100,500)
 	starfield.nebulae.limit = love.math.random(6,20)
-	starfield.background = starfield.background_style[love.math.random(1,#starfield.background_style)]
+	starfield.background.color = starfield.background.styles[love.math.random(1,#starfield.background.styles)]
 
 	starfield.count = {
 		nebulae = 0,
@@ -387,7 +389,7 @@ function starfield:draw(x,y)
 	--background
 	
 	if self.speed < self.warpspeed then
-		love.graphics.setColor(self.background[1],self.background[2],self.background[3],1)
+		love.graphics.setColor(self.background.color[1],self.background.color[2],self.background.color[3],1)
 		love.graphics.rectangle("fill", 0,0,self.w,self.h )
 	end
 
@@ -524,7 +526,7 @@ function starfield:draw(x,y)
 
 	--additional screen colour filter
 	love.graphics.setColor(0.307,0.2,0.234,math.min(0.3,math.max(1,starfield.speed/2000)))
-	love.graphics.setColor(self.background[1],self.background[2],self.background[3],0.3)
+	love.graphics.setColor(self.background.color[1],self.background.color[2],self.background.color[3],0.3)
 	love.graphics.rectangle("fill",0,0,starfield.w,starfield.h)
 	
 	--overlay hyperspace effect image
