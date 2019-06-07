@@ -46,10 +46,12 @@ starfield.planets = textures:load("gfx/starfield/planets/")
 starfield.planets.populate = true
 starfield.planets.limit = 1
 
+starfield.spin = false
+
 starfield.nova = {}
 starfield.nova.sprite = love.graphics.newImage("gfx/starfield/nova.png")
 starfield.nova.limit = 5
-starfield.nova.limit = 5
+
 
 starfield.nebulae = { }
 starfield.nebulae.sprite = love.graphics.newImage("gfx/starfield/nebulae/proc_sheet_nebula.png")
@@ -86,7 +88,8 @@ function starfield:setColor(r,g,b)
 end
 
 function starfield:populate()
-
+	--starfield.limit = love.math.random(100,500)
+	starfield.nebulae.limit = love.math.random(6,20)
 	starfield.background = starfield.background_style[love.math.random(1,#starfield.background_style)]
 
 	starfield.count = {
@@ -130,13 +133,13 @@ function starfield:speedAdjust(n,dt)
 	end
 	
 	for _,e in ipairs(enemies.wave) do
-		e.xvel = e.xvel + n
+		e.xvel = e.xvel + n*5
 	end
 	
 	
 	for _,p in ipairs(projectiles.missiles) do
 		if p.player == false then
-			p.xvel = p.xvel - n
+			p.xvel = p.xvel - n*5
 		end
 	end
 	
@@ -211,10 +214,10 @@ function starfield:addNebula(x,y)
 			r = self.nebulae.red/0.95,
 			g = self.nebulae.green/0.95,
 			b = self.nebulae.blue/0.95,
-			o = love.math.random(0.156,0.370),
+			o = love.math.random(0.156,0.270),
 			gfx = self.nebulae.quads[love.math.random(self.nebulae.min,self.nebulae.max)],
 			scale = scale,
-			angle = love.math.random(0.0,math.pi*10)/10,
+			angle = love.math.random(0.0,math.pi*100)/100,
 		})
 		self.count.nebulae = self.count.nebulae +1
 		end
@@ -242,7 +245,7 @@ function starfield:addPlanet(x,y)
 			o = 1,
 			gfx = gfx,
 			scale = scale,
-			angle =  love.math.random(0.0,math.pi*10)/10,
+			angle =  love.math.random(0,math.pi*100)/100,
 		})
 		self.count.planet = self.count.planet +1
 		end
@@ -252,7 +255,7 @@ end
 
 function starfield:addobject(x,y)
 
-	local n = love.math.random(0,100)
+	local n = love.math.random(0,3)
 
 	if n == 0 then
 		self:addNova(x,y)
@@ -268,6 +271,7 @@ end
 
 
 function starfield:setSeed(seed)
+	
 	if not seed then 
 		game.seed = love.math.random(0,2^52)
 	else
@@ -283,6 +287,14 @@ end
 function starfield:update(dt)
 	if paused then return end
 
+	-- sound/bgm pitch shift when warping
+	if starfield.speed >= starfield.warpspeed then
+		sound.bgm:setPitch(math.max(0.5,sound.bgm:getPitch() -0.25*dt))
+		sound.bgm:setVolume(math.max(1,sound.bgm:getVolume() -1*dt))
+	else
+		sound.bgm:setPitch(math.min(1,sound.bgm:getPitch() +0.5*dt))
+		sound.bgm:setVolume(math.min(1,sound.bgm:getVolume() +1*dt))
+	end
 
 	--populate starfield
 	while #self.objects < self.limit do
@@ -292,8 +304,10 @@ function starfield:update(dt)
 		)
 	end
 	
+	-- cap starfield speed to limits
 	self.speed = math.max(math.min(self.speed,self.maxspeed),self.minspeed)
 	
+	-- set conditions based on speed
 	if starfield.speed >= starfield.warpspeed then
 		starfield.planets.populate = false
 		hud.warp = true 
@@ -307,14 +321,27 @@ function starfield:update(dt)
 	--end
 	
 	--process object movement
-	
-	
 	for i=#self.objects,1,-1 do
 		local o = self.objects[i]
-
-
+		
 		o.x = o.x - ((o.maxvel * self.speed) *dt)
 
+
+		if starfield.speed >= starfield.warpspeed then
+			if o.type == "nebula" then
+				o.scale = o.scale + 0.05 *dt
+			end
+			if o.type == "planet" then
+			--[[ -- scale planets when warping?
+				local s = math.max(0,o.scale -0.7 *dt)
+				o.w = o.gfx:getWidth()*s
+				o.h = o.gfx:getHeight()*s
+				
+				o.scale = s
+				--o.scale = o.scale - 0.7 *dt
+			--]]
+			end
+		end
 	--[[
 		if o.type == "planet" then
 			if debugarcade then
@@ -368,6 +395,26 @@ function starfield:draw(x,y)
 
 	for _, o in ipairs(self.objects) do
 		
+		-- additional mode for pseudo-3d cyclindrical effect 
+		-- ps; looks better if planets are unpopulated in starfield.
+		if starfield.spin then
+			love.graphics.push()
+		
+			love.graphics.translate(0+love.graphics:getWidth()/2,0+love.graphics:getHeight()/2)
+			love.graphics.rotate(math.pi)
+			love.graphics.translate(0-love.graphics:getWidth()/2,0-love.graphics:getHeight()/2)
+			
+			if o.type == "star" then
+				love.graphics.setColor(o.r,o.g,o.b,(self.speed > self.warpspeed*2 and o.o / (self.speed/(self.warpspeed*2)) or o.o))
+				love.graphics.draw(
+					o.gfx, o.x-o.gfx:getWidth()/2, 
+					o.y-o.gfx:getHeight()/2, 0, o.scale, o.scale
+				)
+				
+			end
+			love.graphics.pop()
+		end
+			
 		if o.type == "star" then
 			love.graphics.setColor(o.r,o.g,o.b,(self.speed > self.warpspeed*2 and o.o / (self.speed/(self.warpspeed*2)) or o.o))
 			love.graphics.draw(
@@ -375,7 +422,6 @@ function starfield:draw(x,y)
 					o.y-o.gfx:getHeight()/2, 0, o.scale, o.scale
 			)
 		end
-
 		
 		if o.type == "nova" then
 			love.graphics.setColor(o.r,o.g,o.b,(self.speed > self.warpspeed*2 and o.o / (self.speed/(self.warpspeed*2)) or o.o))
@@ -408,7 +454,7 @@ function starfield:draw(x,y)
 			love.graphics.push()
 			
 			
-			love.graphics.setColor(o.r,o.g,o.b,(self.speed > self.warpspeed*2 and o.o / (self.speed/(self.warpspeed*2)) or o.o))
+			love.graphics.setColor(o.r,o.g,o.b,o.o)
 			
 			if o.gfx then
 			
@@ -452,55 +498,41 @@ function starfield:draw(x,y)
 
 
 --top layer
+	
 	for _, o in ipairs(self.objects) do
 		
 		if o.type == "planet" then
 			love.graphics.push()
-			
-			
 			love.graphics.setColor(o.r,o.g,o.b,o.o)
+				
 			if o.gfx then
-			
-				love.graphics.translate(o.x+o.w/2,o.y+o.h/2)
+				love.graphics.translate(o.x+o.w/2, o.y+o.h/2)
 				love.graphics.rotate(o.angle or 0)
 				love.graphics.translate(-o.x-o.w/2,-o.y-o.h/2)
+				love.graphics.draw(o.gfx, o.x, o.y, 0, o.scale, o.scale	)
 				
-				love.graphics.draw(
-					o.gfx,  o.x, 
-					o.y, 0, o.scale, o.scale	
-				)
-				
-			if debug then
-				love.graphics.setColor(0,1,0.39,0.549)			
-				love.graphics.rectangle(
-					"line",
-					o.x,
-					o.y,
-					o.w,
-					o.h
-				)
-			end
+				if debug then
+					love.graphics.setColor(0,1,0.39,0.549)			
+					love.graphics.rectangle("line", o.x, o.y, o.w, o.h)
+				end
 			
-			love.graphics.pop()
-		
 			end
+			love.graphics.pop()
 		end	
+	end
 
-	end
+
+	--additional screen colour filter
+	love.graphics.setColor(0.307,0.2,0.234,math.min(0.3,math.max(1,starfield.speed/2000)))
+	love.graphics.setColor(self.background[1],self.background[2],self.background[3],0.3)
+	love.graphics.rectangle("fill",0,0,starfield.w,starfield.h)
 	
-	
-	--hyperspace warp test
-	if self.speed > self.warpspeed then 
-	
-		--blue/green
-		love.graphics.setColor(0.274,0.431,0.607,math.min(2 *starfield.speed/25,1)/255)
-		--green/blue
-		--love.graphics.setColor(100,240,210,math.min(2 *starfield.speed/50,30))
-		--pink/purple
-		--love.graphics.setColor(255,100,255,math.min(2 *starfield.speed/25,255))
-		love.graphics.rectangle("fill",0,0,starfield.w,starfield.h)
-	end
-	
+	--overlay hyperspace effect image
+	love.graphics.setColor(1,1,1,math.min(0.1,starfield.speed/1000))
+			love.graphics.draw(
+		starfield.hyperspace, 0,0, 0, self.w/self.hyperspace:getWidth(), self.h/self.hyperspace:getHeight()
+	)
+
 	if mode == "arcade" then
 	-- move this
 		pickups:draw()
@@ -513,31 +545,13 @@ function starfield:draw(x,y)
 
 	end
 
-
-	
-	
---	if starfield.speed > starfield.warpspeed then
-		love.graphics.setColor(1,1,1,0.075)
-		love.graphics.draw(
-			starfield.hyperspace, 0,0, 0, self.w/self.hyperspace:getWidth(), self.h/self.hyperspace:getHeight()
-		)
---	end
 	love.graphics.setCanvas()
-
-
 	love.graphics.setColor(1,1,1,1)
-
-
 	love.graphics.push()
-	--love.graphics.scale(love.graphics.getWidth()/starfield.w,love.graphics.getHeight()/starfield.h)  
-	love.graphics.draw(self.canvas, x, -player.y/10)
+		--love.graphics.scale(love.graphics.getWidth()/starfield.w,love.graphics.getHeight()/starfield.h)  
+		love.graphics.draw(self.canvas, x, -player.y/10)
 	love.graphics.pop()
-	
-
-	
-	--overlay  hyperspace effect 
-
-			
+		
 end
 
 return starfield

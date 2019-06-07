@@ -121,7 +121,7 @@ function enemies:add_abomination()
 		shieldmax = 8000,
 		shieldopacity = 0,
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.2,
-		opacity = 255,
+		opacity = 1,
 		alive = true,
 		projectileCycle = 5,
 		projectileDelay = 0.37,
@@ -129,7 +129,7 @@ function enemies:add_abomination()
 		projectileR = 1,
 		projectileG = 0.8,
 		projectileB = 0.5,
-		projectileDamage = 35,
+		projectileDamage = 30,
 		projectileType = "plasma",
 		projectileXvel = 1200,
 		projectileYvel = 0,
@@ -592,7 +592,7 @@ function enemies:update(dt)
 		end
 	
 		
-		-- test basic enemy movements
+		-- test basic enemy boss
 		if e.type == "abomination" then
 			if e.xvel > 0 then
 				e.xvel = e.xvel - (50 *dt)
@@ -687,13 +687,36 @@ function enemies:update(dt)
 				
 				if e.type == "asteroid" then
 					if e.scale > 0.25 then
-						for i=0,4 do
-							enemies:add_asteroid(
-								e.x+e.w/2,
-								e.y+e.h/2,
-								love.math.random((e.scale/1.5)*10, (e.scale/2)*10)/10
-							)
-						end
+						local spawn = love.math.random(2,4)
+							if spawn == 4 then
+								for i=1,4 do
+									enemies:add_asteroid(
+										e.x+e.w/2,
+										e.y+e.h/2,
+										love.math.random((e.scale/2.5)*10, (e.scale/3)*10)/10
+									)
+								end
+							elseif spawn == 3 then
+								for i=1,3 do
+									enemies:add_asteroid(
+										e.x+e.w/2,
+										e.y+e.h/2,
+										love.math.random((e.scale/2)*10, (e.scale/2.5)*10)/10
+									)
+								end
+							elseif spawn == 2 then
+								for i=1,2 do
+									enemies:add_asteroid(
+										e.x+e.w/2,
+										e.y+e.h/2,
+										love.math.random((e.scale/1.5)*10, (e.scale/2)*10)/10
+									)
+								end
+							end
+						
+							
+						
+						
 						
 					end
 									
@@ -701,7 +724,6 @@ function enemies:update(dt)
 			end
 			
 			e.shield = 0
-			
 			e.opacity = e.opacity - self.fadespeed *dt
 			
 			if e.opacity <= 0 then

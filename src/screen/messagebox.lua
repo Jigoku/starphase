@@ -82,16 +82,30 @@ function messagebox.draw()
 		
 		local msg = messagebox.screens[1]
 	
+		--line
+		local border = 2
+		love.graphics.setLineWidth(border)
+	
+	
+	
 		--fill
 		love.graphics.setColor(0.0,0.05,0.05,0.6/1.5)
-		love.graphics.rectangle("fill", 0,0, messagebox.w, messagebox.h)
+		love.graphics.rectangle("fill", 0,0+border/2, messagebox.w, messagebox.h-border)
 
 		
 		--face
 		love.graphics.setColor(hud.colors.face)
 		love.graphics.draw(msg.face,0,0,0,1,1,0,0)
 		
-		--line
+		
+		love.graphics.setColor(0.2,0.7,0.7,0.3)
+		for i=1, 10 do
+			local h = love.math.random(0,messagebox.h)
+			love.graphics.line(0,h, msg.face:getWidth(), h)
+		end
+		
+		
+		
 		--love.graphics.setColor(0.3,0.3,0.3,0.6)
 		love.graphics.setColor(hud.colors["frame"][1],hud.colors["frame"][2],hud.colors["frame"][3],0.5)
 		love.graphics.line(0,0, messagebox.w, 0)

@@ -15,7 +15,7 @@
  
 sound = {}
 sound.enabled = true
-sound.volume = 100 -- 0>100 (used when a track is played)
+sound.volume = 80 -- 0>100 (used when a track is played)
 
 sound.bgm = nil
 sound.bgmtrack = nil

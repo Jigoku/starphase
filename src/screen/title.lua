@@ -21,14 +21,13 @@ title.splashCycle = 2
 title.splashOpacity = 1
 
 title.active = "main"
-title.maxoptions = 3
 title.menu = {}
 title.menu.w = 600
-title.menu.h = 300
+title.menu.h = 400
 title.menu.x = love.graphics.getWidth() - title.menu.w
-title.menu.y = title.menu.h
+title.menu.y = title.menu.h - title.menu.h/4
 title.menu.canvas = love.graphics.newCanvas(title.menu.w,title.menu.h)
-title.menu.selected = 0
+title.menu.selected = 1
 
 title.opacity = 1
 title.opacitystep = 1
@@ -38,8 +37,8 @@ title.opacitymax = 1
 title.overlay = {}
 title.overlay.opacity = 0
 title.overlay.fadeout = false
-title.overlay.fadein = true
-title.overlay.fadespeed = 0.78
+title.overlay.fadein = false
+title.overlay.fadespeed = 0.58
 
 title.scene_timer = 0
 title.scene_delay = 5
@@ -62,6 +61,7 @@ function title:init()
 	starfield:setSeed()
 	title.overlay.fadein = true
 	title.overlay.opacity = 1
+	title.maxoptions = 6
 	paused = false
 	mode = "title"
 	title.active = "main"
@@ -70,7 +70,7 @@ function title:init()
 	starfield.offset = 0  
 	starfield.speed = 0
 	starfield.minspeed = 10
-	--starfield.maxspeed = 400
+	starfield.maxspeed = 1000
 	starfield:populate()
 	love.graphics.setBackgroundColor(0,0,0,1)
 	
@@ -155,7 +155,13 @@ function title:draw()
 
 	
 
-	if debugstarfield then return end
+	if debugstarfield then	
+		love.graphics.setColor(1,1,1,0.8)
+		--love.graphics.setFont(fonts.title_select)
+		love.graphics.setFont(fonts.labels)
+		love.graphics.print("Press [space] to reseed, [escape] to quit", 20, 10)		
+		return 
+	 end
 
 	
 	
@@ -163,78 +169,80 @@ function title:draw()
 	
 	love.graphics.setColor(1,1,1,1)
 	for i=0, love.graphics.getHeight(), 1 do
-		love.graphics.draw(title.gradient, love.graphics.getWidth()-title.gradient:getWidth(),i)
+		love.graphics.draw(title.gradient, love.graphics.getWidth()-title.gradient:getWidth()/2,i,0,0.5,1)
 	end
 			
 	love.graphics.setCanvas(title.menu.canvas)
 	love.graphics.clear()
 	
-	--love.graphics.setColor(0,0,0,155)
-	--love.graphics.rectangle("fill", 0,0,title.menu.w,title.menu.h)
 
 	love.graphics.setFont(fonts.title_large)		
 	local wrap = 500
 			
 	--title
-	love.graphics.setColor(1,1,1,0.7)
+	love.graphics.setColor(1,1,1,0.9)
 	love.graphics.printf("Star Phase", 0,0,wrap,"center",0,1,1)
-	love.graphics.setColor(1,1,1,0.3)
-	love.graphics.printf("Star Phase", 5,0,wrap,"center",0,1,1)
+	love.graphics.setColor(1,1,1,0.4)
+	love.graphics.printf("Star Phase", 10,0,wrap,"center",0,1,1)
 
 	--menu
 	love.graphics.setFont(fonts.title_select)
 		
 	if title.active == "main" then
-		self:itemselected(0)
+		self:itemselected(1)
 		love.graphics.printf("Infinite mode", 300,100,wrap,"left",0,1,1)
-		self:itemselected(1)
+		self:itemselected(2)
 		love.graphics.printf("Debug mode", 300,140,wrap,"left",0,1,1)
-		self:itemselected(2)
+		self:itemselected(3)
 		love.graphics.printf("Settings", 300,180,wrap,"left",0,1,1)
-		self:itemselected(3)
-		love.graphics.printf("Exit to desktop", 300,220,wrap,"left",0,1,1)
+		self:itemselected(4)
+		love.graphics.printf("Space Viewer", 300,220,wrap,"left",0,1,1)
+		self:itemselected(5)
+		love.graphics.printf("Credits", 300,260,wrap,"left",0,1,1)
+		self:itemselected(6)
+		love.graphics.printf("Exit to desktop", 300,300,wrap,"left",0,1,1)
 	elseif title.active == "settings" then
-		self:itemselected(0)
-		love.graphics.printf("Video", 300,100,wrap,"left",0,1,1)
 		self:itemselected(1)
-		love.graphics.printf("Sound", 300,140,wrap,"left",0,1,1)
+		love.graphics.printf("Video", 300,100,wrap,"left",0,1,1)
 		self:itemselected(2)
-		love.graphics.printf("Controls", 300,180,wrap,"left",0,1,1)
+		love.graphics.printf("Sound", 300,140,wrap,"left",0,1,1)
 		self:itemselected(3)
+		love.graphics.printf("Controls", 300,180,wrap,"left",0,1,1)
+		self:itemselected(4)
 		love.graphics.printf("Back", 300,220,wrap,"left",0,1,1)
 	elseif title.active == "video" then
-		self:itemselected(0)
+		self:itemselected(1)
 		love.graphics.printf("Back", 300,100,wrap,"left",0,1,1)
 	elseif title.active == "sound" then
-		self:itemselected(0)
+		self:itemselected(1)
 		love.graphics.printf("Back", 300,100,wrap,"left",0,1,1)
 	elseif title.active == "controls" then
-		self:itemselected(0)
+		self:itemselected(1)
 		love.graphics.printf("Back", 300,100,wrap,"left",0,1,1)
 	elseif title.active == "ship_selection" then
-		self:itemselected(0)
-		love.graphics.printf("Ship 1", 300,100,wrap,"left",0,1,1)
 		self:itemselected(1)
-		love.graphics.printf("Ship 2", 300,140,wrap,"left",0,1,1)
+		love.graphics.printf("Ship 1", 300,100,wrap,"left",0,1,1)
 		self:itemselected(2)
-		love.graphics.printf("Ship 3", 300,180,wrap,"left",0,1,1)
+		love.graphics.printf("Ship 2", 300,140,wrap,"left",0,1,1)
 		self:itemselected(3)
+		love.graphics.printf("Ship 3", 300,180,wrap,"left",0,1,1)
+		self:itemselected(4)
 		love.graphics.printf("Back", 300,220,wrap,"left",0,1,1)
 	end
 	
 			
 	love.graphics.setColor(1,1,1,1)
 	if title.active == "ship_selection" then
-		if title.menu.selected == 0 then
+		if title.menu.selected == 1 then
 			love.graphics.draw(title.ship3, 50,100, 0,0.5)
-		elseif title.menu.selected == 1 then
-			love.graphics.draw(title.ship1, 50,100, 0,0.5)
 		elseif title.menu.selected == 2 then
+			love.graphics.draw(title.ship1, 50,100, 0,0.5)
+		elseif title.menu.selected == 3 then
 			love.graphics.draw(title.ship2, 50,100, 0,0.5)
 		end
 	end
 	
-	love.graphics.setFont(fonts.default)
+	
 	love.graphics.setCanvas()
 
 	--border bars
@@ -252,6 +260,7 @@ function title:draw()
 	
 	
 	love.graphics.setColor(1,1,1,0.4)
+	love.graphics.setFont(fonts.default)
 	local infostr = "v"..version..build.." ("..love.system.getOS() ..") by "..author
 	love.graphics.printf(infostr,10,love.graphics.getHeight()-20,love.graphics.getWidth(),"center",0,1,1)		--version
 	
@@ -264,12 +273,15 @@ function title:draw()
 	if debug then
 		love.graphics.rectangle("line", title.menu.x,title.menu.y,title.menu.w,title.menu.h)
 	end
+	
+
+
 end
 
 
 function title:navigate(d)
 	sound:play(title.sounds.option)
-	title.menu.selected = title.menu.selected + d
+	title.menu.selected = math.min(title.maxoptions,math.max(1,title.menu.selected + d))
 	title.opacity = 1 
 	starfield:setSeed()
 	starfield:populate()
@@ -285,8 +297,22 @@ function title:itemselected(selected)
 end
 
 function title:keypressed(key)
-	if key == "escape" then love.event.quit() end
+
+	if debugstarfield then
+		if key == "escape" then 
+			title.menu.selected = 4
+			debugstarfield = false
+		elseif key == "space" then
+			starfield:setSeed()
+			starfield:setColor()
+			starfield:populate()		
+		end
+		return
+	end
 	
+	if key == "escape" then 
+		love.event.quit() 		
+	end
 	
 	
 	if title.splash then 
@@ -305,15 +331,9 @@ function title:keypressed(key)
 	end
 		
 		
-	if key == "space" then
-		debugstarfield = not debugstarfield
-	end
 	
-	if key == "j" then
-		starfield:setSeed()
-		starfield:setColor()
-		starfield:populate()
-	end
+	
+
 	
 	
 	
@@ -322,32 +342,33 @@ function title:keypressed(key)
 		sound:play(title.sounds.select)
 				
 		if title.active == "main" then
-			if title.menu.selected == 0 then title.active = "ship_selection" title.maxoptions = 3 end
-			if title.menu.selected == 1 then initdebugarcade(3) end
-			if title.menu.selected == 2 then title.active = "settings" title.maxoptions = 3 end
-			if title.menu.selected == 3 then love.event.quit() end
+			if title.menu.selected == 1 then title.active = "ship_selection" title.maxoptions = 4 end
+			if title.menu.selected == 2 then initdebugarcade(3) end
+			if title.menu.selected == 3 then title.active = "settings" title.maxoptions = 4 end
+			if title.menu.selected == 4 then debugstarfield = not debugstarfield end
+			if title.menu.selected == 6 then love.event.quit() end
 		elseif title.active == "settings" then
-			if title.menu.selected == 0 then title.active = "video" title.maxoptions = 0 end
-			if title.menu.selected == 1 then title.active = "sound" title.maxoptions = 0 end
-			if title.menu.selected == 2 then title.active = "controls" title.maxoptions = 0 end
-			if title.menu.selected == 3 then title.active = "main" title.maxoptions = 3 end
+			if title.menu.selected == 1 then title.active = "video" title.maxoptions = 1 end
+			if title.menu.selected == 2 then title.active = "sound" title.maxoptions = 1 end
+			if title.menu.selected == 3 then title.active = "controls" title.maxoptions = 1 end
+			if title.menu.selected == 4 then title.active = "main" title.maxoptions = 6 end
 		elseif title.active == "video" then
-			if title.menu.selected == 0 then title.active = "settings" title.maxoptions = 3  end
+			if title.menu.selected == 1 then title.active = "settings" title.maxoptions = 4  end
 		elseif title.active == "sound" then
-			if title.menu.selected == 0 then title.active = "settings" title.maxoptions = 3 end
+			if title.menu.selected == 1 then title.active = "settings" title.maxoptions = 4 end
 		elseif title.active == "controls" then
-			if title.menu.selected == 0 then title.active = "settings" title.maxoptions = 3 end
+			if title.menu.selected == 1 then title.active = "settings" title.maxoptions = 4 end
 		elseif title.active == "ship_selection" then
-			if title.menu.selected == 0 then initarcade(3) end
-			if title.menu.selected == 1 then initarcade(1) end
-			if title.menu.selected == 2 then initarcade(2) end
-			if title.menu.selected == 3 then title.active = "main" title.maxoptions = 3 end
+			if title.menu.selected == 1 then initarcade(3) end
+			if title.menu.selected == 2 then initarcade(1) end
+			if title.menu.selected == 3 then initarcade(2) end
+			if title.menu.selected == 4 then title.active = "main" title.maxoptions = 6 end
 		end
 				
-		title.menu.selected = 0
+		title.menu.selected = 1
 	end
 			
-	if title.menu.selected < 0 then title.menu.selected = 0 end
+	if title.menu.selected < 1 then title.menu.selected = 1 end
 	if title.menu.selected > title.maxoptions then title.menu.selected = title.maxoptions end
 		
 end

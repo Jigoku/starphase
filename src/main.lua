@@ -105,7 +105,7 @@ function initarcade(playersel)
 	player:init(playersel)
 	
 	starfield.minspeed = 50
-	starfield.maxspeed = 500
+	starfield.maxspeed = 1000
 	
 	
 	hud:init()

@@ -20,7 +20,7 @@ hud.life_gfx = love.graphics.newImage("gfx/life.png")
 hud.colors = {
 	["frame"] = {0.607,1,1,0.196},
 	["face"] = {0.607,1,1},
-	["frame_dark"] = {0.039,0.039,0.039,0.39},
+	["frame_dark"] = {0.039,0.039,0.039,0.65},
 	["lives"] = {0.39,0.745,0.784,0.470},
 }
 
@@ -461,13 +461,7 @@ function hud:drawconsole()
 		love.graphics.print("kill/spawn : " .. player.kills.."/"..enemies.spawned,hud.console.x+215,hud.console.y+170)
 		end
 		
-		
-		if mode == "title" then
-			love.graphics.setColor(0.5,1,0.2,1)
-			love.graphics.print("Debug title:  [`] = console, [space] = toggle hud, [j] = reseed",900,10)
 	
-		end
-		--end
 	love.graphics.setCanvas()
 
 	love.graphics.setColor(1,1,1,hud.console.opacity)
