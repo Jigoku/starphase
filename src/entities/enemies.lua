@@ -206,9 +206,9 @@ function enemies:add_asteroid(x,y,s)
 		scale = math.round(scale,2),
 		alive = true,
 		spin = (love.math.random(0,1) == 1 and love.math.random(10,30)/10 or love.math.random(-10,-30)/10),
-		r = starfield.nebulae.red*2 + color,
-		g = starfield.nebulae.green*2 + color,
-		b = starfield.nebulae.blue*2 + color,
+		r = starfield.nebulae.color[1]*2 + color,
+		g = starfield.nebulae.color[2]*2 + color,
+		b = starfield.nebulae.color[3]*2 + color,
 		
 	})
 

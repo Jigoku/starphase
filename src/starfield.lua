@@ -59,9 +59,7 @@ starfield.nebulae.min = 1
 starfield.nebulae.max = 16
 starfield.nebulae.size = 512
 starfield.nebulae.quads = textures:loadSprite(starfield.nebulae.sprite, starfield.nebulae.size, starfield.nebulae.max )
-starfield.nebulae.red = 1
-starfield.nebulae.green = 1
-starfield.nebulae.blue = 1
+starfield.nebulae.color = {1,1,1}
 starfield.nebulae.populate = true
 --starfield.nebulae.limit = 5
 starfield.nebulae.limit = 6
@@ -82,9 +80,11 @@ starfield.background_style = {
 }
 
 function starfield:setColor(r,g,b)
-	starfield.nebulae.red   = (r or love.math.random(0.25,0.42))
-	starfield.nebulae.green = (g or love.math.random(0.25,0.32))
-	starfield.nebulae.blue  = (b or love.math.random(0.25,0.42))
+	starfield.nebulae.color = { 
+		r or love.math.random(0.25,0.42),
+		g or love.math.random(0.25,0.42),
+		b or love.math.random(0.25,0.42)
+	}
 end
 
 function starfield:populate()
@@ -211,9 +211,9 @@ function starfield:addNebula(x,y)
 			maxvel = vel,
 			minvel = vel,
 			type = "nebula",
-			r = self.nebulae.red/0.95,
-			g = self.nebulae.green/0.95,
-			b = self.nebulae.blue/0.95,
+			r = self.nebulae.color[1],--  /0.95?
+			g = self.nebulae.color[2],
+			b = self.nebulae.color[3],
 			o = love.math.random(0.156,0.270),
 			gfx = self.nebulae.quads[love.math.random(self.nebulae.min,self.nebulae.max)],
 			scale = scale,
@@ -239,9 +239,9 @@ function starfield:addPlanet(x,y)
 			maxvel = vel,
 			minvel = vel,
 			type = "planet",
-			r = starfield.nebulae.red*1.5,
-			g = starfield.nebulae.green*1.5,
-			b = starfield.nebulae.blue*1.5,
+			r = starfield.nebulae.color[1]*1.5,
+			g = starfield.nebulae.color[2]*1.5,
+			b = starfield.nebulae.color[3]*1.5,
 			o = 1,
 			gfx = gfx,
 			scale = scale,
