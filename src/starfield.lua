@@ -285,6 +285,22 @@ function starfield:setSeed(seed)
 	starfield:setColor()
 end
 
+function starfield:drawPalette(x,y)
+	if mode == "title" then
+	love.graphics.setColor(0,0,0,1)
+	local size = 50
+	local padding = 10
+	local x,y = (x or 20),(y or 20)
+	love.graphics.rectangle("fill", x,y,size*2+(padding*3),size+(padding*2))
+	love.graphics.setColor(0.3,0.3,0.3,1)
+	love.graphics.rectangle("line", x,y,size*2+(padding*3),size+(padding*2))
+	love.graphics.setColor(starfield.nebulae.color)
+	love.graphics.rectangle("fill", x+padding,y+padding,size,size)
+	love.graphics.setColor(starfield.background.color)
+	love.graphics.rectangle("fill", x+padding+size+padding,y+padding,size,size)
+	end
+end
+
 
 function starfield:update(dt)
 	if paused then return end
@@ -546,6 +562,9 @@ function starfield:draw(x,y)
 		
 
 	end
+	
+	
+
 
 	love.graphics.setCanvas()
 	love.graphics.setColor(1,1,1,1)
@@ -553,6 +572,9 @@ function starfield:draw(x,y)
 		--love.graphics.scale(love.graphics.getWidth()/starfield.w,love.graphics.getHeight()/starfield.h)  
 		love.graphics.draw(self.canvas, x, -player.y/10)
 	love.graphics.pop()
+	
+	starfield:drawPalette(40,40)
+	
 		
 end
 
