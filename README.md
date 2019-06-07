@@ -29,8 +29,13 @@ GNU GPLv3 / CC-BY-SA
 
 # Screenshots
 
-![2019-05-28-192457_1920x1080_scrot](https://user-images.githubusercontent.com/1535179/58669172-293dd680-8333-11e9-8a9d-73bac3ee51ef.png)
+![1](screenshots/1.jpg)
 
-![2019-05-28-164034_1920x1080_scrot](https://user-images.githubusercontent.com/1535179/58669174-2b079a00-8333-11e9-9f16-6e8d049d8d32.png)
+![2](screenshots/2.jpg)
 
-![2019-05-28-125002_1920x1080_scrot](https://user-images.githubusercontent.com/1535179/58669178-2d69f400-8333-11e9-9387-dcf62e9b0d87.png)
+![3](screenshots/3.jpg)
+
+![4](screenshots/4.jpg)
+
+![5](screenshots/5.jpg)
+
