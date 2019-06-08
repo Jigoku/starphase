@@ -19,7 +19,7 @@ hud.life_gfx = love.graphics.newImage("gfx/life.png")
 --cyan theme
 hud.colors = {
 	["frame"] = {0.607,1,1,0.196},
-	["face"] = {0.607,1,1},
+	["face"] = {0.607,1,1,0.9},
 	["frame_dark"] = {0.039,0.039,0.039,0.65},
 	["lives"] = {0.39,0.745,0.784,0.470},
 }
@@ -37,6 +37,8 @@ hud.colors = {
 
 
 
+
+
 function hud:init()
 	hud.display = {
 		w = 900,
@@ -50,6 +52,7 @@ function hud:init()
 	}	
 	hud.warp = false
 	hud.time = 0
+
 end
 
 
@@ -406,7 +409,7 @@ function hud:drawconsole()
 
 		
 		love.graphics.setColor(0.784,0.784,0.39,1)
-		love.graphics.print("bgmtrack: #" .. tostring(sound.bgmtrack) .. " | sources: "..love.audio.getActiveSourceCount() .. " | [Seed: "..love.math.getRandomSeed().."]",hud.console.x+10,hud.console.y+30)
+		love.graphics.print("bgmtrack: #" .. tostring(sound.bgmtrack) .. " | snd srcs: "..love.audio.getActiveSourceCount() .. " | [Seed: "..love.math.getRandomSeed().."]",hud.console.x+10,hud.console.y+30)
 		
 	
 		--
@@ -432,9 +435,9 @@ function hud:drawconsole()
 		--mission info
 		if mode == "arcade" then
 			love.graphics.setColor(0.39,0.745,0.784,1)
-			love.graphics.print("progress  : " ..math.round(hud.display.progress/hud.display.w*100,4) .."%",hud.console.x+10,hud.console.y+190)
+			love.graphics.print("progress  : " .. string.format("%.2f",hud.display.progress/hud.display.w*100,4) .."%",hud.console.x+10,hud.console.y+190)
 			love.graphics.print("elapsed   : " .. misc:formatTime(hud.time), hud.console.x+10,hud.console.y+210)
-			love.graphics.print("wave delay: " .. string.format("%.4f",enemies.waveDelay), hud.console.x+10,hud.console.y+230)
+			love.graphics.print("wave delay: " .. string.format("%.3f",enemies.waveDelay), hud.console.x+10,hud.console.y+230)
 		end
 		--vertical divider
 		love.graphics.setColor(0.607,1,1,0.39)

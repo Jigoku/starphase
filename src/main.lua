@@ -26,7 +26,7 @@ function love.load(args)
 	require("sound")
 	require("textures")
 	require("screen/title")
-	require("screen/hud")
+	
 	require("screen/fonts")
 	require("entities/pickups")
 	require("entities/enemies")
@@ -34,6 +34,7 @@ function love.load(args)
 	require("entities/player")
 	require("entities/projectiles")
 	require("starfield")
+	require("screen/hud")
 
 	msgs = require("screen/messagebox")
 	

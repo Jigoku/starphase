@@ -80,8 +80,7 @@ end
 
 function starfield:populate()
 	--starfield.limit = love.math.random(100,500)
-	starfield.nebulae.limit = love.math.random(6,20)
-	starfield.background.color = starfield.background.styles[love.math.random(1,#starfield.background.styles)]
+
 
 	starfield.count = {
 		nebulae = 0,
@@ -146,7 +145,7 @@ function starfield:addStar(x,y)
 		h = self.star:getHeight(),
 		maxvel = vel,
 		minvel = vel,
-		type = "star",
+		name = "star",
 		r = love.math.random(0.784,0.960),
 		g = love.math.random(0.784,0.960),
 		b = love.math.random(0.784,0.960),
@@ -169,7 +168,7 @@ function starfield:addNova(x,y)
 		h = self.nova.sprite:getHeight(),
 		maxvel = vel,
 		minvel = vel,
-		type = "nova",
+		name = "nova",
 		r = love.math.random (0.39,0.8),
 		g = love.math.random (0.39,0.8),
 		b = love.math.random (0.39,0.8),
@@ -196,7 +195,7 @@ function starfield:addNebula(x,y)
 			h = self.nebulae.size*scale,
 			maxvel = vel,
 			minvel = vel,
-			type = "nebula",
+			name = "nebula",
 			r = self.nebulae.color[1],--  /0.95?
 			g = self.nebulae.color[2],
 			b = self.nebulae.color[3],
@@ -223,7 +222,7 @@ function starfield:addPlanet(x,y)
 			h = gfx:getHeight()*scale,
 			maxvel = vel,
 			minvel = vel,
-			type = "planet",
+			name = "planet",
 			r = starfield.nebulae.color[1]*1.5,
 			g = starfield.nebulae.color[2]*1.5,
 			b = starfield.nebulae.color[3]*1.5,
@@ -263,6 +262,9 @@ function starfield:setSeed(seed)
 	
 	love.math.setRandomSeed(game.seed)
 	starfield:setColor()
+	starfield.nebulae.limit = love.math.random(6,20)
+	
+	starfield.background.color = starfield.background.styles[love.math.random(1,#starfield.background.styles)]
 end
 
 function starfield:drawPalette(x,y)
@@ -326,10 +328,10 @@ function starfield:update(dt)
 		o.x = o.x - ((o.maxvel * self.speed) *dt)
 
 		if starfield.speed >= starfield.warpspeed then
-			if o.type == "nebula" then
-				o.scale = o.scale + 0.05 *dt
+			if o.name == "nebula" then
+				o.scale = o.scale - 0.05 *dt
 			end
-			if o.type == "planet" then
+			if o.name == "planet" then
 			--[[ -- scale planets when warping?
 				local s = math.max(0,o.scale -0.7 *dt)
 				o.w = o.gfx:getWidth()*s
@@ -341,7 +343,7 @@ function starfield:update(dt)
 			end
 		end
 	--[[
-		if o.type == "planet" then
+		if o.name == "planet" then
 			if debugarcade then
 			enemies:rotate(o,0.05,dt)
 			end
@@ -351,13 +353,13 @@ function starfield:update(dt)
 
 		if o.x+(o.w) < 0 then
 			table.remove(self.objects, i)
-			if o.type == "nova" then
+			if o.name == "nova" then
 				self.count.nova = self.count.nova -1
-			elseif o.type == "nebula" then
+			elseif o.name == "nebula" then
 				self.count.nebulae = self.count.nebulae -1
-			elseif o.type == "planet" then
+			elseif o.name == "planet" then
 				self.count.planet = self.count.planet -1
-			elseif o.type == "star" then
+			elseif o.name == "star" then
 				self.count.star = self.count.star -1
 			end
 		end
@@ -369,6 +371,7 @@ function starfield:update(dt)
 		self.mist_scroll = 0
 	end
 	self.mist_quad:setViewport(-self.mist_scroll,0,starfield.w,starfield.h )
+
 end
 
 
@@ -392,7 +395,7 @@ function starfield:draw(x,y)
 			love.graphics.rotate(math.pi)
 			love.graphics.translate(0-love.graphics:getWidth()/2,0-love.graphics:getHeight()/2)
 			
-			if o.type == "star" then
+			if o.name == "star" then
 				love.graphics.setColor(o.r,o.g,o.b,(self.speed > self.warpspeed*2 and o.o / (self.speed/(self.warpspeed*2)) or o.o))
 				love.graphics.draw(
 					o.gfx, o.x-o.gfx:getWidth()/2, 
@@ -403,7 +406,7 @@ function starfield:draw(x,y)
 			love.graphics.pop()
 		end
 			
-		if o.type == "star" then
+		if o.name == "star" then
 			love.graphics.setColor(o.r,o.g,o.b,(self.speed > self.warpspeed*2 and o.o / (self.speed/(self.warpspeed*2)) or o.o))
 			love.graphics.draw(
 					o.gfx, o.x-o.gfx:getWidth()/2, 
@@ -411,7 +414,7 @@ function starfield:draw(x,y)
 			)
 		end
 		
-		if o.type == "nova" then
+		if o.name == "nova" then
 			love.graphics.setColor(o.r,o.g,o.b,(self.speed > self.warpspeed*2 and o.o / (self.speed/(self.warpspeed*2)) or o.o))
 			love.graphics.draw(
 				o.gfx, o.x-o.gfx:getWidth()/2, 
@@ -435,7 +438,7 @@ function starfield:draw(x,y)
 			end
 		end
 
-		if o.type == "nebula" then
+		if o.name == "nebula" then
 			love.graphics.push()
 			love.graphics.setColor(o.r,o.g,o.b,o.o)
 			
@@ -465,7 +468,7 @@ function starfield:draw(x,y)
 	
 	
 	for _, o in ipairs(self.objects) do
-		if o.type == "planet" then
+		if o.name == "planet" then
 			love.graphics.push()
 			love.graphics.setColor(o.r,o.g,o.b,o.o)
 				
