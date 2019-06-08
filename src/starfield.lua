@@ -72,9 +72,9 @@ starfield.background.styles = {
 
 function starfield:setColor(r,g,b)
 	starfield.nebulae.color = { 
-		r or love.math.random(0.25,0.42),
-		g or love.math.random(0.25,0.42),
-		b or love.math.random(0.25,0.42)
+		r or love.math.random(0.2,0.32),
+		g or love.math.random(0.2,0.32),
+		b or love.math.random(0.2,0.32)
 	}
 end
 
@@ -262,8 +262,7 @@ function starfield:setSeed(seed)
 	
 	love.math.setRandomSeed(game.seed)
 	starfield:setColor()
-	starfield.nebulae.limit = love.math.random(6,20)
-	
+	starfield.nebulae.limit = love.math.random(6,10)
 	starfield.background.color = starfield.background.styles[love.math.random(1,#starfield.background.styles)]
 end
 
@@ -488,10 +487,12 @@ function starfield:draw(x,y)
 		end	
 	end
 
+	--[[ TODO; fix broken color here
 	--additional screen colour filter
 	love.graphics.setColor(0.307,0.2,0.234,math.min(0.3,math.max(1,starfield.speed/2000)))
 	love.graphics.setColor(self.background.color[1],self.background.color[2],self.background.color[3],0.3)
 	love.graphics.rectangle("fill",0,0,starfield.w,starfield.h)
+	--]]
 	
 	--overlay hyperspace effect image
 	love.graphics.setColor(1,1,1,math.min(0.1,starfield.speed/1000))

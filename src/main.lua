@@ -82,7 +82,10 @@ end
 
 --test function
 function initarcade(playersel)
+	-- arcade mode will use preset seeds determined on each level
+	-- whereas infinite mode will use complete random eventually.
 	starfield:setSeed()
+	
 	starfield:setColor()
 	--starfield:setColor(50,255,255)
 	
@@ -288,21 +291,40 @@ function love.keypressed(key)
 		msgs.queue(
 		{
 			{		
-				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,6)..".png"),
+				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,10)..".png"),
 				name = "Message Test",
-				text = "There should be an outpost up ahead.",
-				duration = 4,
+				text = "I'm so bored",
+				duration = 2,
 			},
+			{		
+				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,10)..".png"),
+				name = "Message Test",
+				text = "I want to stop flying this ship!",
+				duration = 2,
+			},
+			{		
+				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,10)..".png"),
+				name = "Message Test",
+				text = "PEW PEW PEW\n\n... *TRANSMISSION ERROR*",
+				duration = 2,
+			},
+			{		
+				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,10)..".png"),
+				name = "Message Test",
+				text = "Trololololol lololol lololol...\nLolol lololololol",
+				duration = 2,
+			},
+			{		
+				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,10)..".png"),
+				name = "Message Test",
+				text = "I tried to join a ping-pong club... \n...sign on the door said all full up!",
+				duration = 2,
+			}
 		})
 		--[[
 		msgs.queue(
 		{
-			{		
-				face = love.graphics.newImage("gfx/faces/face1.png"),
-				name = "Sophia",
-				text = "Try to find it. Good luck.",
-				duration = 6,
-			}
+			
 		})
 		--]]
 	end
