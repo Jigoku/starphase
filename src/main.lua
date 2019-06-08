@@ -124,8 +124,8 @@ function initdebugarcade(playersel)
 			{		
 				face = love.graphics.newImage("gfx/faces/face1.png"),
 				name = "Message Test",
-				text = "Testing a dialog event!",
-				duration = 4,
+				text = "Testing a messagebox event...\n\nPress [M] to skip",
+				duration = 20,
 			}
 
 	})

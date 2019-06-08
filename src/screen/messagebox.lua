@@ -33,16 +33,18 @@ function messagebox.active()
 	if #messagebox.screens < 1 then
 		return false
 	end
-	
 	return true
 end
 
 function messagebox.queue(t)
 	messagebox.screens = t
 	for _,msg in ipairs(messagebox.screens) do
-		msg.fade = 1
+		msg.x = love.graphics.getWidth()/2 - messagebox.w/2
+		msg.y = love.graphics.getHeight() - 100  - messagebox.h
+		msg.w = messagebox.w
+		msg.h = messagebox.h/2
+		msg.fade = 0
 	end
-	
 	sound:play(sound.intercom[1])
 end
 
@@ -50,13 +52,17 @@ function messagebox.update(dt)
 	if paused then return end
 	if #messagebox.screens > 0 then
 		
-		messagebox.scanlinepos = messagebox.scanlinepos + messagebox.scanlinespeed *dt
-		if messagebox.scanlinepos > (messagebox.h+messagebox.scanlineh)*2 then messagebox.scanlinepos = -messagebox.scanlineh end
-
 		local msg = messagebox.screens[1]	
+		messagebox.scanlinepos = messagebox.scanlinepos + messagebox.scanlinespeed *dt
+		if messagebox.scanlinepos > (msg.h+messagebox.scanlineh)*2 then messagebox.scanlinepos = -messagebox.scanlineh end
+
 		if msg.duration <= 0 then
+			if msg.h > 0 then
+				msg.h = math.min(messagebox.h, msg.h - 300 *dt)
+			end	
+			
 			if msg.fade >= 0 then
-				msg.fade = math.max(msg.fade - messagebox.fadespeed *dt,0)
+				msg.fade = math.max(msg.fade - messagebox.fadespeed *dt,0)	
 			else
 				table.remove(messagebox.screens,1)
 				if #messagebox.screens < 1 then
@@ -64,6 +70,11 @@ function messagebox.update(dt)
 				end
 			end
 		else
+		
+			if msg.h < messagebox.h-2 then
+				msg.h = math.max(0,msg.h + 300 *dt)
+			end
+			
 			if msg.fade < 1 then 
 				msg.fade = math.min(msg.fade + messagebox.fadespeed *dt,1)
 			else
@@ -82,37 +93,32 @@ function messagebox.draw()
 		love.graphics.setCanvas(messagebox.canvas)
 		love.graphics.clear()
 		
-		local x = love.graphics.getWidth()/2 - messagebox.w/2
-		local y = love.graphics.getHeight() - 100  - messagebox.h
-		
 		local msg = messagebox.screens[1]
 
-
-		--fill
-		love.graphics.setColor(0.0,0.05,0.05,0.6/1.5)
-		love.graphics.rectangle("fill", 0,0, messagebox.w, messagebox.h)
-
+		--background box
+		love.graphics.setColor(hud.colors["frame_dark"])
+		love.graphics.rectangle("fill", 0,0, msg.w, msg.h)
 		
-		--face
+		love.graphics.setLineWidth(4)
+		love.graphics.setColor(hud.colors["frame"])
+		love.graphics.rectangle("line", 0,0, msg.w, msg.h)
+		
+		--face/event portrait
 		love.graphics.setColor(hud.colors.face)
-		love.graphics.draw(msg.face,love.math.random(-0.5,0.5),0,0,1,1,0,0)
+		love.graphics.draw(msg.face,love.math.random(-0.5,0.5),0,0,1,msg.h/msg.face:getHeight(),0,0)
 		
 		--scan line effects
-		love.graphics.setColor(0.7,0.7,0.7,0.3)
+		love.graphics.setColor(0.3,0.3,0.3,0.3)
 		for i=1, 10 do
-			local h = love.math.random(0,messagebox.h)
+			local h = love.math.random(0,msg.h)
 			love.graphics.line(0,h, msg.face:getWidth(), h)
 		end
-		love.graphics.setLineWidth(messagebox.scanlineh)
-		love.graphics.setColor(0.2,0.7,0.7,0.2)
+		love.graphics.setLineWidth(love.math.random(5,messagebox.scanlineh))
+		love.graphics.setColor(hud.colors["frame"])
 		love.graphics.line(0,messagebox.scanlinepos, msg.face:getWidth(), messagebox.scanlinepos)
 		
+		--set elsewhere?
 		love.graphics.setLineWidth(2)
-		
-		--love.graphics.setColor(0.3,0.3,0.3,0.6)
-		love.graphics.setColor(hud.colors["frame"][1],hud.colors["frame"][2],hud.colors["frame"][3],0.5)
-		love.graphics.line(0,0, messagebox.w, 0)
-		love.graphics.line(0,messagebox.h, messagebox.w, messagebox.h)
 		
 		--name
 		local of = love.graphics.getFont()
@@ -130,10 +136,8 @@ function messagebox.draw()
 		love.graphics.setCanvas()
 	
 		love.graphics.setColor(1,1,1,msg.fade)
-		love.graphics.draw(messagebox.canvas,x,y)		
+		love.graphics.draw(messagebox.canvas,msg.x,msg.y)		
 	end
 end
-
-
 
 return messagebox
