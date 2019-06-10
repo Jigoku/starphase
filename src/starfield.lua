@@ -18,19 +18,20 @@
 --	add starfield:update(dt) to love.update()
 --  add starfield:draw(x,y) to love.draw(), x/y are position of the canvas
 
+
 starfield = {}
 starfield.objects = {}
 
 player.y = 0 --? move this.
 
-starfield.offset = 128				--offset for panning
-starfield.w = 1920					--canvas width
-starfield.h = 1080+starfield.offset	--canvas height
-starfield.limit = 1150				--maximum # of objects
-starfield.speed = 0					--current speed
-starfield.minspeed = 6   			--slowest speed
-starfield.maxspeed = 600  			--fastest speed
-starfield.warpspeed = 220 			--speed when warp starts
+starfield.offset = 128              --offset for panning
+starfield.w = 1920                  --canvas width
+starfield.h = 1080+starfield.offset --canvas height
+starfield.limit = 1150              --maximum # of objects
+starfield.speed = 0                 --current speed
+starfield.minspeed = 6              --slowest speed
+starfield.maxspeed = 600            --fastest speed
+starfield.warpspeed = 220           --speed when warp starts
 starfield.spin = false
 
 starfield.hyperspace 	= love.graphics.newImage("gfx/starfield/hyperspace.png")
@@ -54,6 +55,8 @@ starfield.nebulae.quads = textures:loadSprite(starfield.nebulae.sprite, starfiel
 starfield.nebulae.color = {1,1,1}
 starfield.nebulae.populate = true
 starfield.nebulae.limit = 6
+starfield.nebulae.drawmin = 6
+starfield.nebulae.drawmax = 25
 
 starfield.background = {}
 starfield.background.color = { 0.0, 0.0, 0.0 }
@@ -72,16 +75,16 @@ starfield.background.styles = {
 
 function starfield:setColor(r,g,b)
 	starfield.nebulae.color = { 
-		r or love.math.random(0.2,0.32),
-		g or love.math.random(0.2,0.32),
-		b or love.math.random(0.2,0.32)
+		r or love.math.random(2,4)/10,
+		g or love.math.random(2,4)/10,
+		b or love.math.random(2,4)/10
 	}
 end
 
 function starfield:populate()
-	--starfield.limit = love.math.random(100,500)
 
 
+	--object counts
 	starfield.count = {
 		nebulae = 0,
 		star = 0,
@@ -89,7 +92,8 @@ function starfield:populate()
 		planet = 0,
 	}
 
-	--reset all entities
+	--reset all entities in the game
+	-- (maybe move non starfield objects elsewhere)
 	starfield.objects = {}
 	enemies.wave = {}
 	explosions.objects = {}
@@ -128,11 +132,9 @@ function starfield:speedAdjust(n,dt)
 			p.xvel = p.xvel - n*5
 		end
 	end
-	
 end
 
-
-			
+	
 function starfield:addStar(x,y)
 	--normal star	
 	local vel =  love.math.random(11,15)/10
@@ -196,10 +198,10 @@ function starfield:addNebula(x,y)
 			maxvel = vel,
 			minvel = vel,
 			name = "nebula",
-			r = self.nebulae.color[1],--  /0.95?
-			g = self.nebulae.color[2],
-			b = self.nebulae.color[3],
-			o = love.math.random(0.156,0.270),
+			r = self.nebulae.color[1]/0.95,
+			g = self.nebulae.color[2]/0.95,
+			b = self.nebulae.color[3]/0.95,
+			o = love.math.random(0.15,0.25),
 			gfx = self.nebulae.quads[love.math.random(self.nebulae.min,self.nebulae.max)],
 			scale = scale,
 			angle = love.math.random(0.0,math.pi*100)/100,
@@ -215,6 +217,7 @@ function starfield:addPlanet(x,y)
 		local scale = love.math.random(5,30)/10
 		local vel = love.math.random(12,12)/6
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
+		
 		table.insert(self.objects, {
 			x = x,
 			y = y-(gfx:getHeight()*scale)/2,
@@ -223,9 +226,9 @@ function starfield:addPlanet(x,y)
 			maxvel = vel,
 			minvel = vel,
 			name = "planet",
-			r = starfield.nebulae.color[1]*1.5,
-			g = starfield.nebulae.color[2]*1.5,
-			b = starfield.nebulae.color[3]*1.5,
+			r = starfield.nebulae.color[1]*1.25,
+			g = starfield.nebulae.color[2]*1.25,
+			b = starfield.nebulae.color[3]*1.25,
 			o = 1,
 			gfx = gfx,
 			scale = scale,
@@ -251,7 +254,6 @@ function starfield:addobject(x,y)
 
 end
 
-
 function starfield:setSeed(seed)
 	--generate new random seed
 	if not seed then 
@@ -259,10 +261,10 @@ function starfield:setSeed(seed)
 	else
 		game.seed = seed
 	end
-	
+
 	love.math.setRandomSeed(game.seed)
 	starfield:setColor()
-	starfield.nebulae.limit = love.math.random(6,10)
+	starfield.nebulae.limit = love.math.random(starfield.nebulae.drawmin,starfield.nebulae.drawmax)
 	starfield.background.color = starfield.background.styles[love.math.random(1,#starfield.background.styles)]
 end
 
@@ -280,6 +282,8 @@ function starfield:drawPalette(x,y)
 	love.graphics.rectangle("fill", x+padding,y+padding,size,size)
 	love.graphics.setColor(starfield.background.color)
 	love.graphics.rectangle("fill", x+padding+size+padding,y+padding,size,size)
+	
+	love.graphics.print("R " .. starfield.nebulae.color[1] .. "\n" .. "G " .. starfield.nebulae.color[2] .. "\n" .. "B " .. starfield.nebulae.color[3] .. "\n", x +padding, y+padding)
 	end
 end
 
@@ -470,7 +474,7 @@ function starfield:draw(x,y)
 		if o.name == "planet" then
 			love.graphics.push()
 			love.graphics.setColor(o.r,o.g,o.b,o.o)
-				
+			
 			if o.gfx then
 				love.graphics.translate(o.x+o.w/2, o.y+o.h/2)
 				love.graphics.rotate(o.angle or 0)

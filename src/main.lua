@@ -125,10 +125,10 @@ function initdebugarcade(playersel)
 	msgs.queue(
 		{
 			{		
-				face = love.graphics.newImage("gfx/faces/face1.png"),
-				name = "Message Test",
-				text = "Testing a messagebox event...\n\nPress [M] to skip",
-				duration = 20,
+				face = love.graphics.newImage("gfx/faces/1.png"),
+				name = "Debug Mode",
+				text = "Testing messagebox events...\n\nPress [M] to start dialog test",
+				duration = 10,
 			}
 
 	})
@@ -293,14 +293,14 @@ function love.keypressed(key)
 			{		
 				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,10)..".png"),
 				name = "Message Test",
-				text = "I'm so bored",
+				text = "Hello",
 				duration = 2,
 			},
 			{		
 				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,10)..".png"),
 				name = "Message Test",
 				text = "I want to stop flying this ship!",
-				duration = 2,
+				duration = 3,
 			},
 			{		
 				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,10)..".png"),
@@ -312,13 +312,13 @@ function love.keypressed(key)
 				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,10)..".png"),
 				name = "Message Test",
 				text = "Trololololol lololol lololol...\nLolol lololololol",
-				duration = 2,
+				duration = 3,
 			},
 			{		
 				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,10)..".png"),
 				name = "Message Test",
-				text = "I tried to join a ping-pong club... \n...sign on the door said all full up!",
-				duration = 2,
+				text = "Random gibberish, that doesn't make sense.\nJust to pretend this is a real dialog\nI don't even know...",
+				duration = 4,
 			}
 		})
 		--[[

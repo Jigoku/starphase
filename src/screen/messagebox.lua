@@ -18,6 +18,7 @@ local messagebox = {}
 messagebox.screens = {}
 messagebox.callback = function() return end
 messagebox.fadespeed = 5
+messagebox.scalespeed = 300
 messagebox.textpadding = 10
 messagebox.w = 650
 messagebox.h = 128
@@ -58,14 +59,16 @@ function messagebox.update(dt)
 
 		if msg.duration <= 0 then
 			if msg.h > 0 then
-				msg.h = math.min(messagebox.h, msg.h - 300 *dt)
+				msg.h = math.min(messagebox.h, msg.h - messagebox.scalespeed *dt)
 			end	
 			
 			if msg.fade > 0 then
 				msg.fade = math.max(msg.fade - messagebox.fadespeed *dt,0)	
 			else
 				table.remove(messagebox.screens,1)
-				sound:play(sound.intercom[1])
+				if #messagebox.screens > 0 then
+					sound:play(sound.intercom[1])
+				end
 				if #messagebox.screens < 1 then
 					messagebox.callback()
 				end
@@ -73,7 +76,7 @@ function messagebox.update(dt)
 		else
 		
 			if msg.h < messagebox.h-2 then
-				msg.h = math.max(0,msg.h + 300 *dt)
+				msg.h = math.max(0,msg.h + messagebox.scalespeed *dt)
 			end
 			
 			if msg.fade < 1 then 

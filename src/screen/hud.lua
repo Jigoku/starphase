@@ -246,7 +246,7 @@ function hud:draw()
 	
 	if debugarcade then
 		love.graphics.setColor(0.588,1,1,0.784)
-		love.graphics.print("DEBUG:\npress [ or ] to adjust starfield speed\npress 1-9 to spawn enemies\npress space to set new starfield seed\npress ` for console/debug overlay\npress k to spawn powerup", 30, starfield.h-300)
+		love.graphics.print("DEBUG:\npress M for message system\npress [ or ] to adjust starfield speed\npress 1-9 to spawn enemies\npress space to set new starfield seed\npress ` for console/debug overlay\npress k to spawn powerup", 30, starfield.h-400)
 	end
 	
 
