@@ -85,9 +85,9 @@ function initarcade(playersel)
 	-- arcade mode will use preset seeds determined on each level
 	-- whereas infinite mode will use complete random eventually.
 	starfield:setSeed()
-	
-	starfield:setColor()
-	--starfield:setColor(50,255,255)
+	starfield:populate()
+	starfield.minspeed = 50
+	starfield.maxspeed = 1000
 	
 	love.mouse.setVisible(false)
 	love.mouse.setGrabbed(true)
@@ -95,21 +95,12 @@ function initarcade(playersel)
 	debugarcade = false
 	mode = "arcade"
 	love.graphics.setBackgroundColor(0,0,0,255)
-	
-	starfield:populate()
-	
 		
 	enemies.spawned = 0
-	
-	
-	--starfield.offset = love.graphics.getHeight()/3
-	--starfield.nebulae.red = love.math.random(0,255)
-	--starfield.nebulae.green = love.math.random(0,255)
-	--starfield.nebulae.blue = love.math.random(0,255)
+
 	player:init(playersel)
 	
-	starfield.minspeed = 50
-	starfield.maxspeed = 1000
+	
 	
 	
 	hud:init()

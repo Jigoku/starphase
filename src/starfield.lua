@@ -27,7 +27,7 @@ player.y = 0 --? move this.
 starfield.offset = 128              --offset for panning
 starfield.w = 1920                  --canvas width
 starfield.h = 1080+starfield.offset --canvas height
-starfield.limit = 1150              --maximum # of objects
+starfield.limit = 575               --maximum # of objects
 starfield.speed = 0                 --current speed
 starfield.minspeed = 6              --slowest speed
 starfield.maxspeed = 600            --fastest speed
@@ -257,7 +257,7 @@ end
 function starfield:setSeed(seed)
 	--generate new random seed
 	if not seed then 
-		game.seed = love.math.random(0,2^52)
+		game.seed = love.math.random(0,2^32)
 	else
 		game.seed = seed
 	end
@@ -499,8 +499,8 @@ function starfield:draw(x,y)
 	--]]
 	
 	--overlay hyperspace effect image
-	love.graphics.setColor(1,1,1,math.min(0.1,starfield.speed/1000))
-	love.graphics.draw(starfield.hyperspace, 0,0, 0, self.w/self.hyperspace:getWidth(), self.h/self.hyperspace:getHeight())
+	--love.graphics.setColor(1,1,1,math.min(0.1,starfield.speed/1000))
+	--love.graphics.draw(starfield.hyperspace, 0,0, 0, self.w/self.hyperspace:getWidth(), self.h/self.hyperspace:getHeight())
 
 	if mode == "arcade" then
 		pickups:draw()
