@@ -26,9 +26,7 @@ function player:init(playersel)
 	player.type = playersel
 	player.gfx = love.graphics.newImage("gfx/player/"..player.type.."_small.png") -- default
 	
-	player.warninggfx = love.graphics.newImage("gfx/warning.png")
-	player.warning_quad = love.graphics.newQuad(0,0, starfield.w, starfield.h, player.warninggfx:getDimensions() )
-	player.warningopacity = 0
+
 	
 	player.x = 300
 	player.y = (starfield.h+starfield.offset)/2-player.gfx:getHeight()/2
@@ -37,6 +35,7 @@ function player:init(playersel)
 	player.score = 0
 	player.lives = 9
 	player.shield = 100
+	player.shieldlow = 30 -- value that enables warning effects
 	player.shieldmax = 100
 	player.energy = 100
 	player.energymax = 100
@@ -50,7 +49,6 @@ function player:init(playersel)
 	player.alive = true
 	player.idle = true
 	player.invincible = false
-	player.warning = false
 	player.boostspeed = 0
 	player.kills = 0
 	--test this for temporary particle speed boost (powerup?)
@@ -227,8 +225,8 @@ end
 
 function player:checkShield(dt)
 
-	if player.shield <= 0 and player.alive then
-	
+	if player.shield < 0 and player.alive then
+		player.shield = 0
 		player.hasplasma = false 
 		player.hasradial = false
 		player.hasrocket = false
@@ -249,15 +247,10 @@ function player:checkShield(dt)
 		
 	end
 
-	if player.shield < 30 then
-		player.warning = true
-		if player.warningopacity <=0 then 
-			player.warningopacity = 1
-		else
-			player.warningopacity = player.warningopacity - 2.5 *dt
-		end
+	if player.shield < player.shieldlow then
+		hud.warning = true
 	else
-		player.warning = false
+		hud.warning = false
 	end
 	
 	self.shield = math.min(math.max(self.shield,0), self.shieldmax) 
@@ -329,14 +322,7 @@ function player:draw()
 		love.graphics.setColor(1,1,0,0.391)
 		love.graphics.rectangle("line", self.x,self.y, self.gfx:getWidth(),self.gfx:getHeight())
 	end
-	
-	
-	if player.warning then
-	love.graphics.setColor(1,0,0,player.warningopacity)
-	love.graphics.draw(
-		self.warninggfx, self.warning_quad, 0,0, 0, starfield.w/self.warninggfx:getWidth(), starfield.h/self.warninggfx:getHeight()
-	)	
-	end
+
 	
 	love.graphics.pop()
 	

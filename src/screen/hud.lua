@@ -52,6 +52,11 @@ function hud:init()
 	}	
 	hud.warp = false
 	hud.time = 0
+	
+	hud.warning = false
+	hud.warninggfx = love.graphics.newImage("gfx/warning.png")
+	hud.warning_quad = love.graphics.newQuad(0,0, love.graphics.getWidth(), love.graphics.getHeight(), hud.warninggfx:getDimensions() )
+	hud.warningopacity = 0
 
 end
 
@@ -84,6 +89,14 @@ function hud:update(dt)
 	
 	if hud.warp then
 
+	end
+	
+	if hud.warning then
+		if hud.warningopacity <=0 then 
+			hud.warningopacity = 0.5
+		else
+			hud.warningopacity = hud.warningopacity - 1.0 *dt
+		end
 	end
 	
 end
@@ -215,6 +228,15 @@ function hud:drawFrames()
 end 
 
 function hud:draw()
+	
+	if hud.warning then
+		love.graphics.setColor(1,0,0,hud.warningopacity)
+		love.graphics.draw(
+			hud.warninggfx, hud.warning_quad, 0,0, 0, love.graphics.getWidth()/hud.warninggfx:getWidth(), love.graphics.getHeight()/hud.warninggfx:getHeight()
+		)	
+	end
+
+
 	if paused and not debug then 
 
 		love.graphics.setColor(0,0,0,0.549)
