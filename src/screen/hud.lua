@@ -1,5 +1,5 @@
 --[[
- * Copyright (C) 2016 Ricky K. Thomson
+ * Copyright (C) 2016-2019 Ricky K. Thomson
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,7 +57,9 @@ function hud:init()
 	hud.warninggfx = love.graphics.newImage("gfx/warning.png")
 	hud.warning_quad = love.graphics.newQuad(0,0, love.graphics.getWidth(), love.graphics.getHeight(), hud.warninggfx:getDimensions() )
 	hud.warningopacity = 0
-
+	hud.warning_text = "SHIELD LOW"
+	
+	
 end
 
 
@@ -234,6 +236,14 @@ function hud:draw()
 		love.graphics.draw(
 			hud.warninggfx, hud.warning_quad, 0,0, 0, love.graphics.getWidth()/hud.warninggfx:getWidth(), love.graphics.getHeight()/hud.warninggfx:getHeight()
 		)	
+		
+		love.graphics.setFont(fonts.hud_warning)
+		love.graphics.setColor(1,0.2,0.2,1-hud.warningopacity)
+		
+		love.graphics.print(hud.warning_text,love.graphics.getWidth()-350,love.graphics.getHeight()-80)
+		love.graphics.setColor(1,1,1,hud.warningopacity)
+		love.graphics.print(hud.warning_text,love.graphics.getWidth()-350+5,love.graphics.getHeight()-80)
+		
 	end
 
 
@@ -267,6 +277,7 @@ function hud:draw()
 	
 	
 	if debugarcade then
+		love.graphics.setFont(fonts.default)
 		love.graphics.setColor(0.588,1,1,0.784)
 		love.graphics.print("DEBUG:\npress M for message system\npress [ or ] to adjust starfield speed\npress 1-9 to spawn enemies\npress space to set new starfield seed\npress ` for console/debug overlay\npress k to spawn powerup", 30, starfield.h-400)
 	end
