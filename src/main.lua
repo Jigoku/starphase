@@ -243,6 +243,9 @@ function love.keypressed(key)
 	end
 	
 	
+	msgs:keypressed(key)
+	
+	
 	--debug enemy
 	if debugarcade then
 	if key == "1" then
@@ -263,21 +266,20 @@ function love.keypressed(key)
 		enemies:add_tri()
 	elseif key == "9" then
 		enemies:add_cruiser()
-	elseif key == "space" then
-	
+	elseif key == "tab" then
+		
 		starfield:setSeed()
 		--starfield:populate()
 		
-		msgs.queue(
-		{
+		msgs.queue({
 			{		
 				face = love.graphics.newImage("gfx/faces/1.png"),
 				name = "DEBUG: new seed",
 				text = love.math.getRandomSeed(),
 				duration = 1,
 			}
-		}
-	)
+		})
+	
 	elseif key == "m" then
 		msgs.queue(
 		{

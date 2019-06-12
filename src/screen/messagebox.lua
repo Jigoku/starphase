@@ -55,7 +55,7 @@ function messagebox.update(dt)
 		
 		local msg = messagebox.screens[1]	
 		messagebox.scanlinepos = messagebox.scanlinepos + messagebox.scanlinespeed *dt
-		if messagebox.scanlinepos > (msg.h+messagebox.scanlineh)*2 then messagebox.scanlinepos = -messagebox.scanlineh end
+		if messagebox.scanlinepos > (msg.h+messagebox.scanlineh)*3 then messagebox.scanlinepos = -messagebox.scanlineh end
 
 		if msg.duration <= 0 then
 			if msg.h > 0 then
@@ -65,13 +65,7 @@ function messagebox.update(dt)
 			if msg.fade > 0 then
 				msg.fade = math.max(msg.fade - messagebox.fadespeed *dt,0)	
 			else
-				table.remove(messagebox.screens,1)
-				if #messagebox.screens > 0 then
-					sound:play(sound.intercom[1])
-				end
-				if #messagebox.screens < 1 then
-					messagebox.callback()
-				end
+				messagebox:skip()
 			end
 		else
 		
@@ -154,6 +148,25 @@ function messagebox.draw()
 	
 		love.graphics.setColor(1,1,1,msg.fade)
 		love.graphics.draw(messagebox.canvas,msg.x,msg.y)		
+	end
+end
+
+function messagebox:skip()
+	table.remove(messagebox.screens,1)
+	if #messagebox.screens > 0 then
+		sound:play(sound.intercom[1])
+	end
+	if #messagebox.screens < 1 then
+		messagebox.callback()
+	end
+end
+
+function messagebox:keypressed(key)
+	if paused then return end
+	if #messagebox.screens > 0 then
+		if key == "space" then
+			messagebox:skip()
+		end
 	end
 end
 

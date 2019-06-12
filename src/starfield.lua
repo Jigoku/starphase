@@ -18,6 +18,8 @@
 --	add starfield:update(dt) to love.update()
 --  add starfield:draw(x,y) to love.draw(), x/y are position of the canvas
 
+--TODO ADD DEBRIS
+
 
 starfield = {}
 starfield.objects = {}
@@ -27,7 +29,7 @@ player.y = 0 --? move this.
 starfield.offset = 128              --offset for panning
 starfield.w = 1920                  --canvas width
 starfield.h = 1080+starfield.offset --canvas height
-starfield.limit = 575+1150/3               --maximum # of objects
+starfield.limit = 958              --maximum # of objects
 starfield.speed = 0                 --current speed
 starfield.minspeed = 5              --slowest speed
 starfield.maxspeed = 600            --fastest speed

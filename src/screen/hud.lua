@@ -56,7 +56,9 @@ function hud:init()
 	hud.warning = false
 	hud.warninggfx = love.graphics.newImage("gfx/warning.png")
 	hud.warning_quad = love.graphics.newQuad(0,0, love.graphics.getWidth(), love.graphics.getHeight(), hud.warninggfx:getDimensions() )
-	hud.warningopacity = 0
+	hud.warningmin = 0
+	hud.warningmax = 0.5
+	hud.warningspeed = 1.0
 	hud.warning_text = "SHIELD LOW"
 	
 	
@@ -94,10 +96,10 @@ function hud:update(dt)
 	end
 	
 	if hud.warning then
-		if hud.warningopacity <=0 then 
-			hud.warningopacity = 0.5
+		if hud.warningmin <=0 then 
+			hud.warningmin = hud.warningmax
 		else
-			hud.warningopacity = hud.warningopacity - 1.0 *dt
+			hud.warningmin = hud.warningmin - hud.warningspeed *dt
 		end
 	end
 	
@@ -232,16 +234,16 @@ end
 function hud:draw()
 	
 	if hud.warning then
-		love.graphics.setColor(1,0,0,hud.warningopacity)
+		love.graphics.setColor(1,0,0,hud.warningmin)
 		love.graphics.draw(
 			hud.warninggfx, hud.warning_quad, 0,0, 0, love.graphics.getWidth()/hud.warninggfx:getWidth(), love.graphics.getHeight()/hud.warninggfx:getHeight()
 		)	
 		
 		love.graphics.setFont(fonts.hud_warning)
-		love.graphics.setColor(1,0.2,0.2,1-hud.warningopacity)
+		love.graphics.setColor(1,0.2,0.2,1-hud.warningmin)
 		
 		love.graphics.print(hud.warning_text,love.graphics.getWidth()-350,love.graphics.getHeight()-80)
-		love.graphics.setColor(1,1,1,hud.warningopacity)
+		love.graphics.setColor(1,1,1,hud.warningmin)
 		love.graphics.print(hud.warning_text,love.graphics.getWidth()-350+5,love.graphics.getHeight()-80)
 		
 	end
