@@ -36,6 +36,3 @@ GNU GPLv3 / CC-BY-SA
 ![3](screenshots/3.jpg)
 
 ![4](screenshots/4.jpg)
-
-![5](screenshots/5.jpg)
-

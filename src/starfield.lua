@@ -41,7 +41,7 @@ starfield.warp 			= love.graphics.newImage("gfx/starfield/warp.png")
 starfield.mist 			= love.graphics.newImage("gfx/starfield/mist.png")
 starfield.star 			= love.graphics.newImage("gfx/starfield/star.png")
 
-starfield.planets 		= textures:load("gfx/starfield/planets/")
+starfield.planets 		= textures:load("gfx/starfield/planets/new/")
 starfield.planets.populate = true
 starfield.planets.limit = 1
 
@@ -218,7 +218,7 @@ end
 function starfield:addPlanet(x,y)
 	if self.planets.populate then
 		if  self.count.planet < starfield.planets.limit then
-		local scale = love.math.random(10,30)/10
+		local scale = love.math.random(25,100)/100
 		local vel = love.math.random(12,12)/6
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		
@@ -229,6 +229,7 @@ function starfield:addPlanet(x,y)
 			h = gfx:getHeight()*scale,
 			maxvel = vel,
 			minvel = vel,
+			yvel = scale,
 			name = "planet",
 			r = starfield.nebulae.color[1]*1.25,
 			g = starfield.nebulae.color[2]*1.25,
@@ -333,20 +334,16 @@ function starfield:update(dt)
 		local o = self.objects[i]
 		
 		o.x = o.x - ((o.maxvel * self.speed) *dt)
-
+		
+		if mode == "arcade" then
+			if o.name == "planet" then
+				o.scale = o.scale - 0.005 *dt
+			end
+		end
+		
 		if starfield.speed >= starfield.warpspeed then
 			if o.name == "nebula" then
 				o.scale = o.scale - 0.05 *dt
-			end
-			if o.name == "planet" then
-			--[[ -- scale planets when warping?
-				local s = math.max(0,o.scale -0.7 *dt)
-				o.w = o.gfx:getWidth()*s
-				o.h = o.gfx:getHeight()*s
-				
-				o.scale = s
-				--o.scale = o.scale - 0.7 *dt
-			--]]
 			end
 		end
 	--[[
@@ -505,10 +502,8 @@ function starfield:draw(x,y)
 	
 	--overlay  mist effect 
 	love.graphics.setColor(.313,.313,.313,.058)
+	love.graphics.draw(self.mist, self.mist_quad, 0,0, 0, self.w/self.mist:getWidth(), self.h/self.mist:getHeight())	
 	
-	love.graphics.draw(
-		self.mist, self.mist_quad, 0,0, 0, self.w/self.mist:getWidth(), self.h/self.mist:getHeight()
-	)	
 	if mode == "arcade" then
 		pickups:draw()
 		enemies:draw()

@@ -238,14 +238,7 @@ function hud:draw()
 		love.graphics.draw(
 			hud.warninggfx, hud.warning_quad, 0,0, 0, love.graphics.getWidth()/hud.warninggfx:getWidth(), love.graphics.getHeight()/hud.warninggfx:getHeight()
 		)	
-		
-		love.graphics.setFont(fonts.hud_warning)
-		love.graphics.setColor(1,0.2,0.2,1-hud.warningmin)
-		
-		love.graphics.print(hud.warning_text,love.graphics.getWidth()-350,love.graphics.getHeight()-80)
-		love.graphics.setColor(1,1,1,hud.warningmin)
-		love.graphics.print(hud.warning_text,love.graphics.getWidth()-350+5,love.graphics.getHeight()-80)
-		
+
 	end
 
 
@@ -270,11 +263,7 @@ function hud:draw()
   --hud
 	--decor / lines
 	if not debug then
-
-
 		hud:drawFrames()
-		
-		
 	end
 	
 	
@@ -285,7 +274,14 @@ function hud:draw()
 	end
 	
 
-
+	--warning text
+	if hud.warning then
+		love.graphics.setFont(fonts.hud_warning)
+		love.graphics.setColor(1,0.2,0.2,1-hud.warningmin)	
+		love.graphics.print(hud.warning_text,love.graphics.getWidth()-350,love.graphics.getHeight()-80)
+		love.graphics.setColor(1,1,1,hud.warningmin)
+		love.graphics.print(hud.warning_text,love.graphics.getWidth()-350+5,love.graphics.getHeight()-80)
+	end
 	
 	
 	
@@ -327,26 +323,27 @@ function hud:draw()
 
 		
 	--shield bar
+	love.graphics.setLineWidth(5)
 	love.graphics.setColor(1,1,1,0.607)
-	love.graphics.print("shield", 10+hud.display.w/4*2,hud.display.h)
+	love.graphics.print("shield", 10+hud.display.w-400,hud.display.h)
 	love.graphics.setColor(0.39,0.784,0.39,0.3)
-	love.graphics.rectangle("fill", 70+hud.display.w/4*2,hud.display.h+10,hud.display.w/8, hud.display.h/3,5,5)
+	love.graphics.rectangle("fill", 70+hud.display.w-400,hud.display.h+10,hud.display.w/8, hud.display.h/3,5,5)
 	love.graphics.setColor(0.39,0.784,0.39,0.7)
-	love.graphics.rectangle("fill", 70+hud.display.w/4*2,hud.display.h+10,player.shield/player.shieldmax*(hud.display.w/8), hud.display.h/3,5,5)
+	love.graphics.rectangle("fill", 70+hud.display.w-400,hud.display.h+10,player.shield/player.shieldmax*(hud.display.w/8), hud.display.h/3,5,5)
 	
 	love.graphics.setColor(0.607,1,1,0.3)
-	love.graphics.rectangle("line", 70+hud.display.w/4*2,hud.display.h+10,hud.display.w/8, hud.display.h/3,5,5)
+	love.graphics.rectangle("line", 70+hud.display.w-400,hud.display.h+10,hud.display.w/8, hud.display.h/3,5,5)
 		
 	--energy bar
 	love.graphics.setColor(1,1,1,0.607)
-	love.graphics.print("energy", 10+hud.display.w/4*3,hud.display.h)
+	love.graphics.print("energy", 10+hud.display.w-200,hud.display.h)
 	love.graphics.setColor(0.39,0.784,0.39,0.3)
-	love.graphics.rectangle("fill", 70+hud.display.w/4*3,hud.display.h+10,hud.display.w/8, hud.display.h/3,5,5)
+	love.graphics.rectangle("fill", 70+hud.display.w-200,hud.display.h+10,hud.display.w/8, hud.display.h/3,5,5)
 	love.graphics.setColor(0.39,0.745,0.784,0.7)
-	love.graphics.rectangle("fill", 70+hud.display.w/4*3,hud.display.h+10,player.energy/player.energymax*(hud.display.w/8), hud.display.h/3,5,5)
+	love.graphics.rectangle("fill", 70+hud.display.w-200,hud.display.h+10,player.energy/player.energymax*(hud.display.w/8), hud.display.h/3,5,5)
 		
 	love.graphics.setColor(0.607,1,1,0.3)
-	love.graphics.rectangle("line", 70+hud.display.w/4*3,hud.display.h+10,hud.display.w/8, hud.display.h/3,5,5)
+	love.graphics.rectangle("line", 70+hud.display.w-200,hud.display.h+10,hud.display.w/8, hud.display.h/3,5,5)
 
 	
 	love.graphics.setFont(fonts.default)

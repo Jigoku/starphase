@@ -103,8 +103,10 @@ function messagebox.draw()
 		
 		
 		--face/event portrait
-		love.graphics.setColor(hud.colors.face)
-		love.graphics.draw(msg.face,love.math.random(-0.5,0.5),0,0,1,msg.h/msg.face:getHeight(),0,0)
+		if type(msg.face) == "userdata" then
+			love.graphics.setColor(hud.colors.face)
+			love.graphics.draw(msg.face,love.math.random(-0.5,0.5),0,0,1,msg.h/msg.face:getHeight(),0,0)
+		end
 		
 		--dividing line
 		love.graphics.setLineWidth(2)
