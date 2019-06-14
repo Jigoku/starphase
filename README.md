@@ -1,9 +1,9 @@
 # Star Phase
-A top down /side scrolling space shooter made with Lua and Love2D
+A top down / side scrolling space shooter made with Lua and Love2D. 
 
-This is still an early work in progress, so many bugs / changes will come.
+This is an early work in progress, so many bugs / changes will come.
 
-Reccomended to use 1920x1080 resolution for now. Fullscreen display is not correctly scaled (needs working on)
+Reccomended to use 1920x1080 resolution for now. ([issue #9](https://github.com/Jigoku/starphase/issues/9))
 
 ### Running the game
 Run the game from the src/ directory using
