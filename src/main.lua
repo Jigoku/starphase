@@ -268,7 +268,7 @@ function love.keypressed(key)
 		
 		msgs.queue({
 			{		
-				face = love.graphics.newImage("gfx/faces/1.png"),
+				face = love.graphics.newImage("data/gfx/faces/1.png"),
 				name = "DEBUG: new seed",
 				text = love.math.getRandomSeed(),
 				duration = 1,
@@ -279,31 +279,31 @@ function love.keypressed(key)
 		msgs.queue(
 		{
 			{		
-				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,10)..".png"),
+				face = love.graphics.newImage("data/gfx/faces/face" .. love.math.random(1,10)..".png"),
 				name = "Message Test",
 				text = "Hello",
 				duration = 2,
 			},
 			{		
-				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,10)..".png"),
+				face = love.graphics.newImage("data/gfx/faces/face" .. love.math.random(1,10)..".png"),
 				name = "Message Test",
 				text = "I want to stop flying this ship!",
 				duration = 3,
 			},
 			{		
-				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,10)..".png"),
+				face = love.graphics.newImage("data/gfx/faces/face" .. love.math.random(1,10)..".png"),
 				name = "Message Test",
 				text = "PEW PEW PEW\n\n... *TRANSMISSION ERROR*",
 				duration = 2,
 			},
 			{		
-				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,10)..".png"),
+				face = love.graphics.newImage("data/gfx/faces/face" .. love.math.random(1,10)..".png"),
 				name = "Message Test",
 				text = "Trololololol lololol lololol...\nLolol lololololol",
 				duration = 3,
 			},
 			{		
-				face = love.graphics.newImage("gfx/faces/face" .. love.math.random(1,10)..".png"),
+				face = love.graphics.newImage("data/gfx/faces/face" .. love.math.random(1,10)..".png"),
 				name = "Message Test",
 				text = "Random gibberish, that doesn't make sense.\nJust to pretend this is a real dialog\nI don't even know...",
 				duration = 4,
