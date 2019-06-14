@@ -35,7 +35,7 @@ function love.conf(t)
 	t.window.vsync = 1
 	t.window.fullscreen = true
 	t.window.fullscreentype = "desktop"
-	t.window.icon = "gfx/icon.png"
+	t.window.icon = "data/gfx/icon.png"
 	
 	t.window.msaa = 32
 	t.window.depth = 16

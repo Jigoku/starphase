@@ -24,7 +24,7 @@ player.sounds = {}
 
 function player:init(playersel)
 	player.type = playersel
-	player.gfx = love.graphics.newImage("gfx/player/"..player.type.."_small.png") -- default
+	player.gfx = love.graphics.newImage("data/gfx/player/"..player.type.."_small.png") -- default
 	
 
 	
@@ -314,7 +314,7 @@ function player:draw()
 	else
 		love.graphics.draw(
 			self.gfx, self.x, 
-			self.y, 0, 1, 1
+			self.y, 0, 1, 1--,0,0,-player.xvel/10000,-player.yvel/10000
 		)
 	end
 	

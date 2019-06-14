@@ -14,23 +14,23 @@
  --]]
  
 pickups = {}
---pickups.texture = love.graphics.newImage("gfx/pickups/template_small.png")
-pickups.sound = love.audio.newSource("sfx/pickups/collect.ogg", "static")
+--pickups.texture = love.graphics.newImage("data/gfx/pickups/template_small.png")
+pickups.sound = love.audio.newSource("data/sfx/pickups/collect.ogg", "static")
 pickups.chance = 15 --chance of a pickup being dropped
 
 pickups.textures = {}
 
 pickups.type = {
-	[1] = love.graphics.newImage("gfx/pickups/shield.png"),
-	[2] = love.graphics.newImage("gfx/pickups/energy.png"),
-	[3] = love.graphics.newImage("gfx/pickups/orb.png"),
-	[4] = love.graphics.newImage("gfx/pickups/blaster.png"),
-	[5] = love.graphics.newImage("gfx/pickups/wave.png"),
-	[6] = love.graphics.newImage("gfx/pickups/plasma.png"),
-	[7] = love.graphics.newImage("gfx/pickups/beam.png"),
-	[8] = love.graphics.newImage("gfx/pickups/rocket.png"),
-	[9] = love.graphics.newImage("gfx/pickups/radial.png"),
-	[10] = love.graphics.newImage("gfx/pickups/barrier.png"),
+	[1] = love.graphics.newImage("data/gfx/pickups/shield.png"),
+	[2] = love.graphics.newImage("data/gfx/pickups/energy.png"),
+	[3] = love.graphics.newImage("data/gfx/pickups/orb.png"),
+	[4] = love.graphics.newImage("data/gfx/pickups/blaster.png"),
+	[5] = love.graphics.newImage("data/gfx/pickups/wave.png"),
+	[6] = love.graphics.newImage("data/gfx/pickups/plasma.png"),
+	[7] = love.graphics.newImage("data/gfx/pickups/beam.png"),
+	[8] = love.graphics.newImage("data/gfx/pickups/rocket.png"),
+	[9] = love.graphics.newImage("data/gfx/pickups/radial.png"),
+	[10] = love.graphics.newImage("data/gfx/pickups/barrier.png"),
 	
 }
 

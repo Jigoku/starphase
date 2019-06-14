@@ -25,18 +25,18 @@ function love.load(args)
 	require("collision")
 	require("sound")
 	require("textures")
-	require("screen/title")
+	require("title")
 	
-	require("screen/fonts")
+	require("fonts")
 	require("entities/pickups")
 	require("entities/enemies")
 	require("entities/explosions")
 	require("entities/player")
 	require("entities/projectiles")
 	require("starfield")
-	require("screen/hud")
+	require("hud")
 
-	msgs = require("screen/messagebox")
+	msgs = require("messagebox")
 	
 	msgs.callback = function() print("end of message test") end
 
@@ -69,7 +69,7 @@ function love.load(args)
 
 
 
-	cursor = love.mouse.newCursor( "gfx/cursor.png", 0, 0 )
+	cursor = love.mouse.newCursor( "data/gfx/cursor.png", 0, 0 )
 	love.mouse.setCursor(cursor)	
 
 	sound:init()
@@ -116,7 +116,7 @@ function initdebugarcade(playersel)
 	msgs.queue(
 		{
 			{		
-				face = love.graphics.newImage("gfx/faces/1.png"),
+				face = love.graphics.newImage("data/gfx/faces/1.png"),
 				name = "Debug Mode",
 				text = "Testing messagebox events...\n\nPress [M] to start dialog test\nPress [SPACE] to skip messages",
 				duration = 60,
@@ -198,8 +198,6 @@ function love.draw()
 	
 
 
-
-
 	-- caps fps
 
 	local cur_time = love.timer.getTime()
@@ -218,9 +216,6 @@ function love.keypressed(key)
 
 
 	if debugarcade then if key == "k" then pickups:add(starfield.w/2,starfield.h/2) end end
-
-
-
 
 	--global controls
 	if key == binds.fullscreen then misc:togglefullscreen() end

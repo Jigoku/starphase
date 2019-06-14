@@ -26,24 +26,24 @@ enemies.fadespeed = 3.75 -- texture fade out on death
 enemies.spawned = 0
 
 enemies.sound = {}
-enemies.sound.hit = love.audio.newSource("sfx/projectiles/hit.ogg", "static")
+enemies.sound.hit = love.audio.newSource("data/sfx/projectiles/hit.ogg", "static")
 enemies.sound.hit:setVolume(1)
-enemies.sound.explode = love.audio.newSource("sfx/projectiles/explode.ogg", "static")
+enemies.sound.explode = love.audio.newSource("data/sfx/projectiles/explode.ogg", "static")
 enemies.sound.explode:setVolume(0.7)
 
-enemies.shield = love.graphics.newImage("gfx/shield_large.png")
+enemies.shield = love.graphics.newImage("data/gfx/shield.png")
 enemies.shieldmaxopacity = 0.45
 
 enemies.type = {
-	delta = love.graphics.newImage("gfx/enemy/6_small.png"),
-	abomination = love.graphics.newImage("gfx/enemy/8_large.png"),
-	dart = love.graphics.newImage("gfx/enemy/2_small.png"),
-	train = love.graphics.newImage("gfx/enemy/1_small.png"),
-	tri = love.graphics.newImage("gfx/enemy/fighter.png"),
-	large  = love.graphics.newImage("gfx/enemy/6_large.png"),
-	crescent = love.graphics.newImage("gfx/enemy/crescent.png"),
-	cruiser = love.graphics.newImage("gfx/enemy/10_small.png"),
-	asteroid = love.graphics.newImage("gfx/enemy/asteroid_large.png"),
+	delta = love.graphics.newImage("data/gfx/enemy/6_small.png"),
+	abomination = love.graphics.newImage("data/gfx/enemy/8_large.png"),
+	dart = love.graphics.newImage("data/gfx/enemy/2_small.png"),
+	train = love.graphics.newImage("data/gfx/enemy/1_small.png"),
+	tri = love.graphics.newImage("data/gfx/enemy/fighter.png"),
+	large  = love.graphics.newImage("data/gfx/enemy/6_large.png"),
+	crescent = love.graphics.newImage("data/gfx/enemy/crescent.png"),
+	cruiser = love.graphics.newImage("data/gfx/enemy/10_small.png"),
+	asteroid = love.graphics.newImage("data/gfx/enemy/asteroid_large.png"),
 }
 
 

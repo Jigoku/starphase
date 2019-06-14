@@ -17,25 +17,25 @@ explosions = {}
 explosions.objects = {} --stores the active explosions
 
 explosions.sounds = {
-	[1] = love.audio.newSource("sfx/explosions/unnamed/explosion01.ogg", "static"),
-	[2] = love.audio.newSource("sfx/explosions/unnamed/explosion02.ogg", "static"),
-	[3] = love.audio.newSource("sfx/explosions/unnamed/explosion03.ogg", "static"),
-	[4] = love.audio.newSource("sfx/explosions/unnamed/explosion04.ogg", "static"),
-	[5] = love.audio.newSource("sfx/explosions/unnamed/explosion05.ogg", "static"),
-	[6] = love.audio.newSource("sfx/explosions/unnamed/explosion06.ogg", "static"),
-	[7] = love.audio.newSource("sfx/explosions/unnamed/explosion07.ogg", "static"),
-	[8] = love.audio.newSource("sfx/explosions/unnamed/explosion08.ogg", "static"),
-	[9] = love.audio.newSource("sfx/explosions/unnamed/explosion09.ogg", "static"),
+	[1] = love.audio.newSource("data/sfx/explosions/unnamed/explosion01.ogg", "static"),
+	[2] = love.audio.newSource("data/sfx/explosions/unnamed/explosion02.ogg", "static"),
+	[3] = love.audio.newSource("data/sfx/explosions/unnamed/explosion03.ogg", "static"),
+	[4] = love.audio.newSource("data/sfx/explosions/unnamed/explosion04.ogg", "static"),
+	[5] = love.audio.newSource("data/sfx/explosions/unnamed/explosion05.ogg", "static"),
+	[6] = love.audio.newSource("data/sfx/explosions/unnamed/explosion06.ogg", "static"),
+	[7] = love.audio.newSource("data/sfx/explosions/unnamed/explosion07.ogg", "static"),
+	[8] = love.audio.newSource("data/sfx/explosions/unnamed/explosion08.ogg", "static"),
+	[9] = love.audio.newSource("data/sfx/explosions/unnamed/explosion09.ogg", "static"),
 }
 
-explosions.large_sprite = love.graphics.newImage("gfx/explosion/bleed/explosion.png")
+explosions.large_sprite = love.graphics.newImage("data/gfx/explosion/bleed/explosion.png")
 explosions.large_size = explosions.large_sprite:getHeight()
 explosions.large_min = 1
 explosions.large_max = 13
 explosions.large_quads = textures:loadSprite(explosions.large_sprite, explosions.large_size, explosions.large_max )
 
 
-explosions.small_sprite = love.graphics.newImage("gfx/explosion/jswars/explosion2.png")
+explosions.small_sprite = love.graphics.newImage("data/gfx/explosion/jswars/explosion2.png")
 explosions.small_size = explosions.small_sprite:getHeight()
 explosions.small_min = 1
 explosions.small_max = 17

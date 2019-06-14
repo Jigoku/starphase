@@ -21,28 +21,28 @@ sound.bgm = nil
 sound.bgmtrack = nil
 
 sound.music = {
-	--[1] =  love.audio.newSource("sfx/music/zhelanov/space.ogg",			"stream"),
-	[1] =  love.audio.newSource("sfx/music/brandon/ambient.ogg",			"stream"),
-	[2] =  love.audio.newSource("sfx/music/maxstack/tst/lose.ogg", 		"stream"),
-	[3] =  love.audio.newSource("sfx/music/maxstack/nebula.ogg", 		"stream"),
-	[4] =  love.audio.newSource("sfx/music/maxstack/through-space.ogg", "stream"),
-	[5] =  love.audio.newSource("sfx/music/maxstack/crystal-space.ogg", "stream"),
-	[6] =  love.audio.newSource("sfx/music/maxstack/bazaarnet.ogg", 	"stream"),
-	[7] =  love.audio.newSource("sfx/music/maxstack/the-client.ogg", 	"stream"),
-	[8] =  love.audio.newSource("sfx/music/maxstack/deprecation.ogg", 	"stream"),
-	[9] =  love.audio.newSource("sfx/music/maxstack/inevitable.ogg", 	"stream"),
-	[10] = love.audio.newSource("sfx/music/maxstack/mediathreat.ogg", 	"stream"),
-	[11] = love.audio.newSource("sfx/music/pablo/thrust.ogg", 			"stream"),
-	[12] = love.audio.newSource("sfx/music/pablo/dimensions.ogg",	 	"stream"),
-	[13] = love.audio.newSource("sfx/music/pablo/persuit.ogg",		 	"stream"),
-	[14] = love.audio.newSource("sfx/music/pablo/vilified.ogg",		 	"stream"),
-	[15] = love.audio.newSource("sfx/music/pablo/evasion.ogg",		 	"stream"),
-	[16] = love.audio.newSource("sfx/music/qubodup/railjet.ogg", 		"stream"),
+	--[1] =  love.audio.newSource("data/sfx/music/zhelanov/space.ogg",			"stream"),
+	[1] =  love.audio.newSource("data/sfx/music/brandon/ambient.ogg",			"stream"),
+	[2] =  love.audio.newSource("data/sfx/music/maxstack/tst/lose.ogg", 		"stream"),
+	[3] =  love.audio.newSource("data/sfx/music/maxstack/nebula.ogg", 		"stream"),
+	[4] =  love.audio.newSource("data/sfx/music/maxstack/through-space.ogg", "stream"),
+	[5] =  love.audio.newSource("data/sfx/music/maxstack/crystal-space.ogg", "stream"),
+	[6] =  love.audio.newSource("data/sfx/music/maxstack/bazaarnet.ogg", 	"stream"),
+	[7] =  love.audio.newSource("data/sfx/music/maxstack/the-client.ogg", 	"stream"),
+	[8] =  love.audio.newSource("data/sfx/music/maxstack/deprecation.ogg", 	"stream"),
+	[9] =  love.audio.newSource("data/sfx/music/maxstack/inevitable.ogg", 	"stream"),
+	[10] = love.audio.newSource("data/sfx/music/maxstack/mediathreat.ogg", 	"stream"),
+	[11] = love.audio.newSource("data/sfx/music/pablo/thrust.ogg", 			"stream"),
+	[12] = love.audio.newSource("data/sfx/music/pablo/dimensions.ogg",	 	"stream"),
+	[13] = love.audio.newSource("data/sfx/music/pablo/persuit.ogg",		 	"stream"),
+	[14] = love.audio.newSource("data/sfx/music/pablo/vilified.ogg",		 	"stream"),
+	[15] = love.audio.newSource("data/sfx/music/pablo/evasion.ogg",		 	"stream"),
+	[16] = love.audio.newSource("data/sfx/music/qubodup/railjet.ogg", 		"stream"),
 	
 }
 
 sound.intercom = {
-	[1] = love.audio.newSource("sfx/intercom/intercom.ogg", "stream"),
+	[1] = love.audio.newSource("data/sfx/intercom/intercom.ogg", "stream"),
 }
 sound.intercom[1]:setVolume(0.3)
 	
