@@ -68,18 +68,7 @@ starfield.nebulae.drawmax = 25
 
 starfield.background = {}
 starfield.background.color = { 0.0, 0.0, 0.0 }
-starfield.background.styles = {
-	{ 0.0, 0.03, 0.06 }, -- blueish
-	{ 0.0, 0.05, 0.07 }, -- greenish
-	{ 0.05, 0.05, 0.07 }, -- rustic
-	{ 0.05, 0.07, 0.07 }, -- greyish
-	{ 0.04, 0.0, 0.00 }, -- red
-	{ 0.05,0.05,0.02 }, --- amber
-	{ 0.01,0.01,0.01 } --- black
-	
-	-- looks better with BG variation -BUT needs to 
-	-- "fade to new colour" when changing seed/warping
-}
+
 
 function starfield:setColor(r,g,b)
 	starfield.nebulae.color = { 
@@ -219,7 +208,7 @@ end
 function starfield:addPlanet(x,y)
 	if self.planets.populate then
 		if  self.count.planet < starfield.planets.limit then
-		local scale = love.math.random(25,100)/100
+		local scale = love.math.random(40,100)/100
 		local vel = love.math.random(12,12)/6
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		
@@ -271,7 +260,10 @@ function starfield:setSeed(seed)
 	love.math.setRandomSeed(game.seed)
 	starfield:setColor()
 	starfield.nebulae.limit = love.math.random(starfield.nebulae.drawmin,starfield.nebulae.drawmax)
-	starfield.background.color = starfield.background.styles[love.math.random(1,#starfield.background.styles)]
+	starfield.background.color = { love.math.random(0,8)/100,love.math.random(0,8)/100,love.math.random(0,8)/100 }
+	
+	
+	
 end
 
 function starfield:drawPalette(x,y)
