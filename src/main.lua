@@ -162,6 +162,9 @@ function love.update(dt)
 	
 	--process the debug console
 	hud:updateconsole(dt)
+	
+	game.width = love.graphics.getWidth()
+	game.height = love.graphics.getHeight()
 
 end
 

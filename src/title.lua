@@ -28,6 +28,7 @@ title.menu.x = love.graphics.getWidth() - title.menu.w
 title.menu.y = title.menu.h - title.menu.h/4
 title.menu.canvas = love.graphics.newCanvas(title.menu.w,title.menu.h)
 title.menu.selected = 1
+title.menu.maxoptions = 0
 
 title.opacity = 1
 title.opacitystep = 1
@@ -61,7 +62,7 @@ function title:init()
 	starfield:setSeed()
 	title.overlay.fadein = true
 	title.overlay.opacity = 1
-	title.maxoptions = 6
+	title.menu.maxoptionstions = 6
 	paused = false
 	mode = "title"
 	title.active = "main"
@@ -78,9 +79,6 @@ function title:init()
 end
 
 function title:update(dt)
-	
-
-
 	if title.splash then
 		title.splashCycle = math.max(0, title.splashCycle - dt)
 		
@@ -97,20 +95,6 @@ function title:update(dt)
 		return
 	
 	end
-
---[[ debugging
-	title.scene_timer = math.max(0, title.scene_timer - dt)
-	if title.scene_timer <= 0 then
-		title.scene_timer = title.scene_delay
-		
-		starfield:setSeed()
-		starfield:populate()
-		
-	end
-	--]]
-	
-	--main title sequence
-	
 
 	title.opacity = (title.opacity - title.opacitystep*dt)
 	if title.opacity < title.opacitymin  then
@@ -153,20 +137,15 @@ function title:draw()
 	
 	starfield:draw(0,0)
 
-	
-
 	if debugstarfield then	
 		love.graphics.setColor(1,1,1,0.8)
 		--love.graphics.setFont(fonts.title_select)
 		love.graphics.setFont(fonts.labels)
 		love.graphics.print("Press [tab] to reseed, [escape] to quit", 20, 10)		
 		return 
-	 end
+	end
 
-	
-	
-	
-	
+
 	love.graphics.setColor(1,1,1,1)
 	for i=0, love.graphics.getHeight(), 1 do
 		love.graphics.draw(title.gradient, love.graphics.getWidth()-title.gradient:getWidth()/2,i,0,0.5,1)
@@ -230,7 +209,6 @@ function title:draw()
 		love.graphics.printf("Back", 300,220,wrap,"left",0,1,1)
 	end
 	
-			
 	love.graphics.setColor(1,1,1,1)
 	if title.active == "ship_selection" then
 		if title.menu.selected == 1 then
@@ -241,7 +219,6 @@ function title:draw()
 			love.graphics.draw(title.ship2, 50,100, 0,0.5)
 		end
 	end
-	
 	
 	love.graphics.setCanvas()
 
@@ -266,22 +243,12 @@ function title:draw()
 	
 	love.graphics.setColor(0,0,0,title.overlay.opacity)
 	love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
-	
-	
-
-	
-	if debug then
-		love.graphics.rectangle("line", title.menu.x,title.menu.y,title.menu.w,title.menu.h)
-	end
-	
-
-
 end
 
 
 function title:navigate(d)
 	sound:play(title.sounds.option)
-	title.menu.selected = math.min(title.maxoptions,math.max(1,title.menu.selected + d))
+	title.menu.selected = math.min(title.menu.maxoptionstions,math.max(1,title.menu.selected + d))
 	title.opacity = 1 
 	starfield:setSeed()
 	starfield:populate()
@@ -314,7 +281,6 @@ function title:keypressed(key)
 		love.event.quit() 		
 	end
 	
-	
 	if title.splash then 
 		if key == "space" then 
 			title.splash = false 
@@ -330,45 +296,40 @@ function title:keypressed(key)
 		self:navigate(1)
 	end
 		
-		
-	
-	
-
-	
-	
 	
 	if key == "return" then
 
 		sound:play(title.sounds.select)
 				
 		if title.active == "main" then
-			if title.menu.selected == 1 then title.active = "ship_selection" title.maxoptions = 4 end
+			if title.menu.selected == 1 then title.active = "ship_selection" title.menu.maxoptionstions = 4 end
 			if title.menu.selected == 2 then initdebugarcade(3) end
-			if title.menu.selected == 3 then title.active = "settings" title.maxoptions = 4 end
+			if title.menu.selected == 3 then title.active = "settings" title.menu.maxoptionstions = 4 end
 			if title.menu.selected == 4 then debugstarfield = not debugstarfield end
+			if title.menu.selected == 5 then print ("unimplemented") end
 			if title.menu.selected == 6 then love.event.quit() end
 		elseif title.active == "settings" then
-			if title.menu.selected == 1 then title.active = "video" title.maxoptions = 1 end
-			if title.menu.selected == 2 then title.active = "sound" title.maxoptions = 1 end
-			if title.menu.selected == 3 then title.active = "controls" title.maxoptions = 1 end
-			if title.menu.selected == 4 then title.active = "main" title.maxoptions = 6 end
+			if title.menu.selected == 1 then title.active = "video" title.menu.maxoptionstions = 1 end
+			if title.menu.selected == 2 then title.active = "sound" title.menu.maxoptionstions = 1 end
+			if title.menu.selected == 3 then title.active = "controls" title.menu.maxoptionstions = 1 end
+			if title.menu.selected == 4 then title.active = "main" title.menu.maxoptionstions = 6 end
 		elseif title.active == "video" then
-			if title.menu.selected == 1 then title.active = "settings" title.maxoptions = 4  end
+			if title.menu.selected == 1 then title.active = "settings" title.menu.maxoptionstions = 4  end
 		elseif title.active == "sound" then
-			if title.menu.selected == 1 then title.active = "settings" title.maxoptions = 4 end
+			if title.menu.selected == 1 then title.active = "settings" title.menu.maxoptionstions = 4 end
 		elseif title.active == "controls" then
-			if title.menu.selected == 1 then title.active = "settings" title.maxoptions = 4 end
+			if title.menu.selected == 1 then title.active = "settings" title.menu.maxoptionstions = 4 end
 		elseif title.active == "ship_selection" then
 			if title.menu.selected == 1 then initarcade(3) end
 			if title.menu.selected == 2 then initarcade(1) end
 			if title.menu.selected == 3 then initarcade(2) end
-			if title.menu.selected == 4 then title.active = "main" title.maxoptions = 6 end
+			if title.menu.selected == 4 then title.active = "main" title.menu.maxoptionstions = 6 end
 		end
 				
 		title.menu.selected = 1
 	end
 			
 	if title.menu.selected < 1 then title.menu.selected = 1 end
-	if title.menu.selected > title.maxoptions then title.menu.selected = title.maxoptions end
+	if title.menu.selected > title.menu.maxoptionstions then title.menu.selected = title.menu.maxoptionstions end
 		
 end

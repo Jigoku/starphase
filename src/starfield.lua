@@ -62,7 +62,7 @@ starfield.nebulae.size = 512
 starfield.nebulae.quads = textures:loadSprite(starfield.nebulae.sprite, starfield.nebulae.size, starfield.nebulae.max )
 starfield.nebulae.color = {1,1,1}
 starfield.nebulae.populate = true
-starfield.nebulae.limit = 6
+starfield.nebulae.limit = 0
 starfield.nebulae.drawmin = 6
 starfield.nebulae.drawmax = 25
 
@@ -209,12 +209,12 @@ function starfield:addPlanet(x,y)
 	if self.planets.populate then
 		if  self.count.planet < starfield.planets.limit then
 		local scale = love.math.random(40,100)/100
-		local vel = love.math.random(12,12)/6
+		local vel = love.math.random(20,20)/10
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		
 		table.insert(self.objects, {
 			x = x,
-			y = y-(gfx:getHeight()*scale)/2,
+			y = y-gfx:getHeight()/2*scale,
 			w = gfx:getWidth()*scale,
 			h = gfx:getHeight()*scale,
 			maxvel = vel,
@@ -228,6 +228,9 @@ function starfield:addPlanet(x,y)
 			gfx = gfx,
 			scale = scale,
 			angle =  love.math.random(0,math.pi*100)/100,
+			atmosphere = self.nebulae.quads[love.math.random(self.nebulae.min,self.nebulae.max)],
+			atmosphere_angle = 0,
+			atmosphere_speed = 0.05
 		})
 		self.count.planet = self.count.planet +1
 		end
@@ -269,19 +272,17 @@ end
 function starfield:drawPalette(x,y)
 	--debug palette
 	if mode == "title" then
-	love.graphics.setColor(0,0,0,1)
-	local size = 50
-	local padding = 10
-	local x,y = (x or 20),(y or 20)
-	love.graphics.rectangle("fill", x,y,size*2+(padding*3),size+(padding*2))
-	love.graphics.setColor(0.3,0.3,0.3,1)
-	love.graphics.rectangle("line", x,y,size*2+(padding*3),size+(padding*2))
-	love.graphics.setColor(starfield.nebulae.color)
-	love.graphics.rectangle("fill", x+padding,y+padding,size,size)
-	love.graphics.setColor(starfield.background.color)
-	love.graphics.rectangle("fill", x+padding+size+padding,y+padding,size,size)
-	
-	love.graphics.print("R " .. starfield.nebulae.color[1] .. "\n" .. "G " .. starfield.nebulae.color[2] .. "\n" .. "B " .. starfield.nebulae.color[3] .. "\n", x +padding, y+padding)
+		love.graphics.setColor(0,0,0,1)
+		local size = 50
+		local padding = 10
+		local x,y = (x or 20),(y or 20)
+		love.graphics.rectangle("fill", x,y,size*2+(padding*3),size+(padding*2))
+		love.graphics.setColor(0.3,0.3,0.3,1)
+		love.graphics.rectangle("line", x,y,size*2+(padding*3),size+(padding*2))
+		love.graphics.setColor(starfield.nebulae.color)
+		love.graphics.rectangle("fill", x+padding,y+padding,size,size)
+		love.graphics.setColor(starfield.background.color)
+		love.graphics.rectangle("fill", x+padding+size+padding,y+padding,size,size)
 	end
 end
 
@@ -289,14 +290,8 @@ end
 function starfield:update(dt)
 	if paused then return end
 
-	-- sound/bgm pitch shift when warping
-	if starfield.speed >= starfield.warpspeed then
-		sound.bgm:setPitch(math.max(0.5,sound.bgm:getPitch() -0.25*dt))
-		sound.bgm:setVolume(math.max(1,sound.bgm:getVolume() -1*dt))
-	else
-		sound.bgm:setPitch(math.min(1,sound.bgm:getPitch() +0.5*dt))
-		sound.bgm:setVolume(math.min(1,sound.bgm:getVolume() +1*dt))
-	end
+	-- cap starfield speed to limits
+	self.speed = math.max(math.min(self.speed,self.maxspeed),self.minspeed)
 
 	--populate starfield
 	while #self.objects < self.limit do
@@ -305,19 +300,24 @@ function starfield:update(dt)
 			love.math.random(self.h)
 		)
 	end
-	
-	-- cap starfield speed to limits
-	self.speed = math.max(math.min(self.speed,self.maxspeed),self.minspeed)
-	
+
+
 	-- set conditions based on speed
-	if starfield.speed >= starfield.warpspeed then
-		starfield.planets.populate = false
+	if self.speed >= self.warpspeed then
+		sound.bgm:setPitch(math.max(0.5,sound.bgm:getPitch() -0.25*dt))
+		sound.bgm:setVolume(math.max(1,sound.bgm:getVolume() -1*dt))
+		
+		self.planets.populate = false
 		hud.warp = true 
 	else
-		starfield.planets.populate = true
+		sound.bgm:setPitch(math.min(1,sound.bgm:getPitch() +0.5*dt))
+		sound.bgm:setVolume(math.min(1,sound.bgm:getVolume() +1*dt))
+		
+		self.planets.populate = true
 		hud.warp = false
 	end
-	
+
+
 	--if mode == "arcade" then
 	--	self.offset = player.y
 	--end
@@ -334,20 +334,33 @@ function starfield:update(dt)
 			end
 		end
 		
-		if starfield.speed >= starfield.warpspeed then
+		--[[
+		if self.speed >= self.warpspeed then
 			if o.name == "nebula" then
 				o.scale = o.scale - 0.05 *dt
 			end
 		end
-	--[[
+		--]]
+	
 		if o.name == "planet" then
-			if debugarcade then
-			enemies:rotate(o,0.05,dt)
-			end
+		--	if debugarcade then
+		--	enemies:rotate(o,0.05,dt)
+		--	end
 			
+			o.atmosphere_angle = o.atmosphere_angle + o.atmosphere_speed *dt
 		end	
+	
+	
+	
+		-- use similar effect for behind planets (with smoke)
+	--[[
+		if o.name == "nebula" then
+			o.scale = o.scale - 0.05 *dt
+			o.angle = o.angle - 0.04 *dt
+		end
 	--]]
-
+	
+	
 		if o.x+(o.w) < 0 then
 			table.remove(self.objects, i)
 			if o.name == "nova" then
@@ -367,7 +380,7 @@ function starfield:update(dt)
 	if self.mist_scroll > self.mist:getWidth() then
 		self.mist_scroll = 0
 	end
-	self.mist_quad:setViewport(-self.mist_scroll,0,starfield.w,starfield.h )
+	self.mist_quad:setViewport(-self.mist_scroll,0,self.w,self.h )
 
 end
 
@@ -465,12 +478,39 @@ function starfield:draw(x,y)
 	for _, o in ipairs(self.objects) do
 		if o.name == "planet" then
 			love.graphics.push()
-			love.graphics.setColor(o.r,o.g,o.b,o.o)
+
 			
 			if o.gfx then
+				--rotate planet
 				love.graphics.translate(o.x+o.w/2, o.y+o.h/2)
 				love.graphics.rotate(o.angle or 0)
 				love.graphics.translate(-o.x-o.w/2,-o.y-o.h/2)
+				
+				
+				--atmosphere effect (using nebula as placeholder -- make a smoke-like texture for this)
+				love.graphics.setColor(o.r,o.g,o.b,o.o)
+				love.graphics.draw(starfield.nebulae.sprite, o.atmosphere, 
+					o.x+o.w/2, 
+					o.y+o.h/2, 
+					o.atmosphere_angle, 
+					o.w/starfield.nebulae.size+0.25, 
+					o.h/starfield.nebulae.size+0.25, 
+					starfield.nebulae.size/2, 
+					starfield.nebulae.size/2 
+				)
+				love.graphics.setColor(o.r,o.g,o.b,o.o/2)
+				love.graphics.draw(starfield.nebulae.sprite, o.atmosphere, 
+					o.x+o.w/2, 
+					o.y+o.h/2, 
+					-o.atmosphere_angle, 
+					o.w/starfield.nebulae.size+0.3, 
+					o.h/starfield.nebulae.size+0.3, 
+					starfield.nebulae.size/2, 
+					starfield.nebulae.size/2 
+				)
+				
+				--draw planet
+				love.graphics.setColor(o.r,o.g,o.b,o.o)
 				love.graphics.draw(o.gfx, o.x, o.y, 0, o.scale, o.scale	)
 				
 				if debug then

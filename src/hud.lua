@@ -36,7 +36,15 @@ hud.colors = {
 --]]
 
 
-
+	hud.console = {
+		w = 720,
+		h = 250,
+		x = 10,
+		y = -250,
+		canvas = love.graphics.newCanvas(w, h),
+		speed = 400,
+		opacity = 1,
+	}
 
 
 function hud:init()
@@ -46,8 +54,10 @@ function hud:init()
 		offset = 30,
 		canvas = love.graphics.newCanvas(w, h),
 		progress = 0.0,
-		progress_speed = 1.5, -- 1 minute
+		--progress_speed = 1.5, -- 1 minute
 		progress_speed = 1.0, -- 1 minute 30 seconds
+		progress_speed = 5.0,
+		wave = 1,
 		timer = os.time(),
 	}	
 	hud.warp = false
@@ -61,19 +71,8 @@ function hud:init()
 	hud.warningspeed = 1.0
 	hud.warning_text = "SHIELD LOW"
 	
-	
+
 end
-
-
-hud.console = {
-	w = 720,
-	h = 250,
-	x = 10,
-	y = -250,
-	canvas = love.graphics.newCanvas(w, h),
-	speed = 400,
-	opacity = 1,
-}
 
 
 
@@ -381,8 +380,6 @@ function hud:drawProgress()
 			
 		end
 		love.graphics.line(i,hud.display.h/3, i,hud.display.h/2)
-		
-
 	end
 	
 	--wave progress bar indicator
