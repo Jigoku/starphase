@@ -22,6 +22,7 @@ function love.load(args)
 	require("misc")
 	require("camera")
 	require("binds")
+	require("joystick")
 	require("collision")
 	require("sound")
 	require("textures")
@@ -86,7 +87,7 @@ function initarcade(playersel)
 	-- whereas infinite mode will use complete random eventually.
 	starfield:setSeed()
 	starfield:populate()
-	starfield.minspeed = 50
+	starfield.minspeed = 30
 	starfield.maxspeed = 1000
 	
 	love.mouse.setVisible(false)

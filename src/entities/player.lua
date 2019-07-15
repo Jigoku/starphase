@@ -151,19 +151,23 @@ end
 function player:move(dt)
 	self.idle = true
 	
-	if love.keyboard.isDown(binds.up, binds.altup) then 
+	if love.keyboard.isDown(binds.up, binds.altup) 
+	or joystick:isDown(binds.joystick_up) then 
 		self.yvel = self.yvel - self.speed * dt
 		self.idle = false
 	end
-	if love.keyboard.isDown(binds.down, binds.altdown) then 
+	if love.keyboard.isDown(binds.down, binds.altdown) 
+	or joystick:isDown(binds.joystick_down) then 
 		self.yvel = self.yvel + self.speed * dt
 		self.idle = false
 	end
-	if love.keyboard.isDown(binds.left, binds.altleft) then 
+	if love.keyboard.isDown(binds.left, binds.altleft)
+	or joystick:isDown(binds.joystick_left) then 
 		self.xvel = self.xvel - self.speed * dt
 		self.idle = false
 	end
-	if love.keyboard.isDown(binds.right, binds.altright) then 
+	if love.keyboard.isDown(binds.right, binds.altright) 
+	or joystick:isDown(binds.joystick_right) then 
 		self.xvel = self.xvel + self.speed * dt
 		self.idle = false
 	end
@@ -260,7 +264,9 @@ end
 
 function player:shoot(dt)
 	if love.keyboard.isDown(binds.shoot) 
-	or love.mouse.isDown(1) then
+	or love.mouse.isDown(1) 
+	or joystick:isDown(binds.joystick_shoot)
+	then
 		if player.hascannon then self:fireCannon(dt) end
 		if player.hasplasma then self:firePlasma(dt) end
 		if player.hasradial then self:fireRadial(dt) end
@@ -272,6 +278,7 @@ function player:shoot(dt)
 	end
 
 	if love.keyboard.isDown(binds.special) 
+	or joystick:isDown(binds.joystick_special)
 	or love.mouse.isDown(2) then
 
 			-- decide whether energy should be used for special attacks

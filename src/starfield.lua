@@ -209,7 +209,7 @@ function starfield:addPlanet(x,y)
 	if self.planets.populate then
 		if  self.count.planet < starfield.planets.limit then
 		local scale = love.math.random(40,100)/100
-		local vel = love.math.random(20,20)/10
+		local vel = 3
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		
 		table.insert(self.objects, {
@@ -488,7 +488,7 @@ function starfield:draw(x,y)
 				
 				
 				--atmosphere effect (using nebula as placeholder -- make a smoke-like texture for this)
-				love.graphics.setColor(o.r,o.g,o.b,o.o)
+				love.graphics.setColor(o.r,o.g,o.b,o.o/2)
 				love.graphics.draw(starfield.nebulae.sprite, o.atmosphere, 
 					o.x+o.w/2, 
 					o.y+o.h/2, 
@@ -498,7 +498,7 @@ function starfield:draw(x,y)
 					starfield.nebulae.size/2, 
 					starfield.nebulae.size/2 
 				)
-				love.graphics.setColor(o.r,o.g,o.b,o.o/2)
+				love.graphics.setColor(o.r,o.g,o.b,o.o/4)
 				love.graphics.draw(starfield.nebulae.sprite, o.atmosphere, 
 					o.x+o.w/2, 
 					o.y+o.h/2, 
