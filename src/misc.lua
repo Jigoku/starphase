@@ -23,6 +23,20 @@ function math.round(num, idp)
 	return math.floor(num * mult + 0.5) / mult
 end
 
+function ripairs(t)
+	--same as ipairs, but itterate from last to first
+	local function ripairs_it(t,i)
+		i=i-1
+		local v=t[i]
+		if v==nil then return v end
+		return i,v
+	end
+	return ripairs_it, t, #t+1
+end
+
+
+
+
 function misc:count(t)
 	local c = 0
 	for _ in pairs(t) do c = c + 1 end

@@ -80,18 +80,18 @@ end
 function pickups:update(dt)
 	if paused then return end
 	
-	for i, p in ipairs(pickups.items) do
+	for i, p in ripairs(pickups.items) do
 		p.x = p.x + (p.xvel *dt)
 		p.y = p.y + (p.yvel *dt)
-		
 		
 		enemies:rotate(p,p.spin,dt)
 		
 		if p.x+p.w > starfield.w then
 			p.xvel = -p.xvel
 		end
-		if p.x < 0 then
-			p.xvel = -p.xvel
+		if p.x+p.w < 0 then
+			--p.xvel = -p.xvel
+      table.remove(pickups.items, i)
 		end
 		if p.y +p.h > starfield.h then
 			p.yvel = -p.yvel

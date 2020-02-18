@@ -120,6 +120,10 @@ function starfield:speedAdjust(n,dt)
 	for _,e in ipairs(enemies.wave) do
 		e.xvel = e.xvel + n*5
 	end
+  
+  for _,p in ipairs(pickups.items) do
+		p.xvel = p.xvel - n*5
+	end
 	
 	for _,p in ipairs(projectiles.missiles) do
 		if p.player == false then
