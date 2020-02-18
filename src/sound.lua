@@ -38,6 +38,9 @@ sound.music = {
 	[14] = love.audio.newSource("data/sfx/music/pablo/vilified.ogg",		 	"stream"),
 	[15] = love.audio.newSource("data/sfx/music/pablo/evasion.ogg",		 	"stream"),
 	[16] = love.audio.newSource("data/sfx/music/qubodup/railjet.ogg", 		"stream"),
+  [17] = love.audio.newSource("data/sfx/music/iamoneabe/cybermonk.ogg", 		"stream"),
+  [18] = love.audio.newSource("data/sfx/music/iamoneabe/roundone.ogg", 		"stream"),
+  [19] = love.audio.newSource("data/sfx/music/iamoneabe/onebigboss.ogg", 		"stream"),
 	
 }
 
