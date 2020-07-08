@@ -119,47 +119,30 @@ end
 function love.update(dt)
 	--cap fps
 
-		--use this to slow down when setting < 60fps
-		--dt = math.min(dt, game.min_dt)
+	--use this to slow down when setting < 60fps
+	--dt = math.min(dt, game.min_dt)
 		
 	game.next_time = game.next_time + game.min_dt
 
-	if #load.files > 0 then
-		load:update(dt)
-	else
-		if love.keyboard.isDown("[") then
-			starfield:speedAdjust(-4, dt)
-			
-		elseif love.keyboard.isDown("]") then			
-			starfield:speedAdjust(4, dt)
-
-		end
-
-		--process arcade game mode
-		if mode == "arcade" then
-			starfield:update(dt)
-			projectiles:update(dt)
-			enemies:update(dt)
-			explosions:update(dt)
-			pickups:update(dt)
-			player:update(dt)
-			hud:update(dt)
-			msgs.update(dt)
-		end
-		
-		--process titlescreen
-		if mode == "title" then
-			title:update(dt)
-		end
-		
-		--process the debug console
-		hud:updateconsole(dt)
-		
-
+	--process arcade game mode
+	if mode == "arcade" then
+		starfield:update(dt)
+		projectiles:update(dt)
+		enemies:update(dt)
+		explosions:update(dt)
+		pickups:update(dt)
+		player:update(dt)
+		hud:update(dt)
+		msgs.update(dt)
 	end
-
-	game.width = love.graphics.getWidth()
-	game.height = love.graphics.getHeight()
+		
+	--process titlescreen
+	if mode == "title" then
+		title:update(dt)
+	end
+		
+	--process the debug console
+	hud:updateconsole(dt)
 end
 
 function love.draw()
@@ -168,19 +151,15 @@ function love.draw()
 		title:draw()
 	end
 
-	if #load.files > 0 then
-		load:draw()
-	else
-		if mode == "arcade" then
-			--starfield:draw(0,-player.y/4)
-			starfield:draw(0,0)
-			hud:draw()
-			msgs.draw()
-		end
-
-		--draw the debug console
-		hud:drawconsole()
+	if mode == "arcade" then
+		--starfield:draw(0,-player.y/4)
+		starfield:draw(0,0)
+		hud:draw()
+		msgs.draw()
 	end
+
+	--draw the debug console
+	hud:drawconsole()
 
 	-- caps fps
 	local cur_time = love.timer.getTime()
@@ -194,7 +173,11 @@ end
 
 function love.keypressed(key)
 
-	if debugarcade then if key == "k" then pickups:add(starfield.w/2,starfield.h/2) end end
+	if debugarcade then 
+		if key == "k" then 
+			pickups:add(starfield.w/2,starfield.h/2) 
+		end 
+	end
 
 	--global controls
 	if key == binds.fullscreen then misc:togglefullscreen() end
@@ -202,9 +185,7 @@ function love.keypressed(key)
 	
 	--arcade mode controls
 	if mode == "arcade" then
-		if key == binds.pause then 
-			misc:togglepaused()
-		end
+		if key == binds.pause then misc:togglepaused() end
 	
 		if paused then
 			if key == binds.pausequit then  title:init() end
@@ -330,9 +311,9 @@ end
 --[
 function love.focus(f)
 	if f then
-		print("Window focused.")
+		print("Window grabbed focused.")
 	else
-		print("Window lost focused.")
+		print("Window lost focus.")
 		if mode == "arcade" then
 			misc:pause()
 		end
@@ -341,6 +322,7 @@ end
 
 
 function love.resize(w,h)
-	
+	game.width = w
+	game.height = h
 end
 

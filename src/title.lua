@@ -80,6 +80,11 @@ end
 
 function title:update(dt)
 	if title.splash then
+		if #load.files > 0 then
+			load:update(dt)
+			return
+		end
+
 		title.splashCycle = math.max(0, title.splashCycle - dt)
 		
 		if title.splashCycle <= 0 then
@@ -91,9 +96,6 @@ function title:update(dt)
 				title.splash = false
 			end
 		end
-	
-		return
-	
 	end
 
 	title.opacity = (title.opacity - title.opacitystep*dt)
@@ -132,6 +134,15 @@ function title:draw()
 	if title.splash then
 		love.graphics.setColor(1,1,1,title.splashOpacity)
 		love.graphics.draw(title.splash_logo,love.graphics.getWidth()/2-title.splash_logo:getWidth()/2, love.graphics.getHeight()/2-title.splash_logo:getHeight()/2)
+
+		love.graphics.setFont(fonts.title_large)		
+		love.graphics.setColor(1,1,1,title.splashOpacity)
+		love.graphics.printf("Loading", 0,love.graphics.getHeight()/10 ,love.graphics.getWidth(),"center")
+
+		if #load.files > 0 then
+			load:draw()
+		end
+
 		return
 	end
 	

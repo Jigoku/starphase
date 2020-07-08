@@ -296,6 +296,12 @@ function starfield:update(dt)
 	if paused then return end
 	if #load.files > 0 then return end
 
+	if love.keyboard.isDown("[") then
+		starfield:speedAdjust(-4, dt)		
+	elseif love.keyboard.isDown("]") then			
+		starfield:speedAdjust(4, dt)
+	end
+
 	-- cap starfield speed to limits
 	self.speed = math.max(math.min(self.speed,self.maxspeed),self.minspeed)
 
@@ -306,7 +312,6 @@ function starfield:update(dt)
 			love.math.random(self.h)
 		)
 	end
-
 
 	-- set conditions based on speed
 	if self.speed >= self.warpspeed then
