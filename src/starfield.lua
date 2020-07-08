@@ -120,8 +120,8 @@ function starfield:speedAdjust(n,dt)
 	for _,e in ipairs(enemies.wave) do
 		e.xvel = e.xvel + n*5
 	end
-  
-  for _,p in ipairs(pickups.items) do
+	
+	for _,p in ipairs(pickups.items) do
 		p.xvel = p.xvel - n*5
 	end
 	
@@ -212,7 +212,7 @@ end
 function starfield:addPlanet(x,y)
 	if self.planets.populate then
 		if  self.count.planet < starfield.planets.limit then
-		local scale = love.math.random(40,100)/100
+		local scale = love.math.random(35,100)/100
 		local vel = 3
 		local gfx  = starfield.planets[love.math.random(1,#starfield.planets)]
 		

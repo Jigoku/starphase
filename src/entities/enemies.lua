@@ -164,6 +164,11 @@ function enemies:add_dart()
 		shieldscale = enemies.shield:getWidth()/gfx:getWidth()/1.5,
 		opacity = 1,
 		alive = true,
+		shockwaveopacity = 1,
+		shockwavewidth = 4,
+		shockwavescale = 0,
+		shockwavefadespeed = 0.25,
+		shockwavescalespeed = 100,
 		r = 1,
 		g = 1,
 		b = 1,
@@ -591,6 +596,15 @@ function enemies:update(dt)
 			e.shieldopacity = 0
 		end
 	
+    if e.type == "dart" then
+        if e.shockwaveopacity > 0 then
+        e.shockwaveopacity = e.shockwaveopacity - e.shockwavefadespeed *dt
+        e.shockwavescale = e.shockwavescale + e.shockwavescalespeed * dt
+      else
+        e.shockwaveopacity = 0
+      end
+    end
+  
 		
 		-- test basic enemy boss
 		if e.type == "abomination" then
@@ -763,6 +777,27 @@ function enemies:drawshield(e)
 	end
 end
 
+function enemies:drawshockwave(e)
+  if e.type == "dart" then
+    if e.shockwaveopacity > 0 then
+      
+      love.graphics.setColor(0.39,0.823,1,e.shockwaveopacity)
+      --love.graphics.setColor(1,1,1,e.shockwaveopacity)
+      
+      local shake = 5
+      local lw = love.graphics.getLineWidth()
+      love.graphics.setLineWidth(love.math.random(2,10))
+      love.graphics.circle("line",
+        love.math.random(-shake,shake) + e.x+e.w/2,
+        love.math.random(-shake,shake) + e.y+e.h/2,
+        e.shockwavescale,
+        love.math.random(10,25)
+      )
+      love.graphics.setLineWidth(lw)
+    end
+  end
+end
+
 function enemies:draw()
 	
 	for _, e in pairs (self.wave) do
@@ -791,7 +826,8 @@ function enemies:draw()
 			e.gfx,  e.x, 
 			e.y, 0, (e.scale or 1), (e.scale or 1)		
 		)
-		
+    
+		enemies:drawshockwave(e)
 		enemies:drawshield(e)
 		
 		love.graphics.pop()
