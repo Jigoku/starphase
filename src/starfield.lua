@@ -29,7 +29,7 @@ player.y = 0 --? move this.
 starfield.offset = 128              --offset for panning
 starfield.w = 1920                  --canvas width
 starfield.h = 1080+starfield.offset --canvas height
-starfield.limit = 958              --maximum # of objects
+starfield.limit = 958               --maximum # of objects
 starfield.speed = 0                 --current speed
 starfield.minspeed = 5              --slowest speed
 starfield.maxspeed = 600            --fastest speed
@@ -41,8 +41,10 @@ starfield.warp 			= love.graphics.newImage("data/gfx/starfield/warp.png")
 starfield.mist 			= love.graphics.newImage("data/gfx/starfield/mist.png")
 starfield.star 			= love.graphics.newImage("data/gfx/starfield/star.png")
 
-starfield.planets 		= textures:load("data/gfx/starfield/planets/new/")
---starfield.planets 		= textures:load("data/gfx/starfield/planets/old/")
+-- use experimental loading screen trigger
+starfield.planets = {}
+load:images(starfield.planets, "data/gfx/starfield/planets/new/")
+
 starfield.planets.populate = true
 starfield.planets.limit = 1
 
@@ -79,8 +81,6 @@ function starfield:setColor(r,g,b)
 end
 
 function starfield:populate()
-
-
 	--object counts
 	starfield.count = {
 		nebulae = 0,
@@ -210,6 +210,7 @@ function starfield:addNebula(x,y)
 end
 	
 function starfield:addPlanet(x,y)
+	if #load.files > 0 then return end
 	if self.planets.populate then
 		if  self.count.planet < starfield.planets.limit then
 		local scale = love.math.random(35,100)/100
@@ -293,6 +294,7 @@ end
 
 function starfield:update(dt)
 	if paused then return end
+	if #load.files > 0 then return end
 
 	-- cap starfield speed to limits
 	self.speed = math.max(math.min(self.speed,self.maxspeed),self.minspeed)
@@ -390,6 +392,7 @@ end
 
 
 function starfield:draw(x,y)
+	if #load.files > 0 then return end
 	love.graphics.setCanvas(self.canvas)
 	--love.graphics.clear()
 	

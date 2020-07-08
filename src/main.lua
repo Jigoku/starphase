@@ -13,12 +13,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  --]]
 
-
-
-
 function love.load(args)
+	require("hud")
+	require("loading")
 
-	
 	require("misc")
 	require("camera")
 	require("binds")
@@ -35,7 +33,7 @@ function love.load(args)
 	require("entities/player")
 	require("entities/projectiles")
 	require("starfield")
-	require("hud")
+	
 
 	msgs = require("messagebox")
 	
@@ -43,7 +41,6 @@ function love.load(args)
 
 	debug = false
 	debugarcade = false
-	
 	
 	cheats = {
 		invincible = false,
@@ -56,10 +53,7 @@ function love.load(args)
 		if arg == "-mute" or arg == "-m" then sound.enabled = false end
 	end
 	
-
-
 	game = {}
-
 	
 	game.width, game.height, game.flags = love.window.getMode( )
 	game.seed = nil
@@ -67,8 +61,6 @@ function love.load(args)
 	--game.max_fps = 60
 	game.min_dt = 1/game.max_fps
 	game.next_time = love.timer.getTime()
-
-
 
 	cursor = love.mouse.newCursor( "data/gfx/cursor.png", 0, 0 )
 	love.mouse.setCursor(cursor)	
@@ -101,9 +93,6 @@ function initarcade(playersel)
 
 	player:init(playersel)
 	
-	
-	
-	
 	hud:init()
 
 	local s = love.math.random(3,#sound.music)
@@ -135,7 +124,9 @@ function love.update(dt)
 		
 	game.next_time = game.next_time + game.min_dt
 
-
+	if #load.files > 0 then
+		load:update(dt)
+	else
 		if love.keyboard.isDown("[") then
 			starfield:speedAdjust(-4, dt)
 			
@@ -144,80 +135,64 @@ function love.update(dt)
 
 		end
 
-	--process arcade game mode
-	if mode == "arcade" then
-		starfield:update(dt)
-		projectiles:update(dt)
-		enemies:update(dt)
-		explosions:update(dt)
-		pickups:update(dt)
-		player:update(dt)
-		hud:update(dt)
-		msgs.update(dt)
+		--process arcade game mode
+		if mode == "arcade" then
+			starfield:update(dt)
+			projectiles:update(dt)
+			enemies:update(dt)
+			explosions:update(dt)
+			pickups:update(dt)
+			player:update(dt)
+			hud:update(dt)
+			msgs.update(dt)
+		end
+		
+		--process titlescreen
+		if mode == "title" then
+			title:update(dt)
+		end
+		
+		--process the debug console
+		hud:updateconsole(dt)
+		
+
 	end
-	
-	--process titlescreen
-	if mode == "title" then
-		title:update(dt)
-	end
-	
-	--process the debug console
-	hud:updateconsole(dt)
-	
+
 	game.width = love.graphics.getWidth()
 	game.height = love.graphics.getHeight()
-
 end
 
-
-
-	
 function love.draw()
-	--investigate this......
-	--love.graphics.scale(game.scale.x,game.scale.y)
-	
-	--draw arcade game
-	if mode == "arcade" then
-
-		--starfield:draw(0,-player.y/4)
-
-
-		starfield:draw(0,0)
-	
-	
-		
-		hud:draw()
-		msgs.draw()
-	end
-	
-	
-	
 	--draw title screen
 	if mode == "title" then
 		title:draw()
 	end
-	
-	--draw the debug console
-	hud:drawconsole()
-	
 
+	if #load.files > 0 then
+		load:draw()
+	else
+		if mode == "arcade" then
+			--starfield:draw(0,-player.y/4)
+			starfield:draw(0,0)
+			hud:draw()
+			msgs.draw()
+		end
+
+		--draw the debug console
+		hud:drawconsole()
+	end
 
 	-- caps fps
-
 	local cur_time = love.timer.getTime()
 	if game.next_time <= cur_time then
 		game.next_time = cur_time
 		return
 	end
 	love.timer.sleep(game.next_time - cur_time)
-
 end
 
 
-
-
 function love.keypressed(key)
-
 
 	if debugarcade then if key == "k" then pickups:add(starfield.w/2,starfield.h/2) end end
 
@@ -241,9 +216,7 @@ function love.keypressed(key)
 		title:keypressed(key)
 	end
 	
-	
 	msgs:keypressed(key)
-	
 	
 	--debug enemy
 	if debugarcade then
