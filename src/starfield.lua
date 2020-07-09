@@ -232,7 +232,8 @@ function starfield:addPlanet(x,y)
 			o = 1,
 			gfx = gfx,
 			scale = scale,
-			angle =  love.math.random(0,math.pi*100)/100,
+			rotation =  love.math.random(0,math.pi*100)/100,
+			rotation_speed = love.math.random(-1,1)/100,
 			atmosphere = self.nebulae.quads[love.math.random(self.nebulae.min,self.nebulae.max)],
 			atmosphere_angle = 0,
 			atmosphere_speed = 0.05
@@ -354,10 +355,7 @@ function starfield:update(dt)
 		--]]
 	
 		if o.name == "planet" then
-		--	if debugarcade then
-		--	enemies:rotate(o,0.05,dt)
-		--	end
-			
+			o.rotation = o.rotation + o.rotation_speed *dt
 			o.atmosphere_angle = o.atmosphere_angle + o.atmosphere_speed *dt
 		end	
 	
@@ -495,7 +493,7 @@ function starfield:draw(x,y)
 			if o.gfx then
 				--rotate planet
 				love.graphics.translate(o.x+o.w/2, o.y+o.h/2)
-				love.graphics.rotate(o.angle or 0)
+				love.graphics.rotate(o.rotation or 0)
 				love.graphics.translate(-o.x-o.w/2,-o.y-o.h/2)
 				
 				
