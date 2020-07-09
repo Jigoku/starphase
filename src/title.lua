@@ -275,7 +275,7 @@ function title:itemselected(selected)
 end
 
 function title:keypressed(key)
-
+	if #load.files > 0 then return end
 	if debugstarfield then
 		if key == "escape" then 
 			title.menu.selected = 4

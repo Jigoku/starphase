@@ -18,9 +18,8 @@ enemies = {}
 enemies.wave = {}
 enemies.waveCycle = 0 
 enemies.waveDelay = 2 -- delay until next enemy spawn 
-enemies.waveDelayMin = 0.2
+enemies.waveDelayMin = 0.5
 enemies.waveDelayMod = 0.010
-
 
 enemies.fadespeed = 3.75 -- texture fade out on death
 enemies.spawned = 0
@@ -45,8 +44,6 @@ enemies.type = {
 	cruiser = love.graphics.newImage("data/gfx/enemy/10_small.png"),
 	asteroid = love.graphics.newImage("data/gfx/enemy/asteroid_large.png"),
 }
-
-
 
 function enemies:add_delta()
 
