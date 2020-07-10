@@ -22,7 +22,8 @@ sound.bgmtrack = nil
 
 sound.music = {
 	--[1] =  love.audio.newSource("data/sfx/music/zhelanov/space.ogg",			"stream"),
-	[1] =  love.audio.newSource("data/sfx/music/brandon/ambient.ogg",			"stream"),
+	--[1] =  love.audio.newSource("data/sfx/music/brandon/ambient.ogg",			"stream"),
+	[1] =  love.audio.newSource("data/sfx/music/cinameng/ix.ogg",			"stream"),
 	[2] =  love.audio.newSource("data/sfx/music/maxstack/tst/lose.ogg", 		"stream"),
 	[3] =  love.audio.newSource("data/sfx/music/maxstack/nebula.ogg", 		"stream"),
 	[4] =  love.audio.newSource("data/sfx/music/maxstack/through-space.ogg", "stream"),
@@ -41,6 +42,9 @@ sound.music = {
   [17] = love.audio.newSource("data/sfx/music/iamoneabe/cybermonk.ogg", 		"stream"),
   [18] = love.audio.newSource("data/sfx/music/iamoneabe/roundone.ogg", 		"stream"),
   [19] = love.audio.newSource("data/sfx/music/iamoneabe/onebigboss.ogg", 		"stream"),
+  [20] = love.audio.newSource("data/sfx/music/bogartvgm/overdrive.ogg", 		"stream"),
+  [21] = love.audio.newSource("data/sfx/music/bogartvgm/concentration.ogg", 		"stream"),
+  [22] = love.audio.newSource("data/sfx/music/bogartvgm/neoncity.ogg", 		"stream"),
 	
 }
 
@@ -95,5 +99,27 @@ end
 function sound:stoplooping(type)
 	for _,t in ipairs(type) do
 		t:stop()
+	end
+end
+
+function sound:keypressed(key)
+	if key == "kp*" then
+		if self.bgm:getVolume() > 0 then
+			self.bgm:setVolume(0)
+		else
+			self.bgm:setVolume(1)
+		end
+	end
+
+	if key == "kp-" then
+		local bgm = self.bgmtrack - 1
+		if bgm < 1 then bgm = #sound.music end
+		sound:playbgm(bgm)
+	end
+
+	if key == "kp+" then
+		local bgm = self.bgmtrack + 1
+		if bgm > #sound.music then bgm = 1 end
+		sound:playbgm(bgm)
 	end
 end

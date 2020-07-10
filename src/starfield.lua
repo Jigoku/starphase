@@ -100,7 +100,7 @@ function starfield:populate()
 	starfield.canvas = love.graphics.newCanvas(starfield.w, starfield.h)
 
 	--populate starfield
-	while #starfield.objects <  self.limit do
+	while #starfield.objects < self.limit do
 		self:addobject(
 			love.math.random(0, starfield.w),
 			love.math.random(0, starfield.h)
@@ -233,7 +233,7 @@ function starfield:addPlanet(x,y)
 			gfx = gfx,
 			scale = scale,
 			rotation =  love.math.random(0,math.pi*100)/100,
-			rotation_speed = love.math.random(-1,1)/100,
+			rotation_speed = love.math.random(-1,1)/150,
 			atmosphere = self.nebulae.quads[love.math.random(self.nebulae.min,self.nebulae.max)],
 			atmosphere_angle = 0,
 			atmosphere_speed = 0.05
@@ -270,13 +270,10 @@ function starfield:setSeed(seed)
 	starfield:setColor()
 	starfield.nebulae.limit = love.math.random(starfield.nebulae.drawmin,starfield.nebulae.drawmax)
 	starfield.background.color = { love.math.random(0,8)/100,love.math.random(0,8)/100,love.math.random(0,8)/100 }
-	
-	
-	
 end
 
 function starfield:drawPalette(x,y)
-	--debug palette
+	--debug palette for space viewer
 	if mode == "title" then
 		love.graphics.setColor(0,0,0,1)
 		local size = 50
@@ -362,12 +359,12 @@ function starfield:update(dt)
 	
 	
 		-- use similar effect for behind planets (with smoke)
-	--[[
+	
 		if o.name == "nebula" then
-			o.scale = o.scale - 0.05 *dt
-			o.angle = o.angle - 0.04 *dt
+			--o.scale = o.scale - 0.01 *dt
+			o.angle = o.angle - 0.005 *dt
 		end
-	--]]
+	
 	
 	
 		if o.x+(o.w) < 0 then

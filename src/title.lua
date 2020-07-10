@@ -19,6 +19,7 @@ title.splash_logo = love.graphics.newImage("data/gfx/artsoftware.png")
 title.splashDelay = 1
 title.splashCycle = 1
 title.splashOpacity = 1
+title.splashOpacityFadeSpeed = 0.4
 
 title.active = "main"
 title.menu = {}
@@ -89,7 +90,7 @@ function title:update(dt)
 		
 		if title.splashCycle <= 0 then
 			if title.splashOpacity > 0 then
-				title.splashOpacity = title.splashOpacity - 0.4 *dt
+				title.splashOpacity = title.splashOpacity - title.splashOpacityFadeSpeed *dt
 			else
 				title.overlay.fadein = true
 				title.splashCycle = title.splashDelay

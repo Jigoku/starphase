@@ -292,7 +292,7 @@ function love.keypressed(key)
 	
 	--]]
 
-
+	sound:keypressed(key)
 end
 
 function love.mousepressed(x,y,button) 
