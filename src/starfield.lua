@@ -24,7 +24,7 @@
 starfield = {}
 starfield.objects = {}
 
-player.y = 0 --? move this.
+player.y = 0 --? move this. uninitialised
 
 starfield.offset = 128              --offset for panning
 starfield.w = 1920                  --canvas width
@@ -44,6 +44,7 @@ starfield.star 			= love.graphics.newImage("data/gfx/starfield/star.png")
 -- use experimental loading screen trigger
 starfield.planets = {}
 load:images(starfield.planets, "data/gfx/starfield/planets/new/")
+--load:images(starfield.planets, "data/gfx/starfield/planets/old/") --use for debugging, faster load times
 
 starfield.planets.populate = true
 starfield.planets.limit = 1

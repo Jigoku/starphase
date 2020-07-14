@@ -204,21 +204,21 @@ function player:move(dt)
 	self.y = self.y + self.yvel * dt
 	self.x = self.x + self.xvel * dt
 
-	if self.x < 0   then 
-		self.x = 0
+	if self.x < 0+self.w/3   then 
+		self.x = 0+self.w/3
 		self.xvel = 0
 	end
-	if self.x > starfield.w-self.w  then 
-		self.x = starfield.w-self.w
+	if self.x > starfield.w-self.w*1.25  then 
+		self.x = starfield.w-self.w*1.25
 		self.xvel = 0
 	end
 	
-	if self.y < 0  then 
-		self.y = 0
+	if self.y < 0+self.h/3  then 
+		self.y = 0+self.h/3
 		self.yvel = 0
 	end
-	if self.y > starfield.h-self.h  then 
-		self.y = starfield.h-self.h
+	if self.y > starfield.h-self.h*1.5  then 
+		self.y = starfield.h-self.h*1.5
 		self.yvel = 0
 	end
 end
