@@ -275,19 +275,24 @@ end
 
 function starfield:drawPalette(x,y)
 	--debug palette for space viewer
-	if mode == "title" then
-		love.graphics.setColor(0,0,0,1)
-		local size = 50
-		local padding = 10
-		local x,y = (x or 20),(y or 20)
-		love.graphics.rectangle("fill", x,y,size*2+(padding*3),size+(padding*2))
-		love.graphics.setColor(0.3,0.3,0.3,1)
-		love.graphics.rectangle("line", x,y,size*2+(padding*3),size+(padding*2))
-		love.graphics.setColor(starfield.nebulae.color)
-		love.graphics.rectangle("fill", x+padding,y+padding,size,size)
-		love.graphics.setColor(starfield.background.color)
-		love.graphics.rectangle("fill", x+padding+size+padding,y+padding,size,size)
-	end
+
+	love.graphics.setColor(1,1,1,0.8)
+	--love.graphics.setFont(fonts.title_select)
+	love.graphics.setFont(fonts.labels)
+	love.graphics.print("Press [tab] to reseed, [escape] to quit", 20, 10)		
+
+	love.graphics.setColor(0,0,0,1)
+	local size = 50
+	local padding = 10
+	local x,y = (x or 20),(y or 20)
+	love.graphics.rectangle("fill", x,y,size*2+(padding*3),size+(padding*2))
+	love.graphics.setColor(0.3,0.3,0.3,1)
+	love.graphics.rectangle("line", x,y,size*2+(padding*3),size+(padding*2))
+	love.graphics.setColor(starfield.nebulae.color)
+	love.graphics.rectangle("fill", x+padding,y+padding,size,size)
+	love.graphics.setColor(starfield.background.color)
+	love.graphics.rectangle("fill", x+padding+size+padding,y+padding,size,size)
+
 end
 
 
@@ -563,7 +568,7 @@ function starfield:draw(x,y)
 	love.graphics.draw(self.canvas, x, -player.y/10)
 	love.graphics.pop()
 	
-	starfield:drawPalette(40,40)
+	--starfield:drawPalette(40,40)
 end
 
 return starfield

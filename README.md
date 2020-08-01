@@ -22,10 +22,8 @@ Install the love2d library from here https://love2d.org
 ### Controls
 See `binds.lua` for game controls
 
-
 # License
 GNU GPLv3 / CC-BY-SA
-
 
 # Screenshots
 

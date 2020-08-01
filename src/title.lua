@@ -149,11 +149,9 @@ function title:draw()
 	
 	starfield:draw(0,0)
 
+	
 	if debugstarfield then	
-		love.graphics.setColor(1,1,1,0.8)
-		--love.graphics.setFont(fonts.title_select)
-		love.graphics.setFont(fonts.labels)
-		love.graphics.print("Press [tab] to reseed, [escape] to quit", 20, 10)		
+		starfield:drawPalette()
 		return 
 	end
 
